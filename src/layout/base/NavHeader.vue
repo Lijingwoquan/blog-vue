@@ -17,9 +17,14 @@
                 <Reading />
             </el-icon>
         </div>
-        <el-dialog v-model="dialogVisible" title="搜索内容" draggable=true>
-            <el-button @click="searchMsg">搜索</el-button>
-            <el-button type="primary" @click="closeSerch">取消</el-button>
+        <el-dialog v-model="dialogVisible" :v-close-on-click-modal="false" :show-close="false">
+            <el-input v-model="input" placeholder="搜索文档">
+                <template #prefix>
+                    <el-icon class="mx-2">
+                        <search />
+                    </el-icon>
+                </template>
+            </el-input>
         </el-dialog>
 
 
@@ -35,8 +40,8 @@
 
                     <template #dropdown>
                         <el-dropdown-menu>
-                            <el-dropdown-item>前端</el-dropdown-item>
-                            <el-dropdown-item>后端</el-dropdown-item>
+                            <el-dropdown-item @click="gotoWeb">前端</el-dropdown-item>
+                            <el-dropdown-item @click="gotoEnd">后端</el-dropdown-item>
                         </el-dropdown-menu>
                     </template>
                 </el-dropdown>
@@ -54,8 +59,8 @@
 
                         <template #dropdown>
                             <el-dropdown-menu>
-                                <el-dropdown-item>联系作者</el-dropdown-item>
-                                <el-dropdown-item>使用教程</el-dropdown-item>
+                                <el-dropdown-item @click="gotoHelp">使用教程</el-dropdown-item>
+                                <el-dropdown-item @click="gotoContact">联系作者</el-dropdown-item>
                             </el-dropdown-menu>
                         </template>
                     </el-dropdown>
@@ -77,30 +82,64 @@
 </template>
 
 <script setup>
-import { ref } from "vue"
+import { ref, onMounted, onBeforeMount } from "vue"
 import { ModChange } from "~/composables/header.js"
+
 const {
     mod,
     bgColor,
     textColor,
     changeReadindMod,
-
 } = ModChange()
 
 const dialogVisible = ref(false);
+
 function openSearch() {
     dialogVisible.value = true
 }
-function closeSerch() {
-    dialogVisible.value = false
-}
+
 //待补充
 function searchMsg() {
     dialogVisible.value = false
+    console.log("正在搜索")
 }
 
+const input = ref('')
 
+function onKeyUp(e) {
+    if (e.key == "Enter" && dialogVisible.value == true) {
+        searchMsg()
+    }
+}
+//添加键盘的监听
+onMounted(() => {
+    document.addEventListener("keyup", onKeyUp)
+})
+//移除键盘监听
+onBeforeMount(() => {
+    document.removeEventListener("keyup", onKeyUp)
+})
+
+//前往前端
+function gotoWeb() {
+    console.log(1)
+}
+//前往后端
+function gotoEnd() {
+    console.log(2)
+}
+//前往帮助
+function gotoHelp() {
+    console.log(4)
+}
+
+//前往联系作者
+function gotoContact() {
+    console.log(3)
+}
 </script>
+
+
 <style scoped>
 .nav-top {
     @apply flex justify-between items-center bg-blue-400 fixed top-0 left-0 right-0;
@@ -142,5 +181,21 @@ function searchMsg() {
 .icon-text-details {
     @apply flex justify-center items-center;
     height: 24px;
+}
+
+
+
+.el-dialog__headerbtn {
+    display: none;
+}
+
+:deep(.el-dialog__header) {
+    padding: 0px !important;
+    padding-bottom: 10px !important;
+    margin-right: 16px !important;
+}
+
+:deep(.el-dialog__headerbtn) {
+    display: none;
 }
 </style>

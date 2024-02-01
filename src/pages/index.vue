@@ -2,13 +2,14 @@
   <div>
     <el-container>
       <el-header>
-       <nav-header></nav-header>
+        <nav-header></nav-header>
       </el-header>
       <el-container>
-        <el-aside width="200px">
-          <nav-aside></nav-aside>
+        <el-aside :style="{ backgroundColor: bgColor, color: textColor }">
+            <nav-aside></nav-aside>
         </el-aside>
-        <el-main>
+
+        <el-main class="left-0"> 
           <nav-main></nav-main>
         </el-main>
       </el-container>
@@ -17,10 +18,27 @@
 </template>
 
 <script setup>
-import NavHeader from '~/layout/components/NavHeader.vue';
-import NavAside from '~/layout/components/NavAside.vue';
-import NavMain from '~/layout/components/NavMain.vue';
+import NavHeader from '~/layout/base/NavHeader.vue';
+import NavAside from '~/layout/base/NavAside.vue';
+import NavMain from '~/layout/base/NavMain.vue';
+import { ModChange } from "~/composables/header.js"
 
+const {
+    mod,
+    bgColor,
+    textColor,
+    changeReadindMod,
+} = ModChange()
 
 
 </script>
+
+<style scoped>
+.el-header {
+  --el-header-height: 48px;
+}
+.el-aside {
+    width: 200px;
+}
+
+</style>
