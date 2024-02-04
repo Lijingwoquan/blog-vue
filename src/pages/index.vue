@@ -21,7 +21,7 @@
 import NavHeader from '~/layout/base/NavHeader.vue';
 import NavAside from '~/layout/base/NavAside.vue';
 import NavMain from '~/layout/base/NavMain.vue';
-import { ModChange } from "~/composables/header.js"
+import { ModChange } from "~/composables/overall.js"
 
 const {
     mod,

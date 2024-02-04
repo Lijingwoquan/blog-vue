@@ -83,7 +83,7 @@
 
 <script setup>
 import { ref, onMounted, onBeforeMount } from "vue"
-import { ModChange } from "~/composables/header.js"
+import { ModChange } from "~/composables/overall.js"
 
 const {
     mod,

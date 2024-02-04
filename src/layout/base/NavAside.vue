@@ -29,7 +29,7 @@
 
 
 <script setup>
-import { ModChange } from "~/composables/header.js"
+import { ModChange } from "~/composables/overall.js"
 
 const {
     mod,
