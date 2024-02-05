@@ -11,9 +11,13 @@ const store = createStore({
       //文本颜色
       textColor: '',
       //用户信息
-      userInfo:{},
+      userInfo: {},
       //首页数据
       indexData: [],
+      //分类数据
+      classifyData: [],
+      //文章数据
+      essayData: [],
     }
   },
   mutations: {
@@ -24,12 +28,37 @@ const store = createStore({
       document.body.style.backgroundColor = state.mod === 'day' ? 'white' : 'black';
       document.body.style.color = state.mod === 'day' ? 'black' : 'white';
     },
-    setIndexInfo(state, indexData) {
+    setIndexInfo(state, indexData) {//添加index数据
       state.indexData = indexData
     },
-    setUserInfo(state, userInfo) {
+    setClassify(state, indexData) {
+      indexData.forEach((base) => {
+        base.classifyDetails.forEach((classifyDetails) => {
+          let router = classifyDetails.router
+          let name = classifyDetails.name
+          let id = classifyDetails.id
+          state.classifyData.push({ name, router, id })
+        })
+      })
+    },
+    setUserInfo(state, userInfo) { //添加用户数据
       state.userInfo = userInfo
     },
+    setEssayInfo(state, indexData) { //单独添加文章数据
+      indexData.forEach((base) => {
+        base.classifyDetails.forEach((classifyDetails) => {
+          let classifyRoute = classifyDetails.router
+          let kind = classifyDetails.name
+          classifyDetails.essay.forEach(e => {
+            let name = e.name
+            let router = classifyRoute + e.router
+            let introduction = e.introduction
+            let id = e.id
+            state.essayData.push({ name, router, introduction, kind, id })
+          })
+        })
+      })
+    }
   },
   actions: {
     login({ commit }, { username, password }) {
@@ -52,7 +81,9 @@ const store = createStore({
       return new Promise((resolve, reject) => {
         getIndexInfo().then(res => {
           commit("setIndexInfo", res.dataAboutIndexMenu)
-          commit("setUserInfo",res.userInfo)
+          commit("setEssayInfo", res.dataAboutIndexMenu)
+          commit("setClassify", res.dataAboutIndexMenu)
+          commit("setUserInfo", res.userInfo)
           resolve(res)
         }).catch(err => {
           reject(err)

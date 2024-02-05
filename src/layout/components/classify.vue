@@ -1,4 +1,4 @@
-<template>
+<template  :key="$route.fullPath">
     <el-row>
         <el-col :span="2"></el-col>
         <el-col :span="16">
@@ -6,7 +6,7 @@
                 <el-divider>
                     <el-icon><star-filled /></el-icon>
                 </el-divider>
-                <div v-for="(essay, index) in essayData" class="essay" :key="index" @click="toEssay(essay.router)">
+                <div v-for="(essay, index) in satisfyData" class="essay" :key="essay.name" @click="toEssay(essay.router)">
                     <div class="top">
                         <el-link class="title" :href="'http://localhost:5173/#/essay' + essay.router" target="_self"
                             type="info">{{ essay.name }}</el-link>
@@ -27,18 +27,39 @@
   
 <script setup>
 import { useStore } from "vuex"
-import { useRouter } from 'vue-router';
-
-const router = useRouter()
+import { useRoute  } from 'vue-router';
+import { ref, watch } from 'vue';
 const store = useStore()
+const route = useRoute()
+let currentClassify = null
+const classifyData = store.state.classifyData
+
 const essayData = store.state.essayData
-
-function toEssay(r) {
-    router.push("essay"+r)
+let satisfyData = ref([])
+const currentRoute =  "/"+route.path.split("/")[2]
+for (const classify of classifyData) {
+    if (classify.router == currentRoute) {
+        currentClassify = classify.name
+        break
+    }
+} 
+// 这里只需要遍历一次
+for (const essay of essayData) {
+    if (currentClassify == essay.kind) {
+        satisfyData.value.push(essay)
+        break
+    }
 }
-
-
+// 监听路由变化，当路由变化时更新 ref 值
+watch(() => route.fullPath, () => {
+    // 在路由变化时更新 myRefValue 的值
+});
 </script>
+
+
+
+
+
 
 <style scoped>
 .essay {

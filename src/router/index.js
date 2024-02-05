@@ -6,19 +6,32 @@ import {
 import Index from '~/pages/index.vue'
 import NotFound from '~/pages/404.vue'
 import Login from '~/pages/login.vue'
+import Classify from "~/pages/classify.vue"
+import Essay from "~/pages/essay.vue"
+import Memo from "~/pages/memo.vue"
+
 //默认路由 所有用户共享
 const routes = [{
     path: "/",
     name: "index",
     component: Index,
-}, {
+},
+{
     path: "/login",
     component: Login
-}, {
+},
+{
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: NotFound
-},]
+},
+{
+    path: "/memo",
+    name: "memo",
+    component: Memo,
+},
+
+]
 
 
 
@@ -29,48 +42,56 @@ export const router = createRouter({
 
 //动态添加路由
 export function addRouters(dataAboutIndexMenu) {
+    //是否有新的路由
+    let hasNewRoutes = false
+
     const findAndAddRoutes = (arr) => {
         arr.forEach(element => {
             let classifyDetails = element.classifyDetails
             classifyDetails.forEach(Details => {
-                let currentPath = Details.router
-                let item = {
-                    path: currentPath,
-                    name: currentPath,
-                    component: Index,  // 这里你可能需要根据实际情况修改
+                let classifyPath = Details.router
+                let classify = {
+                    path: "/classify"+classifyPath,
+                    name: classifyPath,
+                    component: Classify,
                     meta: {
                         title: Details.name
                     }
                 };
-                if (!router.hasRoute(item.name)) {
-                    router.addRoute("index", item)
+
+                if (!router.hasRoute(classify.path)) {
+                    hasNewRoutes = true
+                    router.addRoute("/", classify)
                 }
 
-                let childArr = Details.essay
-                if (childArr && childArr.length > 0) {
-                    findAndAddRoutesForChild(currentPath,childArr)
+                let essayArr = Details.essay
+                if (essayArr && essayArr.length > 0) {
+                    findAndAddRoutesForChild(classifyPath, essayArr)
                 }
             })
 
         });
     }
-    const findAndAddRoutesForChild = (parentRouter,arr) => {
-        arr.forEach(element => {
-            let currentPath = element.router
-            let item = {
-                path: parentRouter+currentPath,
-                name: parentRouter+currentPath,
-                component: Index,  // 这里你可能需要根据实际情况修改
+    const findAndAddRoutesForChild = (classifyPath, essayArr) => {
+        essayArr.forEach(element => {
+            let essayPath = element.router
+            let essay = {
+                path: "/essay"+classifyPath + essayPath,
+                name: classifyPath + essayPath,
+                component: Essay,
                 meta: {
                     title: element.name
                 }
             };
-            if (!router.hasRoute(parentRouter+currentPath)) {
-                router.addRoute("index", item)
+            if (!router.hasRoute(essay.path)) {
+                router.addRoute("/", essay)
             }
         });
     }
     findAndAddRoutes(dataAboutIndexMenu)
+
+
     //当前全部得到路由
     console.log(router.getRoutes())
+    return hasNewRoutes
 }

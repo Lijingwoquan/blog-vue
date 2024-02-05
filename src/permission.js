@@ -34,7 +34,6 @@ router.beforeEach(async (to, from, next) => {
         hasGetInfo = true
         //动态添加路由
         hasNewRoutes = addRouters(dataAboutIndexMenu)
-        console.log(hasNewRoutes)
     }
     
       hasNewRoutes ? next(to.fullPath) : next();  //what mean?

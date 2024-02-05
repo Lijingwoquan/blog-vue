@@ -17,22 +17,32 @@
                 <Reading />
             </el-icon>
         </div>
-        <el-dialog v-model="dialogVisible" :v-close-on-click-modal="false" :show-close="false">
-            <el-input v-model="input" placeholder="搜索文档">
-                <template #prefix>
-                    <el-icon class="mx-2">
-                        <search />
-                    </el-icon>
-                </template>
-            </el-input>
-        </el-dialog>
+
+        <template>
+            <el-dialog v-model="dialogVisible" :v-close-on-click-modal="true" :show-close="false" append-to-body :draggable="true">
+                <el-input v-model="input" placeholder="搜索文档" class="input">
+                    <template #prefix>
+                        <el-icon class="mx-2">
+                            <search />
+                        </el-icon>
+                    </template>
+                    <template #suffix>
+                        <el-button type="primary" @click="searchMsg">搜索</el-button>
+                    </template>
+                </el-input>
+                <ul v-if="getData">
+                    找到数据了
+                </ul>
+
+            </el-dialog>
+        </template>
 
 
         <div class="nav-top-right">
             <div class="icon-text ">
                 <el-dropdown>
                     <span class="icon-text-details">
-                        文档
+                        用户
                         <el-icon>
                             <arrow-down />
                         </el-icon>
@@ -40,8 +50,8 @@
 
                     <template #dropdown>
                         <el-dropdown-menu>
-                            <el-dropdown-item @click="gotoWeb">前端</el-dropdown-item>
-                            <el-dropdown-item @click="gotoEnd">后端</el-dropdown-item>
+                            <el-dropdown-item @click="gotoSelf">修改信息</el-dropdown-item>
+                            <el-dropdown-item @click="gotoQuit">退出登录</el-dropdown-item>
                         </el-dropdown-menu>
                     </template>
                 </el-dropdown>
@@ -84,6 +94,7 @@
 <script setup>
 import { ref, onMounted, onBeforeMount } from "vue"
 import { ModChange } from "~/composables/overall.js"
+import { useStore } from 'vuex';
 
 const {
     mod,
@@ -98,10 +109,16 @@ function openSearch() {
     dialogVisible.value = true
 }
 
+let getData = ref(null)
+
+const store = useStore()
+const essayData = store.state.indexData
+
 //待补充
 function searchMsg() {
-    dialogVisible.value = false
     console.log("正在搜索")
+console.log(essayData) 
+    getData.value = true
 }
 
 const input = ref('')
@@ -121,11 +138,11 @@ onBeforeMount(() => {
 })
 
 //前往前端
-function gotoWeb() {
+function gotoSelf() {
     console.log(1)
 }
-//前往后端
-function gotoEnd() {
+//前往退出
+function gotoQuit() {
     console.log(2)
 }
 //前往帮助
@@ -171,6 +188,10 @@ function gotoContact() {
 
 .nav-top-right {
     @apply flex;
+}
+
+.input {
+    height: 50px;
 }
 
 .icon-text {

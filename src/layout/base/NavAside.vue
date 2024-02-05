@@ -1,28 +1,39 @@
 <template>
     <div class="nav-aside" :style="{ backgroundColor: bgColor }">
-        <el-menu active-text-color="red" default-active="1" style="width: 200px;"
+        <el-menu unique-opened active-text-color="blue" :default-active="defaultActive" class="menu" @select="handleSelect"
             :style="{ backgroundColor: bgColor, color: textColor }">
 
-            <div v-for="item in classify" :key="item.title" :index="item.title">
-                <el-sub-menu v-if="item.childrenTitles.length > 0" :index="item.title" >
+            <el-menu-item :style="{ backgroundColor: bgColor, color: textColor }" :key="'/'" :index="'/'">
+                <el-icon>
+                    <House />
+                </el-icon>
+                <span> 首页 </span>
+            </el-menu-item>
+
+            <div v-for="(item, index) in menu" :key="item.index" :index="item.index">
+                <el-sub-menu v-if="item.classifyDetails.length > 0" :index="item.icon">
                     <template #title>
                         <el-icon :style="{ color: textColor }">
                             <component :is="item.icon"></component>
                         </el-icon>
-                        <span :style="{ color: textColor }">{{ item.title }}</span>
+                        <span :style="{ color: textColor }">{{ item.classifyKind }}</span>
                     </template>
-                    <el-menu-item v-for="item2 in item.childrenTitles" :style="{backgroundColor:bgColor,color:textColor}" :key="item2" :index="item2">
-                        {{ item2 }}
+                    <el-menu-item v-for="item2 in item.classifyDetails"
+                        :style="{ backgroundColor: bgColor, color: textColor }" :key="item2.router"
+                        :index="'/classify' + item2.router">
+                        {{ item2.name }}
                     </el-menu-item>
                 </el-sub-menu>
-
-                <el-menu-item v-else :style="{ color: textColor }">
-                    <el-icon :style="{ color: textColor }">
-                        <component :is="item.icon"></component>
-                    </el-icon>
-                    <span>   {{ item.title }}</span>
-                </el-menu-item>
             </div>
+
+            <el-menu-item :style="{ backgroundColor: bgColor, color: textColor }" :key="'/memo'" :index="'/memo'">
+                <el-icon>
+                    <Notebook />
+                </el-icon>
+                <span> 备忘录 </span>
+            </el-menu-item>
+
+
         </el-menu>
     </div>
 </template>
@@ -30,6 +41,10 @@
 
 <script setup>
 import { ModChange } from "~/composables/overall.js"
+import { useRouter, useRoute } from 'vue-router';
+import { computed, ref } from 'vue';
+import { useStore } from 'vuex';
+
 
 const {
     mod,
@@ -38,54 +53,17 @@ const {
     changeReadindMod,
 } = ModChange()
 
-const classify = [{
-    title: "前端文档",
-    icon: "CoffeeCup",
-    childrenTitles: ["html", "css", "js", "vue", "react"]
-},
-{
-    title: "后端文档",
-    icon: "Orange",
-    childrenTitles: ["goland", "c++", "java", "mysql", "redis"]
-},
-{
-    title: "全栈开发",
-    icon: "GobletSquareFull",
-    childrenTitles: ["bluebell项目", "博客项目", "电商项目"]
-},
-{
-    title: "收藏文章",
-    icon: "FolderOpened",
-    childrenTitles: []
-},
-{
-    title: "笔记",
-    icon: "Notebook",
-    childrenTitles: []
-},
-{
-    title: "待办事项",
-    icon: "Filter",
-    childrenTitles: []
-},
-{
-    title: "讨论室",
-    icon: "Connection",
-    childrenTitles: []
-},
-{
-    title: "使用教程",
-    icon: "DataBoard",
-    childrenTitles: []
-},
-{
-    title: "联系作者",
-    icon: "MessageBox",
-    childrenTitles: []
+const router = useRouter()
+const store = useStore()
+const route = useRoute()
+const defaultActive = ref(route.path)
 
-}]
+const menu = computed(() => store.state.indexData)
 
 
+const handleSelect = (e) => {
+    router.push(e)
+}
 </script>
 
 
@@ -98,6 +76,11 @@ const classify = [{
     top: 48px;
     width: 200px;
     bottom: 0px;
+}
+
+.nav-aside .menu {
+    z-index: 0;
+    width: 200px;
 }
 
 .nav-aside::-webkit-scrollbar {
@@ -121,5 +104,4 @@ const classify = [{
 
 .el-sub-menu {
     --el-menu-hover-bg-color: #007BFF;
-}
-</style>
+}</style>
