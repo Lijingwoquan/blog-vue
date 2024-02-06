@@ -4,12 +4,6 @@ import { setToken, removeToken, getToken } from "~/composables/auth.js"
 const store = createStore({
   state() {
     return {
-      //阅读模式
-      mod: 'day',
-      //背景颜色
-      bgColor: '',
-      //文本颜色
-      textColor: '',
       //用户信息
       userInfo: {},
       //首页数据
@@ -21,13 +15,7 @@ const store = createStore({
     }
   },
   mutations: {
-    changeReadindMod(state) {
-      state.mod = state.mod === 'day' ? 'night' : 'day';
-      state.bgColor = state.mod === 'day' ? '' : 'black';
-      state.textColor = state.mod === 'day' ? '' : 'white';
-      document.body.style.backgroundColor = state.mod === 'day' ? 'white' : 'black';
-      document.body.style.color = state.mod === 'day' ? 'black' : 'white';
-    },
+  
     setIndexInfo(state, indexData) {//添加index数据
       state.indexData = indexData
     },

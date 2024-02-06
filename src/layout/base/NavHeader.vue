@@ -1,5 +1,5 @@
 <template>
-    <div class="nav-top" :style="{ backgroundColor: bgColor, color: textColor }">
+    <div class="nav-top" >
         <div class="nav-top-left">
             <el-icon class="logo">
                 <Menu />
@@ -80,28 +80,24 @@
             <div class="nav-top-right">
                 <div class="icon-text ">
                     <span class="icon-text-details">
-                        <el-icon @click="changeReadindMod">
+                        <!-- <el-icon @click="changeReadindMod">
                             <Sunny v-show="mod == 'day'" />
                             <Moon v-show="mod == 'night'" />
-                        </el-icon>
+                        </el-icon> -->
                     </span>
                 </div>
             </div>
+        
+        
         </div>
     </div>
 </template>
 
 <script setup>
 import { ref, onMounted, onBeforeMount } from "vue"
-import { ModChange } from "~/composables/overall.js"
 import { useStore } from 'vuex';
 
-const {
-    mod,
-    bgColor,
-    textColor,
-    changeReadindMod,
-} = ModChange()
+
 
 const dialogVisible = ref(false);
 

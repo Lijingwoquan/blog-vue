@@ -5,7 +5,7 @@
           <nav-header></nav-header>
         </el-header>
         <el-container>
-          <el-aside :style="{ backgroundColor: bgColor, color: textColor }">
+          <el-aside>
               <nav-aside></nav-aside>
           </el-aside>
   
@@ -21,13 +21,7 @@
   import NavHeader from '~/layout/base/NavHeader.vue';
   import NavAside from '~/layout/base/NavAside.vue';
   import essay from '~/layout/components/essay.vue';
-  import { ModChange } from "~/composables/overall.js"
-  const {
-    mod,
-    bgColor,
-    textColor,
-    changeReadindMod,
-} = ModChange()
+
 
   </script>
   

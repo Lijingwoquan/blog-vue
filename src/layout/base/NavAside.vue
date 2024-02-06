@@ -1,9 +1,10 @@
 <template>
-    <div class="nav-aside" :style="{ backgroundColor: bgColor }">
-        <el-menu unique-opened active-text-color="blue" :default-active="defaultActive" class="menu" @select="handleSelect"
-            :style="{ backgroundColor: bgColor, color: textColor }">
+    <div class="nav-aside">
+        <el-menu unique-opened active-text-color="blue"
+            :default-active="defaultActive" class="menu"
+            @select="handleSelect">
 
-            <el-menu-item :style="{ backgroundColor: bgColor, color: textColor }" :key="'/'" :index="'/'">
+            <el-menu-item :key="'/'" :index="'/'">
                 <el-icon>
                     <House />
                 </el-icon>
@@ -13,20 +14,19 @@
             <div v-for="(item, index) in menu" :key="item.index" :index="item.index">
                 <el-sub-menu v-if="item.classifyDetails.length > 0" :index="item.icon">
                     <template #title>
-                        <el-icon :style="{ color: textColor }">
+                        <el-icon>
                             <component :is="item.icon"></component>
                         </el-icon>
-                        <span :style="{ color: textColor }">{{ item.classifyKind }}</span>
+                        <span>{{ item.classifyKind }}</span>
                     </template>
-                    <el-menu-item v-for="item2 in item.classifyDetails"
-                        :style="{ backgroundColor: bgColor, color: textColor }" :key="item2.router"
+                    <el-menu-item v-for="item2 in item.classifyDetails" :key="item2.router"
                         :index="'/classify' + item2.router">
                         {{ item2.name }}
                     </el-menu-item>
                 </el-sub-menu>
             </div>
 
-            <el-menu-item :style="{ backgroundColor: bgColor, color: textColor }" :key="'/memo'" :index="'/memo'">
+            <el-menu-item :key="'/memo'" :index="'/memo'">
                 <el-icon>
                     <Notebook />
                 </el-icon>
@@ -40,24 +40,21 @@
 
 
 <script setup>
-import { ModChange } from "~/composables/overall.js"
 import { useRouter, useRoute } from 'vue-router';
 import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 
 
-const {
-    mod,
-    bgColor,
-    textColor,
-    changeReadindMod,
-} = ModChange()
 
 const router = useRouter()
 const store = useStore()
 const route = useRoute()
 const defaultActive = ref(route.path)
 
+//进入文章之后绑定的defaultActive
+if (route.path.split("/").length > 3) {
+    defaultActive.value = '/classify/' + route.path.split('/')[2]
+} 
 const menu = computed(() => store.state.indexData)
 
 
@@ -104,4 +101,5 @@ const handleSelect = (e) => {
 
 .el-sub-menu {
     --el-menu-hover-bg-color: #007BFF;
-}</style>
+}
+</style>

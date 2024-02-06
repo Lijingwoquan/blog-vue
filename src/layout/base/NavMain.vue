@@ -6,6 +6,7 @@
                 <el-divider>
                     <el-icon><star-filled /></el-icon>
                 </el-divider>
+
                 <div v-for="(essay, index) in essayData" class="essay" :key="index" @click="toEssay(essay.router)">
                     <div class="top">
                         <el-link class="title" :href="'http://localhost:5173/#/essay' + essay.router" target="_self"
@@ -19,6 +20,7 @@
                         <el-icon><star-filled /></el-icon>
                     </el-divider>
                 </div>
+
             </div>
         </el-col>
         <el-col :span="6"></el-col>
@@ -29,10 +31,10 @@
 import { useStore } from "vuex"
 import { useRouter } from 'vue-router';
 
+
 const router = useRouter()
 const store = useStore()
 const essayData = store.state.essayData
-
 function toEssay(r) {
     router.push("essay"+r)
 }
