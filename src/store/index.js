@@ -1,5 +1,5 @@
 import { createStore } from 'vuex';
-import { getIndexInfo, login } from "~/api/user"
+import { getIndexInfo, login,logout } from "~/api/user"
 import { setToken, removeToken, getToken } from "~/composables/auth.js"
 const store = createStore({
   state() {
@@ -42,7 +42,9 @@ const store = createStore({
             let router = classifyRoute + e.router
             let introduction = e.introduction
             let id = e.id
-            state.essayData.push({ name, router, introduction, kind, id })
+            let createdTime = e.createdTime.split("T").join(" ").split("Z")[0]
+            let updatedTime = e.updatedTime.split("T").join(" ").split("Z")[0]
+            state.essayData.push({ name, router, introduction, kind, id,createdTime,updatedTime })
           })
         })
       })
@@ -64,6 +66,9 @@ const store = createStore({
       removeToken()
       //清除当前用户状态
       commit("setUserInfo", {})
+      commit("indexData", {})
+      commit("classifyData", {})
+      commit("essayData", {})
     },
     getIndexInfo({ commit }) {
       return new Promise((resolve, reject) => {

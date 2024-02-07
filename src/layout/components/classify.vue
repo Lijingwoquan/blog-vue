@@ -11,7 +11,10 @@
                     <div class="top">
                         <el-link class="title"  target="_self"
                             type="info">{{ essay.name }}</el-link>
-                        <span class="kind">分类:{{ essay.kind }}</span>
+                        <span class="date">
+                        创建于:{{ essay.createdTime }}  &nbsp; &nbsp; &nbsp; 更新于:{{ essay.updatedTime }}
+                       </span>
+                       <span class="kind">分类:{{ essay.kind }}</span>
                     </div>
                     <div class="bottom">
                         简介：{{ essay.introduction }}
@@ -19,8 +22,6 @@
                     <el-divider>
                         <el-icon><star-filled /></el-icon>
                     </el-divider>
-
-                    {{ essay.name }}
                 </div>
             </div>
         </el-col>
@@ -83,7 +84,9 @@ watch(() => route.fullPath, () => {
     @apply flex justify-between items-center;
     width: 100%;
 }
-
+.essay .date{
+    @apply mr-auto text-sm italic text-red-800;
+}
 .essay .bottom {
     @apply flex justify-start px-8 my-3;
     width: 100%;

@@ -8,7 +8,6 @@
           <el-aside>
               <nav-aside></nav-aside>
           </el-aside>
-  
           <el-main class="left-0"> 
             <essay></essay>
           </el-main>

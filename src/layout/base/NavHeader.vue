@@ -50,8 +50,8 @@
 
                     <template #dropdown>
                         <el-dropdown-menu>
-                            <el-dropdown-item @click="gotoSelf">修改信息</el-dropdown-item>
-                            <el-dropdown-item @click="gotoQuit">退出登录</el-dropdown-item>
+                            <el-dropdown-item @click="updateUserMsg">修改信息</el-dropdown-item>
+                            <el-dropdown-item @click="logout">退出登录</el-dropdown-item>
                         </el-dropdown-menu>
                     </template>
                 </el-dropdown>
@@ -66,10 +66,8 @@
                                 <arrow-down />
                             </el-icon>
                         </span>
-
                         <template #dropdown>
                             <el-dropdown-menu>
-                                <el-dropdown-item @click="gotoHelp">使用教程</el-dropdown-item>
                                 <el-dropdown-item @click="gotoContact">联系作者</el-dropdown-item>
                             </el-dropdown-menu>
                         </template>
@@ -96,7 +94,7 @@
 <script setup>
 import { ref, onMounted, onBeforeMount } from "vue"
 import { useStore } from 'vuex';
-
+import { logout, updateUserMsg } from "~/api/user"
 
 
 const dialogVisible = ref(false);
@@ -133,17 +131,10 @@ onBeforeMount(() => {
     document.removeEventListener("keyup", onKeyUp)
 })
 
-//前往前端
-function gotoSelf() {
-    console.log(1)
-}
-//前往退出
+
+//退出登录
 function gotoQuit() {
     console.log(2)
-}
-//前往帮助
-function gotoHelp() {
-    console.log(4)
 }
 
 //前往联系作者

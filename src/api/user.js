@@ -7,6 +7,19 @@ export function login(username, password) {
     })
 }
 
+export function logout(username) {
+    return axios.post("/base/logout", {
+        username
+    })
+}
+
+
+export function updateUserMsg() {
+    return axios.post("/base/updateUserMsg", {
+        username
+    })
+}
+
 export function getIndexInfo() {
     return axios.get("/base/index")
 }
