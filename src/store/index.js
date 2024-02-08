@@ -1,5 +1,5 @@
 import { createStore } from 'vuex';
-import { getIndexInfo, login,logout } from "~/api/user"
+import { getIndexInfo, login, logout, updateUserMsg } from "~/api/user"
 import { setToken, removeToken, getToken } from "~/composables/auth.js"
 const store = createStore({
   state() {
@@ -15,7 +15,6 @@ const store = createStore({
     }
   },
   mutations: {
-  
     setIndexInfo(state, indexData) {//添加index数据
       state.indexData = indexData
     },
@@ -44,7 +43,7 @@ const store = createStore({
             let id = e.id
             let createdTime = e.createdTime.split("T").join(" ").split("Z")[0]
             let updatedTime = e.updatedTime.split("T").join(" ").split("Z")[0]
-            state.essayData.push({ name, router, introduction, kind, id,createdTime,updatedTime })
+            state.essayData.push({ name, router, introduction, kind, id, createdTime, updatedTime })
           })
         })
       })
@@ -53,8 +52,17 @@ const store = createStore({
   actions: {
     login({ commit }, { username, password }) {
       return new Promise((resolve, reject) => {
-        login(username, password).then(res => {
+        login(username, password.rePassword).then(res => {
           setToken(res)
+          resolve(res)
+        }).catch(err => {
+          reject(err)
+        })
+      })
+    },
+    updateUserMsg({ commit }, { username, password, rePassword, email }) {
+      return new Promise((resolve, reject) => {
+        updateUserMsg(username, password, rePassword, email).then(res => {
           resolve(res)
         }).catch(err => {
           reject(err)
