@@ -8,7 +8,6 @@ import NotFound from '~/pages/404.vue'
 import Login from '~/pages/login.vue'
 import Classify from "~/pages/classify.vue"
 import Essay from "~/pages/essay.vue"
-import Memo from "~/pages/memo.vue"
 
 //默认路由 所有用户共享
 const routes = [{
@@ -25,12 +24,6 @@ const routes = [{
     name: 'NotFound',
     component: NotFound
 },
-{
-    path: "/memo",
-    name: "memo",
-    component: Memo,
-},
-
 ]
 
 
@@ -51,7 +44,7 @@ export function addRouters(dataAboutIndexMenu) {
             classifyDetails.forEach(Details => {
                 let classifyPath = Details.router
                 let classify = {
-                    path: "/classify"+classifyPath,
+                    path: "/classify" + classifyPath,
                     name: classifyPath,
                     component: Classify,
                     meta: {
@@ -76,7 +69,7 @@ export function addRouters(dataAboutIndexMenu) {
         essayArr.forEach(element => {
             let essayPath = element.router
             let essay = {
-                path: "/essay"+classifyPath + essayPath,
+                path: "/essay" + classifyPath + essayPath,
                 name: classifyPath + essayPath,
                 component: Essay,
                 meta: {
@@ -92,6 +85,5 @@ export function addRouters(dataAboutIndexMenu) {
 
 
     //当前全部得到路由
-    console.log(router.getRoutes())
     return hasNewRoutes
 }

@@ -8,8 +8,7 @@
         <el-aside >
             <nav-aside></nav-aside>
         </el-aside>
-
-        <el-main class="left-0"> 
+        <el-main> 
           <nav-main></nav-main>
         </el-main>
       </el-container>
@@ -31,7 +30,7 @@ import NavMain from '~/layout/base/NavMain.vue';
   --el-header-height: 48px;
 }
 .el-aside {
-    width: 200px;
+    width: 120px;
 }
 
 </style>

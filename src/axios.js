@@ -3,7 +3,7 @@ import store from "./store/index";
 import { getToken } from "~/composables/auth.js"
 import { toast } from "~/composables/util"
 const service = axios.create({
-  baseURL: "/api",
+  baseURL: import.meta.env.VITE_APP_BASE_API,
 })
 
 
@@ -24,12 +24,13 @@ service.interceptors.request.use(function (config) {
 
 // 添加响应拦截器
 service.interceptors.response.use(function (response) {
+
   //对响应数据进行处理
   return response.data.data; //后续请求响应数据写起来更加优雅
 }, function (error) {
   const msg = error.response.data.msg || "请求失败"
   if (msg == "需要登录") {
-    store.dispatch("logout").catch((err)=>console.log(err)).finally(()=>location.reload)
+    store.dispatch("logout").catch((err) => console.log(err)).finally(() => location.reload)
   }
   toast(msg, "error",)
   return Promise.reject(error);

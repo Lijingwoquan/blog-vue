@@ -12,6 +12,7 @@ const store = createStore({
       classifyData: [],
       //文章数据
       essayData: [],
+      AsideWidth:"140px",
     }
   },
   mutations: {
@@ -52,7 +53,7 @@ const store = createStore({
   actions: {
     login({ commit }, { username, password }) {
       return new Promise((resolve, reject) => {
-        login(username, password.rePassword).then(res => {
+        login(username, password).then(res => {
           setToken(res)
           resolve(res)
         }).catch(err => {
@@ -70,6 +71,7 @@ const store = createStore({
       })
     },
     logout({ commit }) {
+      console.log("dsadasf")
       //移除cookie里面的token
       removeToken()
       //清除当前用户状态

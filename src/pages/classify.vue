@@ -5,11 +5,10 @@
         <nav-header></nav-header>
       </el-header>
       <el-container>
-        <el-aside >
+        <el-aside>
             <nav-aside></nav-aside>
         </el-aside>
-
-        <el-main class="left-0"> 
+        <el-main> 
           <classify></classify>
         </el-main>
       </el-container>
@@ -28,7 +27,7 @@ import classify from '~/layout/components/classify.vue';
   --el-header-height: 48px;
 }
 .el-aside {
-    width: 200px;
+    width: 120px;
 }
 
 </style>

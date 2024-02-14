@@ -1,32 +1,26 @@
 <template>
     <el-row>
-        <el-col :span="2"></el-col>
-        <el-col :span="16">
-            <div class="flex  flex-col">
-                <el-divider>
-                    <el-icon><star-filled /></el-icon>
-                </el-divider>
-                <div v-for="(essay, index) in satisfyData" class="essay" :index="essay.name" :key="essay.name"
-                    @click="toEssay(essay.router)">
-                    <div class="top">
-                        <el-link class="title"  target="_self"
-                            type="info">{{ essay.name }}</el-link>
-                        <span class="date">
-                        创建于:{{ essay.createdTime }}  &nbsp; &nbsp; &nbsp; 更新于:{{ essay.updatedTime }}
-                       </span>
-                       <span class="kind">分类:{{ essay.kind }}</span>
-                    </div>
-                    <div class="bottom">
+        <el-col :span="20" class="ml-2">
+            <div v-for="(essay, index) in satisfyData" class="essay" :key="index" @click="toEssay(essay.router)">
+                <div class="top">
+                    <el-link class="title" :href="'http://localhost:5173/#/essay' + essay.router" target="_self"
+                        type="info">{{
+                            essay.name }}</el-link>
+                </div>
+                <div class="kind">
+                    <span class="kind">分类:{{ essay.kind }}</span>
+                </div>
+                <span class="date">
+                    更新于:{{ essay.updatedTime }}
+                </span>
+                <div class="bottom">
+                    <el-text  truncated>
                         简介：{{ essay.introduction }}
-                    </div>
-                    <el-divider>
-                        <el-icon><star-filled /></el-icon>
-                    </el-divider>
+                    </el-text>
                 </div>
             </div>
         </el-col>
-        <el-col :span="6">
-        </el-col>
+       
     </el-row>
 </template>
   
@@ -60,7 +54,7 @@ const getCurrentData = (() => {
     }
 })
 const toEssay = ((r) => {
-    router.push('/essay'+r)
+    router.push('/essay' + r)
 })
 getCurrentData()
 
@@ -77,29 +71,30 @@ watch(() => route.fullPath, () => {
 <style scoped>
 .essay {
     @apply flex flex-col justify-center items-center my-5;
-    height: 100px;
+    height: auto;
 }
 
 .essay .top {
     @apply flex justify-between items-center;
     width: 100%;
 }
-.essay .date{
-    @apply mr-auto text-sm italic text-red-800;
+
+.essay .kind {
+    @apply mr-auto mt-2 text-yellow-600;
 }
+
+.essay .date {
+    @apply text-sm italic text-red-800 mt-1 ml-auto;
+}
+
 .essay .bottom {
-    @apply flex justify-start px-8 my-3;
+    @apply flex justify-start my-3 text-sm;
     width: 100%;
     color: blue;
 }
 
 .essay .top .title {
-    @apply text-2xl mx-5;
+    @apply text-2xl;
     color: black;
-}
-
-.essay .top .kind {
-    @apply text-xl mx-5;
-    color: red;
 }
 </style>

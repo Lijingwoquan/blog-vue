@@ -4,10 +4,7 @@
             <el-icon class="logo">
                 <Menu />
             </el-icon>
-            无尽仙码 独舞孤心
         </div>
-
-
         <div class="nav-top-middle" @click="openSearch">
             <el-icon class="mx-2">
                 <search />
@@ -20,7 +17,7 @@
 
         <template>
             <el-dialog v-model="dialogVisible" :v-close-on-click-modal="true" :show-close="false" append-to-body
-                :draggable="true">
+                :draggable="true" width="80%">
                 <el-input v-model="input" placeholder="搜索文档" class="input">
                     <template #prefix>
                         <el-icon class="mx-2">
@@ -32,9 +29,11 @@
                     </template>
                 </el-input>
                 <ul v-if="getData">
-                    找到数据了
+                    <li v-for="(essay, index) in satisfyDate" class="dateShow" @click="gotoApointPath(essay.path)">
+                        <div class="ml-10">文章:{{ essay.name }}</div>
+                        <div class="mr-10">分类:{{ essay.kind }}</div>
+                    </li>
                 </ul>
-
             </el-dialog>
         </template>
 
@@ -57,7 +56,7 @@
                     </template>
                 </el-dropdown>
 
-                <el-drawer v-model="dialog" title="修改用户信息" direction="rtl" append-to-body>
+                <el-drawer v-model="dialog" title="修改用户信息" direction="rtl" append-to-body size="280px">
                     <el-form ref="formRef" :model="form" :rules="rules" class="w-[250px]">
                         <el-form-item prop="username">
                             <el-input v-model="form.username">
@@ -116,8 +115,6 @@
                             <el-button round type="primary" class="w-[250px]" :loading="loading"
                                 @click="toUpdateUserMsg">修改信息</el-button>
                         </el-form-item>
-
-
                     </el-form>
                 </el-drawer>
             </div>
@@ -133,8 +130,9 @@
                         <template #dropdown>
                             <el-dropdown-menu>
                                 <el-dropdown-item>
-                                    <el-link type="primary" :underline="false" href="https://github.com/liuzihao520" target="_blank">联系作者</el-link>
-                                 </el-dropdown-item>
+                                    <el-link type="primary" :underline="false" href="https://github.com/liuzihao520"
+                                        target="_blank">联系作者</el-link>
+                                </el-dropdown-item>
                             </el-dropdown-menu>
                         </template>
                     </el-dropdown>
@@ -153,7 +151,7 @@ import { toast } from '~/composables/util'
 
 const dialogVisible = ref(false);
 const store = useStore()
-const essayData = store.state.indexData
+const essayData = store.state.essayData
 const router = useRouter()
 
 function openSearch() {
@@ -162,12 +160,27 @@ function openSearch() {
 //输入框
 const input = ref('')
 //搜索数据
-let getData = ref(null)
-//待补充
+let getData = ref(false)
+let satisfyDate = ref([])
+//已完成
 function searchMsg() {
-    console.log("正在搜索")
-    console.log(essayData)
+    satisfyDate.value = []
+    essayData.forEach(essay => {
+        if (essay.name.includes(input.value)) {
+            let name = essay.name
+            let path = essay.router
+            let kind = essay.kind
+            satisfyDate.value.push({ name, path, kind })
+        }
+    })
+    if (!(satisfyDate.value.length > 0)) {
+        toast("没用查找到相关文章", "warning")
+    }
     getData.value = true
+}
+const gotoApointPath = (path) => {
+    router.push("/essay" + path)
+    dialogVisible.value = false
 }
 const loading = ref(false)
 //更新用户信息
@@ -242,9 +255,9 @@ const toUpdateUserMsg = () => {
             toast("修改信息成功", "success")
             location.reload()
         })
-        .finally(() => {
-            loading.value = false
-        })
+            .finally(() => {
+                loading.value = false
+            })
     })
 }
 
@@ -318,6 +331,12 @@ onBeforeMount(() => {
 }
 
 .input {
+    height: 50px;
+}
+
+.dateShow {
+    @apply bg-blue-200 flex justify-between items-center my-5;
+    width: 100%;
     height: 50px;
 }
 

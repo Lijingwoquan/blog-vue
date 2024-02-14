@@ -1,29 +1,19 @@
 <template>
-    <el-row>
-        <el-col :span="2">
-        </el-col>
-        <el-col :span="16">
-            <div class="essay">
-                <span class="name">
-                    {{ satisfyData ? satisfyData.name : '' }}
-                </span>
-                <div class="subTitle">
-                    <span class="top">
-                        发布于:{{ satisfyData ? satisfyData.createdTime.split("T").join(" ").split("Z")[0] : "" }} | 更新于:{{
-                            satisfyData ? satisfyData.updatedTime.split("T").join(" ").split("Z")[0] : "" }} | {{ satisfyData ?
-        satisfyData.kind : "" }}
-                    </span>
-                    <span class="bottom">
-                        {{ satisfyData ? satisfyData.introduction : "" }}
-                    </span>
-                </div>
-                <span v-html="satisfyData ? satisfyData.content : ''"></span>
-            </div>
-        </el-col>
-        
-        <el-col :span="6">
-        </el-col>
-    </el-row>
+    <div class="essay ml-2">
+        <span class="name">
+            {{ satisfyData ? satisfyData.name : '' }}
+        </span>
+        <div class="subTitle">
+            <span class="top">
+                更新于:{{ satisfyData ? satisfyData.updatedTime.split("T").join(" ").split("Z")[0] : "" }}
+            </span>
+            <span class="bottom">
+                {{ satisfyData ? satisfyData.introduction : "" }}
+            </span>
+        </div>
+        <span v-html="satisfyData ? satisfyData.content : ''">
+        </span>
+    </div>
 </template>
   
 <script setup>
@@ -68,7 +58,7 @@ watch(() => route.fullPath, () => {
 }
 
 .essay .name {
-    @apply text-3xl mb-5 mr-auto font-bold;
+    @apply text-2xl mb-5 mr-auto font-bold;
 }
 
 .essay .subTitle {

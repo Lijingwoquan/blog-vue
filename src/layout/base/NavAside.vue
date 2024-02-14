@@ -1,22 +1,12 @@
 <template>
     <div class="nav-aside">
-        <el-menu unique-opened active-text-color="blue"
-            :default-active="defaultActive" class="menu"
-            @select="handleSelect">
-
+        <el-menu unique-opened active-text-color="blue" :default-active="defaultActive" class="menu" @select="handleSelect">
             <el-menu-item :key="'/'" :index="'/'">
-                <el-icon>
-                    <House />
-                </el-icon>
                 <span> 首页 </span>
             </el-menu-item>
-
             <div v-for="(item, index) in menu" :key="item.index" :index="item.index">
                 <el-sub-menu v-if="item.classifyDetails.length > 0" :index="item.icon">
                     <template #title>
-                        <el-icon>
-                            <component :is="item.icon"></component>
-                        </el-icon>
                         <span>{{ item.classifyKind }}</span>
                     </template>
                     <el-menu-item v-for="item2 in item.classifyDetails" :key="item2.router"
@@ -25,15 +15,6 @@
                     </el-menu-item>
                 </el-sub-menu>
             </div>
-
-            <el-menu-item :key="'/memo'" :index="'/memo'">
-                <el-icon>
-                    <Notebook />
-                </el-icon>
-                <span> 备忘录 </span>
-            </el-menu-item>
-
-
         </el-menu>
     </div>
 </template>
@@ -54,7 +35,7 @@ const defaultActive = ref(route.path)
 //进入文章之后绑定的defaultActive
 if (route.path.split("/").length > 3) {
     defaultActive.value = '/classify/' + route.path.split('/')[2]
-} 
+}
 const menu = computed(() => store.state.indexData)
 
 
@@ -64,20 +45,16 @@ const handleSelect = (e) => {
 </script>
 
 
-
-
-
 <style  scoped>
 .nav-aside {
     @apply overflow-x-hidden overflow-y-auto fixed bg-white;
     top: 48px;
-    width: 200px;
+    width: 120px;
     bottom: 0px;
 }
 
 .nav-aside .menu {
     z-index: 0;
-    width: 200px;
 }
 
 .nav-aside::-webkit-scrollbar {

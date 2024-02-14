@@ -1,35 +1,35 @@
 <template>
-    <div>
+  <div>
+    <el-container>
+      <el-header>
+        <nav-header></nav-header>
+      </el-header>
       <el-container>
-        <el-header>
-          <nav-header></nav-header>
-        </el-header>
-        <el-container>
-          <el-aside>
-              <nav-aside></nav-aside>
-          </el-aside>
-          <el-main class="left-0"> 
-            <essay></essay>
-          </el-main>
-        </el-container>
+        <el-aside>
+          <nav-aside></nav-aside>
+        </el-aside>
+        <el-main>
+          <essay></essay>
+        </el-main>
       </el-container>
-    </div>
-  </template>
+    </el-container>
+  </div>
+</template>
   
-  <script setup>
-  import NavHeader from '~/layout/base/NavHeader.vue';
-  import NavAside from '~/layout/base/NavAside.vue';
-  import essay from '~/layout/components/essay.vue';
+<script setup>
+import NavHeader from '~/layout/base/NavHeader.vue';
+import NavAside from '~/layout/base/NavAside.vue';
+import essay from '~/layout/components/essay.vue';
 
 
-  </script>
+</script>
   
-  <style scoped>
-  .el-header {
-    --el-header-height: 48px;
-  }
-  .el-aside {
-      width: 200px;
-  }
-  
-  </style>
+<style scoped>
+.el-header {
+  --el-header-height: 48px;
+}
+
+.el-aside {
+  width: 120px;
+}
+</style>
