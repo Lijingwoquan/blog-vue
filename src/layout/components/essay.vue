@@ -1,13 +1,18 @@
 <template>
-    <div class="essay ml-2">
+    <div class="essay">
         <span class="name">
             {{ satisfyData ? satisfyData.name : '' }}
         </span>
         <div class="subTitle">
-            <span class="top">
-                更新于:{{ satisfyData ? satisfyData.updatedTime.split("T").join(" ").split("Z")[0] : "" }}
-            </span>
-            <span class="bottom">
+            <div class="flex justify-between  italic text-blue-500 my-5 " style="width: 100%;">
+                <div>
+                    {{ satisfyData ? satisfyData.updatedTime.split("T").join(" ").split("Z")[0].split(" ")[0] : "" }}
+                </div>
+                <div>
+                    {{ satisfyData ? satisfyData.kind : "" }}
+                </div>
+            </div>
+            <span class="mr-auto italic text-red-500">
                 {{ satisfyData ? satisfyData.introduction : "" }}
             </span>
         </div>
@@ -46,7 +51,6 @@ const getCurrentData = (() => {
 getCurrentData()
 
 watch(() => route.fullPath, () => {
-    console.log()
     satisfyData.value = null  //存储文章的数据
     getCurrentData()
 })
@@ -54,23 +58,16 @@ watch(() => route.fullPath, () => {
 
 <style>
 .essay {
-    @apply flex flex-col justify-center items-center;
+    @apply flex flex-col justify-center items-center ml-5 mr-5;
+    margin-top: 35px;
 }
 
 .essay .name {
-    @apply text-2xl mb-5 mr-auto font-bold;
+    @apply text-2xl mr-auto italic font-bold;
 }
 
 .essay .subTitle {
     @apply flex flex-col justify-center items-center mb-10;
     width: 100%;
-}
-
-.essay .subTitle .top {
-    @apply mb-2 mr-auto italic text-blue-300;
-}
-
-.essay .subTitle .bottom {
-    @apply mr-auto italic text-red-500;
 }
 </style>

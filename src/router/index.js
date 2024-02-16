@@ -8,16 +8,20 @@ import NotFound from '~/pages/404.vue'
 import Login from '~/pages/login.vue'
 import Classify from "~/pages/classify.vue"
 import Essay from "~/pages/essay.vue"
+import Admin from "~/pages/admin.vue"
 
 //默认路由 所有用户共享
 const routes = [{
     path: "/",
-    name: "index",
     component: Index,
 },
 {
     path: "/login",
     component: Login
+},
+{
+    path: "/admin/lzh",
+    component: Admin
 },
 {
     path: '/:pathMatch(.*)*',

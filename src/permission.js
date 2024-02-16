@@ -13,9 +13,7 @@ let hasGetInfo = false
 router.beforeEach(async (to, from, next) => {
     //显示loading
     showFullLoading()
-
     const token = getToken()
-
     //没有登录,强制跳转到登录页面
     if (!token && to.path !="/login") {
         toast("请先登录", "error")

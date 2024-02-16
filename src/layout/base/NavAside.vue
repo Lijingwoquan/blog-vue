@@ -2,11 +2,18 @@
     <div class="nav-aside">
         <el-menu unique-opened active-text-color="blue" :default-active="defaultActive" class="menu" @select="handleSelect">
             <el-menu-item :key="'/'" :index="'/'">
+                <el-icon>
+                    <House />
+                </el-icon>
                 <span> 首页 </span>
             </el-menu-item>
-            <div v-for="(item, index) in menu" :key="item.index" :index="item.index">
-                <el-sub-menu v-if="item.classifyDetails.length > 0" :index="item.icon">
+
+            <div v-for="(item, index) in menu" :key="item.id" :index="item.id">
+                <el-sub-menu v-if="item.classifyDetails.length > 0" :index="item.id">
                     <template #title>
+                        <el-icon>
+                            <component :is="item.icon"></component>
+                        </el-icon>
                         <span>{{ item.classifyKind }}</span>
                     </template>
                     <el-menu-item v-for="item2 in item.classifyDetails" :key="item2.router"
@@ -26,7 +33,6 @@ import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 
 
-
 const router = useRouter()
 const store = useStore()
 const route = useRoute()
@@ -38,18 +44,18 @@ if (route.path.split("/").length > 3) {
 }
 const menu = computed(() => store.state.indexData)
 
-
 const handleSelect = (e) => {
     router.push(e)
 }
 </script>
 
 
+
 <style  scoped>
 .nav-aside {
     @apply overflow-x-hidden overflow-y-auto fixed bg-white;
-    top: 48px;
-    width: 120px;
+    width: auto;
+    top: 100px;
     bottom: 0px;
 }
 
