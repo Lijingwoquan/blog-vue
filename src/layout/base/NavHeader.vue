@@ -3,10 +3,20 @@
         <div class="title">罹景偓佺的博客——分享全栈知识</div>
         <div class="tool">
             <div class="nav-top-left">
-                <el-icon class="logo" @click="toIndex">
+                <el-icon class="logoExpand hidden-sm-and-up" @click="openMenu">
+                    <Expand />
+                </el-icon>
+
+                <el-drawer v-model="dialogMenu" title="菜单" direction="ltr" append-to-body size="200px">
+                    <nav-aside></nav-aside>
+                </el-drawer>
+
+                <el-icon class="logoHouse" @click="toIndex">
                     <House />
                 </el-icon>
             </div>
+
+
             <div class="nav-top-middle" @click="openSearch">
                 <el-icon>
                     <search />
@@ -108,7 +118,6 @@
                                 </el-input>
                             </el-form-item>
 
-
                             <el-form-item>
                                 <el-button round type="primary" class="w-[250px]" :loading="loading"
                                     @click="toUpdateUserMsg">修改信息</el-button>
@@ -143,9 +152,11 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, onBeforeMount } from "vue"
+import NavAside from '~/layout/base/NavAside.vue';
+import { ref, reactive, onMounted, onBeforeMount, watch } from "vue"
 import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
+
 import { ElMessageBox } from 'element-plus'
 import { toast } from '~/composables/util'
 
@@ -153,7 +164,15 @@ const dialogVisible = ref(false);
 const store = useStore()
 const essayData = store.state.essayData
 const router = useRouter()
+const route = useRoute()
+const dialogMenu = ref(false);
 
+function openMenu() {
+    dialogMenu.value = true
+}
+watch(() => route.fullPath, () => {
+    dialogMenu.value = false
+})
 function toIndex() {
     router.push("/")
 }
@@ -312,7 +331,7 @@ onBeforeMount(() => {
 }
 
 .nav-top .title {
-    @apply flex justify-center items-center text-xl bg-gray-400  font-bold font-serif;
+    @apply flex justify-center items-center text-xl bg-gray-400 font-bold font-serif;
     width: 100%;
     height: 60px;
 }
@@ -340,7 +359,12 @@ onBeforeMount(() => {
     /* 悬停时改变边框颜色 */
 }
 
-.logo {
+.logoExpand {
+    @apply text-xl mx-5;
+    height: auto;
+}
+
+.logoHouse {
     @apply text-xl ml-1;
     height: auto;
 }

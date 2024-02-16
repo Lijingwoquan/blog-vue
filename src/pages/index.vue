@@ -10,7 +10,6 @@
         </el-aside>
       </el-col>
       <el-col :xs="24" :sm="18" :md="18" :lg="18" :xl="18">
-        <nav-aside-for-mini class="hidden-sm-and-up"></nav-aside-for-mini>
         <el-main>
           <nav-main></nav-main>
         </el-main>
@@ -24,7 +23,6 @@
 <script setup>
 import NavHeader from '~/layout/base/NavHeader.vue';
 import NavAside from '~/layout/base/NavAside.vue';
-import NavAsideForMini from '~/layout/base/NavAsideForMini.vue';
 import NavMain from '~/layout/base/NavMain.vue';
 </script>
 
