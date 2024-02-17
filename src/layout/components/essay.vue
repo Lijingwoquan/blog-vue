@@ -1,4 +1,5 @@
 <template>
+    <el-backtop :right="30" :bottom="30" />
     <div class="essay">
         <span class="name">
             {{ satisfyData ? satisfyData.name : '' }}
@@ -49,6 +50,8 @@ const getCurrentData = (() => {
     })
 })
 getCurrentData()
+
+
 
 watch(() => route.fullPath, () => {
     satisfyData.value = null  //存储文章的数据

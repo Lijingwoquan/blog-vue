@@ -41,7 +41,6 @@ export const router = createRouter({
 export function addRouters(dataAboutIndexMenu) {
     //是否有新的路由
     let hasNewRoutes = false
-
     const findAndAddRoutes = (arr) => {
         arr.forEach(element => {
             let classifyDetails = element.classifyDetails

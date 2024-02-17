@@ -1,13 +1,6 @@
 <template>
     <div class="nav-aside">
         <el-menu unique-opened active-text-color="blue" :default-active="defaultActive" class="menu" @select="handleSelect">
-            <el-menu-item :key="'/'" :index="'/'">
-                <el-icon>
-                    <House />
-                </el-icon>
-                <span> 首页 </span>
-            </el-menu-item>
-
             <div v-for="(item, index) in menu" :key="item.id" :index="item.id">
                 <el-sub-menu v-if="item.classifyDetails.length > 0" :index="item.id">
                     <template #title>

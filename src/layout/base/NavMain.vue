@@ -1,35 +1,49 @@
 <template>
-    <div v-for="(essay, index) in essayData" class="essay" :key="index" @click="toEssay(essay.router)">
-        <div class="top">
-            <el-link class="title" :href="'http://localhost:5173/#/essay' + essay.router" target="_self" type="info">{{
+    <el-backtop :right="30" :bottom="30" />
+    <div v-for="(essay, index) in essayData" class="essay" :key="index">
+        <div class="top" @click="toEssay(essay.router)">
+            <el-link class="title" target="_self" type="info">{{
                 essay.name }}</el-link>
         </div>
-        <div class="kind">
-            <span class="kind">{{ essay.kind }}</span>
+        <div class="middle">
+            <div class="kind" @click="toKind(essay)">
+                {{ essay.kind }}
+            </div>
+            <div style="width: auto;" class="flex-1" @click="toKind(essay)"></div>
+            <span class="date" @click="toEssay(essay.router)">
+                {{ essay.updatedTime }}
+            </span>
         </div>
-        <span class="date">
-            {{ essay.updatedTime }}
-        </span>
-        <div class="bottom">
+
+        <div class="bottom" @click="toEssay(essay.router)">
             <el-text truncated>
                 {{ essay.introduction }}
             </el-text>
         </div>
     </div>
+    <el-pagination background layout="prev, pager, next" :page-count="pageMax" @update:current-page="changePage"
+        class="mt-5 justify-center" />
 </template>
   
 <script setup>
-import { useStore } from "vuex"
+import { useStore } from "vuex";
 import { useRouter } from 'vue-router';
-
+import { ref } from "vue";
 
 const router = useRouter()
 const store = useStore()
 const essayData = store.state.essayData
+const orderByIdEssayDate = ref([])
+
+
 function toEssay(r) {
+    console
     router.push("essay" + r)
 }
 
+function toKind(r) {
+    router.push("classify/" + r.router.split("/")[1])
+}
 
 </script>
 
@@ -44,13 +58,20 @@ function toEssay(r) {
     width: 100%;
 }
 
-.essay .kind {
-    @apply mr-auto mt-2 text-yellow-600;
+.essay .middle {
+    @apply flex;
+    width: 100%;
 }
 
-.essay .date {
-    @apply text-sm italic text-red-800 mt-1 ml-auto;
+.middle .kind {
+    @apply text-yellow-600 mr-auto;
 }
+
+.middle .date {
+    @apply text-sm italic text-red-800 ml-auto;
+}
+
+
 
 .essay .bottom {
     @apply flex justify-start my-3 text-sm;

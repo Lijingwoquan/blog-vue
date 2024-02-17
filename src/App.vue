@@ -11,7 +11,7 @@
 
 <style>
 .register {
-  @apply flex flex-col justify-center items-center italic;
+  @apply flex flex-col justify-center items-center italic mt-10;
 }
 
 /* Webkit浏览器样式 */

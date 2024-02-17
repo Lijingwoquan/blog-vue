@@ -365,7 +365,7 @@ onBeforeMount(() => {
 }
 
 .logoHouse {
-    @apply text-xl ml-1;
+    @apply text-xl mx-5;
     height: auto;
 }
 

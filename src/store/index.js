@@ -14,6 +14,7 @@ const store = createStore({
       classifyData: [],
       //文章数据
       essayData: [],
+      pageMax : 0,
     }
   },
   mutations: {
@@ -49,7 +50,11 @@ const store = createStore({
             let introduction = e.introduction
             let id = e.id
             let updatedTime = e.updatedTime.split("T").join(" ").split("Z")[0].split(" ")[0]
-            state.essayData.push({ name, router, introduction, kind, id, updatedTime })
+            let page = e.page
+            if (page > state.pageMax) {
+              state.pageMax = page
+            }
+            state.essayData.push({ name, router, introduction, kind, id, updatedTime, page })
           })
         })
       })
