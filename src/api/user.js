@@ -31,7 +31,7 @@ export function getIndexInfo() {
 export function getEssayMsg(id) {
     return axios.get("/base/essay", {
         params: {
-            id: id
+            id: id,
         }
     })
 }

@@ -9,7 +9,7 @@
                 <div>
                     {{ satisfyData ? satisfyData.updatedTime.split("T").join(" ").split("Z")[0].split(" ")[0] : "" }}
                 </div>
-                <div>
+                <div @click="toKind">
                     {{ satisfyData ? satisfyData.kind : "" }}
                 </div>
             </div>
@@ -24,12 +24,14 @@
   
 <script setup>
 import { useStore } from "vuex"
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { ref, watch } from 'vue';
 import { getEssayMsg } from "~/api/user.js"
 const store = useStore()
 const route = useRoute()
-let satisfyData = ref(null)  //存储文章的数据
+const router = useRouter()
+const kind = ref(null)
+const satisfyData = ref(null)  //存储文章的数据
 //根据文章名字去获取文章详细内容
 const getCurrentData = (() => {
     const essayRouter = "/" + route.path.split("/").slice(2, 4).join("/")
@@ -38,6 +40,7 @@ const getCurrentData = (() => {
     let essayId = null
     for (const essay of essayData) {
         if (essay.router == essayRouter) {   //有一个好处 就算后端加router时router一样 但是分类不一样 这样也不会导致数据读取失败
+            kind.value = essay.kind
             essayId = essay.id
             break
         }
@@ -51,6 +54,11 @@ const getCurrentData = (() => {
 })
 getCurrentData()
 
+
+const toKind = (() => {
+    let essayRouter = "/" + route.path.split("/").slice(2, 4).join("/")
+    router.push("/classify/" + essayRouter.split("/")[1])
+})
 
 
 watch(() => route.fullPath, () => {

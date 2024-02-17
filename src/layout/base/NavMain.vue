@@ -9,7 +9,7 @@
             <div class="kind" @click="toKind(essay)">
                 {{ essay.kind }}
             </div>
-            <div style="width: auto;" class="flex-1" @click="toKind(essay)"></div>
+            <div style="width: auto;" class="flex-1" @click="toEssay(essay.router)"></div>
             <span class="date" @click="toEssay(essay.router)">
                 {{ essay.updatedTime }}
             </span>

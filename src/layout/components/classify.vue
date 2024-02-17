@@ -66,6 +66,7 @@ getCurrentData(1)
 const toEssay = ((r) => {
     router.push('/essay' + r)
 })
+
 function changePage(p) {
     satisfyData.value = []
     console.log(p)
