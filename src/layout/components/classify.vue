@@ -32,7 +32,7 @@ import { ref, watch } from 'vue';
 const store = useStore()
 const route = useRoute()
 const router = useRouter()
-const pageMax = store.state.pageMax
+const pageMax = ref(1)
 let satisfyData = ref([])
 
 const getCurrentData = ((page) => {
@@ -48,9 +48,15 @@ const getCurrentData = ((page) => {
     }
     // 这里只需要遍历一次
     for (const essay of essayData) {
-        if (currentClassify.value == essay.kind && essay.page == page) {
-            satisfyData.value.push(essay)
+        if (currentClassify.value == essay.kind) {
+            if (essay.page == page) {
+                satisfyData.value.push(essay)
+            }
+            if (pageMax.value < essay.page) {
+                pageMax.value = essay.page
+            }
         }
+
     }
 })
 
@@ -62,6 +68,7 @@ const toEssay = ((r) => {
 })
 function changePage(p) {
     satisfyData.value = []
+    console.log(p)
     getCurrentData(p)
 }
 
@@ -69,7 +76,8 @@ function changePage(p) {
 // 监听路由变化，当路由变化时更新 ref 值
 watch(() => route.fullPath, () => {
     satisfyData.value = []
-    getCurrentData()
+    pageMax.value = 1
+    getCurrentData(1)
 });
 
 

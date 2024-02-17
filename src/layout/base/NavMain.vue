@@ -1,6 +1,6 @@
 <template>
     <el-backtop :right="30" :bottom="30" />
-    <div v-for="(essay, index) in essayData" class="essay" :key="index">
+    <div v-for="(essay, index) in orderByTimeEssayDate" class="essay" :key="index">
         <div class="top" @click="toEssay(essay.router)">
             <el-link class="title" target="_self" type="info">{{
                 essay.name }}</el-link>
@@ -21,19 +21,47 @@
             </el-text>
         </div>
     </div>
-    <el-pagination background layout="prev, pager, next" :page-count="pageMax" @update:current-page="changePage"
+    <el-pagination background layout="prev, pager, next" :page-count="10" @update:current-page="changePage"
         class="mt-5 justify-center" />
 </template>
   
 <script setup>
-import { useStore } from "vuex";
+import { useStore } from "vuex"
 import { useRouter } from 'vue-router';
-import { ref } from "vue";
+import { ref } from "vue"
 
 const router = useRouter()
 const store = useStore()
 const essayData = store.state.essayData
-const orderByIdEssayDate = ref([])
+const orderByTimeEssayDate = ref([]);
+
+function orderByTime() {
+    // 清空数组，只保留一个默认的日期
+    orderByTimeEssayDate.value = [];
+
+    essayData.forEach(essay => {
+        // 将 essay.updatedTime 转换为日期对象，并添加到数组
+        let updatedTime = new Date(essay.updatedTime)
+
+        let name = essay.name
+        let router = essay.router
+        let kind = essay.kind
+        let introduction = essay.introduction
+        orderByTimeEssayDate.value.push({ updatedTime, name, router, kind, introduction });
+    });
+    // 对日期数组进行排序
+    orderByTimeEssayDate.value.sort((a, b) => b.updatedTime - a.updatedTime);
+
+    orderByTimeEssayDate.value.forEach(essay => {
+        let formattedDate = essay.updatedTime.toLocaleDateString('zh-CN', { year: 'numeric', month: 'numeric', day: 'numeric' });
+        essay.updatedTime = formattedDate
+    })
+}
+
+// 调用排序函数
+orderByTime();
+
+
 
 
 function toEssay(r) {
@@ -44,7 +72,6 @@ function toEssay(r) {
 function toKind(r) {
     router.push("classify/" + r.router.split("/")[1])
 }
-
 </script>
 
 <style scoped>
