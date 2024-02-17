@@ -69,7 +69,6 @@ const toEssay = ((r) => {
 
 function changePage(p) {
     satisfyData.value = []
-    console.log(p)
     getCurrentData(p)
 }
 

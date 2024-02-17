@@ -1,6 +1,6 @@
 <template>
     <el-backtop :right="30" :bottom="30" />
-    <div v-for="(essay, index) in orderByTimeEssayDate" class="essay" :key="index">
+    <div v-for="(essay, index) in satisfyData" class="essay" :key="index">
         <div class="top" @click="toEssay(essay.router)">
             <el-link class="title" target="_self" type="info">{{
                 essay.name }}</el-link>
@@ -21,7 +21,7 @@
             </el-text>
         </div>
     </div>
-    <el-pagination background layout="prev, pager, next" :page-count="10" @update:current-page="changePage"
+    <el-pagination background layout="prev, pager, next" :page-count="pageMax" @update:current-page="changePage"
         class="mt-5 justify-center" />
 </template>
   
@@ -34,36 +34,46 @@ const router = useRouter()
 const store = useStore()
 const essayData = store.state.essayData
 const orderByTimeEssayDate = ref([]);
-
-function orderByTime() {
+const pageMax = ref(1)
+let satisfyData = ref([])
+let count = 0
+function orderByTime(page) {
     // 清空数组，只保留一个默认的日期
     orderByTimeEssayDate.value = [];
-
+    //orderByTimeEssayDate整合数据
     essayData.forEach(essay => {
+        count++
+        if (count > 10) {
+            count = 0
+            pageMax.value++
+        }
         // 将 essay.updatedTime 转换为日期对象，并添加到数组
         let updatedTime = new Date(essay.updatedTime)
-
         let name = essay.name
         let router = essay.router
         let kind = essay.kind
         let introduction = essay.introduction
-        orderByTimeEssayDate.value.push({ updatedTime, name, router, kind, introduction });
+        let page = pageMax.value
+        orderByTimeEssayDate.value.push({ page, updatedTime, name, router, kind, introduction });
     });
     // 对日期数组进行排序
     orderByTimeEssayDate.value.sort((a, b) => b.updatedTime - a.updatedTime);
-
+    //格式化日期并且实现分页
     orderByTimeEssayDate.value.forEach(essay => {
         let formattedDate = essay.updatedTime.toLocaleDateString('zh-CN', { year: 'numeric', month: 'numeric', day: 'numeric' });
         essay.updatedTime = formattedDate
     })
 }
-
+function paging(page) {
+    orderByTimeEssayDate.value.forEach(essay => {
+        if (essay.page == page) {
+            satisfyData.value.push(essay)
+        }
+    })
+}
 // 调用排序函数
 orderByTime();
-
-
-
-
+paging(1)
 function toEssay(r) {
     console
     router.push("essay" + r)
@@ -72,6 +82,13 @@ function toEssay(r) {
 function toKind(r) {
     router.push("classify/" + r.router.split("/")[1])
 }
+
+
+function changePage(p) {
+    satisfyData.value = []
+    paging(p)
+}
+
 </script>
 
 <style scoped>
