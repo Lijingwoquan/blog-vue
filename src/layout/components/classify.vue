@@ -11,7 +11,7 @@
             </div>
             <div style="width: auto;" class="flex-1" @click="toEssay(essay.router)"></div>
             <span class="date" @click="toEssay(essay.router)">
-                {{ essay.updatedTime }}
+                {{ essay.createdTime }}
             </span>
         </div>
         <div class="bottom" @click="toEssay(essay.router)">

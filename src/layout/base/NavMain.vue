@@ -11,7 +11,7 @@
             </div>
             <div style="width: auto;" class="flex-1" @click="toEssay(essay.router)"></div>
             <span class="date" @click="toEssay(essay.router)">
-                {{ essay.updatedTime }}
+                {{ essay.createdTime }}
             </span>
         </div>
 
@@ -25,71 +25,7 @@
         class="mt-5 justify-center" />
 </template>
   
-<script setup>
-import { useStore } from "vuex"
-import { useRouter } from 'vue-router';
-import { ref } from "vue"
 
-const router = useRouter()
-const store = useStore()
-const essayData = store.state.essayData
-const orderByTimeEssayDate = ref([]);
-const pageMax = ref(1)
-let satisfyData = ref([])
-let count = 0
-function orderByTime(page) {
-    // 清空数组，只保留一个默认的日期
-    orderByTimeEssayDate.value = [];
-    //orderByTimeEssayDate整合数据
-    essayData.forEach(essay => {
-        count++
-        if (count > 10) {
-            count = 0
-            pageMax.value++
-        }
-        // 将 essay.updatedTime 转换为日期对象，并添加到数组
-        let updatedTime = new Date(essay.updatedTime)
-        let name = essay.name
-        let router = essay.router
-        let kind = essay.kind
-        let introduction = essay.introduction
-        let page = pageMax.value
-        orderByTimeEssayDate.value.push({ page, updatedTime, name, router, kind, introduction });
-    });
-    // 对日期数组进行排序
-    orderByTimeEssayDate.value.sort((a, b) => b.updatedTime - a.updatedTime);
-    //格式化日期并且实现分页
-    orderByTimeEssayDate.value.forEach(essay => {
-        let formattedDate = essay.updatedTime.toLocaleDateString('zh-CN', { year: 'numeric', month: 'numeric', day: 'numeric' });
-        essay.updatedTime = formattedDate
-    })
-}
-function paging(page) {
-    orderByTimeEssayDate.value.forEach(essay => {
-        if (essay.page == page) {
-            satisfyData.value.push(essay)
-        }
-    })
-}
-// 调用排序函数
-orderByTime();
-paging(1)
-function toEssay(r) {
-    console
-    router.push("essay" + r)
-}
-
-function toKind(r) {
-    router.push("classify/" + r.router.split("/")[1])
-}
-
-
-function changePage(p) {
-    satisfyData.value = []
-    paging(p)
-}
-
-</script>
 
 <style scoped>
 .essay {
@@ -128,3 +64,69 @@ function changePage(p) {
     color: black;
 }
 </style>
+<script setup>
+import { useStore } from "vuex"
+import { useRouter } from 'vue-router';
+import { ref } from "vue"
+
+const router = useRouter()
+const store = useStore()
+const essayData = store.state.essayData
+const orderByTimeEssayDate = ref([]);
+const pageMax = ref(1)
+let satisfyData = ref([])
+let count = 0
+function orderByTime(page) {
+    // 清空数组，只保留一个默认的日期
+    orderByTimeEssayDate.value = [];
+    //orderByTimeEssayDate整合数据
+    essayData.forEach(essay => {
+        count++
+        if (count > 10) {
+            count = 0
+            pageMax.value++
+        }
+        // 将 essay.updatedTime 转换为日期对象，并添加到数组
+        let createdTime = new Date(essay.createdTime)
+        let name = essay.name
+        let router = essay.router
+        let kind = essay.kind
+        let introduction = essay.introduction
+        let page = pageMax.value
+        orderByTimeEssayDate.value.push({ page, createdTime, name, router, kind, introduction });
+    });
+    // 对日期数组进行排序
+    orderByTimeEssayDate.value.sort((a, b) => b.createdTime - a.createdTime);
+    //格式化日期并且实现分页
+    orderByTimeEssayDate.value.forEach(essay => {
+        let formattedDate = essay.createdTime.toLocaleDateString('zh-CN', { year: 'numeric', month: 'numeric', day: 'numeric' });
+        essay.createdTime = formattedDate
+    })
+}
+function paging(page) {
+    orderByTimeEssayDate.value.forEach(essay => {
+        if (essay.page == page) {
+            satisfyData.value.push(essay)
+        }
+    })
+}
+// 调用排序函数
+orderByTime();
+paging(1)
+function toEssay(r) {
+    console
+    router.push("essay" + r)
+}
+
+function toKind(r) {
+    router.push("classify/" + r.router.split("/")[1])
+}
+
+
+function changePage(p) {
+    satisfyData.value = []
+    paging(p)
+}
+
+</script>
+

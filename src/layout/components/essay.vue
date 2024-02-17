@@ -5,9 +5,16 @@
             {{ satisfyData ? satisfyData.name : '' }}
         </span>
         <div class="subTitle">
-            <div class="flex justify-between  italic text-blue-500 my-5 " style="width: 100%;">
+            <div class="flex justify-between  items-center italic text-blue-500 my-5" style="width: 100%;">
                 <div>
-                    {{ satisfyData ? satisfyData.updatedTime.split("T").join(" ").split("Z")[0].split(" ")[0] : "" }}
+                    <div class="mb-5 text-green-600">
+                        创建于:{{ satisfyData ? satisfyData.updatedTime.split("T").join(" ").split("Z")[0].split(" ")[0] : ""
+                        }}
+                    </div>
+                    <div class="text-purple-700">
+                        更新于:{{ satisfyData ? satisfyData.createdTime.split("T").join(" ").split("Z")[0].split(" ")[0] : ""
+                        }}
+                    </div>
                 </div>
                 <div @click="toKind">
                     {{ satisfyData ? satisfyData.kind : "" }}
