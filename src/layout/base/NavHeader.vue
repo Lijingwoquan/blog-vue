@@ -147,7 +147,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 </template>
 
@@ -156,7 +155,6 @@ import NavAside from '~/layout/base/NavAside.vue';
 import { ref, reactive, onMounted, onBeforeMount, watch } from "vue"
 import { useStore } from 'vuex';
 import { useRouter, useRoute } from 'vue-router';
-
 import { ElMessageBox } from 'element-plus'
 import { toast } from '~/composables/util'
 
@@ -303,7 +301,7 @@ const openLogout = async () => {
         router.push("/login");
         toast("退出成功", "success");
     } catch (error) {
-        console.error("退出登录时发生错误:", error);
+        toast("退出失败", "success");
     }
 };
 

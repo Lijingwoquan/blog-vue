@@ -39,7 +39,7 @@
 }
 
 .essay .middle {
-    @apply flex;
+    @apply flex my-3;
     width: 100%;
 }
 

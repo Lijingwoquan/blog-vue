@@ -21,7 +21,7 @@
         </div>
     </div>
     <el-pagination background layout="prev, pager, next" :page-count="pageMax" @update:current-page="changePage"
-        class="mt-5 justify-center" />
+        class="page" />
 </template>
 
 
@@ -97,7 +97,7 @@ watch(() => route.fullPath, () => {
 
 
 .essay .middle {
-    @apply flex;
+    @apply flex my-3;
     width: 100%;
 }
 
@@ -119,6 +119,10 @@ watch(() => route.fullPath, () => {
 .essay .top .title {
     @apply text-2xl italic font-bold;
     color: black;
+}
+
+.page {
+    @apply mt-5 justify-center;
 }
 </style>
 

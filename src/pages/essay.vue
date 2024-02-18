@@ -19,6 +19,7 @@
     </el-row>
   </el-container>
 </template>
+
 <script setup>
 import NavHeader from '~/layout/base/NavHeader.vue';
 import NavAside from '~/layout/base/NavAside.vue';

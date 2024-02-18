@@ -44,6 +44,9 @@ export function addRouters(dataAboutIndexMenu) {
     const findAndAddRoutes = (arr) => {
         arr.forEach(element => {
             let classifyDetails = element.classifyDetails
+            if (classifyDetails == null) {
+                return
+            }
             classifyDetails.forEach(Details => {
                 let classifyPath = Details.router
                 let classify = {

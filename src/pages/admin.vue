@@ -4,16 +4,17 @@
             <classify></classify>
         </el-header>
         <el-row>
-            <el-col :span="6">
+            <el-col :span="1">
                 <el-aside>
                     <kind></kind>
                 </el-aside>
             </el-col>
-
-            <el-col :span="18">
+            <el-col :span="23">
                 <el-main>
                     <essay></essay>
                 </el-main>
+            </el-col>
+            <el-col :xs="0" :sm="2" :md="3" :lg="3" :xl="3">
             </el-col>
         </el-row>
     </el-container>
@@ -27,8 +28,14 @@ import essay from "../layout/admin/essay.vue";
 
 <style scoped>
 .el-header {
-    --el-header-height: auto;
+    --el-header-height: 40px;
+    left: 40px;
+    z-index: 100;
 }
 
-.el-aside {}
+
+.el-aside {
+    @apply bg-gray-500 bottom-0 top-0 fixed;
+    width: auto;
+}
 </style>

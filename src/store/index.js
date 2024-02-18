@@ -26,6 +26,9 @@ const store = createStore({
         let id = base.id
         let icon = base.icon
         state.classifyKind.push({ kind, id, icon })
+        if (base.classifyDetails == null) {
+          return
+        }
         base.classifyDetails.forEach((classifyDetails) => {
           let kind = classifyDetails.kind
           let router = classifyDetails.router
@@ -40,6 +43,9 @@ const store = createStore({
     },
     setEssayInfo(state, indexData) { //单独添加文章数据
       indexData.forEach((base) => {
+        if (base.classifyDetails == null) {
+          return
+        }
         base.classifyDetails.forEach((classifyDetails) => {
           let classifyRoute = classifyDetails.router
           let kind = classifyDetails.name

@@ -5,7 +5,7 @@
             {{ satisfyData ? satisfyData.name : '' }}
         </span>
         <div class="subTitle">
-            <div class="flex justify-between  items-center italic text-blue-500 my-5" style="width: 100%;">
+            <div>
                 <div>
                     <div class="mb-5 text-green-600">
                         创建于:{{ satisfyData ? satisfyData.updatedTime.split("T").join(" ").split("Z")[0].split(" ")[0] : ""
@@ -20,15 +20,40 @@
                     {{ satisfyData ? satisfyData.kind : "" }}
                 </div>
             </div>
-            <span class="mr-auto italic text-red-500">
-                {{ satisfyData ? satisfyData.introduction : "" }}
+            <span class="introduction">
+                简介:{{ satisfyData ? satisfyData.introduction : "" }}
             </span>
         </div>
-        <span v-html="satisfyData ? satisfyData.content : ''">
-        </span>
+    </div>
+    <div v-html="satisfyData ? satisfyData.content : ''">
     </div>
 </template>
-  
+
+
+<style scoped>
+.essay {
+    @apply flex flex-col justify-center items-center ml-5 mr-5;
+    margin-top: 35px;
+}
+
+.essay .name {
+    @apply text-2xl mr-auto italic font-bold;
+}
+
+.essay .subTitle {
+    @apply flex flex-col justify-center items-center mb-10;
+    width: 100%;
+}
+
+.subTitle>div {
+    @apply flex justify-between items-center italic text-blue-500 my-5;
+    width: 100%;
+}
+
+.introduction {
+    @apply mr-auto italic text-red-500;
+}
+</style>
 <script setup>
 import { useStore } from "vuex"
 import { useRoute, useRouter } from 'vue-router';
@@ -73,19 +98,3 @@ watch(() => route.fullPath, () => {
     getCurrentData()
 })
 </script>
-
-<style>
-.essay {
-    @apply flex flex-col justify-center items-center ml-5 mr-5;
-    margin-top: 35px;
-}
-
-.essay .name {
-    @apply text-2xl mr-auto italic font-bold;
-}
-
-.essay .subTitle {
-    @apply flex flex-col justify-center items-center mb-10;
-    width: 100%;
-}
-</style>
