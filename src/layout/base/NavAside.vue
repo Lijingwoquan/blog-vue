@@ -1,9 +1,8 @@
 <template>
     <div class="nav-aside">
         <el-menu unique-opened active-text-color="blue" :default-active="defaultActive" class="menu" @select="handleSelect">
-            <div v-for="(item, index) in menu" :key="item.id" :index="item.id">
-                <el-sub-menu v-if="Array.isArray(item.classifyDetails) && item.classifyDetails.length > 0"
-                    :index="item.id">
+            <div v-for="(item, index) in menu" :key="item.icon" :index="item.icon">
+                <el-sub-menu v-if="Array.isArray(item.classifyDetails) && item.classifyDetails.length > 0" :index="item.icon">
                     <template #title>
                         <el-icon>
                             <component :is="item.icon"></component>

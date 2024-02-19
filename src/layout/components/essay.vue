@@ -25,7 +25,7 @@
             </span>
         </div>
     </div>
-    <div v-html="satisfyData ? satisfyData.content : ''">
+    <div class="content" v-html="satisfyData ? satisfyData.content : ''">
     </div>
 </template>
 
@@ -37,7 +37,7 @@
 }
 
 .essay .name {
-    @apply text-2xl mr-auto italic font-bold;
+    @apply text-2xl m-auto italic font-bold sm:text-xl md:text-3xl lg:text-3xl xl:text-3xl 2xl:text-3xl;
 }
 
 .essay .subTitle {
@@ -53,7 +53,12 @@
 .introduction {
     @apply mr-auto italic text-red-500;
 }
+
+.content {
+    @apply md:text-xl lg:text-2xl xl:text-2xl xl:text-xl mx-3;
+}
 </style>
+
 <script setup>
 import { useStore } from "vuex"
 import { useRoute, useRouter } from 'vue-router';

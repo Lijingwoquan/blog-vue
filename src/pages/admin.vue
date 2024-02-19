@@ -23,7 +23,7 @@
 <script setup>
 import classify from "~/layout/admin/classify.vue"
 import kind from "~/layout/admin/kind.vue"
-import essay from "../layout/admin/essay.vue";
+import essay from "~/layout/admin/essay.vue";
 </script>
 
 <style scoped>

@@ -1,9 +1,14 @@
 import axios from "~/axios.js";
 import { toast } from '~/composables/util'
+export function login(username, password) {
+    return axios.post("/user/login", {
+        username,
+        password
+    })
+}
 
 // kind
 export function updateKind(id, name, icon) {
-    console.log(id)
     return new Promise((resolve, reject) => {
         axios.put("/manager/updateKind", {
             id,
@@ -80,6 +85,23 @@ export function deleteEssay(id) {
             });
     })
 }
+
+export function updateEssayContent(id, content) {
+    return new Promise((resolve, reject) => {
+        axios.put("/manager/updateEssayContent", {
+            id,
+            content
+        })
+            .then(res => {
+                toast("修改文章内容成功", "success")
+                resolve(res)
+            }).catch(err => {
+                toast("修改文章内容失败", "error")
+                reject(err)
+            })
+    })
+}
+
 
 export function addEssay(addEssayParms) {
     console.log(addEssayParms)

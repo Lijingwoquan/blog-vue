@@ -36,29 +36,25 @@
         <el-dialog v-model="dialogVisibleForAddKind" :v-close-on-click-modal="false" :show-close="true" append-to-body
             :draggable="true" width="70%">
             <div class="dialogForAddClassify">
-                <div class="container">
-                    <span class="pre">kind</span>
-                    <el-input v-model="classifyParms.kind" class="input">
-                    </el-input>
-                </div>
+                <span class="title">kind</span>
+                <el-select v-model="classifyParms.kind" class="input" placeholder="选择分类" size="large">
+                    <el-option v-for="item in classifiesKind" :key="item.kind" :label="item.kind" :value="item.kind" />
+                    <el-option label="自定义" value="" @click="customInputPre" />
+                </el-select>
+                <el-input v-if="customInput == true" v-model="classifyParms.kind" placeholder="输入分类"
+                    class="mt-5"></el-input>
 
-                <div class="container">
-                    <span class="pre">name</span>
-                    <el-input v-model="classifyParms.name" class="input">
-                    </el-input>
-                </div>
+                <span class="title">name</span>
+                <el-input v-model="classifyParms.name" class="input">
+                </el-input>
 
-                <div class="container">
-                    <span class="pre">router</span>
-                    <el-input v-model="classifyParms.router" class="input">
-                    </el-input>
-                </div>
+                <span class="title">router</span>
+                <el-input v-model="classifyParms.router" class="input">
+                </el-input>
 
-                <div class="container">
-                    <span class="pre">icon</span>
-                    <el-input v-model="classifyParms.icon" class="input">
-                    </el-input>
-                </div>
+                <span class="title">icon</span>
+                <el-input v-model="classifyParms.icon" class="input">
+                </el-input>
 
                 <el-button type="primary" size="default" @click="addClassify(classifyParms)" class="btn">提交</el-button>
             </div>
@@ -134,22 +130,13 @@
     @apply flex flex-col justify-center items-center;
 }
 
-.dialogForAddClassify .container {
-    @apply flex items-center;
+.dialogForAddClassify .title {
+    @apply mr-auto mt-3;
 }
 
-.container .input {
-    @apply my-2;
-}
-
-
-.container .pre {
-    @apply text-xl text-red-500 ml-auto;
-    width: 80px;
-}
 
 .dialogForAddClassify .btn {
-    @apply my-2;
+    @apply mt-4;
     width: 100%;
 }
 </style>
@@ -170,11 +157,18 @@ const classifyParms = reactive({
 const classifiesKind = store.state.classifyKind
 const classifies = store.state.classifyData
 const satisfyClassify = ref([])
+const customInput = ref(false)
 const dialogMenuForClassify = ref(false)
 const dialogVisibleForUpdateClassify = ref(false)
 const dialogVisibleForAddKind = ref(false)
+
+
 function openMenu() {
     dialogMenuForClassify.value = true
+}
+
+function customInputPre() {
+    customInput.value = true
 }
 
 function updateClassifyPre(kind) {
@@ -193,5 +187,6 @@ function updateClassifyPre(kind) {
 function addClassifyPre() {
     dialogVisibleForAddKind.value = true
 }
+
 </script>
 

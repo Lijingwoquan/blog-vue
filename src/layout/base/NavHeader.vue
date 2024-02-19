@@ -47,84 +47,6 @@
 
 
             <div class="nav-top-right">
-                <div class="icon-text ">
-                    <el-dropdown>
-                        <span class="icon-text-details">
-                            用户
-                            <el-icon>
-                                <arrow-down />
-                            </el-icon>
-                        </span>
-
-                        <template #dropdown>
-                            <el-dropdown-menu>
-                                <el-dropdown-item @click="openUpdateUserMsg">修改信息</el-dropdown-item>
-                                <el-dropdown-item @click="openLogout">退出登录</el-dropdown-item>
-                            </el-dropdown-menu>
-                        </template>
-                    </el-dropdown>
-
-                    <el-drawer v-model="dialog" title="修改用户信息" direction="rtl" append-to-body size="280px">
-                        <el-form ref="formRef" :model="form" :rules="rules" class="w-[250px]">
-                            <el-form-item prop="username">
-                                <el-input v-model="form.username">
-                                    <template #prefix>
-                                        <el-icon>
-                                            <user />
-                                        </el-icon>
-                                    </template>
-                                </el-input>
-                            </el-form-item>
-                            <el-form-item prop="email">
-                                <el-input v-model="form.email">
-                                    <template #prefix>
-                                        <el-icon>
-                                            <MessageBox />
-                                        </el-icon>
-                                    </template>
-                                </el-input>
-                            </el-form-item>
-                            <el-form-item prop="oldPassword" @click="cleanOldPassword">
-                                <el-input type="password" show-password v-model="form.oldPassword" autocomplete="off"
-                                    placeholder="旧密码">
-                                    <template #prefix>
-                                        <el-icon>
-                                            <lock />
-                                        </el-icon>
-                                    </template>
-                                </el-input>
-                            </el-form-item>
-
-                            <el-form-item prop="password">
-                                <el-input type="password" show-password v-model="form.password" autocomplete="off"
-                                    placeholder="新密码">
-                                    <template #prefix>
-                                        <el-icon>
-                                            <lock />
-                                        </el-icon>
-                                    </template>
-                                </el-input>
-                            </el-form-item>
-
-
-                            <el-form-item prop="rePassword">
-                                <el-input type="password" show-password v-model="form.rePassword" autocomplete="off"
-                                    placeholder="重复新密码">
-                                    <template #prefix>
-                                        <el-icon>
-                                            <lock />
-                                        </el-icon>
-                                    </template>
-                                </el-input>
-                            </el-form-item>
-
-                            <el-form-item>
-                                <el-button round type="primary" class="w-[250px]" :loading="loading"
-                                    @click="toUpdateUserMsg">修改信息</el-button>
-                            </el-form-item>
-                        </el-form>
-                    </el-drawer>
-                </div>
                 <div class="nav-top-right">
                     <div class="icon-text ">
                         <el-dropdown>
@@ -152,10 +74,9 @@
 
 <script setup>
 import NavAside from '~/layout/base/NavAside.vue';
-import { ref, reactive, onMounted, onBeforeMount, watch } from "vue"
+import { ref,  onMounted, onBeforeMount, watch } from "vue"
 import { useStore } from 'vuex';
 import { useRouter, useRoute } from 'vue-router';
-import { ElMessageBox } from 'element-plus'
 import { toast } from '~/composables/util'
 
 const dialogVisible = ref(false);
@@ -179,12 +100,10 @@ function toIndex() {
 function openSearch() {
     dialogVisible.value = true
 }
-//输入框
 const input = ref('')
-//搜索数据
 let getData = ref(false)
 let satisfyDate = ref([])
-//已完成
+
 function searchMsg() {
     satisfyDate.value = []
     essayData.forEach(essay => {
@@ -204,106 +123,7 @@ const gotoApointPath = (path) => {
     router.push("/essay" + path)
     dialogVisible.value = false
 }
-const loading = ref(false)
-//更新用户信息
-const userInfo = store.state.userInfo
-const form = reactive({
-    username: userInfo.username,
-    email: userInfo.email,
-    oldPassword: "",
-    password: "",
-    rePassword: "",
-})
-const validatePass = (rule, value, callback) => {
-    if (value === '') {
-        callback(new Error('请输入密码'))
-    } else {
-        if (form.rePassword !== '') {
-            if (!(form.value === form.rePassword)) {
-                callback(new Error("两次密码输入不相同"))
-            }
 
-        }
-        callback()
-    }
-}
-const validatePass2 = (rule, value, callback) => {
-    if (value === '') {
-        callback(new Error('请再次输入密码'))
-    } else if (value !== form.password) {
-        callback(new Error("两次密码输入不相同"))
-    } else {
-        callback()
-    }
-}
-const rules = {
-    username: [
-        { required: true, message: "用户名不能为空", trigger: "blur" }
-    ],
-    email: [
-        { required: true, message: "邮箱不能为空", trigger: "blur" }
-    ],
-    oldPassword: [
-        { required: true, message: "旧密码不能为空", trigger: "blur" }
-    ],
-    newPassword: [
-        { validator: validatePass, trigger: 'blur' },
-    ],
-    rePassword: [
-        { validator: validatePass2, trigger: 'blur' }
-    ],
-}
-let clean = ref(false)
-const cleanOldPassword = () => {
-    if (clean.value === false) {
-        form.oldPassword = null
-        clean.value = true
-    }
-
-}
-const formRef = ref(null)
-
-const dialog = ref(false)
-const openUpdateUserMsg = () => {
-    dialog.value = true
-}
-const toUpdateUserMsg = () => {
-    formRef.value.validate((valid) => {
-        if (!valid) {
-            return false
-        }
-        loading.value = true
-        store.dispatch("updateUserMsg", form).then(res => {
-            toast("修改信息成功", "success")
-            location.reload()
-        })
-            .finally(() => {
-                loading.value = false
-            })
-    })
-}
-
-const openLogout = async () => {
-    try {
-        await ElMessageBox.confirm(
-            '确定要退出登录?',
-            '退出登录',
-            {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning',
-            }
-        );
-
-        let username = store.state.userInfo.username;
-        console.log(username);
-        await store.dispatch("logout", username);
-        router.push("/login");
-        toast("退出成功", "success");
-    } catch (error) {
-        toast("退出失败", "success");
-    }
-};
 
 function onKeyUp(e) {
     if (e.key == "Enter" && dialogVisible.value == true) {
@@ -323,20 +143,21 @@ onBeforeMount(() => {
 
 <style scoped>
 .nav-top {
-    @apply flex flex-col justify-between items-center bg-blue-400 fixed top-0 left-0 right-0;
+    @apply flex flex-col justify-between items-center fixed top-0 left-0 right-0;
     z-index: 100;
-    height: 100px;
-}
-
-.nav-top .title {
-    @apply flex justify-center items-center text-xl bg-gray-400 font-bold font-serif;
-    width: 100%;
     height: 60px;
 }
 
-.nav-top .tool {
-    @apply flex justify-between items-center bg-blue-400 left-0 right-0;
+.nav-top .title {
+    @apply flex justify-center items-center bg-red-400 font-bold font-serif;
     width: 100%;
+    height: 25px;
+}
+
+.nav-top .tool {
+    @apply flex justify-between items-center bg-green-400 left-0 right-0;
+    width: 100%;
+    height: 35px;
 }
 
 .nav-top-left {

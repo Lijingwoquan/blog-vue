@@ -1,11 +1,10 @@
 import { createStore } from 'vuex';
-import { getIndexInfo, login, logout, updateUserMsg } from "~/api/user"
+import { getIndexInfo } from "~/api/user"
+import { login } from "~/api/manager.js"
 import { setToken, removeToken } from "~/composables/auth.js"
 const store = createStore({
   state() {
     return {
-      //用户信息
-      userInfo: {},
       //首页数据
       indexData: [],
       //分类种类
@@ -38,9 +37,6 @@ const store = createStore({
         })
       })
     },
-    setUserInfo(state, userInfo) { //添加用户数据
-      state.userInfo = userInfo
-    },
     setEssayInfo(state, indexData) { //单独添加文章数据
       indexData.forEach((base) => {
         if (base.classifyDetails == null) {
@@ -66,38 +62,12 @@ const store = createStore({
     login({ commit }, { username, password }) {
       return new Promise((resolve, reject) => {
         login(username, password).then(res => {
-          setToken(res)
+          setToken(res.token)
           resolve(res)
         }).catch(err => {
           reject(err)
         })
       })
-    },
-    updateUserMsg({ commit }, { username, password, rePassword, email }) {
-      return new Promise((resolve, reject) => {
-        updateUserMsg(username, password, rePassword, email).then(res => {
-          resolve(res)
-        }).catch(err => {
-          reject(err)
-        })
-      })
-    },
-    logout({ commit }, { username }) {
-      return new Promise((resolve, reject) => {
-        logout(username).then(res => {
-          //移除cookie里面的token
-          removeToken()
-          //清除当前用户状态
-          commit("setUserInfo", {})
-          commit("indexData", {})
-          commit("classifyData", {})
-          commit("essayData", {})
-          resolve(res)
-        }).catch(err => {
-          reject(err)
-        })
-      })
-
     },
     getIndexInfo({ commit }) {
       return new Promise((resolve, reject) => {
@@ -105,7 +75,6 @@ const store = createStore({
           commit("setIndexInfo", res.dataAboutIndexMenu)
           commit("setEssayInfo", res.dataAboutIndexMenu)
           commit("setClassify", res.dataAboutIndexMenu)
-          commit("setUserInfo", res.userInfo)
           resolve(res)
         }).catch(err => {
           removeToken()

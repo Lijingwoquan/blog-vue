@@ -27,9 +27,8 @@ import essay from '~/layout/components/essay.vue';
 </script>
   
 <style scoped>
-
 .el-header {
-  --el-header-height: 100px;
+  --el-header-height: 60px;
 }
 
 .el-main {

@@ -9,7 +9,7 @@
             <el-button type="primary" size="default" @click="recallParagraph" class="frist">撤回</el-button>
         </div>
 
-        <el-input v-model="paragraphInput" :autosize="{ minRows: 5, maxRows: 30 }" type="textarea" placeholder="添加段落" />
+        <el-input v-model="paragraphInput" :autosize="{ minRows: 5, maxRows: 24 }" type="textarea" placeholder="添加段落" />
         <div class="second">
             <el-button type="primary" size="default" @click="addText" class="btn">添加文字</el-button>
             <el-button type="primary" size="default" @click="addStress" class="btn">添加强调</el-button>
@@ -23,10 +23,11 @@
         <el-button type="primary" size="large" @click="addParagraph" class="fourth">添加段落</el-button>
         <div v-html="paragraph"></div>
     </el-drawer>
+
     <el-row>
         <el-col :span="6">
             <div>
-                <el-input v-model="input" :autosize="{ minRows: 5, maxRows: 30 }" type="textarea" placeholder="编辑" />
+                <el-input v-model="input" :autosize="{ minRows: 5, maxRows: 24 }" type="textarea" placeholder="编辑" />
                 <div class="aside">
                     <el-button type="primary" size="default" @click="recall" class="btn">撤回</el-button>
                 </div>
@@ -37,7 +38,12 @@
             </div>
             <el-drawer v-model="dialogForAddEssay" title="添加文章" direction="ttb" append-to-body size="700px">
                 分类
-                <el-input v-model="addEssayParms.kind" placeholder="分类" class="input" />
+                <el-select v-model="addEssayParms.kind" class="input" placeholder="选择分类">
+                    <el-option v-for="item in classifyArr" :key="item.name" :label="item.name" :value="item.name" />
+                    <el-option label="自定义" value="" @click="customInputPre" />
+                </el-select>
+                <el-input v-if="customInput == true" v-model="addEssayParms.kind" placeholder="输入分类"
+                    class="input"></el-input>
                 文章名
                 <el-input v-model="addEssayParms.name" placeholder="文章名" class="input" />
                 路由
@@ -48,8 +54,11 @@
                 <el-input placeholder="内容" disabled class="input" />
                 <el-button type="primary" size="large" style="width: 100%;" @click="add" class="btn">添加</el-button>
             </el-drawer>
+
+
         </el-col>
-        <el-col :span="1"></el-col>
+        <el-col :span="1">
+        </el-col>
         <el-col :span="17">
             <div v-html="edit"></div>
         </el-col>
@@ -57,6 +66,7 @@
 </template>
 
 <style scoped>
+
 .input {
     @apply my-3;
 }
@@ -106,17 +116,21 @@
 
 <script setup>
 import { ref, reactive } from "vue"
+import { useStore } from "vuex"
 import { addEssay } from "~/api/manager.js"
+
+const store = useStore()
+const classifyArr = store.state.classifyData
+
 const dialogParagraph = ref(false)
 const dialogForAddEssay = ref(false)
+const customInput = ref(false)
 
 const input = ref("")
 const paragraphInput = ref("")
 const link = ref("")
-const brefIntroduction = ref([])
 const edit = ref("")
 const paragraph = ref("")
-
 const editArr = ref([])
 const paragraphArr = ref([])
 
@@ -137,6 +151,9 @@ function recallParagraph() {
     paragraphArr.value.pop()
     paragraph.value = paragraphArr.value.join("")
 }
+function customInputPre() {
+    customInput.value = true
+}
 function addParagraphPre() {
     dialogParagraph.value = true
 }
@@ -144,7 +161,6 @@ function addParagraphPre() {
 function addTitle() {
     editArr.value.push("<span class='font-bold italic text-xl text-blue-600 ring'>" + input.value + "</span> ")
     edit.value = editArr.value.join("")
-    brefIntroduction.value.push("title")
 }
 
 function addText() {
@@ -156,20 +172,18 @@ function addStress() {
     paragraph.value = paragraphArr.value.join("")
 }
 function addParagraph() {
-    editArr.value.push("<div>" + paragraph.value + "</div>")
+    editArr.value.push("<div  class='ml-4 mt-2'>" + paragraph.value + "</div>")
     edit.value = editArr.value.join("")
-    brefIntroduction.value.push("paragraph")
+    paragraph.value = ""
 }
 
 function addCode() {
-    editArr.value.push("<div class='my-3 bg-black text-white'> <pre>" + input.value + " </pre></div>")
+    editArr.value.push("<div class='my-3 bg-black text-white overflow-y-auto overflow-x-auto px-3'> <pre>" + input.value + " </pre></div>")
     edit.value = editArr.value.join("")
-    brefIntroduction.value.push("coding")
 }
 function addLink() {
     paragraphArr.value.push("<a href='" + link.value + "'target='_blank' class='underline'>" + paragraphInput.value + "</a>")
     paragraph.value = paragraphArr.value.join("")
-    brefIntroduction.value.push("link")
 }
 function addEssayPre() {
     dialogForAddEssay.value = true

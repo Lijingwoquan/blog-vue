@@ -1,7 +1,4 @@
-<script setup>
-</script>
-
-<template>
+<template >
   <router-view></router-view>
   <footer class="register">
     <p class="text-sm">© 2024 罹景偓佺的博客 By 罹景.本站博客未经授权禁止转载. </p>

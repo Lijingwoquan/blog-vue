@@ -8,9 +8,10 @@ export function getToken() {
 }
 //设置token
 export function setToken(token) {
-    return cookie.set(tokenKey,token)
+    return cookie.set(tokenKey, token)
 }
 //移除token
 export function removeToken() {
     return cookie.remove(tokenKey)
 }
+

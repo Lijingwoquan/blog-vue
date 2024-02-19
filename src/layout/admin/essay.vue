@@ -40,9 +40,20 @@
                     <el-input v-model="essay.router" placeholder="文章路由" class="input2"></el-input>
                     <el-button type="primary" size="large" @click="updateEssay(essay)">修改信息</el-button>
                     <el-button type="primary" size="large" @click="deleted(essay.id)">删除文章</el-button>
-                    <el-button type="primary" size="large">修改内容</el-button>
+                    <el-button type="primary" size="large" @click="updateEssayContentPre(essay.id)">修改内容</el-button>
                 </li>
             </ul>
+        </el-dialog>
+    </template>
+
+    <template>
+        <el-dialog v-model="dialogForupdateEssayContent" :v-close-on-click-modal="true" :show-close="false" append-to-body
+            :draggable="true" width="80%">
+            <el-input v-model="essayContentOld" class="my-5" :autosize="{ minRows: 5, maxRows: 25 }" type="textarea"
+                placeholder="原文章内容" />
+            <el-input v-model="essayContent" class="my-5" :autosize="{ minRows: 5, maxRows: 25 }" type="textarea"
+                placeholder="添加文章内容" />
+            <el-button type="primary" style="width: 100%;" size="large" @click="updateEssayContent(ID, essayContent)">修改内容</el-button>
         </el-dialog>
     </template>
 </template>
@@ -53,12 +64,16 @@ import { useStore } from 'vuex';
 import { toast } from '~/composables/util'
 import { ElMessageBox } from 'element-plus'
 import essayEdit from '~/layout/components/essayEdit.vue';
-import { updateEssay, deleteEssay } from "~/api/manager.js"
-
+import { updateEssay, deleteEssay, updateEssayContent } from "~/api/manager.js"
+import { getEssayMsg } from "~/api/user.js"
 
 const store = useStore()
 const essayData = store.state.essayData
 const dialogVisible = ref(false)
+const dialogForupdateEssayContent = ref(false)
+const essayContent = ref("")
+const essayContentOld = ref("")
+const ID = ref(0)
 function openSearch() {
     dialogVisible.value = true
 }
@@ -104,7 +119,15 @@ const deleted = async (id) => {
         toast("删除文章失败", "warning");
     }
 };
-
+function updateEssayContentPre(id) {
+    dialogForupdateEssayContent.value = true
+    ID.value = id
+    getEssayMsg(id).then(res => {
+        essayContentOld.value = res.content
+    }).catch(err => {
+        console.log(err)
+    })
+}
 
 function onKeyUp(e) {
     if (e.key == "Enter" && dialogVisible.value == true) {

@@ -1,6 +1,6 @@
 <template>
     <el-backtop :right="30" :bottom="30" />
-    <div v-for="(essay, index) in satisfyData" class="essay" :key="index">
+    <div v-for="(essay, index) in satisfyData" class="essay" :key="essay.router">
         <div class="top" @click="toEssay(essay.router)">
             <el-link class="title" target="_self" type="info">{{
                 essay.name }}</el-link>
@@ -102,22 +102,22 @@ watch(() => route.fullPath, () => {
 }
 
 .middle .kind {
-    @apply text-yellow-600 mr-auto;
+    @apply text-yellow-600 mr-auto text-xl;
 }
 
 .middle .date {
-    @apply text-sm italic text-red-800 ml-auto;
+    @apply text-sm italic text-red-800 ml-auto text-xl;
 }
 
 
 .essay .bottom {
-    @apply flex justify-start my-3 text-sm;
+    @apply flex justify-start my-3;
     width: 100%;
     color: blue;
 }
 
 .essay .top .title {
-    @apply text-2xl italic font-bold;
+    @apply text-2xl italic font-bold m-auto;
     color: black;
 }
 
