@@ -50,7 +50,7 @@ const store = createStore({
             let router = classifyRoute + e.router
             let introduction = e.introduction
             let id = e.id
-            let createdTime = e.createdTime.split("T").join(" ").split("Z")[0].split(" ")[0]
+            let createdTime = e.createdTime.split("T").join(" ").split("Z")[0].split(" ")[0].replace(/-/g, "/")
             let page = e.page
             state.essayData.push({ name, router, introduction, kind, id, createdTime, page })
           })

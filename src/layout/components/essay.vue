@@ -12,7 +12,7 @@
                         }}
                     </div>
                     <div class="text-purple-700">
-                        更新于:{{ satisfyData ? satisfyData.createdTime.split("T").join(" ").split("Z")[0].split(" ")[0] : ""
+                        更新于:{{ satisfyData ? satisfyData.createdTime.split("T").join(" ").split("Z")[0].split(" ").join(" "): ""
                         }}
                     </div>
                 </div>

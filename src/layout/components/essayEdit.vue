@@ -49,7 +49,8 @@
             </div>
             <el-drawer v-model="dialogForFixContent" title="修改文章内容" direction="ttb" append-to-body size="700px">
                 <el-input v-model="EssayContent" :autosize="{ minRows: 5, maxRows: 30 }" type="textarea" placeholder="编辑" />
-                <el-button type="primary" size="large" @click="fixContent" class="my-3" style="width: 100%;">修改内容</el-button>
+                <el-button type="primary" size="large" @click="fixContent" class="my-3"
+                    style="width: 100%;">修改内容</el-button>
 
             </el-drawer>
 
@@ -179,14 +180,14 @@ function addLink() {
     paragraphInput.value = ""
 }
 function addParagraph() {
-    editArr.value.push("<div  class='ml-4 mt-2'>" + paragraph.value + "</div>")
+    editArr.value.push("<div  class='ml-3 mt-2'>" + paragraph.value + "</div>")
     edit.value = editArr.value.join("")
     paragraph.value = ""
 }
 
 function addCode() {
     input.value = input.value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    editArr.value.push("<div class='my-3  text-white px-3'><div class='bg-blue-50 text-green-500 py-3 px-3 text-sm'>代码示例</div> <pre class='bg-black  overflow-y-auto overflow-x-auto px-1'>" + input.value + "</pre></div>")
+    editArr.value.push("<div class='my-3 px-3'><div class='bg-blue-50 text-green-500 py-3 px-3 '>代码示例</div> <pre class='bg-black  text-white  overflow-y-auto overflow-x-auto px-3 text-sm'>" + input.value + "</pre></div>")
     edit.value = editArr.value.join("")
     input.value = ""
 }
