@@ -1,6 +1,8 @@
 import { useCookies } from '@vueuse/integrations/useCookies';
+import { useRouter } from 'vue-router'
 const tokenKey = "token"
 const cookie = useCookies()
+const router = useRouter()
 
 //获取token
 export function getToken() {

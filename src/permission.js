@@ -23,7 +23,7 @@ router.beforeEach(async (to, from, next) => {
         //防止重复登录
         if (token && to.path == "/login") {
             toast("请勿重复登录", "warning")
-            return next({ path: from.path ? from.path : "/" })
+            return next({ path: from.path ? from.path : "/admin/lzh" })
         }
     }
 
@@ -36,7 +36,7 @@ router.beforeEach(async (to, from, next) => {
         hasNewRoutes = addRouters(dataAboutIndexMenu)
     }
 
-    hasNewRoutes ? next(to.fullPath) : next();  
+    hasNewRoutes ? next(to.fullPath) : next();
 });
 
 router.afterEach((to, from) => {

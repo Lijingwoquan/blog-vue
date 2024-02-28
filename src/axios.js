@@ -1,11 +1,12 @@
 import axios from "axios";
-import store from "./store/index";
+import { useRouter } from 'vue-router';
 import { getToken } from "~/composables/auth.js"
 import { toast } from "~/composables/util"
+import { removeToken } from "~/composables/auth";
 const service = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_API,
 })
-
+const router = useRouter()
 
 // 添加请求拦截器
 service.interceptors.request.use(function (config) {
@@ -24,13 +25,13 @@ service.interceptors.request.use(function (config) {
 
 // 添加响应拦截器
 service.interceptors.response.use(function (response) {
-
   //对响应数据进行处理
   return response.data.data; //后续请求响应数据写起来更加优雅
 }, function (error) {
   const msg = error.response.data.msg || "请求失败"
-  if (msg == "需要登录") {
-    store.dispatch("logout").catch((err) => console.log(err)).finally(() => location.reload)
+  if (msg === "需要登录") {
+    removeToken()
+    location.reload()
   }
   toast(msg, "error",)
   return Promise.reject(error);
