@@ -6,12 +6,12 @@
         <el-button type="primary" size="default" @click="addCode">添加代码块</el-button>
         <el-button type="primary" size="default" @click="addPicturePre">添加图片</el-button>
         <el-dialog v-model="dialogAddPicture" title="添加图片" direction="ttb" append-to-body>
-            <div>
-                <el-input v-model="pictureLink" placeholder="添加图片链接" style="width: 48%;" />
-                <el-button type="primary" size="defult" @click="addPicture" class="ml-2 my-5"
-                    style="width: 48%;">添加图片</el-button>
-            </div>
-
+            <el-upload ref="upload" action="http://liuzihao.online:8080/api/manager/uploadImg" name="img"
+                :auto-upload="true" :on-success="addPicture">
+                <template #trigger>
+                    <el-button type="primary">选择图片</el-button>
+                </template>
+            </el-upload>
         </el-dialog>
     </div>
     <el-drawer v-model="dialogParagraph" title="添加段落" direction="ttb" append-to-body size="700px">
@@ -33,7 +33,6 @@
         <el-button type="primary" size="large" @click="addParagraph" class="fourth">添加段落</el-button>
         <div v-html="paragraph"></div>
     </el-drawer>
-
     <el-row>
         <el-col :span="6">
             <div>
@@ -48,7 +47,8 @@
                 <el-button type="primary" size="large" @click="fixContentPre" class="mx-5">修改内容</el-button>
             </div>
             <el-drawer v-model="dialogForFixContent" title="修改文章内容" direction="ttb" append-to-body size="700px">
-                <el-input v-model="EssayContent" :autosize="{ minRows: 5, maxRows: 30 }" type="textarea" placeholder="编辑" />
+                <el-input v-model="EssayContent" :autosize="{ minRows: 5, maxRows: 30 }" type="textarea"
+                    placeholder="编辑" />
                 <el-button type="primary" size="large" @click="fixContent" class="my-3"
                     style="width: 100%;">修改内容</el-button>
 
@@ -90,7 +90,6 @@
 import { ref, reactive } from "vue"
 import { useStore } from "vuex"
 import { addEssay } from "~/api/manager.js"
-
 const store = useStore()
 const classifyArr = store.state.classifyData
 
@@ -99,19 +98,21 @@ const dialogForAddEssay = ref(false)
 const dialogForFixContent = ref(false)
 const customInput = ref(false)
 const dialogAddPicture = ref(false)
+const upload = ref(false)
 
 const input = ref("")
 const paragraphInput = ref("")
 const link = ref("")
 const edit = ref("")
 const paragraph = ref("")
-const pictureLink = ref("")
 
 const editArr = ref([])
 const EssayContent = ref("")
 const paragraphArr = ref([])
 const titleSumArry = ref(["Ⅰ", "Ⅱ", "Ⅲ", "Ⅳ", "Ⅴ", "Ⅵ", "Ⅶ", "Ⅷ", "Ⅸ", "Ⅹ", "XI", "XⅡ", "XⅢ", "XⅣ", "XⅤ", "XⅥ", "XⅦ", "XⅧ", "XⅨ", "XⅩ", "XⅩ", "XⅩI", "XⅩⅡ", "XⅩⅢ", "XⅩⅣ", "XⅩⅤ", "XⅩⅥ", "XⅩⅦ", "XⅩⅧ", "XⅩⅨ", "XⅩⅩ"])
 const titleSum = ref(0)
+const imgUrllist = ref([])
+
 
 const addEssayParms = reactive({
     name: "",
@@ -151,7 +152,6 @@ function fixContent() {
 }
 function addPicturePre() {
     dialogAddPicture.value = true
-
 }
 function addTitle() {
     editArr.value.push("<div title class='font-bold  text-2xl text-red-600  my-2'>" + titleSumArry.value[titleSum.value] + " " + input.value + "</div> ")
@@ -192,19 +192,24 @@ function addCode() {
     input.value = ""
 }
 
-function addPicture() {
-    editArr.value.push("<div class='mx-auto'><img  src=' " + pictureLink.value + "'/> </div>")
+function addPicture(request, file) {
+    imgUrllist.value.push("http://liuzihao.online:8080/img/" + file.name) // 将图片的URL赋值给imageUrl用于预览
+    editArr.value.push("<div class='mx-auto my-3 px-3'><img  src='" + imgUrllist.value[imgUrllist.value.length - 1] + "'/> </div>")
     edit.value = editArr.value.join("")
-    input.value = ""
 }
+
 
 
 function addEssayPre() {
     dialogForAddEssay.value = true
 }
+
+
 function add() {
     addEssayParms.content = edit.value
-    addEssay(addEssayParms)
+    if (imgUrllist.value.length > 0) {
+        upload.value.submit()
+    } addEssay(addEssayParms)
 }
 </script>
 
