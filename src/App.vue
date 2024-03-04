@@ -1,4 +1,4 @@
-<template >
+<template>
   <router-view></router-view>
   <footer class="register">
     <a class="text-sm" target="_blank" href="https://github.com/liuzihao520">© 2024 罹景偓佺的博客 By 罹景.本站博客未经授权禁止转载. </a>

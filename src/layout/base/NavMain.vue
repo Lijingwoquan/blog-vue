@@ -1,8 +1,7 @@
 <template>
-    <el-backtop :right="30" :bottom="30" />
-    <div v-for="(essay, index) in satisfyData" class="essay" :key="essay.router" >
+    <div v-for="(essay, index) in satisfyData" class="essay" :key="essay.router">
         <div class="top" @click="toEssay(essay.router)">
-            <span class="title">{{essay.name }}</span>
+            <span class="title">{{ essay.name }}</span>
         </div>
         <div class="middle">
             <div class="kind" @click="toKind(essay)">
@@ -15,15 +14,17 @@
         </div>
 
         <div class="bottom" @click="toEssay(essay.router)">
-            <el-text truncated>
+            <el-text truncated class="text-green-500">
                 {{ essay.introduction }}
             </el-text>
         </div>
+        <el-divider border-style="dotted" />
+
     </div>
     <el-pagination background layout="prev, pager, next" :page-count="pageMax" @update:current-page="changePage"
         class="mt-5 justify-center" />
 </template>
-  
+
 
 
 <style scoped>
@@ -43,26 +44,26 @@
 }
 
 .middle .kind {
-    @apply text-yellow-600 mr-auto text-xl;
+    @apply text-purple-700 mr-auto text-xl font-mono;
 }
 
 .middle .date {
-    @apply text-sm italic text-red-800 ml-auto text-xl;
+    @apply text-sm font-mono text-red-800 ml-auto text-xl text-purple-700;
 }
 
 
 
 .essay .bottom {
-    @apply flex justify-start my-3;
+    @apply flex justify-start my-3 font-sans;
     width: 100%;
-    color: blue;
 }
 
 .essay .top .title {
-    @apply italic font-bold  m-auto  text-2xl;
+    @apply italic font-bold font-serif m-auto text-2xl;
     color: black;
 }
 </style>
+
 <script setup>
 import { useStore } from "vuex"
 import { useRouter } from 'vue-router';
@@ -92,15 +93,16 @@ function orderByTime(page) {
         let kind = essay.kind
         let introduction = essay.introduction
         let page = pageMax.value
-        orderByTimeEssayDate.value.push({ page, createdTime, name, router, kind, introduction });
+        // 格式化日期
+        let year = createdTime.getFullYear().toString();
+        let month = (createdTime.getMonth() + 1).toString().padStart(2, '0');
+        let day = createdTime.getDate().toString().padStart(2, '0');
+        let formattedDate = `${year}/${month}/${day}`;
+
+        orderByTimeEssayDate.value.push({ page, createdTime: formattedDate, name, router, kind, introduction });
     });
     // 对日期数组进行排序
-    orderByTimeEssayDate.value.sort((a, b) => b.createdTime - a.createdTime);
-    //格式化日期并且实现分页
-    orderByTimeEssayDate.value.forEach(essay => {
-        let formattedDate = essay.createdTime.toLocaleDateString('zh-CN', { year: 'numeric', month: 'numeric', day: 'numeric' });
-        essay.createdTime = formattedDate
-    })
+    orderByTimeEssayDate.value.sort((a, b) => new Date(b.createdTime) - new Date(a.createdTime));
 }
 function paging(page) {
     orderByTimeEssayDate.value.forEach(essay => {
@@ -121,11 +123,9 @@ function toKind(r) {
     router.push("classify/" + r.router.split("/")[1])
 }
 
-
 function changePage(p) {
     satisfyData.value = []
     paging(p)
 }
 
 </script>
-

@@ -24,5 +24,7 @@ export default defineConfig({
     vue(),
     WindiCSS(),
   ],
-
+  optimizeDeps: {
+    include: ['@kangc/v-md-editor/lib/theme/vuepress.js'],
+  },
 })

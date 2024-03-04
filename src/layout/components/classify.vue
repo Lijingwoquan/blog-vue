@@ -1,5 +1,4 @@
 <template>
-    <el-backtop :right="30" :bottom="30" />
     <div v-for="(essay, index) in satisfyData" class="essay" :key="essay.router">
         <div class="top" @click="toEssay(essay.router)">
             <el-link class="title" target="_self" type="info">{{
@@ -15,11 +14,13 @@
             </span>
         </div>
         <div class="bottom" @click="toEssay(essay.router)">
-            <el-text truncated>
+            <el-text truncated class="text-blue-500">
                 {{ essay.introduction }}
             </el-text>
         </div>
+        <el-divider border-style="dotted" />
     </div>
+
     <el-pagination background layout="prev, pager, next" :page-count="pageMax" @update:current-page="changePage"
         class="page" />
 </template>
@@ -102,22 +103,21 @@ watch(() => route.fullPath, () => {
 }
 
 .middle .kind {
-    @apply text-yellow-600 mr-auto text-xl;
+    @apply text-yellow-600 font-mono mr-auto text-xl text-purple-700;
 }
 
 .middle .date {
-    @apply text-sm italic text-red-800 ml-auto text-xl;
+    @apply text-sm font-mono text-red-800 ml-auto text-xl text-purple-700;
 }
 
 
-.essay .bottom {
-    @apply flex justify-start my-3;
+.bottom {
+    @apply flex justify-start my-3 font-sans text-blue-500;
     width: 100%;
-    color: blue;
 }
 
 .essay .top .title {
-    @apply text-2xl italic font-bold m-auto;
+    @apply text-2xl italic font-serif font-bold m-auto;
     color: black;
 }
 

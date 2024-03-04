@@ -25,7 +25,6 @@ export function updateKind(id, name, icon) {
     })
 }
 
-
 // classify
 export function updateClassify(id, name, router) {
     return new Promise((resolve, reject) => {
@@ -86,6 +85,19 @@ export function deleteEssay(id) {
     })
 }
 
+export function uploadImg(file) {
+    return new Promise((resolve, reject) => {
+        axios.post("/manager/uploadImg",file)
+            .then(res => {
+                toast("上传图片成功","success")
+                resolve(res);
+            })
+            .catch(err => {
+                reject(err);
+            });
+    })
+
+}
 export function updateEssayContent(id, content) {
     return new Promise((resolve, reject) => {
         axios.put("/manager/updateEssayContent", {
@@ -101,7 +113,6 @@ export function updateEssayContent(id, content) {
             })
     })
 }
-
 
 export function addEssay(addEssayParms) {
     console.log(addEssayParms)

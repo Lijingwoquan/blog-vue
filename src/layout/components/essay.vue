@@ -1,5 +1,4 @@
 <template>
-    <el-backtop :right="30" :bottom="30" />
     <div class="essay">
         <span class="name">
             {{ satisfyData ? satisfyData.name : '' }}
@@ -7,13 +6,15 @@
         <div class="subTitle">
             <div>
                 <div>
-                    <div class="mb-5 text-green-600">
-                        创建于:{{ satisfyData ? satisfyData.updatedTime.split("T").join(" ").split("Z")[0].split(" ")[0] : ""
+                    <div class="mb-5 text-purple-700">
+                        创建于:
+                        {{ satisfyData ? satisfyData.updatedTime.split("T").join(" ").split("Z")[0].split(" ")[0] : ""
                         }}
                     </div>
                     <div class="text-purple-700">
-                        更新于:{{ satisfyData ? satisfyData.createdTime.split("T").join(" ").split("Z")[0].split(" ").join(" "): ""
-                        }}
+                        更新于:
+                        {{ satisfyData ? satisfyData.createdTime.split("T").join(" ").split("Z")[0]
+        .split("").join("") : "" }}
                     </div>
                 </div>
                 <div @click="toKind">
@@ -25,45 +26,42 @@
             </span>
         </div>
     </div>
-    <div class="content" v-html="satisfyData ? satisfyData.content : ''">
+
+    <div v-if="satisfyData && satisfyData.content">
+        <v-md-editor @copy-code-success="handleCopyCodeSuccess" v-model="satisfyData.content" height="850px"
+            mode="preview" />
     </div>
+    <div v-else>
+        <p>Loading...</p> <!-- 或者其他加载提示 -->
+    </div>
+
 </template>
 
 
-<style scoped>
-.essay {
-    @apply flex flex-col justify-center items-center ml-5 mr-5;
-    margin-top: 35px;
-}
-
-.essay .name {
-    @apply text-2xl m-auto italic font-bold sm:text-xl md:text-3xl lg:text-3xl xl:text-3xl 2xl:text-3xl;
-}
-
-.essay .subTitle {
-    @apply flex flex-col justify-center items-center mb-10;
-    width: 100%;
-}
-
-.subTitle>div {
-    @apply flex justify-between items-center italic text-blue-500 my-5;
-    width: 100%;
-}
-
-.introduction {
-    @apply mr-auto italic text-red-500;
-}
-
-.content {
-    @apply md:text-xl lg:text-2xl xl:text-2xl xl:text-xl mx-3;
-}
-</style>
 
 <script setup>
 import { useStore } from "vuex"
 import { useRoute, useRouter } from 'vue-router';
 import { ref, watch } from 'vue';
 import { getEssayMsg } from "~/api/user.js"
+import VueMarkdownEditor from '@kangc/v-md-editor';
+import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index';
+import createCopyCodePlugin from '@kangc/v-md-editor/lib/plugins/copy-code/index';
+import '@kangc/v-md-editor/lib/plugins/copy-code/copy-code.css';
+import '@kangc/v-md-editor/lib/style/base-editor.css';
+import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
+import '@kangc/v-md-editor/lib/theme/style/github.css';
+// 引入所有语言包
+import hljs from 'highlight.js';
+
+
+VueMarkdownEditor.use(githubTheme, {
+    Hljs: hljs,
+});
+VueMarkdownEditor.use(createLineNumbertPlugin());
+VueMarkdownEditor.use(createCopyCodePlugin());
+
+
 const store = useStore()
 const route = useRoute()
 const router = useRouter()
@@ -103,3 +101,41 @@ watch(() => route.fullPath, () => {
     getCurrentData()
 })
 </script>
+
+
+<style scoped>
+.essay {
+    @apply flex flex-col justify-center items-center ;
+    margin-top: 20px;
+}
+
+.essay .name {
+    @apply text-2xl m-auto italic font-serif font-bold sm:text-xl md:text-3xl lg:text-3xl xl:text-3xl 2xl:text-3xl;
+}
+
+.essay .subTitle {
+    @apply flex flex-col justify-center items-center mb-10 font-mono;
+    width: 100%;
+}
+
+.subTitle>div {
+    @apply flex justify-between items-center italic text-purple-700 my-5;
+    width: 100%;
+}
+
+.introduction {
+    @apply mr-auto italic text-pink-500 font-sans;
+}
+
+.content {
+    @apply md:text-xl lg:text-2xl xl:text-2xl xl:text-xl mx-3;
+}
+
+:deep(.v-md-editor__main) {
+    overflow: unset !important;
+}
+
+:deep(.github-markdown-body) {
+    padding: 5px;
+}
+</style>
