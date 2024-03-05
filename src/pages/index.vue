@@ -1,7 +1,7 @@
 <template>
-    <el-backtop :right="30" :bottom="30" />
+  <el-backtop :right="30" :bottom="30" />
   <el-container>
-    <el-header>
+    <el-header >
       <nav-header></nav-header>
     </el-header>
     <el-row>
@@ -12,7 +12,7 @@
       </el-col>
       <el-col :xs="24" :sm="14" :md="14" :lg="14" :xl="14">
         <el-main>
-            <Index></Index>
+          <Index></Index>
         </el-main>
       </el-col>
       <el-col :xs="0" :sm="5" :md="5" :lg="5" :xl="5">
@@ -40,9 +40,7 @@ import Index from '~/layout/components/index.vue';
 
 .el-aside {
   width: 110px;
-  top:60px;
+  top: 60px;
 
 }
-
-
 </style>

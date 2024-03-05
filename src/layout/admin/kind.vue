@@ -33,7 +33,7 @@ function openMenu() {
 }
 </script>
 
-<style>
+<style scoped>
 .aside {
     @apply flex flex-col justify-center items-center;
     height: 100%;

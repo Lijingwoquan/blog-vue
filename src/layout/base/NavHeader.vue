@@ -1,7 +1,6 @@
 <template>
-    <div class="container">
+    <div class="Headercontainer">
         <div class="left">
-            
             <el-icon class="logoHouse" @click="toIndex">
                 <House />
             </el-icon>
@@ -9,7 +8,7 @@
                 <Expand />
             </el-icon>
 
-            <el-drawer v-model="dialogMenu" title="菜单" direction="ltr" append-to-body size="200px">
+            <el-drawer v-model="dialogMenu" title="菜单" direction="ltr" class="bg-light-800" append-to-body size="200px">
                 <nav-aside></nav-aside>
             </el-drawer>
         </div>
@@ -40,56 +39,68 @@
                 </template>
             </el-dropdown>
         </div>
+
+
+        <template>
+            <el-dialog v-model="dialogVisible" :v-close-on-click-modal="true" :show-close="false" append-to-body
+                :draggable="true" width="80%">
+                <el-input v-model="input" placeholder="搜索文档" class="input">
+                    <template #prefix>
+                        <el-icon class="mx-2">
+                            <search />
+                        </el-icon>
+                    </template>
+
+                    <template #suffix>
+                        <el-button type="primary" @click="searchMsg">搜索</el-button>
+                    </template>
+                </el-input>
+                <ul v-if="getData">
+                    <li v-for="(essay, index) in satisfyDate" class="dateShow" @click="gotoApointPath(essay.path)">
+                        <div class="ml-10">文章:{{ essay.name }}</div>
+                        <div class="mr-10">分类:{{ essay.kind }}</div>
+                    </li>
+                </ul>
+            </el-dialog>
+        </template>
+
     </div>
-
-    <template>
-        <el-dialog v-model="dialogVisible" :v-close-on-click-modal="true" :show-close="false" append-to-body
-            :draggable="true" width="80%">
-            <el-input v-model="input" placeholder="搜索文档" class="input">
-                <template #prefix>
-                    <el-icon class="mx-2">
-                        <search />
-                    </el-icon>
-                </template>
-
-                <template #suffix>
-                    <el-button type="primary" @click="searchMsg">搜索</el-button>
-                </template>
-            </el-input>
-            <ul v-if="getData">
-                <li v-for="(essay, index) in satisfyDate" class="dateShow" @click="gotoApointPath(essay.path)">
-                    <div class="ml-10">文章:{{ essay.name }}</div>
-                    <div class="mr-10">分类:{{ essay.kind }}</div>
-                </li>
-            </ul>
-        </el-dialog>
-    </template>
 </template>
 
 
 <style scoped>
-.container {
+.Headercontainer {
     @apply flex justify-around items-center fixed top-0 left-0 right-0;
     z-index: 100;
     height: 60px;
     background-color: rgba(165, 162, 183, 0.297);
 }
 
-.container .middle {
-    @apply flex justify-center items-center font-bold font-serif;
+
+.Headercontainer .middle {
+    @apply flex flex justify-center items-center  text-sm font-bold font-serif;
     width: 100%;
-    height: 9px;
 }
-.container .left{
+
+.Headercontainer .left {
     @apply flex justify-center items-center;
-    
+
+}
+
+.Headercontainer .left .logoHouse {
+    @apply text-xl mx-2;
+    height: auto;
+}
+.Headercontainer .left .logoExpand {
+    @apply text-xl mr-2;
+    height: auto;
 }
 .right {
-    @apply flex justify-center items-center;
+    @apply flex justify-center items-center left-0 right-0;
 }
 
 .right .search {
-    @apply  flex justify-center items-center mx-4;
+    @apply flex justify-center items-center mr-2;
 }
 
 .right .help {
@@ -102,7 +113,7 @@
 }
 
 .right .help .icon {
-    @apply mx-2;
+    @apply mr-2;
 }
 
 .search:hover {
@@ -110,15 +121,6 @@
     /* 悬停时改变边框颜色 */
 }
 
-.logoExpand {
-    @apply text-xl mx-5;
-    height: auto;
-}
-
-.logoHouse {
-    @apply text-xl mx-5;
-    height: auto;
-}
 
 .input {
     height: 50px;
@@ -130,12 +132,6 @@
     height: 50px;
 }
 
-
-
-
-.el-dialog__headerbtn {
-    display: none;
-}
 
 :deep(.el-dialog__header) {
     padding: 0px !important;
@@ -149,14 +145,8 @@
 </style>
 
 
-
-
-
-
-
 <script setup>
 import NavAside from '~/layout/base/NavAside.vue';
-import NavAsideForMobile from '~/layout/base/NavAsideForMobile.vue';
 
 import { ref, onMounted, onBeforeMount, watch } from "vue"
 import { useStore } from 'vuex';

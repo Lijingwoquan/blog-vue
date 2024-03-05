@@ -19,6 +19,7 @@
                         <search />
                     </el-icon>
                 </template>
+
                 <template #suffix>
                     <el-button type="primary" @click="searchMsg">搜索</el-button>
                 </template>
@@ -47,13 +48,14 @@
     </template>
 
     <template>
-        <el-dialog v-model="dialogForupdateEssayContent" :v-close-on-click-modal="true" :show-close="false" append-to-body
-            :draggable="true" width="80%">
+        <el-dialog v-model="dialogForupdateEssayContent" :v-close-on-click-modal="true" :show-close="false"
+            append-to-body :draggable="true" width="80%">
             <el-input v-model="essayContentOld" class="my-5" :autosize="{ minRows: 5, maxRows: 25 }" type="textarea"
                 placeholder="原文章内容" />
             <el-input v-model="essayContent" class="my-5" :autosize="{ minRows: 5, maxRows: 25 }" type="textarea"
                 placeholder="添加文章内容" />
-            <el-button type="primary" style="width: 100%;" size="large" @click="updateEssayContent(ID, essayContent)">修改内容</el-button>
+            <el-button type="primary" style="width: 100%;" size="large"
+                @click="updateEssayContent(ID, essayContent)">修改内容</el-button>
         </el-dialog>
     </template>
 </template>
@@ -146,7 +148,7 @@ onBeforeMount(() => {
 
 <style scoped>
 .top {
-    @apply flex justify-between;
+    @apply flex justify-between items-center mb-5;
 }
 
 .search {

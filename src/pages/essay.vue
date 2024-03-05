@@ -30,7 +30,6 @@ import notice from '~/layout/components/notice.vue';
 </script>
 
 <style scoped>
-
 .el-header {
   --el-header-height: 60px;
 }

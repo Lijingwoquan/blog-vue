@@ -27,11 +27,11 @@ import essay from "~/layout/admin/essay.vue";
 </script>
 
 <style scoped>
-.el-header {
+/* .el-header {
     --el-header-height: 40px;
     left: 40px;
     z-index: 100;
-}
+} */
 
 
 .el-aside {
