@@ -1,13 +1,17 @@
 <template>
     <!-- 底部 -->
-    <div class="bottom-3 fixed">
-        <el-button type="primary" size="large" @click="addEssayPre" class="mx-5">添加文章</el-button>
-        <el-button type="primary" size="large" @click="fixContentPre" class="mx-5">修改内容</el-button>
+    <div class="bottom">
+        <el-button type="primary" size="large" @click="addEssayPre" class="btn">添加文章</el-button>
+        <el-button type="primary" size="large" @click="fixContentPre" class="btn">修改内容</el-button>
     </div>
+
+    <!-- 修改文章内容的抽屉 -->
     <el-drawer v-model="dialogForFixContent" title="修改文章内容" direction="ttb" append-to-body size="700px">
         <el-input v-model="EssayContent" :autosize="{ minRows: 5, maxRows: 30 }" type="textarea" placeholder="编辑" />
         <el-button type="primary" size="large" @click="fixContent" class="my-3" style="width: 100%;">修改内容</el-button>
     </el-drawer>
+
+    <!-- 添加文章的抽屉 -->
     <el-drawer v-model="dialogForAddEssay" title="添加文章" direction="ttb" append-to-body size="700px">
         分类
         <el-select v-model="addEssayParms.kind" class="input" placeholder="选择分类">
@@ -25,6 +29,7 @@
         <el-input placeholder="内容" disabled class="input" />
         <el-button type="primary" size="large" style="width: 100%;" @click="add" class="btn">添加</el-button>
     </el-drawer>
+
     <!-- 富文本编辑器 -->
     <v-md-editor v-model="edit" height="850px" @upload-image="handleUploadImage" :disabled-menus="[]"
        />
@@ -43,8 +48,6 @@ import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
 import '@kangc/v-md-editor/lib/theme/style/github.css';
 // 引入所有语言包
 import hljs from 'highlight.js';
-
-
 VueMarkdownEditor.use(githubTheme, {
     Hljs: hljs,
 });
@@ -109,5 +112,11 @@ function add() {
 <style scoped>
 .input {
     @apply my-3;
+}
+.bottom{
+    @apply bottom-3 fixed;
+}
+.bottom .btn{
+    @apply mx-3;
 }
 </style>

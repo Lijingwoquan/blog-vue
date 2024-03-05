@@ -4,12 +4,12 @@
       <nav-header></nav-header>
     </el-header>
     <el-row>
-      <el-col :xs="0" :sm="3" :md="3" :lg="3" :xl="3">
+      <el-col :xs="0" :sm="5" :md="5" :lg="5" :xl="5">
         <el-aside>
           <nav-aside class="hidden-xs-only"></nav-aside>
         </el-aside>
       </el-col>
-      <el-col :xs="24" :sm="16" :md="16" :lg="16" :xl="16">
+      <el-col :xs="24" :sm="14" :md="14" :lg="14" :xl="14">
         <el-main  class="m-2">
           <essay></essay>
         </el-main>
@@ -30,6 +30,7 @@ import notice from '~/layout/components/notice.vue';
 </script>
 
 <style scoped>
+
 .el-header {
   --el-header-height: 60px;
 }
@@ -38,8 +39,9 @@ import notice from '~/layout/components/notice.vue';
   padding: 0;
 }
 
-.el-aside {
+:deep(.el-aside) {
   width: 110px;
+  top:60px;
 }
 
 .right {

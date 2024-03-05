@@ -14,7 +14,7 @@
         </div>
 
         <div class="bottom" @click="toEssay(essay.router)">
-            <el-text truncated class="text-green-500">
+            <el-text truncated class="introduction">
                 {{ essay.introduction }}
             </el-text>
         </div>
@@ -22,12 +22,13 @@
 
     </div>
     <el-pagination background layout="prev, pager, next" :page-count="pageMax" @update:current-page="changePage"
-        class="mt-5 justify-center" />
+    class="page" />
 </template>
 
 
 
 <style scoped>
+
 .essay {
     @apply flex flex-col justify-center items-center mt-5 ml-5 mr-5;
     height: auto;
@@ -38,29 +39,36 @@
     width: 100%;
 }
 
+.essay .top .title {
+    @apply text-4xl  font-serif font-bold m-auto;
+    color: black;
+}
+
+
 .essay .middle {
     @apply flex my-3;
     width: 100%;
 }
 
 .middle .kind {
-    @apply text-purple-700 mr-auto text-xl font-mono;
+    @apply text-2xl font-mono mr-auto  text-purple-700;
 }
 
 .middle .date {
-    @apply text-sm font-mono text-red-800 ml-auto text-xl text-purple-700;
+    @apply text-2xl font-mono  ml-auto text-purple-700;
 }
 
 
-
-.essay .bottom {
-    @apply flex justify-start my-3 font-sans;
+.bottom {
+    @apply flex justify-start my-3;
     width: 100%;
 }
+.bottom .introduction{
+    @apply  font-sans text-pink-500;
+}
 
-.essay .top .title {
-    @apply italic font-bold font-serif m-auto text-2xl;
-    color: black;
+.page {
+    @apply mt-5 justify-center;
 }
 </style>
 

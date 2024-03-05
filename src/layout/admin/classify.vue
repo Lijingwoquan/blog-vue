@@ -6,10 +6,10 @@
             </el-icon>
         </div>
     </div>
-
-
+    
+    <!-- 下拉菜单 -->
     <el-drawer v-model="dialogMenuForClassify" title="classify菜单" direction="ttb" append-to-body size="500px">
-        <div class="top">
+        <div class="container">
             <div>
                 <span>修改分类相关信息</span>
                 <el-button type="primary" size="default" @click="addClassifyPre" class="btn">
@@ -19,11 +19,11 @@
                     </el-icon>
                 </el-button>
             </div>
-            <div class="classify">
+            <div class="fix">
                 <el-space wrap>
                     <div v-for="(classify, index) in classifiesKind">
                         <el-button type="primary" size="default" @click="updateClassifyPre(classify.kind)"
-                            class="classifyKind">
+                            class="list">
                             {{ classify.kind }}
                         </el-button>
                     </div>
@@ -32,12 +32,13 @@
         </div>
     </el-drawer>
 
+    <!-- 添加分类窗口 -->
     <template>
         <el-dialog v-model="dialogVisibleForAddKind" :v-close-on-click-modal="false" :show-close="true" append-to-body
             :draggable="true" width="70%">
             <div class="dialogForAddClassify">
                 <span class="title">kind</span>
-                <el-select v-model="classifyParms.kind" class="input" placeholder="选择分类" size="large">
+                <el-select v-model="classifyParms.kind" class="input" placeholder="选择分类">
                     <el-option v-for="item in classifiesKind" :key="item.kind" :label="item.kind" :value="item.kind" />
                     <el-option label="自定义" value="" @click="customInputPre" />
                 </el-select>
@@ -62,6 +63,7 @@
         </el-dialog>
     </template>
 
+    <!-- 添加修改分类窗口 -->
     <template>
         <el-dialog v-model="dialogVisibleForUpdateClassify" :v-close-on-click-modal="true" :show-close="true" append-to-body
             :draggable="true" width="70%">
@@ -84,11 +86,16 @@
 
 
 <style scoped>
+.input{
+    height: 35px;
+}
+
 .menu {
-    @apply fixed bg-red-500;
+    @apply fixed;
     left: 40px;
     right: 0px;
     height: 40px;
+    background-color: rgba(130, 120, 194, 0.297);
 }
 
 .menu>div {
@@ -96,34 +103,24 @@
     height: 100%;
 }
 
-.top {
+.container {
     @apply flex flex-col justify-center items-center mt-5;
 }
 
-.top>div {
+.container>div {
     @apply mb-3;
 }
 
-.top .btn {
+.container .btn {
     @apply ml-5;
 }
 
-.top .classify {
+.container .fix {
     @apply flex justify-center justify-center;
 }
-
-.classifyKind {
+.container  .fix .list {
     @apply mx-3;
     width: 150px;
-}
-
-.updateClassify {
-    @apply flex flex-col justify-between items-center bg-blue-300 text-red-700 my-3;
-    height: auto;
-}
-
-.updateClassify>div {
-    @apply flex justify-center items-center my-3;
 }
 
 .dialogForAddClassify {
@@ -139,6 +136,17 @@
     @apply mt-4;
     width: 100%;
 }
+
+.updateClassify {
+    @apply flex flex-col justify-between items-center bg-blue-300 text-red-700 my-3;
+    height: auto;
+}
+
+.updateClassify>div {
+    @apply flex justify-center items-center my-3;
+}
+
+
 </style>
 
 

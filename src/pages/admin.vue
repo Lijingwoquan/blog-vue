@@ -35,7 +35,7 @@ import essay from "~/layout/admin/essay.vue";
 
 
 .el-aside {
-    @apply bg-gray-500 bottom-0 top-0 fixed;
+    @apply  bottom-0 top-0 fixed;
     width: auto;
 }
 </style>

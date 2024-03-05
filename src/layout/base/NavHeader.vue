@@ -1,80 +1,164 @@
 <template>
-    <div class="nav-top">
-        <div class="title">罹景偓佺的博客——分享全栈知识</div>
-        <div class="tool">
-            <div class="nav-top-left">
-                <el-icon class="logoExpand hidden-sm-and-up" @click="openMenu">
-                    <Expand />
-                </el-icon>
+    <div class="container">
+        <div class="left">
+            
+            <el-icon class="logoHouse" @click="toIndex">
+                <House />
+            </el-icon>
+            <el-icon class="logoExpand hidden-sm-and-up" @click="openMenu">
+                <Expand />
+            </el-icon>
 
-                <el-drawer v-model="dialogMenu" title="菜单" direction="ltr" append-to-body size="200px">
-                    <nav-aside></nav-aside>
-                </el-drawer>
+            <el-drawer v-model="dialogMenu" title="菜单" direction="ltr" append-to-body size="200px">
+                <nav-aside></nav-aside>
+            </el-drawer>
+        </div>
 
-                <el-icon class="logoHouse" @click="toIndex">
-                    <House />
-                </el-icon>
-            </div>
+        <span class="middle">罹景偓佺的博客——分享全栈知识</span>
 
-
-            <div class="nav-top-middle" @click="openSearch">
+        <div class="right">
+            <div class="search" @click="openSearch">
                 <el-icon>
                     <search />
                 </el-icon>
             </div>
-
-            <template>
-                <el-dialog v-model="dialogVisible" :v-close-on-click-modal="true" :show-close="false" append-to-body
-                    :draggable="true" width="80%">
-                    <el-input v-model="input" placeholder="搜索文档" class="input">
-                        <template #prefix>
-                            <el-icon class="mx-2">
-                                <search />
-                            </el-icon>
-                        </template>
-                        <template #suffix>
-                            <el-button type="primary" @click="searchMsg">搜索</el-button>
-                        </template>
-                    </el-input>
-                    <ul v-if="getData">
-                        <li v-for="(essay, index) in satisfyDate" class="dateShow" @click="gotoApointPath(essay.path)">
-                            <div class="ml-10">文章:{{ essay.name }}</div>
-                            <div class="mr-10">分类:{{ essay.kind }}</div>
-                        </li>
-                    </ul>
-                </el-dialog>
-            </template>
-
-
-            <div class="nav-top-right">
-                <div class="nav-top-right">
-                    <div class="icon-text ">
-                        <el-dropdown>
-                            <span class="icon-text-details">
-                                帮助
-                                <el-icon>
-                                    <arrow-down />
-                                </el-icon>
-                            </span>
-                            <template #dropdown>
-                                <el-dropdown-menu>
-                                    <el-dropdown-item>
-                                        <el-link type="primary" :underline="false" href="https://github.com/liuzihao520"
-                                            target="_blank">联系作者</el-link>
-                                    </el-dropdown-item>
-                                </el-dropdown-menu>
-                            </template>
-                        </el-dropdown>
-                    </div>
+            <el-dropdown>
+                <div class="help">
+                    <div class="text">帮助</div>
+                    <el-icon class="icon">
+                        <arrow-down />
+                    </el-icon>
                 </div>
-            </div>
+
+                <template #dropdown>
+                    <el-dropdown-menu>
+                        <el-dropdown-item>
+                            <el-link type="primary" :underline="false" href="https://github.com/liuzihao520"
+                                target="_blank">联系作者</el-link>
+                        </el-dropdown-item>
+                    </el-dropdown-menu>
+                </template>
+            </el-dropdown>
         </div>
     </div>
+
+    <template>
+        <el-dialog v-model="dialogVisible" :v-close-on-click-modal="true" :show-close="false" append-to-body
+            :draggable="true" width="80%">
+            <el-input v-model="input" placeholder="搜索文档" class="input">
+                <template #prefix>
+                    <el-icon class="mx-2">
+                        <search />
+                    </el-icon>
+                </template>
+
+                <template #suffix>
+                    <el-button type="primary" @click="searchMsg">搜索</el-button>
+                </template>
+            </el-input>
+            <ul v-if="getData">
+                <li v-for="(essay, index) in satisfyDate" class="dateShow" @click="gotoApointPath(essay.path)">
+                    <div class="ml-10">文章:{{ essay.name }}</div>
+                    <div class="mr-10">分类:{{ essay.kind }}</div>
+                </li>
+            </ul>
+        </el-dialog>
+    </template>
 </template>
+
+
+<style scoped>
+.container {
+    @apply flex justify-around items-center fixed top-0 left-0 right-0;
+    z-index: 100;
+    height: 60px;
+    background-color: rgba(165, 162, 183, 0.297);
+}
+
+.container .middle {
+    @apply flex justify-center items-center font-bold font-serif;
+    width: 100%;
+    height: 9px;
+}
+.container .left{
+    @apply flex justify-center items-center;
+    
+}
+.right {
+    @apply flex justify-center items-center;
+}
+
+.right .search {
+    @apply  flex justify-center items-center mx-4;
+}
+
+.right .help {
+    @apply flex justify-center items-center;
+    height: 24px;
+}
+
+.right .help .text {
+    width: 28px;
+}
+
+.right .help .icon {
+    @apply mx-2;
+}
+
+.search:hover {
+    border-color: red;
+    /* 悬停时改变边框颜色 */
+}
+
+.logoExpand {
+    @apply text-xl mx-5;
+    height: auto;
+}
+
+.logoHouse {
+    @apply text-xl mx-5;
+    height: auto;
+}
+
+.input {
+    height: 50px;
+}
+
+.dateShow {
+    @apply bg-blue-200 flex justify-between items-center my-5;
+    width: 100%;
+    height: 50px;
+}
+
+
+
+
+.el-dialog__headerbtn {
+    display: none;
+}
+
+:deep(.el-dialog__header) {
+    padding: 0px !important;
+    padding-bottom: 0px !important;
+    margin-right: 0px !important;
+}
+
+:deep(.el-dialog__headerbtn) {
+    display: none;
+}
+</style>
+
+
+
+
+
+
 
 <script setup>
 import NavAside from '~/layout/base/NavAside.vue';
-import { ref,  onMounted, onBeforeMount, watch } from "vue"
+import NavAsideForMobile from '~/layout/base/NavAsideForMobile.vue';
+
+import { ref, onMounted, onBeforeMount, watch } from "vue"
 import { useStore } from 'vuex';
 import { useRouter, useRoute } from 'vue-router';
 import { toast } from '~/composables/util'
@@ -139,90 +223,3 @@ onBeforeMount(() => {
     document.removeEventListener("keyup", onKeyUp)
 })
 </script>
-
-
-<style scoped>
-.nav-top {
-    @apply flex flex-col justify-between items-center fixed top-0 left-0 right-0;
-    z-index: 100;
-    height: 60px;
-}
-
-.nav-top .title {
-    @apply flex justify-center items-center bg-red-400 font-bold font-serif;
-    width: 100%;
-    height: 25px;
-}
-
-.nav-top .tool {
-    @apply flex justify-between items-center bg-green-400 left-0 right-0;
-    width: 100%;
-    height: 35px;
-}
-
-.nav-top-left {
-    @apply flex justify-center items-center;
-}
-
-.nav-top-middle {
-    @apply ml-auto mr-2 flex justify-center items-center text-shadow-md rounded-xl;
-    border: 1px solid transparent;
-    /* 初始状态下边框透明 */
-    transition: border-color 0.1s;
-    /* 添加过渡效果 */
-    height: 36px;
-}
-
-.nav-top-middle:hover {
-    border-color: red;
-    /* 悬停时改变边框颜色 */
-}
-
-.logoExpand {
-    @apply text-xl mx-5;
-    height: auto;
-}
-
-.logoHouse {
-    @apply text-xl mx-5;
-    height: auto;
-}
-
-.nav-top-right {
-    @apply flex;
-}
-
-.input {
-    height: 50px;
-}
-
-.dateShow {
-    @apply bg-blue-200 flex justify-between items-center my-5;
-    width: 100%;
-    height: 50px;
-}
-
-.icon-text {
-    @apply flex items-center mx-3;
-    height: 24px;
-}
-
-.icon-text-details {
-    @apply flex justify-center items-center;
-    height: 24px;
-}
-
-.el-dialog__headerbtn {
-    display: none;
-}
-
-:deep(.el-dialog__header) {
-    padding: 0px !important;
-    padding-bottom: 10px !important;
-    margin-right: 16px !important;
-}
-
-:deep(.el-dialog__headerbtn) {
-    display: none;
-}
-</style>

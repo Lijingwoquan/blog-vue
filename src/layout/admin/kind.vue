@@ -5,19 +5,19 @@
                 <ArrowRightBold />
             </el-icon>
         </div>
-
-        <el-drawer v-model="dialogMenuForKind" title="kind菜单" direction="ltr" append-to-body size="500px">
-            <span>修改分类图标</span>
-            <div v-for="(kind, index) in classifiesKind" class="lists">
-                <div class="list">
-                    <el-input v-model="kind.kind" placeholder="分类名" class="input"></el-input>
-                    <el-input v-model="kind.icon" placeholder="分类名" class="input"></el-input>
-                    <el-button type="primary" size="default"
-                        @click="updateKind(kind.id, kind.kind, kind.icon)">提交</el-button>
-                </div>
-            </div>
-        </el-drawer>
     </div>
+
+    <el-drawer v-model="dialogMenuForKind" title="kind菜单" direction="ltr" append-to-body size="500px">
+        <span>修改分类图标</span>
+        <div v-for="(kind, index) in classifiesKind" class="lists">
+            <div class="list">
+                <el-input v-model="kind.kind" placeholder="分类名" class="input"></el-input>
+                <el-input v-model="kind.icon" placeholder="分类名" class="input"></el-input>
+                <el-button type="primary" size="default"
+                    @click="updateKind(kind.id, kind.kind, kind.icon)">提交</el-button>
+            </div>
+        </div>
+    </el-drawer>
 </template>
 
 
@@ -35,9 +35,10 @@ function openMenu() {
 
 <style>
 .aside {
+    @apply flex flex-col justify-center items-center;
     height: 100%;
     width: 40px;
-    @apply flex flex-col justify-center items-center;
+    background-color: rgba(130, 120, 194, 0.297);
 }
 
 .lists {

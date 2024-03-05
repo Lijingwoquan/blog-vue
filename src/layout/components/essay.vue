@@ -1,40 +1,45 @@
 <template>
-    <div class="essay">
-        <span class="name">
-            {{ satisfyData ? satisfyData.name : '' }}
-        </span>
-        <div class="subTitle">
-            <div>
-                <div>
-                    <div class="mb-5 text-purple-700">
-                        创建于:
-                        {{ satisfyData ? satisfyData.updatedTime.split("T").join(" ").split("Z")[0].split(" ")[0] : ""
-                        }}
-                    </div>
-                    <div class="text-purple-700">
-                        更新于:
-                        {{ satisfyData ? satisfyData.createdTime.split("T").join(" ").split("Z")[0]
-        .split("").join("") : "" }}
-                    </div>
-                </div>
-                <div @click="toKind">
-                    {{ satisfyData ? satisfyData.kind : "" }}
-                </div>
-            </div>
-            <span class="introduction">
-                简介:{{ satisfyData ? satisfyData.introduction : "" }}
+    <div v-if="showEssay">
+        <el-backtop :right="30" :bottom="30" />
+
+        <div class="essayBasic">
+            <span class="name">
+                {{ satisfyData ? satisfyData.name : '' }}
             </span>
+            <div class="subTitle">
+                <div>
+                    <div>
+                        <div class="createTime">
+                            创建于:
+                            {{ satisfyData ? satisfyData.updatedTime.split("T").join(" ").split("Z")[0]
+        .split(" ")[0] : "" }}
+                        </div>
+                        <div class="updatetime">
+                            更新于:
+                            {{ satisfyData ? satisfyData.createdTime.split("T").join(" ").split("Z")[0]
+        .split("").join("") : "" }}
+                        </div>
+                    </div>
+
+                    <div @click="toKind">
+                        {{ satisfyData ? satisfyData.kind : "" }}
+                    </div>
+
+                </div>
+
+                <span class="introduction">
+                    简介:{{ satisfyData ? satisfyData.introduction : "" }}
+                </span>
+            </div>
+
+            
+        </div>
+
+        <div>
+            <v-md-editor class="overflow-y-hidden overflow-x-auto" @copy-code-success="handleCopyCodeSuccess"
+                v-model="satisfyData.content" height="auto" mode="preview" />
         </div>
     </div>
-
-    <div v-if="satisfyData && satisfyData.content">
-        <v-md-editor @copy-code-success="handleCopyCodeSuccess" v-model="satisfyData.content" height="850px"
-            mode="preview" />
-    </div>
-    <div v-else>
-        <p>Loading...</p> <!-- 或者其他加载提示 -->
-    </div>
-
 </template>
 
 
@@ -42,8 +47,9 @@
 <script setup>
 import { useStore } from "vuex"
 import { useRoute, useRouter } from 'vue-router';
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { getEssayMsg } from "~/api/user.js"
+import { ElLoading } from 'element-plus'
 import VueMarkdownEditor from '@kangc/v-md-editor';
 import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index';
 import createCopyCodePlugin from '@kangc/v-md-editor/lib/plugins/copy-code/index';
@@ -53,18 +59,17 @@ import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
 import '@kangc/v-md-editor/lib/theme/style/github.css';
 // 引入所有语言包
 import hljs from 'highlight.js';
-
-
 VueMarkdownEditor.use(githubTheme, {
     Hljs: hljs,
 });
 VueMarkdownEditor.use(createLineNumbertPlugin());
 VueMarkdownEditor.use(createCopyCodePlugin());
 
-
 const store = useStore()
 const route = useRoute()
 const router = useRouter()
+
+const showEssay = ref(false)
 const kind = ref(null)
 const satisfyData = ref(null)  //存储文章的数据
 //根据文章名字去获取文章详细内容
@@ -89,12 +94,26 @@ const getCurrentData = (() => {
 })
 getCurrentData()
 
-
 const toKind = (() => {
     let essayRouter = "/" + route.path.split("/").slice(2, 4).join("/")
     router.push("/classify/" + essayRouter.split("/")[1])
 })
 
+onMounted(() => {
+    const loading = ElLoading.service({
+        lock: true,
+        text: '正在努力加载文章中 Loading...',
+        background: 'rgba(0, 0, 0, 0.7)',
+    })
+    setTimeout(async () => {
+        while (satisfyData.value === null) {
+            console.log(satisfyData.value)
+            await new Promise(resolve => setTimeout(resolve, 100)); // 等待100毫秒
+        }
+        loading.close()
+        showEssay.value = true;
+    }, 1000)
+});
 
 watch(() => route.fullPath, () => {
     satisfyData.value = null  //存储文章的数据
@@ -104,16 +123,16 @@ watch(() => route.fullPath, () => {
 
 
 <style scoped>
-.essay {
-    @apply flex flex-col justify-center items-center ;
+.essayBasic {
+    @apply flex flex-col justify-center items-center overflow-hidden;
     margin-top: 20px;
 }
 
-.essay .name {
-    @apply text-2xl m-auto italic font-serif font-bold sm:text-xl md:text-3xl lg:text-3xl xl:text-3xl 2xl:text-3xl;
+.essayBasic .name {
+    @apply text-4xl m-auto font-serif font-bold;
 }
 
-.essay .subTitle {
+.essayBasic .subTitle {
     @apply flex flex-col justify-center items-center mb-10 font-mono;
     width: 100%;
 }
@@ -122,7 +141,12 @@ watch(() => route.fullPath, () => {
     @apply flex justify-between items-center italic text-purple-700 my-5;
     width: 100%;
 }
-
+.subTitle>div>div .createTime{
+    @apply mb-5 text-purple-700;
+}
+.subTitle>div>div .updatetime{
+    @apply text-purple-700;
+}
 .introduction {
     @apply mr-auto italic text-pink-500 font-sans;
 }

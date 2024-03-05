@@ -2,23 +2,27 @@
     <div v-for="(essay, index) in satisfyData" class="essay" :key="essay.router">
         <div class="top" @click="toEssay(essay.router)">
             <el-link class="title" target="_self" type="info">{{
-                essay.name }}</el-link>
+        essay.name }}</el-link>
         </div>
+
         <div class="middle">
             <div class="kind">
                 {{ essay.kind }}
             </div>
-            <div style="width: auto;" class="flex-1" @click="toEssay(essay.router)"></div>
+            <div  class="flex-1" @click="toEssay(essay.router)"></div>
             <span class="date" @click="toEssay(essay.router)">
                 {{ essay.createdTime }}
             </span>
         </div>
+
         <div class="bottom" @click="toEssay(essay.router)">
-            <el-text truncated class="text-blue-500">
+            <el-text truncated class="introduction">
                 {{ essay.introduction }}
             </el-text>
         </div>
+
         <el-divider border-style="dotted" />
+
     </div>
 
     <el-pagination background layout="prev, pager, next" :page-count="pageMax" @update:current-page="changePage"
@@ -61,7 +65,6 @@ const getCurrentData = ((page) => {
     }
 })
 
-
 getCurrentData(1)
 
 const toEssay = ((r) => {
@@ -96,6 +99,11 @@ watch(() => route.fullPath, () => {
     width: 100%;
 }
 
+.essay .top .title {
+    @apply text-4xl  font-serif font-bold m-auto;
+    color: black;
+}
+
 
 .essay .middle {
     @apply flex my-3;
@@ -103,26 +111,23 @@ watch(() => route.fullPath, () => {
 }
 
 .middle .kind {
-    @apply text-yellow-600 font-mono mr-auto text-xl text-purple-700;
+    @apply text-2xl   font-mono mr-auto  text-purple-700;
 }
 
 .middle .date {
-    @apply text-sm font-mono text-red-800 ml-auto text-xl text-purple-700;
+    @apply text-2xl font-mono  ml-auto text-purple-700;
 }
 
 
 .bottom {
-    @apply flex justify-start my-3 font-sans text-blue-500;
+    @apply flex justify-start my-3;
     width: 100%;
 }
-
-.essay .top .title {
-    @apply text-2xl italic font-serif font-bold m-auto;
-    color: black;
+.bottom .introduction{
+    @apply  font-sans text-pink-500;
 }
 
 .page {
     @apply mt-5 justify-center;
 }
 </style>
-
