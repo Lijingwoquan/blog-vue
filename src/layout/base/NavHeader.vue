@@ -1,6 +1,6 @@
 <template>
-    <el-row class="Headercontainer">
-        <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" class="left">
+    <div class="Headercontainer">
+        <div class="left">
             <el-icon class="logoHouse" @click="toIndex">
                 <House />
             </el-icon>
@@ -10,11 +10,13 @@
             <el-drawer v-model="dialogMenu" title="菜单" direction="ltr" class="bg-light-800" append-to-body size="200px">
                 <nav-aside></nav-aside>
             </el-drawer>
-        </el-col>
-        <el-col :xs="14" :sm="14" :md="14" :lg="14" :xl="14" class="middle">
-            <span>罹景偓佺的博客——分享全栈知识</span>
-        </el-col>
-        <el-col :xs="4" :sm="4" :md="4" :lg="4" :xl="4" class="right">
+        </div>
+        <div class="middle">
+            <span>罹景偓佺的博客</span>
+        </div>
+
+
+        <div class="right">
             <div class="search" @click="openSearch">
                 <el-icon>
                     <search />
@@ -37,9 +39,9 @@
                     </el-dropdown-menu>
                 </template>
             </el-dropdown>
-        </el-col>
-    </el-row>
-    
+        </div>
+    </div>
+
     <template>
         <el-dialog v-model="dialogVisible" :v-close-on-click-modal="true" :show-close="false" append-to-body
             :draggable="true" width="80%">
@@ -67,55 +69,60 @@
 
 <style scoped>
 .Headercontainer {
-    @apply flex justify-around items-center fixed top-0 left-0 right-0;
+    @apply flex justify-between items-center fixed top-0 left-0 right-0;
     z-index: 100;
     height: 60px;
     background-color: rgba(165, 162, 183, 0.297);
 }
 
-
-.Headercontainer .middle {
-    @apply flex flex justify-center items-center text-sm font-bold font-serif;
-    width: 100%;
-}
-
 .Headercontainer .left {
     @apply flex justify-start items-center;
-
+    width: 65px;
+    margin-right: 0;
 }
 
+
 .Headercontainer .left .logoHouse {
-    @apply text-xl ml-3;
+    @apply text-xl;
     height: auto;
 }
 
 .Headercontainer .left .logoExpand {
-    @apply text-xl ml-3;
+    @apply text-xl ml-2;
     height: auto;
 }
 
-.right {
+
+.Headercontainer .middle {
+    @apply  text-sm font-bold font-serif;
+    padding-left: 10%;
+    white-space: nowrap; 
+}
+
+.Headercontainer .right {
     @apply flex justify-end items-center left-0 right-0;
+    width: 100px;
 }
 
-.right .search {
+
+.Headercontainer .right .search {
     @apply flex justify-center items-center mr-2;
 }
 
-.right .help {
-    @apply flex justify-center items-center mr-2;
+.Headercontainer .right .help {
+    @apply flex justify-center items-center mr-1;
     height: 24px;
 }
 
-.right .help .text {
+.Headercontainer .right .help .text {
     width: 28px;
 }
 
-.right .help .icon {
+.Headercontainer .right .help .icon {
     @apply mr-2;
 }
 
-.search:hover {
+.Headercontainer .right .search:hover {
     border-color: red;
     /* 悬停时改变边框颜色 */
 }
