@@ -83,15 +83,14 @@
 
 
 .Headercontainer .left .logoHouse {
-    @apply text-xl;
+    @apply text-xl mx-2;
     height: auto;
 }
 
 .Headercontainer .left .logoExpand {
-    @apply text-xl ml-2;
+    @apply text-xl;
     height: auto;
 }
-
 
 .Headercontainer .middle {
     @apply  text-sm font-bold font-serif;
