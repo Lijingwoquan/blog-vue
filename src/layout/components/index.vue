@@ -106,7 +106,8 @@ function changePage(p) {
 }
 
 .essay .top .title {
-    @apply text-4xl  font-serif font-bold m-auto;
+    @apply text-2xl  font-serif font-bold m-auto;
+    white-space: nowrap; 
     color: black;
 }
 
@@ -117,11 +118,11 @@ function changePage(p) {
 }
 
 .middle .kind {
-    @apply text-xl font-mono mr-auto  text-purple-700;
+    @apply text-lg font-mono mr-auto  text-purple-700;
 }
 
 .middle .date {
-    @apply text-xl font-mono  ml-auto text-purple-700;
+    @apply text-lg font-mono  ml-auto text-purple-700;
 }
 
 

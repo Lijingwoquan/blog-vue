@@ -147,7 +147,8 @@ watch(() => route.fullPath, () => {
 }
 
 .essayBasic .name {
-    @apply text-4xl m-auto font-serif font-bold;
+    @apply text-2xl m-auto font-serif font-bold;
+    white-space: nowrap; 
 }
 
 .essayBasic .subTitle {
