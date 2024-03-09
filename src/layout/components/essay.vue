@@ -11,20 +11,20 @@
                     <div>
                         <div class="createTime">
                             创建于:
-                            {{ satisfyData ? satisfyData.updatedTime.split("T").join(" ").split("Z")[0]
-        .split(" ")[0] : "" }}
+                            {{ satisfyData ? satisfyData.createdTime.split("T").join(" ").split("Z")[0].split(" ")[0] :
+        "" }}
                         </div>
+
                         <div class="updatetime">
                             更新于:
-                            {{ satisfyData ? satisfyData.createdTime.split("T").join(" ").split("Z")[0]
-        .split("").join("") : "" }}
+                            {{ satisfyData ? satisfyData.updatedTime.split("T").join(" ").split("Z")[0]
+        .split(" ").join(" ") : "" }}
                         </div>
                     </div>
 
-                    <div @click="toKind">
+                    <div class="kind" @click="toKind">
                         {{ satisfyData ? satisfyData.kind : "" }}
                     </div>
-
                 </div>
 
                 <span class="introduction">
@@ -32,7 +32,7 @@
                 </span>
             </div>
 
-            
+
         </div>
 
         <div>
@@ -49,6 +49,7 @@ import { useStore } from "vuex"
 import { useRoute, useRouter } from 'vue-router';
 import { ref, watch, onMounted } from 'vue';
 import { getEssayMsg } from "~/api/user.js"
+import { toast } from"~/composables/util.js"
 import { ElLoading } from 'element-plus'
 import VueMarkdownEditor from '@kangc/v-md-editor';
 import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index';
@@ -99,6 +100,23 @@ const toKind = (() => {
     router.push("/classify/" + essayRouter.split("/")[1])
 })
 
+const handleCopyCodeSuccess = (content) => {
+    // if (!navigator.clipboard) {
+    //     toast("浏览器不支持复制到剪贴板功能", "error");
+    //     return;
+    // }
+    toast("复制成功", "success");
+    
+    navigator.clipboard.writeText(content).then(() => {
+        // toast("复制成功", "success");
+    }).catch((error) => {
+        // toast("复制失败", "error");
+    });
+
+};
+
+
+
 onMounted(() => {
     const loading = ElLoading.service({
         lock: true,
@@ -125,7 +143,7 @@ watch(() => route.fullPath, () => {
 <style scoped>
 .essayBasic {
     @apply flex flex-col justify-center items-center overflow-hidden;
-    margin-top: 20px;
+    margin-top: 20px; 
 }
 
 .essayBasic .name {
@@ -141,12 +159,19 @@ watch(() => route.fullPath, () => {
     @apply flex justify-between items-center italic text-purple-700 my-5;
     width: 100%;
 }
-.subTitle>div>div .createTime{
+.subTitle>div .kind {
+    @apply  text-purple-700 mr-1; 
+}
+
+
+.subTitle>div>div .createTime {
     @apply mb-5 text-purple-700;
 }
-.subTitle>div>div .updatetime{
+
+.subTitle>div>div .updatetime {
     @apply text-purple-700;
 }
+
 .introduction {
     @apply mr-auto italic text-pink-500 font-sans;
 }

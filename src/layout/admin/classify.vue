@@ -6,10 +6,10 @@
             </el-icon>
         </div>
     </div>
-    
+
     <!-- 下拉菜单 -->
     <el-drawer v-model="dialogMenuForClassify" title="classify菜单" direction="ttb" append-to-body size="500px">
-        <div class="container">
+        <div class="containerClassify">
             <div>
                 <span>修改分类相关信息</span>
                 <el-button type="primary" size="default" @click="addClassifyPre" class="btn">
@@ -22,8 +22,7 @@
             <div class="fix">
                 <el-space wrap>
                     <div v-for="(classify, index) in classifiesKind">
-                        <el-button type="primary" size="default" @click="updateClassifyPre(classify.kind)"
-                            class="list">
+                        <el-button type="primary" size="default" @click="updateClassifyPre(classify.kind)" class="list">
                             {{ classify.kind }}
                         </el-button>
                     </div>
@@ -65,8 +64,8 @@
 
     <!-- 添加修改分类窗口 -->
     <template>
-        <el-dialog v-model="dialogVisibleForUpdateClassify" :v-close-on-click-modal="true" :show-close="true" append-to-body
-            :draggable="true" width="70%">
+        <el-dialog v-model="dialogVisibleForUpdateClassify" :v-close-on-click-modal="true" :show-close="true"
+            append-to-body :draggable="true" width="70%">
             <ul>
                 <li v-for="(classify, index ) in satisfyClassify">
                     <div class="updateClassify">
@@ -86,7 +85,7 @@
 
 
 <style scoped>
-.input{
+.input {
     height: 35px;
 }
 
@@ -103,22 +102,24 @@
     height: 100%;
 }
 
-.container {
+.containerClassify {
     @apply flex flex-col justify-center items-center mt-5;
+    width: ;
 }
 
-.container>div {
+.containerClassify>div {
     @apply mb-3;
 }
 
-.container .btn {
+.containerClassify .btn {
     @apply ml-5;
 }
 
-.container .fix {
+.containerClassify .fix {
     @apply flex justify-center justify-center;
 }
-.container  .fix .list {
+
+.containerClassify .fix .list {
     @apply mx-3;
     width: 150px;
 }
@@ -145,8 +146,6 @@
 .updateClassify>div {
     @apply flex justify-center items-center my-3;
 }
-
-
 </style>
 
 
@@ -197,4 +196,3 @@ function addClassifyPre() {
 }
 
 </script>
-

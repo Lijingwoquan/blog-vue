@@ -10,6 +10,8 @@
         </div>
     </div>
     <essayEdit></essayEdit>
+
+    <!-- 修改文章的窗口 -->
     <template>
         <el-dialog v-model="dialogVisible" :v-close-on-click-modal="true" :show-close="false" append-to-body
             :draggable="true" width="80%">
@@ -28,6 +30,7 @@
                 <li class="dateShow">
                     <el-input placeholder="文章名" disabled class="input2"></el-input>
                     <el-input placeholder="分类名" disabled class="input2"></el-input>
+                    <el-input placeholder="文章介绍" disabled class="input2"></el-input>
                     <el-input placeholder="文章路由" disabled class="input2"></el-input>
                     <el-button type="primary" size="large" disabled>修改信息</el-button>
                     <el-button type="primary" size="large" disabled>删除文章</el-button>
@@ -38,35 +41,37 @@
                 <li v-for="(essay, index) in satisfyDate" class="dateShow">
                     <el-input v-model="essay.name" placeholder="文章名" class="input2"></el-input>
                     <el-input v-model="essay.kind" placeholder="分类名" class="input2"></el-input>
+                    <el-input v-model="essay.introduction" placeholder="文章介绍" class="input2"></el-input>
                     <el-input v-model="essay.router" placeholder="文章路由" class="input2"></el-input>
-                    <el-button type="primary" size="large" @click="updateEssay(essay)">修改信息</el-button>
+                    <el-button type="primary" size="large" @click="updateEssayMsg(essay)">修改信息</el-button>
                     <el-button type="primary" size="large" @click="deleted(essay.id)">删除文章</el-button>
                     <el-button type="primary" size="large" @click="updateEssayContentPre(essay.id)">修改内容</el-button>
                 </li>
             </ul>
         </el-dialog>
     </template>
-
+    
+    <!-- 展示原有和新内容的窗口 -->
     <template>
         <el-dialog v-model="dialogForupdateEssayContent" :v-close-on-click-modal="true" :show-close="false"
-            append-to-body :draggable="true" width="80%">
-            <el-input v-model="essayContentOld" class="my-5" :autosize="{ minRows: 5, maxRows: 25 }" type="textarea"
+            append-to-body :draggable="false" width="80%">
+            <el-input v-model="essayContentOld" class="my-5" :autosize="{ minRows: 5, maxRows: 15 }" type="textarea"
                 placeholder="原文章内容" />
-            <el-input v-model="essayContent" class="my-5" :autosize="{ minRows: 5, maxRows: 25 }" type="textarea"
+            <el-input v-model="essayContent" class="my-5" :autosize="{ minRows: 5, maxRows: 15 }" type="textarea"
                 placeholder="添加文章内容" />
             <el-button type="primary" style="width: 100%;" size="large"
                 @click="updateEssayContent(ID, essayContent)">修改内容</el-button>
         </el-dialog>
     </template>
-</template>
 
+</template>
 <script setup>
 import { ref, onMounted, onBeforeMount } from "vue"
 import { useStore } from 'vuex';
 import { toast } from '~/composables/util'
 import { ElMessageBox } from 'element-plus'
 import essayEdit from '~/layout/components/essayEdit.vue';
-import { updateEssay, deleteEssay, updateEssayContent } from "~/api/manager.js"
+import { updateEssayMsg, deleteEssay, updateEssayContent } from "~/api/manager.js"
 import { getEssayMsg } from "~/api/user.js"
 
 const store = useStore()
@@ -90,10 +95,11 @@ function searchMsg() {
     essayData.forEach(essay => {
         if (essay.name.includes(input.value)) {
             let name = essay.name
-            let router = "/" + essay.router.split("/")[2]
             let kind = essay.kind
+            let introduction = essay.introduction
+            let router = "/" + essay.router.split("/")[2]
             let id = essay.id
-            satisfyDate.value.push({ name, router, kind, id })
+            satisfyDate.value.push({ name, introduction, kind, router,id })
         }
     })
     if (!(satisfyDate.value.length > 0)) {

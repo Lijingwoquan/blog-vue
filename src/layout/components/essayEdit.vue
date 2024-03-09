@@ -31,7 +31,7 @@
     </el-drawer>
 
     <!-- 富文本编辑器 -->
-    <v-md-editor v-model="edit" height="850px" @upload-image="handleUploadImage" :disabled-menus="[]"
+    <v-md-editor v-model="edit" height="700px" @upload-image="handleUploadImage" :disabled-menus="[]"
        />
 </template>
 
@@ -112,6 +112,7 @@ function add() {
 <style scoped>
 .input {
     @apply my-3;
+    height: 35px;
 }
 .bottom{
     @apply bottom-3 fixed;

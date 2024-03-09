@@ -58,7 +58,7 @@ export function addClassify(classifyParms) {
 }
 
 // essay
-export function updateEssay(essay) {
+export function updateEssayMsg(essay) {
     return new Promise((resolve, reject) => {
         axios.put("/manager/updateEssayMsg", {
             ...essay
@@ -96,8 +96,8 @@ export function uploadImg(file) {
                 reject(err);
             });
     })
-
 }
+
 export function updateEssayContent(id, content) {
     return new Promise((resolve, reject) => {
         axios.put("/manager/updateEssayContent", {

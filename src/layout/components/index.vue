@@ -26,52 +26,6 @@
 </template>
 
 
-
-<style scoped>
-
-.essay {
-    @apply flex flex-col justify-center items-center mt-5 ml-5 mr-5;
-    height: auto;
-}
-
-.essay .top {
-    @apply flex justify-between items-center;
-    width: 100%;
-}
-
-.essay .top .title {
-    @apply text-4xl  font-serif font-bold m-auto;
-    color: black;
-}
-
-
-.essay .middle {
-    @apply flex my-3;
-    width: 100%;
-}
-
-.middle .kind {
-    @apply text-2xl font-mono mr-auto  text-purple-700;
-}
-
-.middle .date {
-    @apply text-2xl font-mono  ml-auto text-purple-700;
-}
-
-
-.bottom {
-    @apply flex justify-start my-3;
-    width: 100%;
-}
-.bottom .introduction{
-    @apply  font-sans text-pink-500;
-}
-
-.page {
-    @apply mt-5 justify-center;
-}
-</style>
-
 <script setup>
 import { useStore } from "vuex"
 import { useRouter } from 'vue-router';
@@ -135,5 +89,51 @@ function changePage(p) {
     satisfyData.value = []
     paging(p)
 }
-
 </script>
+
+
+
+<style scoped>
+
+.essay {
+    @apply flex flex-col justify-center items-center mt-5 ml-5 mr-5;
+    height: auto;
+}
+
+.essay .top {
+    @apply flex justify-between items-center;
+    width: 100%;
+}
+
+.essay .top .title {
+    @apply text-4xl  font-serif font-bold m-auto;
+    color: black;
+}
+
+
+.essay .middle {
+    @apply flex my-3;
+    width: 100%;
+}
+
+.middle .kind {
+    @apply text-xl font-mono mr-auto  text-purple-700;
+}
+
+.middle .date {
+    @apply text-xl font-mono  ml-auto text-purple-700;
+}
+
+
+.bottom {
+    @apply flex justify-start my-3;
+    width: 100%;
+}
+.bottom .introduction{
+    @apply  font-sans text-pink-500;
+}
+
+.page {
+    @apply mt-5 justify-center;
+}
+</style>

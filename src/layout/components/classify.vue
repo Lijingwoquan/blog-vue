@@ -111,11 +111,11 @@ watch(() => route.fullPath, () => {
 }
 
 .middle .kind {
-    @apply text-2xl   font-mono mr-auto  text-purple-700;
+    @apply text-xl  font-mono mr-auto  text-purple-700;
 }
 
 .middle .date {
-    @apply text-2xl font-mono  ml-auto text-purple-700;
+    @apply text-xl font-mono  ml-auto text-purple-700;
 }
 
 

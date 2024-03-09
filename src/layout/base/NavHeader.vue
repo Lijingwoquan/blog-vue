@@ -1,21 +1,20 @@
 <template>
-    <div class="Headercontainer">
-        <div class="left">
+    <el-row class="Headercontainer">
+        <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" class="left">
             <el-icon class="logoHouse" @click="toIndex">
                 <House />
             </el-icon>
             <el-icon class="logoExpand hidden-sm-and-up" @click="openMenu">
                 <Expand />
             </el-icon>
-
             <el-drawer v-model="dialogMenu" title="菜单" direction="ltr" class="bg-light-800" append-to-body size="200px">
                 <nav-aside></nav-aside>
             </el-drawer>
-        </div>
-
-        <span class="middle">罹景偓佺的博客——分享全栈知识</span>
-
-        <div class="right">
+        </el-col>
+        <el-col :xs="14" :sm="14" :md="14" :lg="14" :xl="14" class="middle">
+            <span>罹景偓佺的博客——分享全栈知识</span>
+        </el-col>
+        <el-col :xs="4" :sm="4" :md="4" :lg="4" :xl="4" class="right">
             <div class="search" @click="openSearch">
                 <el-icon>
                     <search />
@@ -38,33 +37,31 @@
                     </el-dropdown-menu>
                 </template>
             </el-dropdown>
-        </div>
+        </el-col>
+    </el-row>
+    
+    <template>
+        <el-dialog v-model="dialogVisible" :v-close-on-click-modal="true" :show-close="false" append-to-body
+            :draggable="true" width="80%">
+            <el-input v-model="input" placeholder="搜索文档" class="input">
+                <template #prefix>
+                    <el-icon class="mx-2">
+                        <search />
+                    </el-icon>
+                </template>
 
-
-        <template>
-            <el-dialog v-model="dialogVisible" :v-close-on-click-modal="true" :show-close="false" append-to-body
-                :draggable="true" width="80%">
-                <el-input v-model="input" placeholder="搜索文档" class="input">
-                    <template #prefix>
-                        <el-icon class="mx-2">
-                            <search />
-                        </el-icon>
-                    </template>
-
-                    <template #suffix>
-                        <el-button type="primary" @click="searchMsg">搜索</el-button>
-                    </template>
-                </el-input>
-                <ul v-if="getData">
-                    <li v-for="(essay, index) in satisfyDate" class="dateShow" @click="gotoApointPath(essay.path)">
-                        <div class="ml-10">文章:{{ essay.name }}</div>
-                        <div class="mr-10">分类:{{ essay.kind }}</div>
-                    </li>
-                </ul>
-            </el-dialog>
-        </template>
-
-    </div>
+                <template #suffix>
+                    <el-button type="primary" @click="searchMsg">搜索</el-button>
+                </template>
+            </el-input>
+            <ul v-if="getData">
+                <li v-for="(essay, index) in satisfyDate" class="dateShow" @click="gotoApointPath(essay.path)">
+                    <div class="ml-10">文章:{{ essay.name }}</div>
+                    <div class="mr-10">分类:{{ essay.kind }}</div>
+                </li>
+            </ul>
+        </el-dialog>
+    </template>
 </template>
 
 
@@ -78,25 +75,27 @@
 
 
 .Headercontainer .middle {
-    @apply flex flex justify-center items-center  text-sm font-bold font-serif;
+    @apply flex flex justify-center items-center text-sm font-bold font-serif;
     width: 100%;
 }
 
 .Headercontainer .left {
-    @apply flex justify-center items-center;
+    @apply flex justify-start items-center;
 
 }
 
 .Headercontainer .left .logoHouse {
-    @apply text-xl mx-2;
+    @apply text-xl ml-3;
     height: auto;
 }
+
 .Headercontainer .left .logoExpand {
-    @apply text-xl mr-2;
+    @apply text-xl ml-3;
     height: auto;
 }
+
 .right {
-    @apply flex justify-center items-center left-0 right-0;
+    @apply flex justify-end items-center left-0 right-0;
 }
 
 .right .search {
@@ -104,7 +103,7 @@
 }
 
 .right .help {
-    @apply flex justify-center items-center;
+    @apply flex justify-center items-center mr-2;
     height: 24px;
 }
 
