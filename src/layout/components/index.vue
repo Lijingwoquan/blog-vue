@@ -22,7 +22,7 @@
 
     </div>
     <el-pagination background layout="prev, pager, next" :page-count="pageMax" @update:current-page="changePage"
-    class="page" />
+        class="page" />
 </template>
 
 
@@ -37,9 +37,11 @@ const essayData = store.state.essayData
 const orderByTimeEssayDate = ref([]);
 const pageMax = ref(1)
 let satisfyData = ref([])
-let count = 0
+
 function orderByTime(page) {
+    essayData.sort((a, b) => new Date(b.createdTime) - new Date(a.createdTime));
     // 清空数组，只保留一个默认的日期
+    let count = 0
     orderByTimeEssayDate.value = [];
     //orderByTimeEssayDate整合数据
     essayData.forEach(essay => {
@@ -59,13 +61,12 @@ function orderByTime(page) {
         let year = createdTime.getFullYear().toString();
         let month = (createdTime.getMonth() + 1).toString().padStart(2, '0');
         let day = createdTime.getDate().toString().padStart(2, '0');
-        let formattedDate = `${year}/${month}/${day}`;
+        let formattedDate = `${year}-${month}-${day}`;
 
         orderByTimeEssayDate.value.push({ page, createdTime: formattedDate, name, router, kind, introduction });
     });
-    // 对日期数组进行排序
-    orderByTimeEssayDate.value.sort((a, b) => new Date(b.createdTime) - new Date(a.createdTime));
 }
+
 function paging(page) {
     orderByTimeEssayDate.value.forEach(essay => {
         if (essay.page == page) {
@@ -73,11 +74,13 @@ function paging(page) {
         }
     })
 }
+
 // 调用排序函数
 orderByTime();
+
 paging(1)
+
 function toEssay(r) {
-    console
     router.push("essay" + r)
 }
 
@@ -94,7 +97,6 @@ function changePage(p) {
 
 
 <style scoped>
-
 .essay {
     @apply flex flex-col justify-center items-center mt-5 ml-5 mr-5;
     height: auto;
@@ -106,8 +108,8 @@ function changePage(p) {
 }
 
 .essay .top .title {
-    @apply text-2xl  font-serif font-bold m-auto;
-    white-space: nowrap; 
+    @apply text-2xl font-serif font-bold m-auto;
+    white-space: nowrap;
     color: black;
 }
 
@@ -118,11 +120,11 @@ function changePage(p) {
 }
 
 .middle .kind {
-    @apply text-lg font-mono mr-auto  text-purple-700;
+    @apply text-lg font-mono mr-auto text-purple-700;
 }
 
 .middle .date {
-    @apply text-lg font-mono  ml-auto text-purple-700;
+    @apply text-lg font-mono ml-auto text-purple-700;
 }
 
 
@@ -130,8 +132,9 @@ function changePage(p) {
     @apply flex justify-start my-3;
     width: 100%;
 }
-.bottom .introduction{
-    @apply  font-sans text-pink-500;
+
+.bottom .introduction {
+    @apply font-sans text-pink-500;
 }
 
 .page {

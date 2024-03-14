@@ -11,7 +11,7 @@
             </div>
             <div  class="flex-1" @click="toEssay(essay.router)"></div>
             <span class="date" @click="toEssay(essay.router)">
-                {{ essay.createdTime }}
+                {{ essay.createdTime.split(" ")[0] }}
             </span>
         </div>
 

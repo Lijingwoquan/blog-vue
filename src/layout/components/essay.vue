@@ -148,7 +148,7 @@ watch(() => route.fullPath, () => {
 
 .essayBasic .name {
     @apply text-2xl m-auto font-serif font-bold;
-    white-space: nowrap; 
+    white-space: nowrap !important; 
 }
 
 .essayBasic .subTitle {
@@ -159,9 +159,11 @@ watch(() => route.fullPath, () => {
 .subTitle>div {
     @apply flex justify-between items-center italic text-purple-700 my-5;
     width: 100%;
+
 }
 .subTitle>div .kind {
     @apply  text-purple-700 mr-1; 
+    white-space: nowrap; 
 }
 
 
