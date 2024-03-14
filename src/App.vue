@@ -1,5 +1,5 @@
 <template>
-  <router-view></router-view>
+  <router-view>  </router-view>
   <footer class="register">
     <a class="text-sm" target="_blank" href="https://github.com/liuzihao520">© 2024 罹景偓佺的博客 By 罹景.本站博客未经授权禁止转载. </a>
     <a class="text-sm" target="_blank" href="https://beian.miit.gov.cn/#/Integrated/index">备案信息:湘ICP备2024043210号.</a>
@@ -9,6 +9,7 @@
 <style>
 .register {
   @apply flex flex-col justify-center items-center italic mt-10 mb-5;
+  padding-left: 7.5% !important;
 }
 
 /* Webkit浏览器样式 */
