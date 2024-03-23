@@ -33,7 +33,7 @@
                 <template #dropdown>
                     <el-dropdown-menu>
                         <el-dropdown-item>
-                            <el-link type="primary" :underline="false" href="https://github.com/liuzihao520"
+                            <el-link type="primary" :underline="false" href="https://github.com/Lijingwoquan"
                                 target="_blank">联系作者</el-link>
                         </el-dropdown-item>
                     </el-dropdown-menu>
