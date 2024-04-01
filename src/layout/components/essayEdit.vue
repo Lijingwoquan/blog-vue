@@ -2,14 +2,8 @@
     <!-- 底部 -->
     <div class="bottom">
         <el-button type="primary" size="large" @click="addEssayPre" class="btn">添加文章</el-button>
-        <el-button type="primary" size="large" @click="fixContentPre" class="btn">修改内容</el-button>
     </div>
 
-    <!-- 修改文章内容的抽屉 -->
-    <el-drawer v-model="dialogForFixContent" title="修改文章内容" direction="ttb" append-to-body size="700px">
-        <el-input v-model="EssayContent" :autosize="{ minRows: 5, maxRows: 30 }" type="textarea" placeholder="编辑" />
-        <el-button type="primary" size="large" @click="fixContent" class="my-3" style="width: 100%;">修改内容</el-button>
-    </el-drawer>
 
     <!-- 添加文章的抽屉 -->
     <el-drawer v-model="dialogForAddEssay" title="添加文章" direction="ttb" append-to-body size="700px">
@@ -31,8 +25,7 @@
     </el-drawer>
 
     <!-- 富文本编辑器 -->
-    <v-md-editor v-model="edit" height="700px" @upload-image="handleUploadImage" :disabled-menus="[]"
-       />
+    <v-md-editor v-model="edit" height="720px" @upload-image="handleUploadImage" :disabled-menus="[]" />
 </template>
 
 
@@ -57,10 +50,8 @@ VueMarkdownEditor.use(createLineNumbertPlugin());
 const store = useStore()
 const classifyArr = store.state.classifyData
 const dialogForAddEssay = ref(false)
-const dialogForFixContent = ref(false)
 const customInput = ref(false)
 const edit = ref("")
-const EssayContent = ref("")
 
 const addEssayParms = reactive({
     name: "",
@@ -90,14 +81,6 @@ function customInputPre() {
     customInput.value = true
 }
 
-function fixContentPre() {
-    dialogForFixContent.value = true
-    EssayContent.value = edit.value
-}
-function fixContent() {
-    edit.value = EssayContent.value
-}
-
 function addEssayPre() {
     dialogForAddEssay.value = true
 }
@@ -114,10 +97,13 @@ function add() {
     @apply my-3;
     height: 35px;
 }
-.bottom{
+
+.bottom {
     @apply bottom-3 fixed;
+    z-index: 999;
 }
-.bottom .btn{
+
+.bottom .btn {
     @apply mx-3;
 }
 </style>

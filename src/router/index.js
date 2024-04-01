@@ -20,7 +20,7 @@ const routes = [{
     component: Login
 },
 {
-    path: "/admin/hht",
+    path: "/admin/lzh",
     component: Admin
 },
 {

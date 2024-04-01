@@ -1,11 +1,11 @@
 <template>
     <el-container>
-        <el-header>
+        <el-header style="z-index: 1000;">
             <classify></classify>
         </el-header>
         <el-row>
             <el-col :span="1">
-                <el-aside>
+                <el-aside style="z-index: 1000;">
                     <kind></kind>
                 </el-aside>
             </el-col>
@@ -35,7 +35,7 @@ import essay from "~/layout/admin/essay.vue";
 
 
 .el-aside {
-    @apply  bottom-0 top-0 fixed;
+    @apply bottom-0 top-0 fixed;
     width: auto;
 }
 </style>

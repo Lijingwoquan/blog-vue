@@ -1,14 +1,10 @@
 <template>
-    <div class="top">
-        <div>
-        </div>
-        <div class="search">
-            <sapn>查找文章</sapn>
-            <el-icon size="30px" @click="openSearch">
-                <Search />
-            </el-icon>
-        </div>
+    <div class="search">
+        <el-icon style="color:rebeccapurple;" size="30px" @click="openSearch">
+            <Search />
+        </el-icon>
     </div>
+
     <essayEdit></essayEdit>
 
     <!-- 修改文章的窗口 -->
@@ -50,7 +46,7 @@
             </ul>
         </el-dialog>
     </template>
-    
+
     <!-- 展示原有和新内容的窗口 -->
     <template>
         <el-dialog v-model="dialogForupdateEssayContent" :v-close-on-click-modal="true" :show-close="false"
@@ -99,7 +95,7 @@ function searchMsg() {
             let introduction = essay.introduction
             let router = "/" + essay.router.split("/")[2]
             let id = essay.id
-            satisfyDate.value.push({ name, introduction, kind, router,id })
+            satisfyDate.value.push({ name, introduction, kind, router, id })
         }
     })
     if (!(satisfyDate.value.length > 0)) {
@@ -153,13 +149,12 @@ onBeforeMount(() => {
 </script>
 
 <style scoped>
-.top {
-    @apply flex justify-between items-center mb-5;
-}
-
 .search {
-    @apply flex justify-center items-center;
+    @apply fixed;
+    top: 45px;
+    right: 40px;
     height: 30px;
+    z-index: 999;
 }
 
 .add {
