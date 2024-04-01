@@ -34,10 +34,10 @@
 
 
         </div>
-
         <div>
             <v-md-editor class="overflow-y-hidden overflow-x-auto" @copy-code-success="handleCopyCodeSuccess"
                 v-model="satisfyData.content" height="auto" mode="preview" />
+
         </div>
     </div>
 </template>
@@ -49,7 +49,7 @@ import { useStore } from "vuex"
 import { useRoute, useRouter } from 'vue-router';
 import { ref, watch, onMounted } from 'vue';
 import { getEssayMsg } from "~/api/user.js"
-import { toast } from"~/composables/util.js"
+import { toast } from "~/composables/util.js"
 import { ElLoading } from 'element-plus'
 import VueMarkdownEditor from '@kangc/v-md-editor';
 import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index';
@@ -62,6 +62,7 @@ import '@kangc/v-md-editor/lib/theme/style/github.css';
 import hljs from 'highlight.js';
 VueMarkdownEditor.use(githubTheme, {
     Hljs: hljs,
+
 });
 VueMarkdownEditor.use(createLineNumbertPlugin());
 VueMarkdownEditor.use(createCopyCodePlugin());
@@ -106,7 +107,7 @@ const handleCopyCodeSuccess = (content) => {
     //     return;
     // }
     toast("复制成功", "success");
-    
+
     navigator.clipboard.writeText(content).then(() => {
         // toast("复制成功", "success");
     }).catch((error) => {
@@ -143,12 +144,12 @@ watch(() => route.fullPath, () => {
 <style scoped>
 .essayBasic {
     @apply flex flex-col justify-center items-center overflow-hidden;
-    margin-top: 20px; 
+    margin-top: 20px;
 }
 
 .essayBasic .name {
     @apply text-2xl m-auto font-serif font-bold;
-    white-space: nowrap !important; 
+    white-space: nowrap !important;
 }
 
 .essayBasic .subTitle {
@@ -161,9 +162,10 @@ watch(() => route.fullPath, () => {
     width: 100%;
 
 }
+
 .subTitle>div .kind {
-    @apply  text-purple-700 mr-1; 
-    white-space: nowrap; 
+    @apply text-purple-700 mr-1;
+    white-space: nowrap;
 }
 
 

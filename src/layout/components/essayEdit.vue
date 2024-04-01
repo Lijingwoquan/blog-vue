@@ -25,7 +25,8 @@
     </el-drawer>
 
     <!-- 富文本编辑器 -->
-    <v-md-editor v-model="edit" height="720px" @upload-image="handleUploadImage" :disabled-menus="[]" />
+    <v-md-editor :include-level="[1, 2]" v-model="edit" height="720px" @upload-image="handleUploadImage"
+        :disabled-menus="[]" />
 </template>
 
 
@@ -43,7 +44,13 @@ import '@kangc/v-md-editor/lib/theme/style/github.css';
 import hljs from 'highlight.js';
 VueMarkdownEditor.use(githubTheme, {
     Hljs: hljs,
+    config: {
+        toc: {
+            includeLevel: [1, 2],
+        },
+    },
 });
+
 VueMarkdownEditor.use(createLineNumbertPlugin());
 
 
