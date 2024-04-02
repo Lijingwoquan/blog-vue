@@ -34,41 +34,36 @@ import { ref } from "vue"
 const router = useRouter()
 const store = useStore()
 const essayData = store.state.essayData
-const orderByTimeEssayDate = ref([]);
+const orderByTimeEssayId = ref([]);
 const pageMax = ref(1)
 let satisfyData = ref([])
 
-function orderByTime(page) {
-    essayData.sort((a, b) => new Date(b.createdTime) - new Date(a.createdTime));
-    // 清空数组，只保留一个默认的日期
+function orderByTime() {
+    essayData.sort((a, b) => b.id - a.id);
     let count = 0
-    orderByTimeEssayDate.value = [];
-    //orderByTimeEssayDate整合数据
+    orderByTimeEssayId.value = [];
+    //orderByTimeEssayId整合数据
     essayData.forEach(essay => {
         count++
         if (count > 10) {
             count = 0
             pageMax.value++
         }
-        // 将 essay.updatedTime 转换为日期对象，并添加到数组
-        let createdTime = new Date(essay.createdTime)
+       
+        let createdTime = essay.createdTime.split(" ")[0]
         let name = essay.name
         let router = essay.router
         let kind = essay.kind
         let introduction = essay.introduction
         let page = pageMax.value
-        // 格式化日期
-        let year = createdTime.getFullYear().toString();
-        let month = (createdTime.getMonth() + 1).toString().padStart(2, '0');
-        let day = createdTime.getDate().toString().padStart(2, '0');
-        let formattedDate = `${year}-${month}-${day}`;
 
-        orderByTimeEssayDate.value.push({ page, createdTime: formattedDate, name, router, kind, introduction });
+
+        orderByTimeEssayId.value.push({ page, createdTime, name, router, kind, introduction });
     });
 }
 
 function paging(page) {
-    orderByTimeEssayDate.value.forEach(essay => {
+    orderByTimeEssayId.value.forEach(essay => {
         if (essay.page == page) {
             satisfyData.value.push(essay)
         }

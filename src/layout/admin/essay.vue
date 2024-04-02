@@ -1,6 +1,6 @@
 <template>
-    <div class="search">
-        <el-icon style="color:rebeccapurple;" size="30px" @click="openSearch">
+    <div class="search" @click="openSearch">
+        <el-icon style="color:rebeccapurple;" size="30px">
             <Search />
         </el-icon>
     </div>
