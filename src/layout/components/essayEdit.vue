@@ -76,7 +76,7 @@ async function handleUploadImage(event, insertImage, files) {
         const formData = new FormData();
         formData.append('img', file);
         await uploadImg(formData)
-        edit.value += "![Description](http://127.0.0.1:8080/img/" + file.name + ")"
+        edit.value += "![Description](http://liuzihao.online:8080/img/" + file.name + ")"
     }
     catch (error) {
         toast("上传图片失败", "error")
