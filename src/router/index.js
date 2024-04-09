@@ -1,6 +1,7 @@
 import {
     createRouter,
     createWebHashHistory,
+    createWebHistory 
 } from 'vue-router'
 
 import Index from '~/pages/index.vue'
@@ -30,10 +31,8 @@ const routes = [{
 },
 ]
 
-
-
 export const router = createRouter({
-    history: createWebHashHistory(),
+    history: createWebHistory(),
     routes
 })
 
