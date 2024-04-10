@@ -1,5 +1,8 @@
 import axios from "~/axios.js";
 import { toast } from '~/composables/util'
+import { getToken } from "~/composables/auth.js";
+
+
 export function login(username, password) {
     return axios.post("/user/login", {
         username,
@@ -86,10 +89,15 @@ export function deleteEssay(id) {
 }
 
 export function uploadImg(file) {
+    const token = getToken()
     return new Promise((resolve, reject) => {
-        axios.post("/manager/uploadImg",file)
+        axios.post("/manager/uploadImg", file, {
+            headers: {
+                "Authorization": "Bearer " + token,
+            }
+        })
             .then(res => {
-                toast("上传图片成功","success")
+                toast("上传图片成功", "success")
                 resolve(res);
             })
             .catch(err => {

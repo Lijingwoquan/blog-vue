@@ -1,7 +1,6 @@
 <template>
     <div v-if="showEssay">
         <el-backtop :right="30" :bottom="30" />
-
         <div class="essayBasic">
             <span class="name">
                 {{ satisfyData ? satisfyData.name : '' }}
@@ -9,35 +8,44 @@
             <div class="subTitle">
                 <div>
                     <div>
-                        <div class="createTime">
+                        <div class="left mb-5">
                             创建于:
                             {{ satisfyData ? satisfyData.createdTime.split("T").join(" ").split("Z")[0].split(" ")[0] :
-        "" }}
+                                "" }}
                         </div>
 
-                        <div class="updatetime">
+                        <div class="left">
                             更新于:
                             {{ satisfyData ? satisfyData.updatedTime.split("T").join(" ").split("Z")[0]
-        .split(" ").join(" ") : "" }}
+                                .split(" ").join(" ").split(" ")[0] : "" }}
                         </div>
                     </div>
 
-                    <div class="kind" @click="toKind">
-                        {{ satisfyData ? satisfyData.kind : "" }}
+                    <div>
+                        <div class="right mb-5 ml-auto" @click="toKind">
+                            <span class="ml-auto ">
+                                {{ satisfyData ? satisfyData.kind : "" }}
+                            </span>
+                        </div>
+                        <div class="right">
+                            浏览次数:10000次
+                        </div>
                     </div>
                 </div>
+
+
 
                 <span class="introduction">
                     简介:{{ satisfyData ? satisfyData.introduction : "" }}
                 </span>
-            </div>
 
+
+            </div>
 
         </div>
         <div>
             <v-md-editor class="overflow-y-hidden overflow-x-auto" @copy-code-success="handleCopyCodeSuccess"
                 v-model="satisfyData.content" height="auto" mode="preview" />
-
         </div>
     </div>
 </template>
@@ -157,24 +165,21 @@ watch(() => route.fullPath, () => {
 }
 
 .subTitle>div {
-    @apply flex justify-between items-center italic text-purple-700 my-5;
+    @apply flex justify-between items-center text-purple-700 my-5;
     width: 100%;
 
 }
 
-.subTitle>div .kind {
-    @apply text-purple-700 mr-1;
+.subTitle>div>div .right {
+    @apply text-purple-700 mr-1 flex ml-auto;
     white-space: nowrap;
 }
 
 
-.subTitle>div>div .createTime {
-    @apply mb-5 text-purple-700;
-}
-
-.subTitle>div>div .updatetime {
+.subTitle>div>div .left {
     @apply text-purple-700;
 }
+
 
 .introduction {
     @apply mr-auto italic text-pink-500 font-sans;
