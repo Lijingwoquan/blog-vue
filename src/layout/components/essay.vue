@@ -28,7 +28,7 @@
                             </span>
                         </div>
                         <div class="right">
-                            浏览次数:10000次
+                            浏览次数:{{ satisfyData ? satisfyData.visitedTimes : "" }}次
                         </div>
                     </div>
                 </div>
