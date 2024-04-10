@@ -43,7 +43,6 @@
 </template>
 
 
-
 <script setup>
 import { useStore } from "vuex"
 import { useRoute, useRouter } from 'vue-router';
@@ -66,6 +65,7 @@ VueMarkdownEditor.use(githubTheme, {
 });
 VueMarkdownEditor.use(createLineNumbertPlugin());
 VueMarkdownEditor.use(createCopyCodePlugin());
+
 
 const store = useStore()
 const route = useRoute()
@@ -113,9 +113,7 @@ const handleCopyCodeSuccess = (content) => {
     }).catch((error) => {
         // toast("复制失败", "error");
     });
-
 };
-
 
 
 onMounted(() => {
@@ -138,6 +136,7 @@ watch(() => route.fullPath, () => {
     satisfyData.value = null  //存储文章的数据
     getCurrentData()
 })
+
 </script>
 
 

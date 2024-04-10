@@ -67,6 +67,78 @@
 </template>
 
 
+<script setup>
+import NavAside from '~/layout/base/NavAside.vue';
+import { ref, onMounted, onBeforeMount, watch } from "vue"
+import { useStore } from 'vuex';
+import { useRouter, useRoute } from 'vue-router';
+import { toast } from '~/composables/util'
+
+const dialogVisible = ref(false);
+const store = useStore()
+const essayData = store.state.essayData
+const router = useRouter()
+const route = useRoute()
+const dialogMenu = ref(false);
+
+function openMenu() {
+    dialogMenu.value = true
+}
+watch(() => route.fullPath, () => {
+    dialogMenu.value = false
+})
+function toIndex() {
+    router.push("/")
+}
+
+
+function openSearch() {
+    dialogVisible.value = true
+}
+const input = ref('')
+let getData = ref(false)
+let satisfyDate = ref([])
+
+function searchMsg() {
+    satisfyDate.value = []
+    essayData.forEach(essay => {
+        if (essay.name.includes(input.value)) {
+            let name = essay.name
+            let path = essay.router
+            let kind = essay.kind
+            satisfyDate.value.push({ name, path, kind })
+        }
+    })
+    if (!(satisfyDate.value.length > 0)) {
+        toast("没用查找到相关文章", "warning")
+    }
+    getData.value = true
+}
+const gotoApointPath = (path) => {
+    router.push("/essay" + path)
+    dialogVisible.value = false
+}
+
+
+function onKeyUp(e) {
+    if (e.key == "Enter" && dialogVisible.value == true) {
+        searchMsg()
+    }
+}
+//添加键盘的监听
+onMounted(() => {
+    document.addEventListener("keyup", onKeyUp)
+})
+//移除键盘监听
+onBeforeMount(() => {
+    document.removeEventListener("keyup", onKeyUp)
+})
+</script>
+
+
+
+
+
 <style scoped>
 .Headercontainer {
     @apply flex justify-between items-center fixed top-0 left-0 right-0;
@@ -150,71 +222,3 @@
 </style>
 
 
-<script setup>
-import NavAside from '~/layout/base/NavAside.vue';
-
-import { ref, onMounted, onBeforeMount, watch } from "vue"
-import { useStore } from 'vuex';
-import { useRouter, useRoute } from 'vue-router';
-import { toast } from '~/composables/util'
-
-const dialogVisible = ref(false);
-const store = useStore()
-const essayData = store.state.essayData
-const router = useRouter()
-const route = useRoute()
-const dialogMenu = ref(false);
-
-function openMenu() {
-    dialogMenu.value = true
-}
-watch(() => route.fullPath, () => {
-    dialogMenu.value = false
-})
-function toIndex() {
-    router.push("/")
-}
-
-
-function openSearch() {
-    dialogVisible.value = true
-}
-const input = ref('')
-let getData = ref(false)
-let satisfyDate = ref([])
-
-function searchMsg() {
-    satisfyDate.value = []
-    essayData.forEach(essay => {
-        if (essay.name.includes(input.value)) {
-            let name = essay.name
-            let path = essay.router
-            let kind = essay.kind
-            satisfyDate.value.push({ name, path, kind })
-        }
-    })
-    if (!(satisfyDate.value.length > 0)) {
-        toast("没用查找到相关文章", "warning")
-    }
-    getData.value = true
-}
-const gotoApointPath = (path) => {
-    router.push("/essay" + path)
-    dialogVisible.value = false
-}
-
-
-function onKeyUp(e) {
-    if (e.key == "Enter" && dialogVisible.value == true) {
-        searchMsg()
-    }
-}
-//添加键盘的监听
-onMounted(() => {
-    document.addEventListener("keyup", onKeyUp)
-})
-//移除键盘监听
-onBeforeMount(() => {
-    document.removeEventListener("keyup", onKeyUp)
-})
-</script>
