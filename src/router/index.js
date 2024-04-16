@@ -19,18 +19,17 @@ const routes = [{
 },
 {
     path: "/login",
-    component: Login
+    component: Login,
 },
 {
     path: "/admin/lzh",
-    component: Admin
+    component: Admin,
 },
 {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
-    component: NotFound
-},
-]
+    component: NotFound,
+}]
 
 const index = {
     path: "/",
@@ -40,13 +39,6 @@ const index = {
     }
 }
 
-const admin = {
-    path: "/",
-    component: Index,
-    meta: {
-        title: "后台首页"
-    }
-}
 
 export const router = createRouter({
     history: createWebHistory(),
@@ -75,7 +67,7 @@ export function addRouters(dataAboutIndexMenu) {
                     path: "/classify" + classifyPath,
                     component: Classify,
                     meta: {
-                        title: Details.name
+                        title: Details.name,
                     }
                 };
 
@@ -99,8 +91,9 @@ export function addRouters(dataAboutIndexMenu) {
                 path: "/essay" + classifyPath + essayPath,
                 component: Essay,
                 meta: {
-                    title: element.name
-                }
+                    title: element.name,
+                },
+                name: "essay" +  essayPath
             };
             if (!router.hasRoute(essay.path)) {
                 router.addRoute("blog", essay)

@@ -49,7 +49,7 @@
 <script setup>
 import { useStore } from "vuex"
 import { useRoute, useRouter } from 'vue-router';
-import { ref, watch, onMounted } from 'vue';
+import { ref, watch, onMounted,onBeforeMount } from 'vue';
 import { getEssayMsg } from "~/api/user.js"
 import { toast } from "~/composables/util.js"
 import { ElLoading } from 'element-plus'
@@ -78,25 +78,26 @@ const showEssay = ref(false)
 const kind = ref(null)
 const satisfyData = ref(null)  //存储文章的数据
 //根据文章名字去获取文章详细内容
-const getCurrentData = (() => {
+const getCurrentData = async () => {
     const essayRouter = "/" + route.path.split("/").slice(2, 4).join("/")
     // 去查文章的名字
     const essayData = store.state.essayData
     let essayId = null
     for (const essay of essayData) {
-        if (essay.router == essayRouter) {   //有一个好处 就算后端加router时router一样 但是分类不一样 这样也不会导致数据读取失败
+        if (essay.router == essayRouter) {
             kind.value = essay.kind
             essayId = essay.id
             break
         }
     }
     //从后端得到相关文章的数据
-    getEssayMsg(essayId).then(res => {
+    await getEssayMsg(essayId).then(res => {
         satisfyData.value = res
-    }).catch(err => {
-        console.log(err)
     })
-})
+}
+
+getCurrentData()
+
 
 const toKind = (() => {
     let essayRouter = "/" + route.path.split("/").slice(2, 4).join("/")
@@ -104,22 +105,14 @@ const toKind = (() => {
 })
 
 const handleCopyCodeSuccess = (content) => {
-    // if (!navigator.clipboard) {
-    //     toast("浏览器不支持复制到剪贴板功能", "error");
-    //     return;
-    // }
     toast("复制成功", "success");
-
-    navigator.clipboard.writeText(content).then(() => {
-        // toast("复制成功", "success");
-    }).catch((error) => {
-        // toast("复制失败", "error");
-    });
 };
 
+onBeforeMount(() => {
+    getCurrentData()
+})
 
 onMounted(() => {
-    getCurrentData()
     const loading = ElLoading.service({
         lock: true,
         text: '正在努力加载文章中 Loading...',
@@ -135,7 +128,7 @@ onMounted(() => {
 });
 
 watch(() => route.fullPath, () => {
-    satisfyData.value = null  //存储文章的数据
+    satisfyData.value = ''  //存储文章的数据
 })
 
 </script>

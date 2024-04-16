@@ -12,12 +12,12 @@
             </el-col>
             <el-col :xs="24" :sm="14" :md="14" :lg="14" :xl="14">
                 <el-main>
-                    <router-view v-slot="{ Component }">
-                        <transition name="fade">
-                            <keep-alive :max="5">
-                                <component :is="Component"></component>
-                            </keep-alive>
-                        </transition>
+                    <router-view v-slot="{ Component, route }">
+                        <keep-alive :max="10" :exclude="/^essay/">
+                            <component :is="Component"></component>
+                        </keep-alive>
+                        
+
                         <footer class="register">
                             <a class="text-sm" target="_blank" href="https://github.com/Lijingwoquan">© 2024 罹景偓佺的博客 By
                                 罹景.本站博客未经授权禁止转载. </a>
@@ -51,7 +51,8 @@ import NavAside from '~/layout/components/NavAside.vue';
     width: 110px;
     top: 60px;
 }
+
 .register {
-  @apply flex flex-col justify-center items-center italic mt-10 mb-5;
+    @apply flex flex-col justify-center items-center italic mt-10 mb-5;
 }
 </style>
