@@ -28,7 +28,7 @@
                             </span>
                         </div>
                         <div class="right">
-                            浏览次数:{{ satisfyData ? satisfyData.visitedTimes : "" }}次
+                            <span class="ml-auto"> {{ satisfyData ? satisfyData.visitedTimes : "" }}次 </span>
                         </div>
                     </div>
                 </div>
