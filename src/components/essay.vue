@@ -96,7 +96,6 @@ const getCurrentData = async () => {
     })
 }
 
-getCurrentData()
 
 
 const toKind = (() => {
