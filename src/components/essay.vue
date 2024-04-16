@@ -97,7 +97,6 @@ const getCurrentData = (() => {
         console.log(err)
     })
 })
-getCurrentData()
 
 const toKind = (() => {
     let essayRouter = "/" + route.path.split("/").slice(2, 4).join("/")
@@ -120,6 +119,7 @@ const handleCopyCodeSuccess = (content) => {
 
 
 onMounted(() => {
+    getCurrentData()
     const loading = ElLoading.service({
         lock: true,
         text: '正在努力加载文章中 Loading...',
@@ -127,7 +127,6 @@ onMounted(() => {
     })
     setTimeout(async () => {
         while (satisfyData.value === null) {
-            console.log(satisfyData.value)
             await new Promise(resolve => setTimeout(resolve, 100)); // 等待100毫秒
         }
         loading.close()
@@ -137,7 +136,6 @@ onMounted(() => {
 
 watch(() => route.fullPath, () => {
     satisfyData.value = null  //存储文章的数据
-    getCurrentData()
 })
 
 </script>
