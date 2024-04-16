@@ -33,15 +33,10 @@
                     </div>
                 </div>
 
-
-
                 <span class="introduction">
                     简介:{{ satisfyData ? satisfyData.introduction : "" }}
                 </span>
-
-
             </div>
-
         </div>
         <div>
             <v-md-editor class="overflow-y-hidden overflow-x-auto" @copy-code-success="handleCopyCodeSuccess"

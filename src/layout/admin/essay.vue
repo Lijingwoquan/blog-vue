@@ -66,7 +66,7 @@ import { ref, onMounted, onBeforeMount } from "vue"
 import { useStore } from 'vuex';
 import { toast } from '~/composables/util'
 import { ElMessageBox } from 'element-plus'
-import essayEdit from '~/layout/components/essayEdit.vue';
+import essayEdit from '~/components/essayEdit.vue';
 import { updateEssayMsg, deleteEssay, updateEssayContent } from "~/api/manager.js"
 import { getEssayMsg } from "~/api/user.js"
 

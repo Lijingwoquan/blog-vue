@@ -1,9 +1,10 @@
 import {
     createRouter,
     createWebHashHistory,
-    createWebHistory 
+    createWebHistory
 } from 'vue-router'
 
+import blog from '~/layout/blog.vue'
 import Index from '~/pages/index.vue'
 import NotFound from '~/pages/404.vue'
 import Login from '~/pages/login.vue'
@@ -14,7 +15,8 @@ import Admin from "~/pages/admin.vue"
 //默认路由 所有用户共享
 const routes = [{
     path: "/",
-    component: Index,
+    component: blog,
+    name: "blog",
 },
 {
     path: "/login",
@@ -31,10 +33,26 @@ const routes = [{
 },
 ]
 
+const index = {
+    path: "/",
+    component: Index,
+    meta: {
+        title: "后台首页"
+    }
+}
+
+
+
 export const router = createRouter({
     history: createWebHistory(),
     routes
 })
+
+//添加首页路由
+export function addIndexRouter() {
+    router.addRoute("blog", index)
+}
+
 
 //动态添加路由
 export function addRouters(dataAboutIndexMenu) {
@@ -50,7 +68,6 @@ export function addRouters(dataAboutIndexMenu) {
                 let classifyPath = Details.router
                 let classify = {
                     path: "/classify" + classifyPath,
-                    name: classifyPath,
                     component: Classify,
                     meta: {
                         title: Details.name
@@ -59,7 +76,7 @@ export function addRouters(dataAboutIndexMenu) {
 
                 if (!router.hasRoute(classify.path)) {
                     hasNewRoutes = true
-                    router.addRoute("/", classify)
+                    router.addRoute("blog", classify)
                 }
 
                 let essayArr = Details.essay
@@ -75,14 +92,13 @@ export function addRouters(dataAboutIndexMenu) {
             let essayPath = element.router
             let essay = {
                 path: "/essay" + classifyPath + essayPath,
-                name: classifyPath + essayPath,
                 component: Essay,
                 meta: {
                     title: element.name
                 }
             };
             if (!router.hasRoute(essay.path)) {
-                router.addRoute("/", essay)
+                router.addRoute("blog", essay)
             }
         });
     }
