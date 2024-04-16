@@ -45,7 +45,7 @@ function orderByTime() {
     //orderByTimeEssayId整合数据
     essayData.forEach(essay => {
         count++
-        if (count > 10) {
+        if (count >= 5) {
             count = 0
             pageMax.value++
         }

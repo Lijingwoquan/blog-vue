@@ -81,7 +81,6 @@ function changePage(p) {
 watch(() => route.fullPath, () => {
     satisfyData.value = []
     pageMax.value = 1
-    getCurrentData(1)
 });
 
 

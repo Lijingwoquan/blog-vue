@@ -68,6 +68,7 @@
 
 
 <script setup>
+import NavAside from '~/layout/components/NavAside.vue';
 import { ref, onMounted, onBeforeMount, watch } from "vue"
 import { useStore } from 'vuex';
 import { useRouter, useRoute } from 'vue-router';
