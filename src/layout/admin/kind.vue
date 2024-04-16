@@ -6,7 +6,6 @@
             </el-icon>
         </div>
     </div>
-
     <el-drawer v-model="dialogMenuForKind" title="kind菜单" direction="ltr" append-to-body size="500px">
         <span>修改分类图标</span>
         <div v-for="(kind, index) in classifiesKind" class="lists">

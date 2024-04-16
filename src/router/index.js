@@ -1,6 +1,5 @@
 import {
     createRouter,
-    createWebHashHistory,
     createWebHistory
 } from 'vue-router'
 
@@ -41,7 +40,13 @@ const index = {
     }
 }
 
-
+const admin = {
+    path: "/",
+    component: Index,
+    meta: {
+        title: "后台首页"
+    }
+}
 
 export const router = createRouter({
     history: createWebHistory(),

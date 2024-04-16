@@ -1,10 +1,10 @@
 <template>
     <el-container>
         <el-header style="z-index: 1000;">
-            <classify ></classify>
+            <classify></classify>
         </el-header>
         <el-row>
-            <el-col :span="1">
+            <el-col :span="1" >
                 <el-aside  style="z-index: 1000;">
                     <kind></kind>
                 </el-aside>
@@ -13,8 +13,6 @@
                 <el-main>
                     <essay></essay>
                 </el-main>
-            </el-col>
-            <el-col :xs="0" :sm="2" :md="3" :lg="3" :xl="3">
             </el-col>
         </el-row>
     </el-container>
