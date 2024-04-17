@@ -2,7 +2,7 @@
     <div class="nav-aside">
         <el-menu unique-opened active-text-color="blue" :default-active="defaultActive" class="menu"
             @select="handleSelect">
-            <div v-for="(item, index) in menu" :key="item.icon" :index="item.icon">
+            <div v-for="(item, index) in menu" :key="index" :index="index">
                 <el-sub-menu v-if="Array.isArray(item.classifyDetails) && item.classifyDetails.length > 0"
                     :index="item.icon">
                     <template #title>
@@ -24,7 +24,7 @@
 
 <script setup>
 import { useRouter, useRoute } from 'vue-router';
-import { computed, ref } from 'vue';
+import { computed, ref,watch } from 'vue';
 import { useStore } from 'vuex';
 
 
@@ -42,6 +42,12 @@ const menu = computed(() => store.state.indexData)
 const handleSelect = (e) => {
     router.push(e)
 }
+
+watch(() => route.fullPath, () => {
+    defaultActive.value = '/classify/' + route.path.split('/')[2]
+})
+
+
 </script>
 
 

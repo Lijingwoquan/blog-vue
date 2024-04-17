@@ -1,5 +1,5 @@
 <template>
-    <div v-for="(essay, index) in satisfyData" class="essay" :key="essay.router">
+    <div v-for="(essay, index) in satisfyData" class="essay" :key="index">
         <div class="top" @click="toEssay(essay.router)">
             <el-link class="title" target="_self" type="info">{{
         essay.name }}</el-link>
@@ -67,6 +67,7 @@ const getCurrentData = ((page) => {
 
 getCurrentData(1)
 
+
 const toEssay = ((r) => {
     router.push('/essay' + r)
 })
@@ -81,6 +82,7 @@ function changePage(p) {
 watch(() => route.fullPath, () => {
     satisfyData.value = []
     pageMax.value = 1
+    getCurrentData(1)
 });
 
 
