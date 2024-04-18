@@ -1,28 +1,31 @@
 <template>
-    <div v-for="(essay, index) in satisfyData" class="essay" :key="essay.router">
-        <div class="top" @click="toEssay(essay.router)">
-            <span class="title">{{ essay.name }}</span>
-        </div>
-        <div class="middle">
-            <div class="kind" @click="toKind(essay)">
-                {{ essay.kind }}
+    <div v-loading="loading">
+        <div v-for="(essay, index) in satisfyData" class="essay" :key="index">
+            <div class="top" @click="toEssay(essay.router)">
+                <span class="title">{{ essay.name }}</span>
             </div>
-            <div style="width: auto;" class="flex-1" @click="toEssay(essay.router)"></div>
-            <span class="date" @click="toEssay(essay.router)">
-                {{ essay.createdTime }}
-            </span>
-        </div>
+            <div class="middle">
+                <div class="kind" @click="toKind(essay)">
+                    {{ essay.kind }}
+                </div>
+                <div style="width: auto;" class="flex-1" @click="toEssay(essay.router)"></div>
+                <span class="date" @click="toEssay(essay.router)">
+                    {{ essay.createdTime }}
+                </span>
+            </div>
 
-        <div class="bottom" @click="toEssay(essay.router)">
-            <el-text truncated class="introduction">
-                {{ essay.introduction }}
-            </el-text>
-        </div>
-        <el-divider border-style="dotted" />
+            <div class="bottom" @click="toEssay(essay.router)">
+                <el-text truncated class="introduction">
+                    {{ essay.introduction }}
+                </el-text>
+            </div>
+            <el-divider border-style="dotted" />
 
+        </div>
+        <el-pagination background layout="prev, pager, next" :current-page="currentPage" :page-count="pageMax"
+            @update:current-page="changePage" class="page" />
     </div>
-    <el-pagination background layout="prev, pager, next" :page-count="pageMax" @update:current-page="changePage"
-        class="page" />
+
 </template>
 
 
@@ -30,26 +33,33 @@
 import { useStore } from "vuex"
 import { useRouter } from 'vue-router';
 import { ref } from "vue"
+import {
+    setIndexPage,
+    getIndexPage
+} from "~/composables/auth.js"
 
 const router = useRouter()
 const store = useStore()
 const essayData = store.state.essayData
 const orderByTimeEssayId = ref([]);
 const pageMax = ref(1)
-let satisfyData = ref([])
+const currentPage = ref(1)
+const satisfyData = ref([])
+const loading = ref(false)
 
 function orderByTime() {
+    loading.value = true
     essayData.sort((a, b) => b.id - a.id);
     let count = 0
     orderByTimeEssayId.value = [];
     //orderByTimeEssayId整合数据
     essayData.forEach(essay => {
         count++
-        if (count >= 5) {
+        if (count > 5) {
             count = 0
             pageMax.value++
         }
-       
+
         let createdTime = essay.createdTime.split(" ")[0]
         let name = essay.name
         let router = essay.router
@@ -60,6 +70,7 @@ function orderByTime() {
 
         orderByTimeEssayId.value.push({ page, createdTime, name, router, kind, introduction });
     });
+    loading.value = false
 }
 
 function paging(page) {
@@ -73,7 +84,14 @@ function paging(page) {
 // 调用排序函数
 orderByTime();
 
-paging(1)
+let page = getIndexPage()
+if (page <= pageMax.value) {
+    changePage(page)
+} else {
+    changePage(1)
+}
+
+
 
 function toEssay(r) {
     router.push("essay" + r)
@@ -85,7 +103,9 @@ function toKind(r) {
 
 function changePage(p) {
     satisfyData.value = []
+    currentPage.value = p
     paging(p)
+    setIndexPage(p)
 }
 </script>
 

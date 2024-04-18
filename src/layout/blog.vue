@@ -12,7 +12,7 @@
             </el-col>
             <el-col :xs="24" :sm="14" :md="14" :lg="14" :xl="14">
                 <el-main>
-                    <router-view v-slot="{ Component, route }">
+                    <router-view v-slot="{ Component }">
                         <keep-alive :max="10" :exclude="/^essay/">
                             <component :is="Component"></component>
                         </keep-alive>

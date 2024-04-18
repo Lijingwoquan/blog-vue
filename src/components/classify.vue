@@ -1,32 +1,34 @@
 <template>
-    <div v-for="(essay, index) in satisfyData" class="essay" :key="index">
-        <div class="top" @click="toEssay(essay.router)">
-            <el-link class="title" target="_self" type="info">{{
-        essay.name }}</el-link>
-        </div>
-
-        <div class="middle">
-            <div class="kind">
-                {{ essay.kind }}
+    <div v-loading="loading">
+        <div v-for="(essay, index) in satisfyData" class="essay" :key="index">
+            <div class="top" @click="toEssay(essay.router)">
+                <el-link class="title" target="_self" type="info">{{
+                    essay.name }}</el-link>
             </div>
-            <div  class="flex-1" @click="toEssay(essay.router)"></div>
-            <span class="date" @click="toEssay(essay.router)">
-                {{ essay.createdTime.split(" ")[0] }}
-            </span>
+
+            <div class="middle">
+                <div class="kind">
+                    {{ essay.kind }}
+                </div>
+                <div class="flex-1" @click="toEssay(essay.router)"></div>
+                <span class="date" @click="toEssay(essay.router)">
+                    {{ essay.createdTime.split(" ")[0] }}
+                </span>
+            </div>
+
+            <div class="bottom" @click="toEssay(essay.router)">
+                <el-text truncated class="introduction">
+                    {{ essay.introduction }}
+                </el-text>
+            </div>
+
+            <el-divider border-style="dotted" />
+
         </div>
 
-        <div class="bottom" @click="toEssay(essay.router)">
-            <el-text truncated class="introduction">
-                {{ essay.introduction }}
-            </el-text>
-        </div>
-
-        <el-divider border-style="dotted" />
-
+        <el-pagination background layout="prev, pager, next" :page-count="pageMax" @update:current-page="changePage"
+             class="page" />
     </div>
-
-    <el-pagination background layout="prev, pager, next" :page-count="pageMax" @update:current-page="changePage"
-        class="page" />
 </template>
 
 
@@ -34,13 +36,16 @@
 import { useStore } from "vuex"
 import { useRouter, useRoute } from 'vue-router';
 import { ref, watch } from 'vue';
+
 const store = useStore()
 const route = useRoute()
 const router = useRouter()
 const pageMax = ref(1)
-let satisfyData = ref([])
+const satisfyData = ref([])
+const loading = ref(false)
 
 const getCurrentData = ((page) => {
+    loading.value = true
     let currentClassify = ref(null)
     const classifyData = store.state.classifyData
     const essayData = store.state.essayData
@@ -63,10 +68,8 @@ const getCurrentData = ((page) => {
         }
 
     }
+    loading.value = false
 })
-
-getCurrentData(1)
-
 
 const toEssay = ((r) => {
     router.push('/essay' + r)
@@ -77,6 +80,8 @@ function changePage(p) {
     getCurrentData(p)
 }
 
+changePage(1)
+
 
 // 监听路由变化，当路由变化时更新 ref 值
 watch(() => route.fullPath, () => {
@@ -84,8 +89,6 @@ watch(() => route.fullPath, () => {
     pageMax.value = 1
     getCurrentData(1)
 });
-
-
 </script>
 
 
@@ -101,8 +104,8 @@ watch(() => route.fullPath, () => {
 }
 
 .essay .top .title {
-    @apply text-2xl  font-serif font-bold m-auto;
-    white-space: nowrap; 
+    @apply text-2xl font-serif font-bold m-auto;
+    white-space: nowrap;
     color: black;
 }
 
@@ -113,11 +116,11 @@ watch(() => route.fullPath, () => {
 }
 
 .middle .kind {
-    @apply text-lg  font-mono mr-auto  text-purple-700;
+    @apply text-lg font-mono mr-auto text-purple-700;
 }
 
 .middle .date {
-    @apply text-lg font-mono  ml-auto text-purple-700;
+    @apply text-lg font-mono ml-auto text-purple-700;
 }
 
 
@@ -125,8 +128,9 @@ watch(() => route.fullPath, () => {
     @apply flex justify-start my-3;
     width: 100%;
 }
-.bottom .introduction{
-    @apply  font-sans text-pink-500;
+
+.bottom .introduction {
+    @apply font-sans text-pink-500;
 }
 
 .page {

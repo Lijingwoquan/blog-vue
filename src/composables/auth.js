@@ -1,8 +1,9 @@
 import { useCookies } from '@vueuse/integrations/useCookies';
-import { useRouter } from 'vue-router'
 const tokenKey = "token"
+const indexPageKey = "index-page"
+const classifyPageKey = "classify-page"
+
 const cookie = useCookies()
-const router = useRouter()
 
 //获取token
 export function getToken() {
@@ -15,5 +16,13 @@ export function setToken(token) {
 //移除token
 export function removeToken() {
     return cookie.remove(tokenKey)
+}
+//设置首页页码
+export function setIndexPage(page) {
+    return cookie.set(indexPageKey, page)
+}
+//获取首页页码
+export function getIndexPage() {
+    return cookie.get(indexPageKey)
 }
 
