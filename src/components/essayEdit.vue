@@ -76,7 +76,10 @@ async function handleUploadImage(event, insertImage, files) {
         const formData = new FormData();
         formData.append('img', file);
         await uploadImg(formData)
-        edit.value += "![Description](http://liuzihao.online:8080/img/" + file.name + ")"
+        const apiBase = import.meta.env.VITE_APP_BASE_API;
+
+        edit.value += `![Description](${apiBase}/img/${file.name})`
+    
     }
     catch (error) {
         toast("上传图片失败", "error")
