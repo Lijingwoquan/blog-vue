@@ -56,17 +56,21 @@ import { ElLoading } from 'element-plus'
 
 
 
-import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index';
 
-import createCopyCodePlugin from '@kangc/v-md-editor/lib/plugins/copy-code/index';
-import '@kangc/v-md-editor/lib/plugins/copy-code/copy-code.css';
+
 //富文本插件
 import VueMarkdownEditor from '@kangc/v-md-editor';
 import '@kangc/v-md-editor/lib/style/base-editor.css';
+// vuepressTheme主题
 import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
 import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
+// 代码高亮
 import Prism from 'prismjs';
-
+//代码快捷复制
+import createCopyCodePlugin from '@kangc/v-md-editor/lib/plugins/copy-code/index';
+import '@kangc/v-md-editor/lib/plugins/copy-code/copy-code.css';
+// 代码行数 
+import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index';
 
 
 VueMarkdownEditor.use(vuepressTheme, {

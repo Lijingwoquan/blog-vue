@@ -25,11 +25,8 @@
     </el-drawer>
 
     <!-- 富文本编辑器 -->
-    <v-md-editor :include-level="[1, 2]" v-model="edit" height="720px" 
-        @upload-image="handleUploadImage"
-        :disabled-menus="[]" />
-  <!-- <v-md-editor v-model="text" height="400px"></v-md-editor> -->
-
+    <v-md-editor :include-level="[1, 2]" v-model="edit" height="720px" @upload-image="handleUploadImage"
+        right-toolbar="| tip| todo-list" :disabled-menus="[]" />
 </template>
 
 
@@ -42,10 +39,16 @@ import { toast } from "~/composables/util";
 //富文本插件
 import VueMarkdownEditor from '@kangc/v-md-editor';
 import '@kangc/v-md-editor/lib/style/base-editor.css';
+// vuepressTheme主题
 import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
 import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
+// 代码高亮
 import Prism from 'prismjs';
-
+// 代码行数 
+import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index';
+//todolist
+import createTodoListPlugin from '@kangc/v-md-editor/lib/plugins/todo-list/index';
+import '@kangc/v-md-editor/lib/plugins/todo-list/todo-list.css';
 
 
 VueMarkdownEditor.use(vuepressTheme, {
@@ -55,7 +58,8 @@ VueMarkdownEditor.use(vuepressTheme, {
     // md.set(option).use(plugin);
   },
 });
-
+VueMarkdownEditor.use(createTodoListPlugin());
+VueMarkdownEditor.use(createLineNumbertPlugin());
 
 
 const store = useStore()
@@ -83,7 +87,7 @@ async function handleUploadImage(event, insertImage, files) {
         const apiBase = import.meta.env.VITE_APP_BASE_API;
 
         edit.value += `![Description](${apiBase}/img/${file.name})`
-    
+
     }
     catch (error) {
         toast("上传图片失败", "error")
