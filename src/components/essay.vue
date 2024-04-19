@@ -39,7 +39,7 @@
             </div>
         </div>
         <div>
-            <v-md-editor class="overflow-y-hidden overflow-x-auto" @copy-code-success="handleCopyCodeSuccess"
+            <v-md-editor class="overflow-y-hidden overflow-x-hidden" @copy-code-success="handleCopyCodeSuccess"
                 v-model="satisfyData.content" height="auto" mode="preview" />
         </div>
     </div>
@@ -53,19 +53,30 @@ import { ref, watch, onMounted,onBeforeMount } from 'vue';
 import { getEssayMsg } from "~/api/user.js"
 import { toast } from "~/composables/util.js"
 import { ElLoading } from 'element-plus'
-import VueMarkdownEditor from '@kangc/v-md-editor';
+
+
+
 import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index';
+
 import createCopyCodePlugin from '@kangc/v-md-editor/lib/plugins/copy-code/index';
 import '@kangc/v-md-editor/lib/plugins/copy-code/copy-code.css';
+//富文本插件
+import VueMarkdownEditor from '@kangc/v-md-editor';
 import '@kangc/v-md-editor/lib/style/base-editor.css';
-import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
-import '@kangc/v-md-editor/lib/theme/style/github.css';
-// 引入所有语言包
-import hljs from 'highlight.js';
-VueMarkdownEditor.use(githubTheme, {
-    Hljs: hljs,
+import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
+import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
+import Prism from 'prismjs';
 
+
+
+VueMarkdownEditor.use(vuepressTheme, {
+  Prism,
+  extend(md) {
+    // md为 markdown-it 实例，可以在此处进行修改配置,并使用 plugin 进行语法扩展
+    // md.set(option).use(plugin);
+  },
 });
+
 VueMarkdownEditor.use(createLineNumbertPlugin());
 VueMarkdownEditor.use(createCopyCodePlugin());
 

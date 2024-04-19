@@ -25,8 +25,11 @@
     </el-drawer>
 
     <!-- 富文本编辑器 -->
-    <v-md-editor :include-level="[1, 2]" v-model="edit" height="720px" @upload-image="handleUploadImage"
+    <v-md-editor :include-level="[1, 2]" v-model="edit" height="720px" 
+        @upload-image="handleUploadImage"
         :disabled-menus="[]" />
+  <!-- <v-md-editor v-model="text" height="400px"></v-md-editor> -->
+
 </template>
 
 
@@ -35,23 +38,24 @@ import { ref, reactive } from "vue"
 import { useStore } from "vuex"
 import { addEssay, uploadImg } from "~/api/manager.js"
 import { toast } from "~/composables/util";
+
+//富文本插件
 import VueMarkdownEditor from '@kangc/v-md-editor';
-import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index';
 import '@kangc/v-md-editor/lib/style/base-editor.css';
-import githubTheme from '@kangc/v-md-editor/lib/theme/github.js';
-import '@kangc/v-md-editor/lib/theme/style/github.css';
-// 引入所有语言包
-import hljs from 'highlight.js';
-VueMarkdownEditor.use(githubTheme, {
-    Hljs: hljs,
-    config: {
-        toc: {
-            includeLevel: [1, 2],
-        },
-    },
+import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
+import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
+import Prism from 'prismjs';
+
+
+
+VueMarkdownEditor.use(vuepressTheme, {
+  Prism,
+  extend(md) {
+    // md为 markdown-it 实例，可以在此处进行修改配置,并使用 plugin 进行语法扩展
+    // md.set(option).use(plugin);
+  },
 });
 
-VueMarkdownEditor.use(createLineNumbertPlugin());
 
 
 const store = useStore()
