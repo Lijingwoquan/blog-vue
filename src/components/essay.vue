@@ -56,8 +56,6 @@ import { ElLoading } from 'element-plus'
 
 
 
-
-
 //富文本插件
 import VueMarkdownEditor from '@kangc/v-md-editor';
 import '@kangc/v-md-editor/lib/style/base-editor.css';
@@ -70,8 +68,13 @@ import Prism from 'prismjs';
 import createCopyCodePlugin from '@kangc/v-md-editor/lib/plugins/copy-code/index';
 import '@kangc/v-md-editor/lib/plugins/copy-code/copy-code.css';
 // 代码行数 
-import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index';
-
+// import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index';
+//todolist
+import createTodoListPlugin from '@kangc/v-md-editor/lib/plugins/todo-list/index';
+import '@kangc/v-md-editor/lib/plugins/todo-list/todo-list.css';
+//mermaid(流程图等)
+import createMermaidPlugin from '@kangc/v-md-editor/lib/plugins/mermaid/cdn';
+import '@kangc/v-md-editor/lib/plugins/mermaid/mermaid.css';
 
 VueMarkdownEditor.use(vuepressTheme, {
   Prism,
@@ -81,8 +84,10 @@ VueMarkdownEditor.use(vuepressTheme, {
   },
 });
 
-VueMarkdownEditor.use(createLineNumbertPlugin());
+// VueMarkdownEditor.use(createLineNumbertPlugin());
 VueMarkdownEditor.use(createCopyCodePlugin());
+VueMarkdownEditor.use(createTodoListPlugin());
+VueMarkdownEditor.use(createMermaidPlugin());
 
 
 const store = useStore()

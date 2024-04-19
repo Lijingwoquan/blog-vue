@@ -29,7 +29,6 @@
         right-toolbar="| tip| todo-list" :disabled-menus="[]" />
 </template>
 
-
 <script setup>
 import { ref, reactive } from "vue"
 import { useStore } from "vuex"
@@ -45,11 +44,13 @@ import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
 // 代码高亮
 import Prism from 'prismjs';
 // 代码行数 
-import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index';
+// import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index';
 //todolist
 import createTodoListPlugin from '@kangc/v-md-editor/lib/plugins/todo-list/index';
 import '@kangc/v-md-editor/lib/plugins/todo-list/todo-list.css';
-
+//mermaid(流程图等)
+import createMermaidPlugin from '@kangc/v-md-editor/lib/plugins/mermaid/cdn';
+import '@kangc/v-md-editor/lib/plugins/mermaid/mermaid.css';
 
 VueMarkdownEditor.use(vuepressTheme, {
   Prism,
@@ -59,8 +60,7 @@ VueMarkdownEditor.use(vuepressTheme, {
   },
 });
 VueMarkdownEditor.use(createTodoListPlugin());
-VueMarkdownEditor.use(createLineNumbertPlugin());
-
+VueMarkdownEditor.use(createMermaidPlugin());
 
 const store = useStore()
 const classifyArr = store.state.classifyData
