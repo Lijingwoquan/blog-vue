@@ -47,7 +47,6 @@ watch(() => route.fullPath, () => {
     defaultActive.value = '/classify/' + route.path.split('/')[2]
 })
 
-
 </script>
 
 

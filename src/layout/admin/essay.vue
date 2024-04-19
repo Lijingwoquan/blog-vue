@@ -1,8 +1,10 @@
 <template>
-    <div class="search" @click="openSearch">
-        <el-icon style="color:rebeccapurple;" size="30px">
-            <Search />
-        </el-icon>
+    <div class="search">
+        <el-button :icon="Search" circle @click="openSearch">
+            <el-icon size="25px">
+                <Search />
+            </el-icon>
+        </el-button>
     </div>
 
     <essayEdit></essayEdit>
@@ -34,7 +36,7 @@
                 </li>
             </ul>
             <ul v-if="getData">
-                <li v-for="(essay, index) in satisfyDate" class="dateShow">
+                <li v-for="essay in satisfyDate" class="dateShow">
                     <el-input v-model="essay.name" placeholder="文章名" class="input2"></el-input>
                     <el-input v-model="essay.kind" placeholder="分类名" class="input2"></el-input>
                     <el-input v-model="essay.introduction" placeholder="文章介绍" class="input2"></el-input>
@@ -152,7 +154,7 @@ onBeforeMount(() => {
 .search {
     @apply fixed;
     top: 45px;
-    right: 40px;
+    left: 50px;
     height: 30px;
     z-index: 999;
 }

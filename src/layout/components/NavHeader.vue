@@ -1,10 +1,10 @@
 <template>
     <div class="Headercontainer">
         <div class="left">
-            <el-icon class="logoHouse" @click="toIndex">
+            <el-icon class="logoHouse" size="20px" @click="toIndex">
                 <House />
             </el-icon>
-            <el-icon class="logoExpand hidden-sm-and-up" @click="openMenu">
+            <el-icon class="logoExpand hidden-sm-and-up" size="20px" @click="openMenu">
                 <Expand />
             </el-icon>
             <el-drawer v-model="dialogMenu" title="菜单" direction="ltr" class="bg-light-800" append-to-body size="200px">
@@ -18,7 +18,7 @@
 
         <div class="right">
             <div class="search" @click="openSearch">
-                <el-icon>
+                <el-icon size="20px">
                     <search />
                 </el-icon>
             </div>
@@ -57,9 +57,17 @@
                 </template>
             </el-input>
             <ul v-if="getData">
-                <li v-for="(essay, index) in satisfyDate" class="dateShow" @click="gotoApointPath(essay.path)">
-                    <div class="ml-10">文章:{{ essay.name }}</div>
-                    <div class="mr-10">分类:{{ essay.kind }}</div>
+                <el-divider v-if="satisfyDate.length > 0" />
+                <li v-for="essay in satisfyDate" @click="gotoApointPath(essay.path)">
+                    <div class="essayList">
+                        <div class="ml-3">
+                            文章:{{ essay.name }}
+                        </div>
+                        <div class="mr-3">
+                            分类:{{ essay.kind }}
+                        </div>
+                    </div>
+                    <el-divider />
                 </li>
             </ul>
         </el-dialog>
@@ -100,6 +108,10 @@ let getData = ref(false)
 let satisfyDate = ref([])
 
 function searchMsg() {
+    if (input.value == "") {
+        toast("请输入搜索内容", "warning")
+        return
+    }
     satisfyDate.value = []
     essayData.forEach(essay => {
         if (essay.name.includes(input.value)) {
@@ -144,7 +156,7 @@ onBeforeMount(() => {
     @apply flex justify-between items-center fixed top-0 left-0 right-0;
     z-index: 100;
     height: 60px;
-    background-color: rgba(165, 162, 183, 0.297);
+    background-color:rgba(107, 95, 175, 0.168);
 }
 
 .Headercontainer .left {
@@ -155,7 +167,7 @@ onBeforeMount(() => {
 
 
 .Headercontainer .left .logoHouse {
-    @apply text-xl mx-2;
+    @apply text-xl mx-3;
     height: auto;
 }
 
@@ -165,9 +177,9 @@ onBeforeMount(() => {
 }
 
 .Headercontainer .middle {
-    @apply  text-sm font-bold font-serif;
+    @apply text-sm font-bold font-serif;
     padding-left: 10%;
-    white-space: nowrap; 
+    white-space: nowrap;
 }
 
 .Headercontainer .right {
@@ -177,7 +189,7 @@ onBeforeMount(() => {
 
 
 .Headercontainer .right .search {
-    @apply flex justify-center items-center mr-2;
+    @apply flex justify-center items-center mr-3;
 }
 
 .Headercontainer .right .help {
@@ -203,10 +215,12 @@ onBeforeMount(() => {
     height: 50px;
 }
 
-.dateShow {
-    @apply bg-blue-200 flex justify-between items-center my-5;
+.essayList {
+    @apply flex justify-between items-center;
+    background-color: rgba(107, 95, 175, 0.168);
     width: 100%;
     height: 50px;
+
 }
 
 
@@ -220,5 +234,3 @@ onBeforeMount(() => {
     display: none;
 }
 </style>
-
-
