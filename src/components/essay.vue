@@ -49,11 +49,14 @@
 <script setup>
 import { useStore } from "vuex"
 import { useRoute, useRouter } from 'vue-router';
-import { ref, watch, onMounted,onBeforeMount } from 'vue';
-import { getEssayMsg } from "~/api/user.js"
-import { toast } from "~/composables/util.js"
-import { ElLoading } from 'element-plus'
+import { ref, watch, onBeforeUnmount, onMounted } from "vue";
 
+import { getEssayMsg } from "~/api/user.js"
+import {
+    toast,
+    showLoading
+} from "~/composables/util.js"
+import { ElLoading } from 'element-plus'
 
 
 //富文本插件
@@ -77,11 +80,9 @@ import createMermaidPlugin from '@kangc/v-md-editor/lib/plugins/mermaid/cdn';
 import '@kangc/v-md-editor/lib/plugins/mermaid/mermaid.css';
 
 VueMarkdownEditor.use(vuepressTheme, {
-  Prism,
-  extend(md) {
-    // md为 markdown-it 实例，可以在此处进行修改配置,并使用 plugin 进行语法扩展
-    // md.set(option).use(plugin);
-  },
+    Prism,
+    extend(md) {
+    },
 });
 
 // VueMarkdownEditor.use(createLineNumbertPlugin());
@@ -116,40 +117,44 @@ const getCurrentData = async () => {
     })
 }
 
-
-
+//跳转到分类页面
 const toKind = (() => {
     let essayRouter = "/" + route.path.split("/").slice(2, 4).join("/")
     router.push("/classify/" + essayRouter.split("/")[1])
 })
 
+//复制代码成功
 const handleCopyCodeSuccess = (content) => {
     toast("复制成功", "success");
 };
 
-onBeforeMount(() => {
-    getCurrentData()
-})
 
-onMounted(() => {
-    const loading = ElLoading.service({
-        lock: true,
-        text: '正在努力加载文章中 Loading...',
-        background: 'rgba(0, 0, 0, 0.7)',
-    })
-    setTimeout(async () => {
-        while (satisfyData.value === null) {
-            await new Promise(resolve => setTimeout(resolve, 100)); // 等待100毫秒
-        }
-        loading.close()
-        showEssay.value = true;
-    }, 1000)
+
+onMounted(async () => {
+    await getCurrentData()
+    let waiting = false
+    waiting = await showLoading("正在加载文章中...", satisfyData.value)
+    if (waiting === true) {
+        showEssay.value = true
+    }
 });
 
-watch(() => route.fullPath, () => {
-    satisfyData.value = ''  //存储文章的数据
-})
+onBeforeUnmount(() => {
+    satisfyData.value = null  //存储文章的数据
+});
 
+
+watch(() => route.fullPath, async (to) => {
+    if (to.split("/")[1] == "essay") {
+        showEssay.value = false
+        getCurrentData()
+        let waiting = false
+        waiting = await showLoading("正在加载文章中...", satisfyData.value)
+        if (waiting === true) {
+            showEssay.value = true
+        }
+    }
+})
 </script>
 
 
