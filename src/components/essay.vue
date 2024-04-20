@@ -39,7 +39,7 @@
             </div>
         </div>
         <div>
-            <v-md-editor class="overflow-y-hidden overflow-x-hidden" @copy-code-success="handleCopyCodeSuccess"
+            <v-md-editor  @copy-code-success="handleCopyCodeSuccess"
                 v-model="satisfyData.content" height="auto" mode="preview" />
         </div>
     </div>
@@ -56,7 +56,6 @@ import {
     toast,
     showLoading
 } from "~/composables/util.js"
-import { ElLoading } from 'element-plus'
 
 
 //富文本插件
@@ -131,8 +130,8 @@ const handleCopyCodeSuccess = (content) => {
 
 
 onMounted(async () => {
-    await getCurrentData()
     let waiting = false
+    await getCurrentData()
     waiting = await showLoading("正在加载文章中...", satisfyData.value)
     if (waiting === true) {
         showEssay.value = true

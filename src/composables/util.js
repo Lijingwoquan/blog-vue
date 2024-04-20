@@ -12,15 +12,13 @@ export function toast(message, type = "success") {
     })
 }
 
-export async function showLoading(text = "正在加载中...",data) {
+export async function showLoading(text = "正在加载中...", data) {
     const loading = ElLoading.service({
         lock: true,
         text: text,
         background: 'rgba(0, 0, 0, 0.7)',
     })
-    while (data === null) {
-        await new Promise(resolve => setTimeout(resolve, 1)); // 等待1毫秒
-    }
+    await new Promise(resolve => setTimeout(resolve, 300)); // 等待1毫秒
     loading.close()
     return true
 }
