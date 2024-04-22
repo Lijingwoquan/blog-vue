@@ -10,6 +10,7 @@ import Login from '~/pages/login.vue'
 import Classify from "~/pages/classify.vue"
 import Essay from "~/pages/essay.vue"
 import Admin from "~/pages/admin.vue"
+import RobotsTxt from "~/pages/RobotsTxt.vue"
 
 //默认路由 所有用户共享
 const routes = [{
@@ -24,6 +25,11 @@ const routes = [{
 {
     path: "/admin/lzh",
     component: Admin,
+},
+{
+    path: '/robots.txt',
+    name: 'robots',
+    component: RobotsTxt,
 },
 {
     path: '/:pathMatch(.*)*',
@@ -93,7 +99,7 @@ export function addRouters(dataAboutIndexMenu) {
                 meta: {
                     title: element.name,
                 },
-                name: "essay" +  essayPath
+                name: "essay" + essayPath
             };
             if (!router.hasRoute(essay.path)) {
                 router.addRoute("blog", essay)

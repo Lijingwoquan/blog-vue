@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://liuzihao.online:8080/api/file/sitemap.xml
