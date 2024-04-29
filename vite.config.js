@@ -14,7 +14,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://127.0.0.1:8080/api',
+        target: 'http://127.0.0.1:8081/api',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '')
       },
@@ -24,7 +24,7 @@ export default defineConfig({
     vue(),
     WindiCSS(),
     prismjs({
-            languages: ['go','css','bash','shell','sql','dockerfile','docker','git','json','typescript','javascript'],
+            languages: ['go','css','bash','shell','sql','dockerfile','docker','git','json','typescript','javascript',"html"],
         }),
   ],
   optimizeDeps: {
