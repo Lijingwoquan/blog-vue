@@ -1,5 +1,5 @@
 <template>
-    <div v-if="showEssay">
+    <div v-show="showEssay">
         <el-backtop :right="30" :bottom="30" />
         <div class="essayBasic">
             <span class="name">
@@ -38,10 +38,17 @@
                 </span>
             </div>
         </div>
-        <div>
-            <v-md-editor  @copy-code-success="handleCopyCodeSuccess"
-                v-model="satisfyData.content" height="auto" mode="preview" />
+
+        <div v-for="anchor in titles" :style="{ padding: `10px 0 10px ${anchor.indent * 20}px` }"
+            @click="handleAnchorClick(anchor)">
+            <a style="cursor: pointer">{{ anchor.title }}</a>
         </div>
+
+        <div>
+            <v-md-editor @copy-code-success="handleCopyCodeSuccess" v-if="satisfyData" v-model="satisfyData.content" height="auto"
+                mode="preview" ref="previewRef" />
+        </div>
+
     </div>
 </template>
 
@@ -50,13 +57,11 @@
 import { useStore } from "vuex"
 import { useRoute, useRouter } from 'vue-router';
 import { ref, watch, onBeforeUnmount, onMounted } from "vue";
-
 import { getEssayMsg } from "~/api/user.js"
 import {
     toast,
     showLoading
 } from "~/composables/util.js"
-
 
 //富文本插件
 import VueMarkdownEditor from '@kangc/v-md-editor';
@@ -97,6 +102,11 @@ const router = useRouter()
 const showEssay = ref(false)
 const kind = ref(null)
 const satisfyData = ref(null)  //存储文章的数据
+const previewRef = ref("")
+const anchors = ref("")
+const titles = ref("")
+const hTags = ref("")
+
 //根据文章名字去获取文章详细内容
 const getCurrentData = async () => {
     const essayRouter = "/" + route.path.split("/").slice(2, 4).join("/")
@@ -122,87 +132,116 @@ const toKind = (() => {
     router.push("/classify/" + essayRouter.split("/")[1])
 })
 
+
+function handleAnchorClick(anchor) {
+    const preview = previewRef.value;
+    const { lineIndex } = anchor;
+
+    const heading = preview.$el.querySelector(`[data-v-md-line="${lineIndex}"]`);
+
+    if (heading) {
+        // 注意：如果你使用的是编辑组件的预览模式,则这里的方法名改为 previewScrollToTarget
+        preview.previewScrollToTarget({
+            target: heading,
+            scrollContainer: window,
+            top: 65,
+        });
+    }
+}
+
 //复制代码成功
 const handleCopyCodeSuccess = (content) => {
     toast("复制成功", "success");
 };
 
-
+const openAnchor = async () => {
+    anchors.value = previewRef.value.$el.querySelectorAll('h1,h2,h3,h4,h5,h6')
+    titles.value = Array.from(anchors.value).filter((title) => !!title.innerText.trim())
+    hTags.value = Array.from(new Set(titles.value.map((title) => title.tagName))).sort();
+    titles.value = titles.value.map((el) => ({
+        title: el.innerText,
+        lineIndex: el.getAttribute('data-v-md-line'),
+        indent: hTags.value.indexOf(el.tagName),
+    }));
+}
 
 onMounted(async () => {
+    console.log("dfafa")
+
     let waiting = false
     await getCurrentData()
     waiting = await showLoading("正在加载文章中...", satisfyData.value)
     if (waiting === true) {
         showEssay.value = true
     }
+    openAnchor()
 });
 
-onBeforeUnmount(() => {
-    satisfyData.value = null  //存储文章的数据
-});
+// onBeforeUnmount(() => {
+//     satisfyData.value = null  //存储文章的数据
+// });
 
 
-watch(() => route.fullPath, async (to) => {
-    if (to.split("/")[1] == "essay") {
-        showEssay.value = false
-        getCurrentData()
-        let waiting = false
-        waiting = await showLoading("正在加载文章中...", satisfyData.value)
-        if (waiting === true) {
-            showEssay.value = true
-        }
-    }
-})
+// watch(() => route.fullPath, async (to) => {
+//     if (to.split("/")[1] == "essay") {
+//         showEssay.value = false
+//         getCurrentData()
+//         let waiting = false
+//         waiting = await showLoading("正在加载文章中...", satisfyData.value)
+//         if (waiting === true) {
+//             showEssay.value = true
+//         }
+//     }
+// })
 </script>
 
 
 <style scoped>
-.essayBasic {
-    @apply flex flex-col justify-center items-center overflow-hidden;
-    margin-top: 20px;
-}
+    .essayBasic {
+        @apply flex flex-col justify-center items-center overflow-hidden;
+        margin-top: 20px;
+    }
 
-.essayBasic .name {
-    @apply text-2xl m-auto font-serif font-bold;
-    white-space: nowrap !important;
-}
+    .essayBasic .name {
+        @apply text-2xl m-auto font-serif font-bold;
+        white-space: nowrap !important;
+    }
 
-.essayBasic .subTitle {
-    @apply flex flex-col justify-center items-center mb-10 font-mono;
-    width: 100%;
-}
+    .essayBasic .subTitle {
+        @apply flex flex-col justify-center items-center mb-10 font-mono;
+        width: 100%;
+    }
 
-.subTitle>div {
-    @apply flex justify-between items-center text-purple-700 my-5;
-    width: 100%;
+    .subTitle>div {
+        @apply flex justify-between items-center text-purple-700 my-5;
+        width: 100%;
 
-}
+    }
 
-.subTitle>div>div .right {
-    @apply text-purple-700 mr-1 flex ml-auto;
-    white-space: nowrap;
-}
-
-
-.subTitle>div>div .left {
-    @apply text-purple-700;
-}
+    .subTitle>div>div .right {
+        @apply text-purple-700 mr-1 flex ml-auto;
+        white-space: nowrap;
+    }
 
 
-.introduction {
-    @apply mr-auto italic text-pink-500 font-sans;
-}
+    .subTitle>div>div .left {
+        @apply text-purple-700;
+    }
 
-.content {
-    @apply md:text-xl lg:text-2xl xl:text-2xl xl:text-xl mx-3;
-}
 
-:deep(.v-md-editor__main) {
-    overflow: unset !important;
-}
+    .introduction {
+        @apply mr-auto italic text-pink-500 font-sans;
+    }
 
-:deep(.github-markdown-body) {
-    padding: 5px;
-}
+    .content {
+        @apply md:text-xl lg:text-2xl xl:text-2xl xl:text-xl mx-3;
+    }
+
+    :deep(.v-md-editor__main) {
+        overflow: unset !important;
+    }
+
+    :deep(.github-markdown-body) {
+        padding: 5px;
+    }
 </style>
