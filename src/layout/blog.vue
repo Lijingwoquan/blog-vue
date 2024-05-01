@@ -5,43 +5,66 @@
             <nav-header></nav-header>
         </el-header>
         <el-row>
-            <el-col :xs="0" :sm="6" :md="6" :lg="6" :xl="6">
+            <el-col :xs="0" :sm="4" :md="4" :lg="4" :xl="4">
                 <el-aside>
                     <nav-aside class="hidden-xs-only"></nav-aside>
                 </el-aside>
-
             </el-col>
 
-            <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
+            <el-col v-show="ifToEssay != true" :xs="24" :sm="16" :md="16" :lg="16" :xl="16">
                 <el-main>
+               <NavAnchor></NavAnchor>
+
                     <router-view v-slot="{ Component }">
                         <keep-alive :max="10" :exclude="/^essay/">
                             <component :is="Component"></component>
                         </keep-alive>
                     </router-view>
                 </el-main>
-
             </el-col>
 
-            <el-col :xs="0" :sm="6" :md="6" :lg="6" :xl="6">
-
+            <el-col v-show="ifToEssay === true" :xs="24" :sm="20" :md="20" :lg="20" :xl="20">
+                <el-main>
+                    <router-view>
+                    </router-view>
+                </el-main>
             </el-col>
 
-            <div style="width: 100%;">
-                <footer class="register">
-                    <a class="text-sm" target="_blank" href="https://github.com/Lijingwoquan">© 2024 罹景偓佺的博客 By
-                        罹景.本站博客未经授权禁止转载. </a>
-                    <a class="text-sm" target="_blank"
-                        href="https://beian.miit.gov.cn/#/Integrated/index">备案信息:湘ICP备2024043210号.</a>
-                </footer>
-            </div>
+             <el-col v-show="ifToEssay != true" :xs="0" :sm="4" :md="4" :lg="4" :xl="4">
+            </el-col>
         </el-row>
     </el-container>
+
+    <div style="width: 100%;">
+        <footer class="register">
+            <a class="text-sm" target="_blank" href="https://github.com/Lijingwoquan">© 2024 罹景偓佺的博客 By
+                罹景.本站博客未经授权禁止转载. </a>
+            <a class="text-sm" target="_blank"
+                href="https://beian.miit.gov.cn/#/Integrated/index">备案信息:湘ICP备2024043210号.</a>
+        </footer>
+    </div>
 </template>
 
 <script setup>
 import NavHeader from '~/layout/components/NavHeader.vue';
 import NavAside from '~/layout/components/NavAside.vue';
+import NavAnchor from '~/layout/components/NavAnchor.vue';
+
+import { ref, onMounted,watch } from "vue"
+import { useRoute } from 'vue-router';
+const ifToEssay = ref(false)
+const route = useRoute()
+
+onMounted(() => {
+    if (route.fullPath.split("/")[1] === "essay") {
+        ifToEssay.value = true
+    }
+})
+watch(() => route.fullPath, () => {
+    if (route.fullPath.split("/")[1] !== "essay") {
+        ifToEssay.value = false
+    }
+})
 </script>
 
 <style scoped>

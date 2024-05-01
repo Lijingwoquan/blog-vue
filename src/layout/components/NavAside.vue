@@ -68,10 +68,10 @@ const chooseKind = (item) => {
 }
 
 .anchor {
-    @apply text-gray-400  leading-loose hover:(cursor-pointer underline text-stroke-sm  text-shadow-sm);
+    @apply text-gray-400 leading-loose hover:(cursor-pointer underline text-stroke-sm text-shadow-sm);
 }
 
 .active {
-    @apply text-yellow-400   underline text-stroke-sm text-shadow-sm;
+    @apply text-yellow-400 underline text-stroke-sm text-shadow-sm;
 }
 </style>

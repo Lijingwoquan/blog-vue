@@ -5,4 +5,3 @@
 <script setup>
 import essay from '~/components/essay.vue';
 </script>
-
