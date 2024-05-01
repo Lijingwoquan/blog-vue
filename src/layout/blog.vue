@@ -1,5 +1,5 @@
 <template>
-    <el-backtop :right="30" :bottom="30" />
+    <el-backtop :right="40" :bottom="30" />
     <el-container>
         <el-header>
             <nav-header></nav-header>
@@ -14,7 +14,6 @@
             <el-col v-show="ifToEssay != true" :xs="24" :sm="16" :md="16" :lg="16" :xl="16">
                 <el-main>
                <NavAnchor></NavAnchor>
-
                     <router-view v-slot="{ Component }">
                         <keep-alive :max="10" :exclude="/^essay/">
                             <component :is="Component"></component>
@@ -30,8 +29,7 @@
                 </el-main>
             </el-col>
 
-             <el-col v-show="ifToEssay != true" :xs="0" :sm="4" :md="4" :lg="4" :xl="4">
-            </el-col>
+            
         </el-row>
     </el-container>
 
@@ -48,7 +46,6 @@
 <script setup>
 import NavHeader from '~/layout/components/NavHeader.vue';
 import NavAside from '~/layout/components/NavAside.vue';
-import NavAnchor from '~/layout/components/NavAnchor.vue';
 
 import { ref, onMounted,watch } from "vue"
 import { useRoute } from 'vue-router';

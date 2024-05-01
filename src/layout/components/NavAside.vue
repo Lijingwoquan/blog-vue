@@ -21,15 +21,13 @@ import { useRouter, useRoute } from 'vue-router';
 import { ref, watch } from 'vue';
 import { useStore } from 'vuex';
 
-
 const router = useRouter()
 const store = useStore()
 const route = useRoute()
+
 //保证刷新也能选中
 const activeClassify = ref(route.path)
 const menu = store.state.indexData
-
-
 
 // 保证切换文章时也能选中
 if (route.path.split("/").length > 3) {
@@ -41,12 +39,10 @@ watch(() => route.fullPath, () => {
     activeClassify.value = '/classify/' + route.path.split('/')[2]
 })
 
-
 const chooseKind = (item) => {
     activeClassify.value = "/classify" + item.router
     router.push("/classify" + item.router)
 }
-
 </script>
 
 
