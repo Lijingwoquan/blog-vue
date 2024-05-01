@@ -1,17 +1,18 @@
 <template>
   <router-view></router-view>
 </template>
+
 <style>
 /* Webkit浏览器样式 */
 ::-webkit-scrollbar {
   /* 滚动条的宽度 */
   width: 2px;
   /* 设置滚动条高度，以模拟底部滚动条 */
-  height: 4px;
+  height: 2px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #888888;
+  background-color: #eee9e9;
   /* 滚动条拖动块的颜色 */
 }
 
@@ -20,11 +21,11 @@
   /* 滚动条的宽度 */
   width: 2px;
   /* 设置滚动条高度，以模拟底部滚动条 */
-  height: 4px; 
+  height: 2px;
 }
 
 ::-ms-scrollbar-thumb {
-  background-color: #1524c8;
+  background-color: #eee9e9;
   /* 滚动条拖动块的颜色 */
 }
 </style>

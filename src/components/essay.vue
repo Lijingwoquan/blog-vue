@@ -48,10 +48,8 @@
             <v-md-editor @copy-code-success="handleCopyCodeSuccess" v-if="satisfyData" v-model="satisfyData.content" height="auto"
                 mode="preview" ref="previewRef" />
         </div>
-
     </div>
 </template>
-
 
 <script setup>
 import { useStore } from "vuex"
@@ -166,8 +164,6 @@ const openAnchor = async () => {
 }
 
 onMounted(async () => {
-    console.log("dfafa")
-
     let waiting = false
     await getCurrentData()
     waiting = await showLoading("正在加载文章中...", satisfyData.value)
@@ -176,23 +172,6 @@ onMounted(async () => {
     }
     openAnchor()
 });
-
-// onBeforeUnmount(() => {
-//     satisfyData.value = null  //存储文章的数据
-// });
-
-
-// watch(() => route.fullPath, async (to) => {
-//     if (to.split("/")[1] == "essay") {
-//         showEssay.value = false
-//         getCurrentData()
-//         let waiting = false
-//         waiting = await showLoading("正在加载文章中...", satisfyData.value)
-//         if (waiting === true) {
-//             showEssay.value = true
-//         }
-//     }
-// })
 </script>
 
 

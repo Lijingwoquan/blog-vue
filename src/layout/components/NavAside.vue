@@ -1,85 +1,77 @@
 <template>
     <div class="nav-aside">
-        <el-menu unique-opened active-text-color="blue" :default-active="defaultActive" class="menu"
-            @select="handleSelect">
-            <div v-for="(item, index) in menu" :key="index" :index="index">
-                <el-sub-menu v-if="Array.isArray(item.classifyDetails) && item.classifyDetails.length > 0"
-                    :index="item.icon">
-                    <template #title>
-                        <el-icon>
-                            <component :is="item.icon"></component>
-                        </el-icon>
-                        <span>{{ item.classifyKind }}</span>
-                    </template>
-                    <el-menu-item v-for="item2 in item.classifyDetails" :key="item2.router"
-                        :index="'/classify' + item2.router">
+        <div v-for="(item, index) in menu" :key="index" class="mt-2">
+            <h2 class="kind"> {{ item.classifyKind }}</h2>
+            <section class="section">
+                <div v-if="Array.isArray(item.classifyDetails) && item.classifyDetails.length > 0" :index="item.icon">
+                    <p class="anchor" v-for="(item2, index2) in item.classifyDetails" :key="index2"
+                        @click="chooseKind(item2)" :class="{ active: activeClassify === '/classify' + item2.router }">
+                        {{ item2.checked }}
                         {{ item2.name }}
-                    </el-menu-item>
-                </el-sub-menu>
-            </div>
-        </el-menu>
+                    </p>
+                </div>
+            </section>
+        </div>
     </div>
 </template>
 
 
 <script setup>
 import { useRouter, useRoute } from 'vue-router';
-import { computed, ref,watch } from 'vue';
+import { ref, watch } from 'vue';
 import { useStore } from 'vuex';
 
 
 const router = useRouter()
 const store = useStore()
 const route = useRoute()
-const defaultActive = ref(route.path)
+//保证刷新也能选中
+const activeClassify = ref(route.path)
+const menu = store.state.indexData
 
-//进入文章之后绑定的defaultActive
+
+
+// 保证切换文章时也能选中
 if (route.path.split("/").length > 3) {
-    defaultActive.value = '/classify/' + route.path.split('/')[2]
+    activeClassify.value = '/classify/' + route.path.split('/')[2]
 }
-const menu = computed(() => store.state.indexData)
 
-const handleSelect = (e) => {
-    router.push(e)
-}
 
 watch(() => route.fullPath, () => {
-    defaultActive.value = '/classify/' + route.path.split('/')[2]
+    activeClassify.value = '/classify/' + route.path.split('/')[2]
 })
+
+
+const chooseKind = (item) => {
+    activeClassify.value = "/classify" + item.router
+    router.push("/classify" + item.router)
+}
 
 </script>
 
 
 <style scoped>
 .nav-aside {
-    @apply overflow-x-hidden overflow-y-auto fixed;
+    @apply overflow-x-hidden overflow-y-auto pl-5 pr-6 fixed;
     width: auto;
     top: 60px;
     bottom: 0px;
 }
 
-.nav-aside .menu {
-    z-index: 0;
-    height: 100%;
-    background-color: rgba(165, 162, 183, 0.297);
+.kind {
+    @apply text-lg text-red-400 mb-2;
+    font-weight: 600;
 }
 
-.nav-aside::-webkit-scrollbar {
-    width: 0px;
-    height: 0px;
-}
-.el-menu-item {
-    /* submenu默认的颜色 */
-    background-color: rgba(165, 162, 183, 0.297);
+.section {
+    @apply mb-5 ml-4;
 }
 
-.el-sub-menu {
-    /* menu鼠标hover的颜色 */
-    --el-menu-hover-bg-color:rgba(95, 82, 192, 0.349);
+.anchor {
+    @apply text-gray-400  leading-loose hover:(cursor-pointer underline text-stroke-sm  text-shadow-sm);
 }
 
-.el-menu-item:hover {
-    /* submenu鼠标hover的颜色 */
-    background-color: rgba(74, 109, 170, 0.553)
+.active {
+    @apply text-yellow-400   underline text-stroke-sm text-shadow-sm;
 }
 </style>

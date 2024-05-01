@@ -27,7 +27,7 @@
         </div>
 
         <el-pagination background layout="prev, pager, next" :page-count="pageMax" @update:current-page="changePage"
-             class="page" />
+            class="page" />
     </div>
 </template>
 
@@ -93,47 +93,47 @@ watch(() => route.fullPath, () => {
 
 
 <style scoped>
-.essay {
-    @apply flex flex-col justify-center items-center mt-5 ml-5 mr-5;
-    height: auto;
-}
+    .essay {
+        @apply flex flex-col justify-center items-center mt-5 ml-5 mr-5;
+        height: auto;
+    }
 
-.essay .top {
-    @apply flex justify-between items-center;
-    width: 100%;
-}
+    .essay .top {
+        @apply flex justify-between items-center;
+        width: 100%;
+    }
 
-.essay .top .title {
-    @apply text-2xl font-serif font-bold m-auto;
-    white-space: nowrap;
-    color: black;
-}
-
-
-.essay .middle {
-    @apply flex my-3;
-    width: 100%;
-}
-
-.middle .kind {
-    @apply text-lg font-mono mr-auto text-purple-700;
-}
-
-.middle .date {
-    @apply text-lg font-mono ml-auto text-purple-700;
-}
+    .essay .top .title {
+        @apply text-2xl font-serif font-bold m-auto;
+        white-space: nowrap;
+        color: black;
+    }
 
 
-.bottom {
-    @apply flex justify-start my-3;
-    width: 100%;
-}
+    .essay .middle {
+        @apply flex my-3;
+        width: 100%;
+    }
 
-.bottom .introduction {
-    @apply font-sans text-pink-500;
-}
+    .middle .kind {
+        @apply text-lg font-mono mr-auto text-purple-700;
+    }
 
-.page {
-    @apply mt-5 justify-center;
-}
+    .middle .date {
+        @apply text-lg font-mono ml-auto text-purple-700;
+    }
+
+
+    .bottom {
+        @apply flex justify-start my-3;
+        width: 100%;
+    }
+
+    .bottom .introduction {
+        @apply font-sans text-pink-500;
+    }
+
+    .page {
+        @apply mt-5 justify-center;
+    }
 </style>

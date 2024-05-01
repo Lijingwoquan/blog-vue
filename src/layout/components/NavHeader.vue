@@ -7,14 +7,13 @@
             <el-icon class="logoExpand hidden-sm-and-up" size="20px" @click="openMenu">
                 <Expand />
             </el-icon>
-            <el-drawer v-model="dialogMenu" title="菜单" direction="ltr" class="bg-light-800" append-to-body size="200px">
-                <nav-aside></nav-aside>
+            <el-drawer v-model="dialogMenu" title="菜单" direction="ltr" class="bg-light-800" size="220px">
+                <NavAsideForModel style="z-index: 10000 !important;"></NavAsideForModel>
             </el-drawer>
         </div>
         <div class="middle">
             <span>罹景偓佺的博客</span>
         </div>
-
 
         <div class="right">
             <div class="search" @click="openSearch">
@@ -76,7 +75,7 @@
 
 
 <script setup>
-import NavAside from '~/layout/components/NavAside.vue';
+import NavAsideForModel from '~/layout/components/NavAsideForModel.vue';
 import { ref, onMounted, onBeforeMount, watch } from "vue"
 import { useStore } from 'vuex';
 import { useRouter, useRoute } from 'vue-router';
@@ -152,85 +151,88 @@ onBeforeMount(() => {
 
 
 <style scoped>
-.Headercontainer {
-    @apply flex justify-between items-center fixed top-0 left-0 right-0;
-    z-index: 100;
-    height: 60px;
-    background-color:rgba(107, 95, 175, 0.168);
-}
+    .Headercontainer {
+        @apply flex justify-between items-center fixed top-0 left-0 right-0;
+        z-index: 100;
+        height: 60px;
+        background-color: rgba(107, 95, 175, 0.168);
+    }
 
-.Headercontainer .left {
-    @apply flex justify-start items-center;
-    width: 65px;
-    margin-right: 0;
-}
-
-
-.Headercontainer .left .logoHouse {
-    @apply text-xl mx-3;
-    height: auto;
-}
-
-.Headercontainer .left .logoExpand {
-    @apply text-xl;
-    height: auto;
-}
-
-.Headercontainer .middle {
-    @apply text-sm font-bold font-serif;
-    padding-left: 10%;
-    white-space: nowrap;
-}
-
-.Headercontainer .right {
-    @apply flex justify-end items-center left-0 right-0;
-    width: 100px;
-}
+    .Headercontainer .left {
+        @apply flex justify-start items-center;
+        width: 65px;
+        margin-right: 0;
+    }
 
 
-.Headercontainer .right .search {
-    @apply flex justify-center items-center mr-3;
-}
+    .Headercontainer .left .logoHouse {
+        @apply text-xl mx-3;
+        height: auto;
+    }
 
-.Headercontainer .right .help {
-    @apply flex justify-center items-center mr-1;
-    height: 24px;
-}
+    .Headercontainer .left .logoExpand {
+        @apply text-xl;
+        height: auto;
+    }
 
-.Headercontainer .right .help .text {
-    width: 28px;
-}
+    .Headercontainer .middle {
+        @apply text-sm font-bold font-serif;
+        padding-left: 10%;
+        white-space: nowrap;
+    }
 
-.Headercontainer .right .help .icon {
-    @apply mr-2;
-}
+    .Headercontainer .right {
+        @apply flex justify-end items-center left-0 right-0;
+        width: 100px;
+    }
 
-.Headercontainer .right .search:hover {
-    border-color: red;
-    /* 悬停时改变边框颜色 */
-}
+    .Headercontainer .right .search {
+        @apply flex justify-center items-center mr-3;
+    }
+
+    .Headercontainer .right .help {
+        @apply flex justify-center items-center mr-1;
+        height: 24px;
+    }
+
+    .Headercontainer .right .help .text {
+        width: 28px;
+    }
+
+    .Headercontainer .right .help .icon {
+        @apply mr-2;
+    }
+
+    .Headercontainer .right .search:hover {
+        border-color: red;
+        /* 悬停时改变边框颜色 */
+    }
 
 
-.input {
-    height: 50px;
-}
+    .input {
+        height: 50px;
+    }
 
-.essayList {
-    @apply flex justify-between items-center;
-    background-color: rgba(107, 95, 175, 0.168);
-    width: 100%;
-    height: 50px;
+    .essayList {
+        @apply flex justify-between items-center;
+        background-color: rgba(107, 95, 175, 0.168);
+        width: 100%;
+        height: 50px;
 
-}
+    }
 
 
-:deep(.el-dialog__header) {
-    padding: 0px !important;
-    padding-bottom: 0px !important;
-    margin-right: 0px !important;
-}
+    :deep(.el-dialog__header) {
+        padding: 0px !important;
+        padding-bottom: 0px !important;
+        margin-right: 0px !important;
+    }
 
-:deep(.el-dialog__headerbtn) {
-    display: none;
-}
+    :deep(.el-dialog__headerbtn) {
+        display: none;
+    }
+
+    :deep(.el-drawer__body) {
+        padding: 0 !important;
+    }
 </style>

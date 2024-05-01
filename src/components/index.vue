@@ -1,6 +1,6 @@
 <template>
     <div v-loading="loading">
-        <div v-for="(essay, index) in satisfyData" class="essay" :key="index">
+                <div v-for="(essay, index) in satisfyData" class="essay" :key="index">
             <div class="top" @click="toEssay(essay.router)">
                 <span class="title">{{ essay.name }}</span>
             </div>
@@ -24,8 +24,8 @@
         </div>
         <el-pagination background layout="prev, pager, next" :current-page="currentPage" :page-count="pageMax"
             @update:current-page="changePage" class="page" />
+          
     </div>
-
 </template>
 
 
@@ -112,47 +112,47 @@ function changePage(p) {
 
 
 <style scoped>
-.essay {
-    @apply flex flex-col justify-center items-center mt-5 ml-5 mr-5;
-    height: auto;
-}
+    .essay {
+        @apply flex flex-col justify-center items-center mt-5 ml-5 mr-5;
+        height: auto;
+    }
 
-.essay .top {
-    @apply flex justify-between items-center;
-    width: 100%;
-}
+    .essay .top {
+        @apply flex justify-between items-center;
+        width: 100%;
+    }
 
-.essay .top .title {
-    @apply text-2xl font-serif font-bold m-auto;
-    white-space: nowrap;
-    color: black;
-}
-
-
-.essay .middle {
-    @apply flex my-3;
-    width: 100%;
-}
-
-.middle .kind {
-    @apply text-lg font-mono mr-auto text-purple-700;
-}
-
-.middle .date {
-    @apply text-lg font-mono ml-auto text-purple-700;
-}
+    .essay .top .title {
+        @apply text-2xl font-serif font-bold m-auto;
+        white-space: nowrap;
+        color: black;
+    }
 
 
-.bottom {
-    @apply flex justify-start my-3;
-    width: 100%;
-}
+    .essay .middle {
+        @apply flex my-3;
+        width: 100%;
+    }
 
-.bottom .introduction {
-    @apply font-sans text-pink-500;
-}
+    .middle .kind {
+        @apply text-lg font-mono mr-auto text-purple-700;
+    }
 
-.page {
-    @apply mt-5 justify-center;
-}
+    .middle .date {
+        @apply text-lg font-mono ml-auto text-purple-700;
+    }
+
+
+    .bottom {
+        @apply flex justify-start my-3;
+        width: 100%;
+    }
+
+    .bottom .introduction {
+        @apply font-sans text-pink-500;
+    }
+
+    .page {
+        @apply mt-5 justify-center;
+    }
 </style>
