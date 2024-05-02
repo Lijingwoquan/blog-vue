@@ -89,7 +89,12 @@ window.addEventListener('scroll', throttle(() => {
             }
         });
         // 移除所有高亮样式
-        titles.value.forEach((title) => (title.active = false));
+        titles.value.forEach((title) => {
+            if (closestAnchor) {
+                title.active = false
+            }
+        }
+        );
 
         // 如果找到最近的元素,则高亮显示它
         if (closestAnchor) {
@@ -122,14 +127,14 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.anchor {
-    @apply fixed overflow-x-visible overflow-y-scroll my-5;
-    width: auto;
-    top: 60px;
-    bottom: 0px;
-}
+    .anchor {
+        @apply fixed overflow-x-visible overflow-y-scroll my-5;
+        width: auto;
+        top: 60px;
+        bottom: 0px;
+    }
 
-.active {
-    @apply text-blue-400 text-stroke-sm text-shadow-sm text-lg;
-}
+    .active {
+        @apply text-blue-400 text-stroke-sm text-shadow-sm text-lg;
+    }
 </style>
