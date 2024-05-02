@@ -1,7 +1,4 @@
 <template>
-    <!-- <section>
-        <a href="./">嘤嘤嘤</a>
-    </section> -->
     <div class="nav-aside">
         <el-menu unique-opened active-text-color="blue" :default-active="defaultActive" class="menu"
             @select="handleSelect">
@@ -86,4 +83,6 @@ watch(() => route.fullPath, () => {
         /* submenu鼠标hover的颜色 */
         background-color: rgba(74, 109, 170, 0.553)
     }
+    
+   
 </style>

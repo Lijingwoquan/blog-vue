@@ -158,19 +158,15 @@ function throttle(fn, delay) {
 
 const anchorClass = computed(() => {
     if (props.mode == "computer") {
-        console.log("computer模式")
         return "anchorForComputer"
     } else {
-        console.log("mobile模式")
         return "anchorForMobil"
     }
 })
 
-
 defineExpose({
     handleAnchorClick,
 })
-
 
 onMounted(() => {
     showAnchor()

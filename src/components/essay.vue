@@ -1,7 +1,6 @@
 <template>
     <el-row :gutter="20">
         <el-col :xs="24" :sm="18" :md="18" :lg="18" :xl="18">
-            <el-main>
                 <div v-show="showEssay" @click="closeAnchor">
                     <div class="essayBasic">
                         <span class="name">
@@ -12,14 +11,16 @@
                                 <div>
                                     <div class="left mb-5">
                                         创建于:
-                                        {{ satisfyData ?
-                                            satisfyData.createdTime.split("T").join("").split("Z")[0].split(" ")[0] : "" }}
+                                        {{
+                                            satisfyData ? satisfyData.createdTime.split("T").join(" ").split("Z")[0] : ""
+                                        }}
                                     </div>
 
                                     <div class="left">
                                         更新于:
-                                        {{ satisfyData ? satisfyData.updatedTime.split("T").join(" ").split("Z")[0]
-                                            .split(" ").join(" ").split(" ")[0] : "" }}
+                                        {{
+                                            satisfyData ? satisfyData.updatedTime.split("T").join(" ").split("Z")[0]
+                                        .split(" ").join(" ").split(" ")[0] : "" }}
                                     </div>
                                 </div>
 
@@ -46,7 +47,6 @@
                             v-model="satisfyData.content" height="auto" mode="preview" ref="previewRef" />
                     </div>
                 </div>
-            </el-main>
         </el-col>
         <el-col :xs="0" :sm="6" :md="6" :lg="6" :xl="6">
             <NavAnchor v-show="showEssay" v-if="mode == 'computer' && previewRef" :preview="previewRef"></NavAnchor>
@@ -209,7 +209,7 @@ onUnmounted(() => {
     }
 
     .subTitle>div {
-        @apply flex justify-between items-center text-purple-700 my-5;
+        @apply flex justify-between items-center text-purple-700 my-5 px-2;
         width: 100%;
 
     }
@@ -226,7 +226,7 @@ onUnmounted(() => {
 
 
     .introduction {
-        @apply mr-auto italic text-pink-500 font-sans;
+        @apply mr-auto italic text-pink-500 font-sans  px-2;
     }
 
     .content {
