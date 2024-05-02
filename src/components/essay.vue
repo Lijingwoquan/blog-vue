@@ -49,7 +49,7 @@
             </el-main>
         </el-col>
         <el-col :xs="0" :sm="6" :md="6" :lg="6" :xl="6">
-            <!-- <NavAnchor v-show="showEssay" v-if="previewRef" :preview="previewRef"></NavAnchor> -->
+            <NavAnchor v-show="showEssay" v-if="mode == 'computer' && previewRef" :preview="previewRef"></NavAnchor>
         </el-col>
     </el-row>
 
@@ -58,7 +58,7 @@
     </el-icon>
 
     <div v-show="anchorShow" class="anchorForModel">
-        <NavAnchor ref="navAnchorRef" v-if="previewRef" mode="model"  :preview="previewRef"></NavAnchor>
+        <NavAnchor ref="navAnchorRef" v-if="previewRef" mode="model" :preview="previewRef"></NavAnchor>
     </div>
 
 </template>
@@ -66,7 +66,7 @@
 <script setup>
 import { useStore } from "vuex"
 import { useRoute, useRouter } from 'vue-router';
-import { ref, onMounted, watch } from "vue";
+import { ref, watch, onMounted, onUnmounted } from "vue";
 import { getEssayMsg } from "~/api/user.js"
 import {
     toast,
@@ -114,7 +114,7 @@ const navAnchorRef = ref(null)
 
 const kind = ref(null)
 const satisfyData = ref(null)  //存储文章的数据
-
+const mode = ref("")
 const showEssay = ref(false)
 const anchorShow = ref(false)
 
@@ -148,13 +148,24 @@ const handleCopyCodeSuccess = (content) => {
     toast("复制成功", "success");
 };
 
-
+// 控制anchor的开关
 const oppositedAnchor = () => {
     anchorShow.value = !anchorShow.value
 }
 
+// 作用于全局 关闭anchor
 const closeAnchor = () => {
     anchorShow.value = false
+}
+
+// 根据窗口大小来修改模式
+const handleResize = () => {
+    const windowWidth = window.innerWidth
+    if (windowWidth < 768) {
+        mode.value = 'mobile'
+    } else {
+        mode.value = 'computer'
+    }
 }
 
 watch(anchorShow, () => {
@@ -171,6 +182,12 @@ onMounted(async () => {
     if (waiting === true) {
         showEssay.value = true
     }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+})
+
+onUnmounted(() => {
+    window.removeEventListener('resize', handleResize)
 })
 </script>
 

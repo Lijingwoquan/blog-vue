@@ -65,8 +65,12 @@ const showAnchor = () => {
     });
 }
 
+const getIndex = computed(() => {
+    return indexRef.value
+})
+
 // 侧边自动滑动
-const scrollToAnchor = (targetIndex) => {
+const scrollToAnchor = (targetIndex = getIndex.value) => {
     const container = anchorContainer.value
     if (container.children && container.children.length > 0) {
 
@@ -154,17 +158,14 @@ function throttle(fn, delay) {
 
 const anchorClass = computed(() => {
     if (props.mode == "computer") {
-        console.log("电脑模式")
+        console.log("computer模式")
         return "anchorForComputer"
     } else {
-        console.log("model模式")
-        return "anchorForModel"
+        console.log("mobile模式")
+        return "anchorForMobil"
     }
 })
 
-const getIndex = computed(() => {
-    return indexRef.value
-})
 
 defineExpose({
     handleAnchorClick,
@@ -178,24 +179,24 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.anchorForComputer {
-    @apply fixed overflow-x-visible overflow-y-scroll mt-5 mr-2;
-    width: auto;
-    top: 60px;
-    height: 80vh;
-}
+    .anchorForComputer {
+        @apply fixed overflow-x-visible overflow-y-scroll mt-5 mr-2;
+        width: auto;
+        top: 60px;
+        height: 80vh;
+    }
 
-.anchorForModel {
-    @apply fixed overflow-x-visible overflow-y-scroll bg-gray-200 rounded-md;
-    border-radius: 10px;
-    width: 40vh;
-    right: 40px;
-    z-index: 9999;
-    bottom: 140px;
-    height: 40vh;
-}
+    .anchorForMobil {
+        @apply fixed overflow-x-visible overflow-y-scroll bg-gray-200 rounded-md;
+        border-radius: 10px;
+        width: 40vh;
+        right: 40px;
+        z-index: 9999;
+        bottom: 140px;
+        height: 40vh;
+    }
 
-.active {
-    @apply text-blue-400 text-stroke-sm text-shadow-lg text-lg;
-}
+    .active {
+        @apply text-blue-400 text-stroke-sm text-shadow-lg text-lg;
+    }
 </style>
