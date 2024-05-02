@@ -4,7 +4,7 @@
             <div v-for="anchor in titles" :style="{
                 padding: `5px 5px 5px ${anchor.indent * 20}px`,
             }" @click="handleAnchorClick(anchor)">
-                <p style="cursor: pointer" class="text-gray-500" :class="{ active: anchor.active }">
+                <p style="cursor: pointer" class="text-gray-500 text-shadow-sm" :class="{ active: anchor.active }">
                     {{ anchor.title }}
                 </p>
             </div>
@@ -14,10 +14,11 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
+import anime from 'animejs'; // 如果你使用模块化开发
+
 const anchors = ref("")
 const titles = ref("")
 const hTags = ref("")
-
 const anchorContainer = ref(null)
 
 const props = defineProps({
@@ -68,17 +69,22 @@ const scrollToAnchor = (targetIndex) => {
 
         const targetElement = container.children[targetIndex]; // 获取目标元素
         if (targetElement) {
-            if (targetElement.offsetTop * 2 > window.innerHeight) {
-                container.scrollTop = targetElement.offsetTop - 100;
-            }
-            if (targetElement.offsetTop * 2 < window.innerHeight) {
-                container.scrollTop = targetElement.offsetTop - 100;
-            }
+            const targetScrollTop = targetElement.offsetTop - 200;
+
+
+            // 使用 anime.js 实现平滑滚动动画
+            anime({
+                targets: container,
+                scrollTop: targetScrollTop,
+                duration: 500, // 动画持续时间为 500 毫秒
+                easing: 'easeInOutQuad', // 使用 easeInOutQuad 缓动函数
+                complete: () => {
+                    // 动画完成后的回调函数
+                }
+            })
         }
     }
-
 }
-
 // 添加滚动事件监听器
 window.addEventListener('scroll', throttle(() => {
     // 获取当前滚动位置
@@ -151,13 +157,13 @@ onMounted(() => {
 
 <style scoped>
     .anchor {
-        @apply fixed overflow-x-visible overflow-y-scroll my-5;
+        @apply fixed overflow-x-visible overflow-y-scroll mt-5 mr-3;
         width: auto;
         top: 60px;
-        height: 100%;
+        height: 80vh;
     }
 
     .active {
-        @apply text-blue-400 text-stroke-sm text-shadow-sm text-lg;
+        @apply text-blue-400 text-stroke-sm text-shadow-lg text-lg;
     }
 </style>
