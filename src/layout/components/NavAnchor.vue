@@ -1,11 +1,13 @@
 <template>
-    <el-aside class="anchor" >
-        <div v-for="anchor in titles" :style="{
-            padding: `5px 5px 5px ${anchor.indent * 20}px`,
-        }" @click="handleAnchorClick(anchor)">
-            <p style="cursor: pointer" class="text-gray-500" :class="{ active: anchor.active }">
-                {{ anchor.title }}
-            </p>
+    <el-aside>
+        <div class="anchor" ref="anchorContainer">
+            <div v-for="anchor in titles" :style="{
+                padding: `5px 5px 5px ${anchor.indent * 20}px`,
+            }" @click="handleAnchorClick(anchor)">
+                <p style="cursor: pointer" class="text-gray-500" :class="{ active: anchor.active }">
+                    {{ anchor.title }}
+                </p>
+            </div>
         </div>
     </el-aside>
 </template>
@@ -15,6 +17,8 @@ import { onMounted, ref } from 'vue'
 const anchors = ref("")
 const titles = ref("")
 const hTags = ref("")
+
+const anchorContainer = ref(null)
 
 const props = defineProps({
     preview: {
@@ -57,6 +61,20 @@ const showAnchor = () => {
     });
 }
 
+// 侧边自动滑动
+const scrollToAnchor = (targetIndex) => {
+    const container = anchorContainer.value
+    const targetElement = container.children[targetIndex]; // 获取目标元素
+    if (targetElement) {
+        if (targetElement.offsetTop * 2 > window.innerHeight) {
+            container.scrollTop = targetElement.offsetTop -100;
+        }
+        if (targetElement.offsetTop * 2 < window.innerHeight) {
+            container.scrollTop = targetElement.offsetTop - 100;
+        }
+    }
+}
+
 // 添加滚动事件监听器
 window.addEventListener('scroll', throttle(() => {
     // 获取当前滚动位置
@@ -89,16 +107,20 @@ window.addEventListener('scroll', throttle(() => {
             if (closestAnchor) {
                 title.active = false
             }
-        }
-        );
+        })
 
         // 如果找到最近的元素,则高亮显示它
         if (closestAnchor) {
-            const activeTitle = titles.value.find(
-                (title) => title.id === closestAnchor.id
-            );
-            if (activeTitle) {
+            let index = null
+            const activeTitle = titles.value.find((title) => {
+                if (title.id === closestAnchor.id) {
+                    index = parseInt(title.id.split('-')[1])
+                    return true
+                }
+            })
+            if (activeTitle && index !== null) {
                 activeTitle.active = true;
+                scrollToAnchor(index)
             }
         }
     }
@@ -119,6 +141,7 @@ function throttle(fn, delay) {
 
 onMounted(() => {
     showAnchor()
+    titles.value[0].active = true
 })
 </script>
 
@@ -127,7 +150,7 @@ onMounted(() => {
         @apply fixed overflow-x-visible overflow-y-scroll my-5;
         width: auto;
         top: 60px;
-        bottom: 0px;
+        height: 100%;
     }
 
     .active {

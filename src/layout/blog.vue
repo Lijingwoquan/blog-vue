@@ -1,5 +1,5 @@
 <template>
-    <el-backtop :right="40" :bottom="30" />
+    <el-backtop class="hidden-sm-and-down" :right="40" :bottom="30" :visibility-height="400" />
     <el-container>
         <el-header>
             <nav-header></nav-header>
@@ -47,7 +47,7 @@ import { useRoute } from 'vue-router';
 const ifToEssay = ref(false)
 const route = useRoute()
 const navAsideColRef = ref(null)
-const navWidthRef = ref("")
+const navWidthRef = ref(0)
 
 const handleResize = () => {
     navWidthRef.value = navAsideColRef.value.$el.clientWidth 
@@ -67,20 +67,20 @@ watch(() => route.fullPath, () => {
 </script>
 
 <style scoped>
-    .el-header {
-        --el-header-height: 60px;
-    }
+.el-header {
+    --el-header-height: 60px;
+}
 
-    .el-main {
-        padding: 0;
-    }
+.el-main {
+    padding: 0;
+}
 
-    .el-aside {
-        width: 110px;
-        top: 60px;
-    }
+.el-aside {
+    width: 110px;
+    top: 60px;
+}
 
-    .register {
-        @apply flex flex-col justify-center items-center italic mt-10 mb-5;
-    }
+.register {
+    @apply flex flex-col justify-center items-center italic mt-10 mb-5;
+}
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <el-icon  class="anchorIcon hidden-sm-and-up" size="40px" >
+    <el-icon class="anchorIcon hidden-sm-and-up" size="40px">
         <Memo />
     </el-icon>
     <el-row :gutter="20">
@@ -52,7 +52,7 @@
             </el-main>
         </el-col>
         <el-col :xs="0" :sm="6" :md="6" :lg="6" :xl="6">
-            <NavAnchor v-if="previewRef" :preview="previewRef"></NavAnchor>
+            <NavAnchor v-show="showEssay" v-if="previewRef" :preview="previewRef"></NavAnchor>
         </el-col>
     </el-row>
 </template>
