@@ -1,9 +1,9 @@
 <template>
-    <div :class="navAsideClass" :style="navAsideStyle">
+    <div :class="navAsideClass" :style="navAsideStyle" class="pl-4 pr-5">
         <div v-for="(item, index) in menu" :key="index" class="mt-2">
             <h2 class="kind"> {{ item.classifyKind }}</h2>
             <section class="section">
-                <div class="flex justify-center flex-col "
+                <div class="flex justify-center flex-col"
                     v-if="Array.isArray(item.classifyDetails) && item.classifyDetails.length > 0" :index="item.icon">
                     <span class="anchor" v-for="(item2, index2) in item.classifyDetails" :key="index2"
                         @click="chooseKind(item2)" :class="{ active: activeClassify === '/classify' + item2.router }">
@@ -65,26 +65,26 @@ const props = defineProps({
 
 
 <style scoped>
-    .nav-aside {
-        @apply overflow-x-hidden overflow-y-auto pl-4 pr-5 fixed;
-        top: 60px;
-        bottom: 0px;
-    }
+.nav-aside {
+    @apply overflow-x-hidden overflow-y-auto  fixed;
+    top: 60px;
+    bottom: 0px;
+}
 
-    .kind {
-        @apply text-lg text-red-400 mb-2;
-        font-weight: 600;
-    }
+.kind {
+    @apply text-lg text-red-400 mb-2;
+    font-weight: 600;
+}
 
-    .section {
-        @apply mb-5 ml-4;
-    }
+.section {
+    @apply mb-5 ml-4;
+}
 
-    .anchor {
-        @apply text-gray-400 leading-loose hover:(cursor-pointer underline text-stroke-sm text-shadow-sm);
-    }
+.anchor {
+    @apply text-gray-400 leading-loose hover:(cursor-pointer underline text-stroke-sm text-shadow-sm);
+}
 
-    .active {
-        @apply text-yellow-400 underline text-stroke-sm text-shadow-sm;
-    }
+.active {
+    @apply text-yellow-400 underline text-stroke-sm text-shadow-sm;
+}
 </style>

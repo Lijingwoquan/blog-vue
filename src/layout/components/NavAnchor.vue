@@ -64,15 +64,19 @@ const showAnchor = () => {
 // 侧边自动滑动
 const scrollToAnchor = (targetIndex) => {
     const container = anchorContainer.value
-    const targetElement = container.children[targetIndex]; // 获取目标元素
-    if (targetElement) {
-        if (targetElement.offsetTop * 2 > window.innerHeight) {
-            container.scrollTop = targetElement.offsetTop -100;
-        }
-        if (targetElement.offsetTop * 2 < window.innerHeight) {
-            container.scrollTop = targetElement.offsetTop - 100;
+    if (container.children && container.children.length > 0) {
+
+        const targetElement = container.children[targetIndex]; // 获取目标元素
+        if (targetElement) {
+            if (targetElement.offsetTop * 2 > window.innerHeight) {
+                container.scrollTop = targetElement.offsetTop - 100;
+            }
+            if (targetElement.offsetTop * 2 < window.innerHeight) {
+                container.scrollTop = targetElement.offsetTop - 100;
+            }
         }
     }
+
 }
 
 // 添加滚动事件监听器
