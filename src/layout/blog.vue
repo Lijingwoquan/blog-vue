@@ -1,5 +1,6 @@
 <template>
-    <el-backtop class="hidden-sm-and-down" :right="40" :bottom="30" :visibility-height="400" />
+    <el-backtop class="hidden-sm-and-down" :right="40" :bottom="30" :visibility-height="300" />
+    <el-backtop class="hidden-sm-and-up" :right="40" :bottom="30" :visibility-height="300" />
     <el-container>
         <el-header>
             <nav-header></nav-header>

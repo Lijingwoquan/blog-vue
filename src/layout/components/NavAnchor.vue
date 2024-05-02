@@ -1,35 +1,38 @@
 <template>
-    <el-aside>
-        <div class="anchor" ref="anchorContainer">
-            <div v-for="anchor in titles" :style="{
-                padding: `5px 5px 5px ${anchor.indent * 20}px`,
-            }" @click="handleAnchorClick(anchor)">
-                <p style="cursor: pointer" class="text-gray-500 text-shadow-sm" :class="{ active: anchor.active }">
-                    {{ anchor.title }}
-                </p>
-            </div>
+    <div :class="anchorClass" ref="anchorContainer">
+        <div v-for="anchor in titles" :style="{
+            padding: `5px 5px 5px ${anchor.indent * 20}px`,
+        }" @click="handleAnchorClick(anchor)">
+            <p style="cursor: pointer" class="text-gray-500 text-shadow-sm" :class="{ active: anchor.active }">
+                {{ anchor.title }}
+            </p>
         </div>
-    </el-aside>
+    </div>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import anime from 'animejs'; // 如果你使用模块化开发
 
 const anchors = ref("")
 const titles = ref("")
 const hTags = ref("")
 const anchorContainer = ref(null)
+const indexRef = ref("")
 
 const props = defineProps({
     preview: {
         type: Object,
         required: true
+    },
+    mode: {
+        type: String,
+        default: "computer"
     }
 })
 
 // 锚点跳转
-const handleAnchorClick = (anchor) => {
+const handleAnchorClick = (anchor = getIndex.value) => {
     const { lineIndex } = anchor;
 
     const heading = props.preview.$el.querySelector(`[data-v-md-line="${lineIndex}"]`);
@@ -69,9 +72,7 @@ const scrollToAnchor = (targetIndex) => {
 
         const targetElement = container.children[targetIndex]; // 获取目标元素
         if (targetElement) {
-            const targetScrollTop = targetElement.offsetTop - 200;
-
-
+            const targetScrollTop = targetElement.offsetTop - 150;
             // 使用 anime.js 实现平滑滚动动画
             anime({
                 targets: container,
@@ -85,6 +86,7 @@ const scrollToAnchor = (targetIndex) => {
         }
     }
 }
+
 // 添加滚动事件监听器
 window.addEventListener('scroll', throttle(() => {
     // 获取当前滚动位置
@@ -124,6 +126,7 @@ window.addEventListener('scroll', throttle(() => {
             let index = null
             const activeTitle = titles.value.find((title) => {
                 if (title.id === closestAnchor.id) {
+                    indexRef.value = title
                     index = parseInt(title.id.split('-')[1])
                     return true
                 }
@@ -134,7 +137,7 @@ window.addEventListener('scroll', throttle(() => {
             }
         }
     }
-}, 100)); // 节流滚动事件,每 100 毫秒执行一次
+}, 100)); // 节流滚动事件,每 200 毫秒执行一次
 
 // // 节流函数
 function throttle(fn, delay) {
@@ -149,6 +152,25 @@ function throttle(fn, delay) {
     };
 }
 
+const anchorClass = computed(() => {
+    if (props.mode == "computer") {
+        console.log("电脑模式")
+        return "anchorForComputer"
+    } else {
+        console.log("model模式")
+        return "anchorForModel"
+    }
+})
+
+const getIndex = computed(() => {
+    return indexRef.value
+})
+
+defineExpose({
+    handleAnchorClick,
+})
+
+
 onMounted(() => {
     showAnchor()
     titles.value[0].active = true
@@ -156,14 +178,24 @@ onMounted(() => {
 </script>
 
 <style scoped>
-    .anchor {
-        @apply fixed overflow-x-visible overflow-y-scroll mt-5 mr-3;
-        width: auto;
-        top: 60px;
-        height: 80vh;
-    }
+.anchorForComputer {
+    @apply fixed overflow-x-visible overflow-y-scroll mt-5 mr-2;
+    width: auto;
+    top: 60px;
+    height: 80vh;
+}
 
-    .active {
-        @apply text-blue-400 text-stroke-sm text-shadow-lg text-lg;
-    }
+.anchorForModel {
+    @apply fixed overflow-x-visible overflow-y-scroll bg-gray-200 rounded-md;
+    border-radius: 10px;
+    width: 40vh;
+    right: 40px;
+    z-index: 9999;
+    bottom: 140px;
+    height: 40vh;
+}
+
+.active {
+    @apply text-blue-400 text-stroke-sm text-shadow-lg text-lg;
+}
 </style>

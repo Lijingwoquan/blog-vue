@@ -1,11 +1,8 @@
 <template>
-    <el-icon class="anchorIcon hidden-sm-and-up" size="40px">
-        <Memo />
-    </el-icon>
     <el-row :gutter="20">
         <el-col :xs="24" :sm="18" :md="18" :lg="18" :xl="18">
             <el-main>
-                <div v-show="showEssay">
+                <div v-show="showEssay" @click="closeAnchor">
                     <div class="essayBasic">
                         <span class="name">
                             {{ satisfyData ? satisfyData.name : '' }}
@@ -52,15 +49,24 @@
             </el-main>
         </el-col>
         <el-col :xs="0" :sm="6" :md="6" :lg="6" :xl="6">
-            <NavAnchor v-show="showEssay" v-if="previewRef" :preview="previewRef"></NavAnchor>
+            <!-- <NavAnchor v-show="showEssay" v-if="previewRef" :preview="previewRef"></NavAnchor> -->
         </el-col>
     </el-row>
+
+    <el-icon @click="oppositedAnchor" class="anchorIcon hidden-sm-and-up" size="40px">
+        <Memo />
+    </el-icon>
+
+    <div v-show="anchorShow" class="anchorForModel">
+        <NavAnchor ref="navAnchorRef" v-if="previewRef" mode="model"  :preview="previewRef"></NavAnchor>
+    </div>
+
 </template>
 
 <script setup>
 import { useStore } from "vuex"
 import { useRoute, useRouter } from 'vue-router';
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { getEssayMsg } from "~/api/user.js"
 import {
     toast,
@@ -103,11 +109,14 @@ const store = useStore()
 const route = useRoute()
 const router = useRouter()
 
-const showEssay = ref(false)
+const previewRef = ref(null)
+const navAnchorRef = ref(null)
+
 const kind = ref(null)
 const satisfyData = ref(null)  //存储文章的数据
-const previewRef = ref(null)
 
+const showEssay = ref(false)
+const anchorShow = ref(false)
 
 //根据文章名字去获取文章详细内容
 const getCurrentData = async () => {
@@ -139,6 +148,22 @@ const handleCopyCodeSuccess = (content) => {
     toast("复制成功", "success");
 };
 
+
+const oppositedAnchor = () => {
+    anchorShow.value = !anchorShow.value
+}
+
+const closeAnchor = () => {
+    anchorShow.value = false
+}
+
+watch(anchorShow, () => {
+    if (anchorShow.value === true) {
+        navAnchorRef.value.handleAnchorClick(navAnchorRef.value.getIndex)
+    }
+})
+
+
 onMounted(async () => {
     let waiting = false
     await getCurrentData()
@@ -146,7 +171,7 @@ onMounted(async () => {
     if (waiting === true) {
         showEssay.value = true
     }
-});
+})
 </script>
 
 
@@ -200,9 +225,10 @@ onMounted(async () => {
     }
 
     .anchorIcon {
-        @apply fixed;
+        @apply fixed hover:cursor-pointer;
         z-index: 9999;
         bottom: 100px;
         right: 40px;
     }
+
 </style>
