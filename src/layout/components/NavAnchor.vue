@@ -123,14 +123,14 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.anchor {
-    @apply fixed overflow-x-visible overflow-y-scroll my-5;
-    width: auto;
-    top: 60px;
-    bottom: 0px;
-}
+    .anchor {
+        @apply fixed overflow-x-visible overflow-y-scroll my-5;
+        width: auto;
+        top: 60px;
+        bottom: 0px;
+    }
 
-.active {
-    @apply text-blue-400 text-stroke-sm text-shadow-sm text-lg;
-}
+    .active {
+        @apply text-blue-400 text-stroke-sm text-shadow-sm text-lg;
+    }
 </style>

@@ -50,7 +50,7 @@ const navAsideColRef = ref(null)
 const navWidthRef = ref("")
 
 const handleResize = () => {
-    navWidthRef.value = navAsideColRef.value.$el.clientWidth + "px"
+    navWidthRef.value = navAsideColRef.value.$el.clientWidth 
 }
 
 onMounted(() => {

@@ -1,5 +1,5 @@
 <template>
-    <div class="nav-aside" :style="{ width: props.width }">
+    <div :class="navAsideClass" :style="navAsideStyle">
         <div v-for="(item, index) in menu" :key="index" class="mt-2">
             <h2 class="kind"> {{ item.classifyKind }}</h2>
             <section class="section">
@@ -18,7 +18,7 @@
 
 <script setup>
 import { useRouter, useRoute } from 'vue-router';
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 
 const router = useRouter()
@@ -43,10 +43,21 @@ watch(() => route.fullPath, () => {
     activeClassify.value = '/classify/' + route.path.split('/')[2]
 })
 
+const navAsideStyle = computed(() => {
+    if (props.width && props.width > 10) {
+        return props.width ? { width: props.width + 'px' } : {}
+    }
+})
+
+const navAsideClass = computed(() => {
+    if (props.width && props.width > 10) {
+        return props.width ? "nav-aside" : ""
+    }
+})
 
 const props = defineProps({
     width: {
-        type: String,
+        type: Number,
         required: true,
     }
 })
@@ -54,26 +65,26 @@ const props = defineProps({
 
 
 <style scoped>
-.nav-aside {
-    @apply overflow-x-hidden overflow-y-auto pl-4 pr-5 fixed;
-    top: 60px;
-    bottom: 0px;
-}
+    .nav-aside {
+        @apply overflow-x-hidden overflow-y-auto pl-4 pr-5 fixed;
+        top: 60px;
+        bottom: 0px;
+    }
 
-.kind {
-    @apply text-lg text-red-400 mb-2;
-    font-weight: 600;
-}
+    .kind {
+        @apply text-lg text-red-400 mb-2;
+        font-weight: 600;
+    }
 
-.section {
-    @apply mb-5 ml-4;
-}
+    .section {
+        @apply mb-5 ml-4;
+    }
 
-.anchor {
-    @apply text-gray-400 leading-loose hover:(cursor-pointer underline text-stroke-sm text-shadow-sm);
-}
+    .anchor {
+        @apply text-gray-400 leading-loose hover:(cursor-pointer underline text-stroke-sm text-shadow-sm);
+    }
 
-.active {
-    @apply text-yellow-400 underline text-stroke-sm text-shadow-sm;
-}
+    .active {
+        @apply text-yellow-400 underline text-stroke-sm text-shadow-sm;
+    }
 </style>
