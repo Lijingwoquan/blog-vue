@@ -1,5 +1,5 @@
 <template>
-    <el-icon  class="anchorIcon hidden-sm-and-up" size="40px" @click="toIndex">
+    <el-icon  class="anchorIcon hidden-sm-and-up" size="40px" >
         <Memo />
     </el-icon>
     <el-row :gutter="20">

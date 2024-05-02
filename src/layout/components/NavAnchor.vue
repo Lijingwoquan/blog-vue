@@ -1,16 +1,13 @@
 <template>
-    <el-aside class="anchor">
-
+    <el-aside class="anchor" >
         <div v-for="anchor in titles" :style="{
-            padding: `5px 0 5px ${anchor.indent * 20}px`,
+            padding: `5px 5px 5px ${anchor.indent * 20}px`,
         }" @click="handleAnchorClick(anchor)">
             <p style="cursor: pointer" class="text-gray-500" :class="{ active: anchor.active }">
                 {{ anchor.title }}
             </p>
         </div>
     </el-aside>
-
-
 </template>
 
 <script setup>
@@ -23,7 +20,6 @@ const props = defineProps({
     preview: {
         type: Object,
         required: true
-        // 可以添加其他的prop选项，如默认值等
     }
 })
 
@@ -127,14 +123,14 @@ onMounted(() => {
 </script>
 
 <style scoped>
-    .anchor {
-        @apply fixed overflow-x-visible overflow-y-scroll my-5;
-        width: auto;
-        top: 60px;
-        bottom: 0px;
-    }
+.anchor {
+    @apply fixed overflow-x-visible overflow-y-scroll my-5;
+    width: auto;
+    top: 60px;
+    bottom: 0px;
+}
 
-    .active {
-        @apply text-blue-400 text-stroke-sm text-shadow-sm text-lg;
-    }
+.active {
+    @apply text-blue-400 text-stroke-sm text-shadow-sm text-lg;
+}
 </style>
