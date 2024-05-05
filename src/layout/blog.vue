@@ -10,6 +10,7 @@
                 <nav-aside class="hidden-xs-only" :width="navWidthRef"></nav-aside>
             </el-col>
 
+            <!-- classify布局 -->
             <el-col v-show="ifToEssay != true" :xs="24" :sm="16" :md="16" :lg="16" :xl="16">
                 <el-main>
                     <router-view v-slot="{ Component }">
@@ -20,6 +21,7 @@
                 </el-main>
             </el-col>
 
+            <!-- essay布局 -->
             <el-col v-show="ifToEssay === true" :xs="24" :sm="20" :md="20" :lg="20" :xl="20">
                 <el-main>
                     <router-view>
@@ -58,31 +60,33 @@ onMounted(() => {
     if (route.fullPath.split("/")[1] === "essay") {
         ifToEssay.value = true
     }
-    navWidthRef.value = navAsideColRef.value.$el.clientWidth
 })
 
-watch(() => route.fullPath, () => {
-    if (route.fullPath.split("/")[1] !== "essay") {
-        ifToEssay.value = false
+watch(
+    () => (route.path),
+    () => {
+    if (route.path.split("/")[1] === "essay") {
+        ifToEssay.value = true
     }
+    navWidthRef.value = navAsideColRef.value.$el.clientWidth
 })
 </script>
 
 <style scoped>
-.el-header {
-    --el-header-height: 60px;
-}
+    .el-header {
+        --el-header-height: 60px;
+    }
 
-.el-main {
-    padding: 0;
-}
+    .el-main {
+        padding: 0;
+    }
 
-.el-aside {
-    width: 110px;
-    top: 60px;
-}
+    .el-aside {
+        width: 110px;
+        top: 60px;
+    }
 
-.register {
-    @apply flex flex-col justify-center items-center italic mt-10 mb-5;
-}
+    .register {
+        @apply flex flex-col justify-center items-center italic mt-10 mb-5;
+    }
 </style>
