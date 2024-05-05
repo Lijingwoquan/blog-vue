@@ -1,10 +1,10 @@
 <template>
-    <div :class="navAsideClass" :style="navAsideStyle" class="pl-4 pr-5">
+    <div :class="navAsideClass" :style="navAsideStyle" class="pl-4 pr-3">
         <div v-for="(item, index) in menu" :key="index" class="mt-2">
             <h2 class="kind"> {{ item.classifyKind }}</h2>
             <section class="section">
                 <div class="flex justify-center flex-col"
-                    v-if="Array.isArray(item.classifyDetails) && item.classifyDetails.length > 0" :index="item.icon">
+                    v-if="Array.isArray(item.classifyDetails) && item.classifyDetails.length > 0" >
                     <span class="anchor" v-for="(item2, index2) in item.classifyDetails" :key="index2"
                         @click="chooseKind(item2)" :class="{ active: activeClassify === '/classify' + item2.router }">
                         {{ item2.checked }}
@@ -45,7 +45,7 @@ watch(() => route.fullPath, () => {
 
 const navAsideStyle = computed(() => {
     if (props.width && props.width > 10) {
-        return props.width ? { width: props.width + 'px' } : {}
+        return props.width ? { width: props.width  + 'px' } : {}
     }
 })
 
@@ -66,7 +66,7 @@ const props = defineProps({
 
 <style scoped>
 .nav-aside {
-    @apply overflow-x-hidden overflow-y-auto  fixed;
+    @apply overflow-x-hidden overflow-y-scroll fixed;
     top: 60px;
     bottom: 0px;
 }

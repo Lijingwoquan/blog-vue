@@ -58,6 +58,7 @@ onMounted(() => {
     if (route.fullPath.split("/")[1] === "essay") {
         ifToEssay.value = true
     }
+    navWidthRef.value = navAsideColRef.value.$el.clientWidth
 })
 
 watch(() => route.fullPath, () => {
@@ -68,20 +69,20 @@ watch(() => route.fullPath, () => {
 </script>
 
 <style scoped>
-    .el-header {
-        --el-header-height: 60px;
-    }
+.el-header {
+    --el-header-height: 60px;
+}
 
-    .el-main {
-        padding: 0;
-    }
+.el-main {
+    padding: 0;
+}
 
-    .el-aside {
-        width: 110px;
-        top: 60px;
-    }
+.el-aside {
+    width: 110px;
+    top: 60px;
+}
 
-    .register {
-        @apply flex flex-col justify-center items-center italic mt-10 mb-5;
-    }
+.register {
+    @apply flex flex-col justify-center items-center italic mt-10 mb-5;
+}
 </style>

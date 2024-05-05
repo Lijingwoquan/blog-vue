@@ -12,7 +12,8 @@
                                     <div class="left mb-5">
                                         创建于:
                                         {{
-                                            satisfyData ? satisfyData.createdTime.split("T").join(" ").split("Z")[0] : ""
+                                              satisfyData ? satisfyData.updatedTime.split("T").join(" ").split("Z")[0]
+                                        .split(" ").join(" ").split(" ")[0] : ""
                                         }}
                                     </div>
 

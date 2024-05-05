@@ -51,38 +51,36 @@ watch(() => route.fullPath, () => {
 
 
 <style scoped>
-    .nav-aside {
-        @apply overflow-x-hidden overflow-y-auto fixed;
-        width: auto;
-        top: 60px;
-        bottom: 0px;
-    }
+.nav-aside {
+    @apply overflow-x-hidden overflow-y-auto fixed;
+    width: auto;
+    top: 60px;
+    bottom: 0px;
+}
 
-    .nav-aside .menu {
-        z-index: 0;
-        height: 100%;
-        background-color: rgba(165, 162, 183, 0.297);
-    }
+.nav-aside .menu {
+    z-index: 0;
+    height: 100%;
+    background-color: rgba(165, 162, 183, 0.297);
+}
 
-    .nav-aside::-webkit-scrollbar {
-        width: 0px;
-        height: 0px;
-    }
+.nav-aside::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+}
 
-    .el-menu-item {
-        /* submenu默认的颜色 */
-        background-color: rgba(165, 162, 183, 0.297);
-    }
+.el-menu-item {
+    /* submenu默认的颜色 */
+    background-color: rgba(165, 162, 183, 0.297);
+}
 
-    .el-sub-menu {
-        /* menu鼠标hover的颜色 */
-        --el-menu-hover-bg-color: rgba(95, 82, 192, 0.349);
-    }
+.el-sub-menu {
+    /* menu鼠标hover的颜色 */
+    --el-menu-hover-bg-color: rgba(95, 82, 192, 0.349);
+}
 
-    .el-menu-item:hover {
-        /* submenu鼠标hover的颜色 */
-        background-color: rgba(74, 109, 170, 0.553)
-    }
-    
-   
+.el-menu-item:hover {
+    /* submenu鼠标hover的颜色 */
+    background-color: rgba(74, 109, 170, 0.553)
+}
 </style>
