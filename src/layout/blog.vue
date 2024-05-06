@@ -10,21 +10,24 @@
                 <nav-aside class="hidden-xs-only" :width="navWidthRef"></nav-aside>
             </el-col>
 
-            <!-- classify布局 -->
-            <el-col v-show="ifToEssay != true" :xs="24" :sm="16" :md="16" :lg="16" :xl="16">
+
+            <!-- essay布局 -->
+            <el-col v-if="ifToEssay === true" :xs="24" :sm="20" :md="20" :lg="20" :xl="20">
                 <el-main>
-                    <router-view v-slot="{ Component }">
-                        <keep-alive :max="10" :exclude="/^essay/">
-                            <component :is="Component"></component>
-                        </keep-alive>
+                    <router-view>
                     </router-view>
                 </el-main>
             </el-col>
 
-            <!-- essay布局 -->
-            <el-col v-show="ifToEssay === true" :xs="24" :sm="20" :md="20" :lg="20" :xl="20">
+            <!-- classify布局 -->
+            <!-- 由于生命周期的问题 这里应该这么写 不能用essay -->
+            <el-col v-if="route.path.split('/')[1] != 'essay'" :xs="24" :sm="16" :md="16" :lg="16" :xl="16">
                 <el-main>
-                    <router-view>
+                    <router-view  v-slot="{ Component }">
+                        <keep-alive :max="10" :exclude="/^essay/">
+                            <component :is="Component">
+                            </component>
+                        </keep-alive>
                     </router-view>
                 </el-main>
             </el-col>
@@ -44,6 +47,8 @@
 <script setup>
 import NavHeader from '~/layout/components/NavHeader.vue';
 import NavAside from '~/layout/components/NavAside.vue';
+import Essay from '~/components/essay.vue';
+
 import { ref, onMounted, watch } from "vue"
 import { useRoute } from 'vue-router';
 
@@ -74,20 +79,20 @@ watch(
 </script>
 
 <style scoped>
-.el-header {
-    --el-header-height: 60px;
-}
+    .el-header {
+        --el-header-height: 60px;
+    }
 
-.el-main {
-    padding: 0;
-}
+    .el-main {
+        padding: 0;
+    }
 
-.el-aside {
-    width: 110px;
-    top: 60px;
-}
+    .el-aside {
+        width: 110px;
+        top: 60px;
+    }
 
-.register {
-    @apply flex flex-col justify-center items-center italic mt-10 mb-5;
-}
+    .register {
+        @apply flex flex-col justify-center items-center italic mt-10 mb-5;
+    }
 </style>

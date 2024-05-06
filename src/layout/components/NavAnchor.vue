@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted,onUpdated, ref } from 'vue'
 import anime from 'animejs'; // 如果你使用模块化开发
 
 const anchors = ref("")
@@ -76,7 +76,7 @@ const scrollToAnchor = (targetIndex = getIndex.value) => {
 
         const targetElement = container.children[targetIndex]; // 获取目标元素
         if (targetElement) {
-            const targetScrollTop = targetElement.offsetTop - 150;
+            const targetScrollTop = targetElement.offsetTop - 120;
             // 使用 anime.js 实现平滑滚动动画
             anime({
                 targets: container,
@@ -172,27 +172,30 @@ onMounted(() => {
     showAnchor()
     titles.value[0].active = true
 })
+onUpdated(() => {
+    scrollToAnchor()
+})
 </script>
 
 <style scoped>
-    .anchorForComputer {
-        @apply fixed overflow-x-visible overflow-y-scroll mt-5 mr-2;
-        width: auto;
-        top: 60px;
-        height: 80vh;
-    }
+.anchorForComputer {
+    @apply fixed overflow-x-visible overflow-y-scroll mt-5 mr-2;
+    width: auto;
+    top: 60px;
+    height: 80vh;
+}
 
-    .anchorForMobil {
-        @apply fixed overflow-x-visible overflow-y-scroll bg-gray-200 rounded-md;
-        border-radius: 10px;
-        width: 40vh;
-        right: 40px;
-        z-index: 9999;
-        bottom: 140px;
-        height: 40vh;
-    }
+.anchorForMobil {
+    @apply fixed overflow-x-visible overflow-y-scroll bg-gray-200 rounded-md;
+    border-radius: 10px;
+    width: 200px;
+    height: 300px;
+    right: 40px;
+    z-index: 9999;
+    bottom: 140px;
+}
 
-    .active {
-        @apply text-blue-400 text-stroke-sm text-shadow-lg text-lg;
-    }
+.active {
+    @apply text-blue-400 text-stroke-sm text-shadow-lg text-lg;
+}
 </style>

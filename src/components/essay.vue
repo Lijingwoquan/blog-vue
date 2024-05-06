@@ -1,53 +1,53 @@
 <template>
     <el-row :gutter="20">
         <el-col :xs="24" :sm="18" :md="18" :lg="18" :xl="18">
-                <div v-show="showEssay" @click="closeAnchor">
-                    <div class="essayBasic">
-                        <span class="name">
-                            {{ satisfyData ? satisfyData.name : '' }}
-                        </span>
-                        <div class="subTitle">
+            <div v-show="showEssay" @click="closeAnchor">
+                <div class="essayBasic">
+                    <span class="name">
+                        {{ satisfyData ? satisfyData.name : '' }}
+                    </span>
+                    <div class="subTitle">
+                        <div>
                             <div>
-                                <div>
-                                    <div class="left mb-5">
-                                        创建于:
-                                        {{
-                                              satisfyData ? satisfyData.updatedTime.split("T").join(" ").split("Z")[0]
-                                        .split(" ").join(" ").split(" ")[0] : ""
-                                        }}
-                                    </div>
-
-                                    <div class="left">
-                                        更新于:
-                                        {{
-                                            satisfyData ? satisfyData.updatedTime.split("T").join(" ").split("Z")[0]
-                                        .split(" ").join(" ").split(" ")[0] : "" }}
-                                    </div>
+                                <div class="left mb-5">
+                                    创建于:
+                                    {{
+                                        satisfyData ? satisfyData.updatedTime.split("T").join(" ").split("Z")[0]
+                                            .split(" ").join(" ").split(" ")[0] : ""
+                                    }}
                                 </div>
 
-                                <div>
-                                    <div class="right mb-5 ml-auto" @click="toKind">
-                                        <span class="ml-auto ">
-                                            {{ satisfyData ? satisfyData.kind : "" }}
-                                        </span>
-                                    </div>
-                                    <div class="right">
-                                        <span class="ml-auto"> {{ satisfyData ? satisfyData.visitedTimes : "" }}次
-                                        </span>
-                                    </div>
+                                <div class="left">
+                                    更新于:
+                                    {{
+                                        satisfyData ? satisfyData.updatedTime.split("T").join(" ").split("Z")[0]
+                                            .split(" ").join(" ").split(" ")[0] : "" }}
                                 </div>
                             </div>
 
-                            <span class="introduction">
-                                简介:{{ satisfyData ? satisfyData.introduction : "" }}
-                            </span>
+                            <div>
+                                <div class="right mb-5 ml-auto" @click="toKind">
+                                    <span class="ml-auto ">
+                                        {{ satisfyData ? satisfyData.kind : "" }}
+                                    </span>
+                                </div>
+                                <div class="right">
+                                    <span class="ml-auto"> {{ satisfyData ? satisfyData.visitedTimes : "" }}次
+                                    </span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <v-md-editor @copy-code-success="handleCopyCodeSuccess" v-if="satisfyData"
-                            v-model="satisfyData.content" height="auto" mode="preview" ref="previewRef" />
+
+                        <span class="introduction">
+                            简介:{{ satisfyData ? satisfyData.introduction : "" }}
+                        </span>
                     </div>
                 </div>
+                <div>
+                    <v-md-editor @copy-code-success="handleCopyCodeSuccess" v-if="satisfyData"
+                        v-model="satisfyData.content" height="auto" mode="preview" ref="previewRef" />
+                </div>
+            </div>
         </el-col>
         <el-col :xs="0" :sm="6" :md="6" :lg="6" :xl="6">
             <NavAnchor v-show="showEssay" v-if="mode == 'computer' && previewRef" :preview="previewRef"></NavAnchor>
@@ -61,7 +61,6 @@
     <div v-show="anchorShow" class="anchorForModel">
         <NavAnchor ref="navAnchorRef" v-if="previewRef" mode="model" :preview="previewRef"></NavAnchor>
     </div>
-
 </template>
 
 <script setup>
@@ -178,7 +177,7 @@ watch(anchorShow, () => {
 
 onMounted(async () => {
     let waiting = false
-    await getCurrentData()
+    getCurrentData()
     waiting = await showLoading("正在加载文章中...", satisfyData.value)
     if (waiting === true) {
         showEssay.value = true
@@ -227,7 +226,7 @@ onUnmounted(() => {
 
 
     .introduction {
-        @apply mr-auto italic text-pink-500 font-sans  px-2;
+        @apply mr-auto italic text-pink-500 font-sans px-2;
     }
 
     .content {
@@ -245,8 +244,7 @@ onUnmounted(() => {
     .anchorIcon {
         @apply fixed hover:cursor-pointer;
         z-index: 9999;
-        bottom: 100px;
+        bottom: 80px;
         right: 40px;
     }
-
 </style>
