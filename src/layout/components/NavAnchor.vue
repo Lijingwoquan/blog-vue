@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted,onUpdated, ref } from 'vue'
+import { computed, onMounted, onUpdated, ref,onActivated,onDeactivated } from 'vue'
 import anime from 'animejs'; // 如果你使用模块化开发
 
 const anchors = ref("")
@@ -75,13 +75,13 @@ const scrollToAnchor = (targetIndex = getIndex.value) => {
     if (container.children && container.children.length > 0) {
 
         const targetElement = container.children[targetIndex]; // 获取目标元素
-        if (targetElement) {
+        if (targetElement && targetElement.offsetTop > 0) {
             const targetScrollTop = targetElement.offsetTop - 120;
             // 使用 anime.js 实现平滑滚动动画
             anime({
                 targets: container,
                 scrollTop: targetScrollTop,
-                duration: 500, // 动画持续时间为 500 毫秒
+                duration: 300, // 动画持续时间为 500 毫秒
                 easing: 'easeInOutQuad', // 使用 easeInOutQuad 缓动函数
                 complete: () => {
                     // 动画完成后的回调函数
@@ -175,6 +175,15 @@ onMounted(() => {
 onUpdated(() => {
     scrollToAnchor()
 })
+
+onActivated(() => {
+    console.log("onDeactivated")
+})
+
+onDeactivated(() => {
+  console.log("onDeactivated")
+})
+
 </script>
 
 <style scoped>

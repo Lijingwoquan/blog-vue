@@ -58,9 +58,11 @@
         <Memo />
     </el-icon>
 
-    <div v-show="anchorShow" class="anchorForModel">
-        <NavAnchor ref="navAnchorRef" v-if="previewRef" mode="model" :preview="previewRef"></NavAnchor>
-    </div>
+    <keep-alive>
+        <div v-show="anchorShow">
+            <NavAnchor ref="navAnchorRef" v-if="previewRef" mode="model" :preview="previewRef"></NavAnchor>
+        </div>
+    </keep-alive>
 </template>
 
 <script setup>
@@ -170,7 +172,6 @@ const handleResize = () => {
 
 watch(anchorShow, () => {
     if (anchorShow.value === true) {
-        navAnchorRef.value.handleAnchorClick(navAnchorRef.value.getIndex)
     }
 })
 

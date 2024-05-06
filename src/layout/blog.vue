@@ -24,7 +24,7 @@
             <el-col v-if="route.path.split('/')[1] != 'essay'" :xs="24" :sm="16" :md="16" :lg="16" :xl="16">
                 <el-main>
                     <router-view  v-slot="{ Component }">
-                        <keep-alive :max="10" :exclude="/^essay/">
+                        <keep-alive :max="10">
                             <component :is="Component">
                             </component>
                         </keep-alive>
@@ -47,7 +47,6 @@
 <script setup>
 import NavHeader from '~/layout/components/NavHeader.vue';
 import NavAside from '~/layout/components/NavAside.vue';
-import Essay from '~/components/essay.vue';
 
 import { ref, onMounted, watch } from "vue"
 import { useRoute } from 'vue-router';
