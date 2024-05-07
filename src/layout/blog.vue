@@ -5,14 +5,14 @@
         <el-header>
             <nav-header></nav-header>
         </el-header>
-        <el-row>
-            <el-col ref="navAsideColRef" v-resize="handleResize" :xs="0" :sm="4" :md="4" :lg="4" :xl="4">
+        <el-row :gutter="20">
+            <el-col  ref="navAsideColRef" v-resize="handleResize" :xs="0" :sm="3" :md="3" :lg="3" :xl="3">
                 <nav-aside class="hidden-xs-only" :width="navWidthRef"></nav-aside>
             </el-col>
-
-
+            <el-col  :xs="0" :sm="1" :md="1" :lg="1" :xl="1">
+            </el-col>
             <!-- essay布局 -->
-            <el-col v-if="ifToEssay === true" :xs="24" :sm="20" :md="20" :lg="20" :xl="20">
+            <el-col  v-if="ifToEssay === true" :xs="24" :sm="20" :md="20" :lg="20" :xl="20">
                 <el-main>
                     <router-view>
                     </router-view>
@@ -23,7 +23,7 @@
             <!-- 由于生命周期的问题 这里应该这么写 不能用essay -->
             <el-col v-if="route.path.split('/')[1] != 'essay'" :xs="24" :sm="16" :md="16" :lg="16" :xl="16">
                 <el-main>
-                    <router-view  v-slot="{ Component }">
+                    <router-view v-slot="{ Component }">
                         <keep-alive :max="10">
                             <component :is="Component">
                             </component>
@@ -64,6 +64,7 @@ onMounted(() => {
     if (route.fullPath.split("/")[1] === "essay") {
         ifToEssay.value = true
     }
+    handleResize()
 })
 
 watch(

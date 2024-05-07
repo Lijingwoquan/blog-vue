@@ -176,14 +176,6 @@ onUpdated(() => {
     scrollToAnchor()
 })
 
-onActivated(() => {
-    console.log("onDeactivated")
-})
-
-onDeactivated(() => {
-  console.log("onDeactivated")
-})
-
 </script>
 
 <style scoped>
