@@ -247,7 +247,7 @@ onUnmounted(() => {
     .anchorIcon {
         @apply fixed hover:cursor-pointer;
         z-index: 9999;
-        bottom: 80px;
+        top: 200px;
         right: 40px;
     }
 </style>

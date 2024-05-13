@@ -187,13 +187,13 @@ onUpdated(() => {
 }
 
 .anchorForMobil {
-    @apply fixed overflow-x-visible overflow-y-scroll bg-gray-200 rounded-md;
+    @apply fixed overflow-x-visible overflow-y-scroll bg-gray-50  rounded-md;
     border-radius: 10px;
-    width: 200px;
+    top:240px;
+    width: 210px;
     height: 300px;
-    right: 40px;
+    right: 30px;
     z-index: 9999;
-    bottom: 140px;
 }
 
 .active {
