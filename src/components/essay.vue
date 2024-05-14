@@ -26,7 +26,7 @@
                             </div>
 
                             <div>
-                                <div class="right mb-5 ml-auto" @click="toKind">
+                                <div class="right mb-5 ml-auto hover:(cursor-pointer text-blue-400)" @click="toKind">
                                     <span class="ml-auto ">
                                         {{ satisfyData ? satisfyData.kind : "" }}
                                     </span>

@@ -1,6 +1,6 @@
 <template>
     <div v-loading="loading">
-                <div v-for="(essay, index) in satisfyData" class="essay" :key="index">
+        <div v-for="(essay, index) in satisfyData" class="essay" :key="index">
             <div class="top" @click="toEssay(essay.router)">
                 <span class="title">{{ essay.name }}</span>
             </div>
@@ -24,7 +24,6 @@
         </div>
         <el-pagination background layout="prev, pager, next" :current-page="currentPage" :page-count="pageMax"
             @update:current-page="changePage" class="page" />
-          
     </div>
 </template>
 
@@ -135,7 +134,7 @@ function changePage(p) {
     }
 
     .middle .kind {
-        @apply text-lg font-mono mr-auto text-purple-700;
+        @apply text-lg font-mono mr-auto text-purple-700 hover:(cursor-pointer text-blue-400);
     }
 
     .middle .date {

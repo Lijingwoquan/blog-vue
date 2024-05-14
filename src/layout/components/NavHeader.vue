@@ -162,12 +162,12 @@ onBeforeMount(() => {
 
 
 .Headercontainer .left .logoHouse {
-    @apply text-xl mx-3;
+    @apply text-xl mx-3 hover:cursor-pointer;
     height: auto;
 }
 
 .Headercontainer .left .logoExpand {
-    @apply text-xl;
+    @apply text-xl hover:cursor-pointer;
     height: auto;
 }
 
@@ -183,11 +183,11 @@ onBeforeMount(() => {
 }
 
 .Headercontainer .right .search {
-    @apply flex justify-center items-center mr-3;
+    @apply flex justify-center items-center mr-3 hover:cursor-pointer;
 }
 
 .Headercontainer .right .help {
-    @apply flex justify-center items-center mr-1;
+    @apply flex justify-center items-center mr-1 hover:cursor-pointer;
     height: 24px;
 }
 

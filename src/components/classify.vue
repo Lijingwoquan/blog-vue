@@ -116,7 +116,7 @@ watch(() => route.fullPath, () => {
     }
 
     .middle .kind {
-        @apply text-lg font-mono mr-auto text-purple-700;
+        @apply text-lg font-mono mr-auto text-purple-700 hover:(cursor-pointer text-blue-400);
     }
 
     .middle .date {
