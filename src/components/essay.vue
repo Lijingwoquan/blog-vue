@@ -150,7 +150,7 @@ const toKind = (() => {
 //复制代码成功
 const handleCopyCodeSuccess = (content) => {
     toast("复制成功", "success");
-};
+}
 
 // 控制anchor的开关
 const oppositedAnchor = () => {

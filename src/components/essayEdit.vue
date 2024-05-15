@@ -26,7 +26,8 @@
 
     <!-- 富文本编辑器 -->
     <v-md-editor :include-level="[1, 2, 3, 4, 5, 6]" v-model="edit" height="720px" @upload-image="handleUploadImage"
-        right-toolbar="| toc | tip| todo-list | sync-scroll | preview | fullscreen " />
+        right-toolbar="| toc | tip| todo-list | sync-scroll | preview | fullscreen " :disabled-menus="[]"
+        @copy-code-success="handleCopyCodeSuccess" />
 </template>
 
 <script setup>
@@ -43,8 +44,11 @@ import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
 import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
 // 代码高亮
 import Prism from 'prismjs';
-// 代码行数 
+// 代码行数
 // import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index';
+//代码快捷复制
+import createCopyCodePlugin from '@kangc/v-md-editor/lib/plugins/copy-code/index';
+import '@kangc/v-md-editor/lib/plugins/copy-code/copy-code.css';
 //todolist
 import createTodoListPlugin from '@kangc/v-md-editor/lib/plugins/todo-list/index';
 import '@kangc/v-md-editor/lib/plugins/todo-list/todo-list.css';
@@ -58,7 +62,8 @@ VueMarkdownEditor.use(vuepressTheme, {
         // md为 markdown-it 实例，可以在此处进行修改配置,并使用 plugin 进行语法扩展
         // md.set(option).use(plugin);
     },
-});
+})
+VueMarkdownEditor.use(createCopyCodePlugin());
 VueMarkdownEditor.use(createTodoListPlugin());
 VueMarkdownEditor.use(createMermaidPlugin());
 
@@ -120,7 +125,11 @@ window.onbeforeunload = function (e) {
     // 必须使用 e.preventDefault() 和设置 e.returnValue 来防止浏览器的默认行为
     e.returnValue = confirmationMessage; r
     return confirmationMessage;
-};
+}
+//复制代码成功
+const handleCopyCodeSuccess = (content) => {
+    toast("复制成功", "success");
+}
 </script>
 
 
