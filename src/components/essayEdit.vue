@@ -25,8 +25,8 @@
     </el-drawer>
 
     <!-- 富文本编辑器 -->
-    <v-md-editor :include-level="[1, 2]" v-model="edit" height="720px" @upload-image="handleUploadImage"
-        right-toolbar="| tip| todo-list" :disabled-menus="[]" />
+    <v-md-editor :include-level="[1, 2, 3, 4, 5, 6]" v-model="edit" height="720px" @upload-image="handleUploadImage"
+        right-toolbar="| toc | tip| todo-list | sync-scroll | preview | fullscreen " />
 </template>
 
 <script setup>
@@ -53,11 +53,11 @@ import createMermaidPlugin from '@kangc/v-md-editor/lib/plugins/mermaid/cdn';
 import '@kangc/v-md-editor/lib/plugins/mermaid/mermaid.css';
 
 VueMarkdownEditor.use(vuepressTheme, {
-  Prism,
-  extend(md) {
-    // md为 markdown-it 实例，可以在此处进行修改配置,并使用 plugin 进行语法扩展
-    // md.set(option).use(plugin);
-  },
+    Prism,
+    extend(md) {
+        // md为 markdown-it 实例，可以在此处进行修改配置,并使用 plugin 进行语法扩展
+        // md.set(option).use(plugin);
+    },
 });
 VueMarkdownEditor.use(createTodoListPlugin());
 VueMarkdownEditor.use(createMermaidPlugin());
@@ -107,21 +107,35 @@ function add() {
     addEssayParms.content = edit.value
     addEssay(addEssayParms)
 }
+
+
+window.onbeforeunload = function (e) {
+    e = e || window.event;
+
+    // 兼容 IE8 及更早版本
+    var confirmationMessage = '你真的要离开这个页面吗?';
+
+    // 在 IE8 及更早版本中 e.returnValue 设置显示文本内容
+    // 在较新的浏览器中 (e.returnValue) 属性不起作用,
+    // 必须使用 e.preventDefault() 和设置 e.returnValue 来防止浏览器的默认行为
+    e.returnValue = confirmationMessage; r
+    return confirmationMessage;
+};
 </script>
 
 
 <style scoped>
-.input {
-    @apply my-3;
-    height: 35px;
-}
+    .input {
+        @apply my-3;
+        height: 35px;
+    }
 
-.bottom {
-    @apply bottom-3 fixed;
-    z-index: 999;
-}
+    .bottom {
+        @apply bottom-3 fixed;
+        z-index: 999;
+    }
 
-.bottom .btn {
-    @apply mx-3;
-}
+    .bottom .btn {
+        @apply mx-3;
+    }
 </style>

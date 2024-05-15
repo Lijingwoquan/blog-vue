@@ -18,6 +18,11 @@ import hljs from 'highlight.js';
 
 VMdEditor.use(vuepressTheme, {
   Hljs: hljs,
+  config: {
+    toc: {
+      includeLevel: [1, 2, 3, 4,5,6],
+    },
+  },
 });
 
 
