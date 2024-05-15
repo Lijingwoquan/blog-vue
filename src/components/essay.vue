@@ -1,5 +1,5 @@
 <template>
-    <el-row :gutter="20">
+    <el-row>
         <el-col :xs="24" :sm="18" :md="18" :lg="18" :xl="18">
             <div v-show="showEssay" @click="closeAnchor">
                 <div class="essayBasic">
@@ -233,7 +233,7 @@ onUnmounted(() => {
     }
 
     .content {
-        @apply md:text-xl lg:text-2xl xl:text-2xl xl:text-xl mx-3;
+        @apply md:text-xl lg:text-2xl xl:text-2xl xl:text-xl mx-3 ;
     }
 
     :deep(.v-md-editor__main) {

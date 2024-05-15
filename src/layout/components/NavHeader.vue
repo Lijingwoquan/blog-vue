@@ -148,7 +148,7 @@ onBeforeMount(() => {
 
 <style scoped>
 .Headercontainer {
-    @apply flex justify-between items-center fixed top-0 left-0 right-0;
+    @apply flex justify-between items-center fixed top-0 left-0 right-0 ;
     z-index: 100;
     height: 60px;
     background-color: rgba(107, 95, 175, 0.168);
@@ -172,7 +172,7 @@ onBeforeMount(() => {
 }
 
 .Headercontainer .middle {
-    @apply text-sm font-bold font-serif;
+    @apply text-sm  font-bold font-serif;
     padding-left: 10%;
     white-space: nowrap;
 }

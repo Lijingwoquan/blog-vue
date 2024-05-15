@@ -5,7 +5,7 @@
         <el-header>
             <nav-header></nav-header>
         </el-header>
-        <el-row :gutter="20">
+        <el-row>
             <el-col  ref="navAsideColRef" v-resize="handleResize" :xs="0" :sm="3" :md="3" :lg="3" :xl="3">
                 <nav-aside class="hidden-xs-only" :width="navWidthRef"></nav-aside>
             </el-col>
