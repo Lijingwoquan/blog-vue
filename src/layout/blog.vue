@@ -6,13 +6,13 @@
             <nav-header></nav-header>
         </el-header>
         <el-row>
-            <el-col  ref="navAsideColRef" v-resize="handleResize" :xs="0" :sm="3" :md="3" :lg="3" :xl="3">
+            <el-col ref="navAsideColRef" v-resize="handleResize" :xs="0" :sm="3" :md="3" :lg="3" :xl="3">
                 <nav-aside class="hidden-xs-only" :width="navWidthRef"></nav-aside>
             </el-col>
-            <el-col  :xs="0" :sm="1" :md="1" :lg="1" :xl="1">
+            <el-col :xs="0" :sm="1" :md="1" :lg="1" :xl="1">
             </el-col>
             <!-- essay布局 -->
-            <el-col  v-if="ifToEssay === true" :xs="24" :sm="20" :md="20" :lg="20" :xl="20">
+            <el-col v-if="ifToEssay === true" :xs="24" :sm="20" :md="20" :lg="20" :xl="20">
                 <el-main>
                     <router-view>
                     </router-view>
