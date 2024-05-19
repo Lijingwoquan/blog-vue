@@ -3,6 +3,8 @@ import {
     createWebHistory
 } from 'vue-router'
 
+import { config } from "/config.js"
+
 import blog from '~/layout/blog.vue'
 import Index from '~/pages/index.vue'
 import NotFound from '~/pages/404.vue'
@@ -22,7 +24,7 @@ const routes = [{
     component: Login,
 },
 {
-    path: "/admin/lzh",
+    path: `/admin/${config.MANAGER_URL}`,
     component: Admin,
 },
 

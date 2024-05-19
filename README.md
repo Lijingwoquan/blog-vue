@@ -27,10 +27,13 @@ git clone https://github.com/Lijingwoquan/blog-vue.git
 
 npm install
 
+3. 环境配置:
+在/config.js中修改config.MANAGER_URL为你自己想要的url
 
-3. 运行开发服务器:
+1. 运行开发服务器:
 
 npm run dev
+
 
 
 ## 部署

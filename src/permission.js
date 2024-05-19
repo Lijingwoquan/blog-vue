@@ -1,4 +1,4 @@
-import { router, addRouters,addIndexRouter } from "~/router"
+import { router, addRouters, addIndexRouter } from "~/router"
 import {
     toast,
     showFullLoading,
@@ -6,14 +6,16 @@ import {
 } from "~/composables/util"
 import { getToken } from "~/composables/auth"
 import store from "./store"
+import { config } from "/config.js"
 
 //全局前置守卫
 let hasGetInfo = false
 
+
 router.beforeEach(async (to, from, next) => {
     //显示loading
     showFullLoading()
-    if (to.path === "/admin/lzh") {
+    if (to.path === `/admin/${config.MANAGER_URL}`) {
         const token = getToken()
         //没有登录,强制跳转到登录页面
         if (!token && to.path != "/login") {
@@ -23,7 +25,7 @@ router.beforeEach(async (to, from, next) => {
         //防止重复登录
         if (token && to.path == "/login") {
             toast("请勿重复登录", "warning")
-            return next({ path: from.path ? from.path : "/admin/lzh" })
+            return next({ path: from.path ? from.path : `/admin/${config.MANAGER_URL}` })
         }
     }
 

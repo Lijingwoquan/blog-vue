@@ -35,7 +35,8 @@
                 </el-form-item>
 
                 <el-form-item>
-                    <el-button round type="primary" class="w-[250px]" :loading="loading" @click="onSubmit">登 录</el-button>
+                    <el-button round type="primary" class="w-[250px]" :loading="loading" @click="onSubmit">登
+                        录</el-button>
                 </el-form-item>
             </el-form>
         </el-col>
@@ -46,6 +47,7 @@ import { ref, reactive, onMounted, onBeforeMount } from 'vue'
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { toast } from '~/composables/util'
+import { config } from "/config.js"
 
 const router = useRouter()
 const store = useStore()
@@ -75,11 +77,11 @@ const onSubmit = () => {
         loading.value = true
         store.dispatch("login", form).then(res => {
             toast("登陆成功", "success")
-            router.push("/admin/lzh")
+            router.push(`/admin/${config.MANAGER_URL}`)
         })
-        .finally(() => {
-            loading.value = false
-        })
+            .finally(() => {
+                loading.value = false
+            })
     })
 }
 
@@ -90,45 +92,45 @@ function onKeyUp(e) {
 
 //添加键盘的监听
 onMounted(() => {
-    document.addEventListener("keyup",onKeyUp)
+    document.addEventListener("keyup", onKeyUp)
 })
 //移除键盘的监听
 onBeforeMount(() => {
-    document.removeEventListener("keyup",onKeyUp)
+    document.removeEventListener("keyup", onKeyUp)
 })
 
 </script>
 
 <style scoped>
-.login-container {
-    @apply min-h-screen;
-}
+    .login-container {
+        @apply min-h-screen;
+    }
 
-.login-container .left {
-    @apply flex flex-col justify-center items-center bg-blue-500;
-}
+    .login-container .left {
+        @apply flex flex-col justify-center items-center bg-blue-500;
+    }
 
-.left>div:first-child {
-    @apply font-bold text-4xl text-light-50 mb-4;
-}
+    .left>div:first-child {
+        @apply font-bold text-4xl text-light-50 mb-4;
+    }
 
-.left>span {
-    @apply font-bold text-2xl text-red-200 mt-4;
-}
+    .left>span {
+        @apply font-bold text-2xl text-red-200 mt-4;
+    }
 
-.login-container .right {
-    @apply flex flex-col justify-center items-center bg-green-100;
-}
+    .login-container .right {
+        @apply flex flex-col justify-center items-center bg-green-100;
+    }
 
-.right>div {
-    @apply flex justify-center items-center my-5
-}
+    .right>div {
+        @apply flex justify-center items-center my-5
+    }
 
-.right .title {
-    @apply font-bold text-3xl text-gray-800;
-}
+    .right .title {
+        @apply font-bold text-3xl text-gray-800;
+    }
 
-.right .line {
-    @apply h-[1px] w-16 bg-red-500 mx-1;
-}
+    .right .line {
+        @apply h-[1px] w-16 bg-red-500 mx-1;
+    }
 </style>
