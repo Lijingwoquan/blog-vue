@@ -1,10 +1,12 @@
 <template>
+    <div class="background-color"></div>
     <el-backtop class="hidden-sm-and-down" :right="40" :bottom="30" :visibility-height="300" />
     <el-backtop class="hidden-sm-and-up" :right="40" :bottom="30" :visibility-height="300" />
     <el-container>
         <el-header>
             <nav-header></nav-header>
         </el-header>
+
         <el-row>
             <el-col ref="navAsideColRef" v-resize="handleResize" :xs="0" :sm="3" :md="3" :lg="3" :xl="3">
                 <nav-aside class="hidden-xs-only" :width="navWidthRef"></nav-aside>
@@ -95,4 +97,14 @@ watch(
     .register {
         @apply flex flex-col justify-center items-center italic mt-10 mb-5;
     }
+
+    .background-color {
+        position: fixed;
+        top: 60px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to right bottom, rgba(177, 167, 224, 0.2), rgba(157, 169, 224, 0.2));
+    }
+
 </style>

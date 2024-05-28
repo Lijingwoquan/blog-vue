@@ -4,7 +4,7 @@
             <h2 class="kind"> {{ item.classifyKind }}</h2>
             <section class="section">
                 <div class="flex justify-center flex-col"
-                    v-if="Array.isArray(item.classifyDetails) && item.classifyDetails.length > 0" >
+                    v-if="Array.isArray(item.classifyDetails) && item.classifyDetails.length > 0">
                     <span class="anchor" v-for="(item2, index2) in item.classifyDetails" :key="index2"
                         @click="chooseKind(item2)" :class="{ active: activeClassify === '/classify' + item2.router }">
                         {{ item2.checked }}
@@ -45,7 +45,7 @@ watch(() => route.fullPath, () => {
 
 const navAsideStyle = computed(() => {
     if (props.width && props.width > 10) {
-        return props.width ? { width: props.width  + 'px' } : {}
+        return props.width ? { width: props.width + 'px' } : {}
     }
 })
 
@@ -65,26 +65,28 @@ const props = defineProps({
 
 
 <style scoped>
-.nav-aside {
-    @apply overflow-x-hidden overflow-y-scroll fixed;
-    top: 60px;
-    bottom: 0px;
-}
+    .nav-aside {
+        @apply overflow-x-hidden overflow-y-scroll fixed;
+        top: 60px;
+        bottom: 0px;
+    }
 
-.kind {
-    @apply text-lg text-red-400 mb-2;
-    font-weight: 600;
-}
+    .kind {
+        @apply text-lg mb-2;
+        color: rgb(206, 27, 78);
+        font-weight: 600;
+    }
 
-.section {
-    @apply mb-5 ml-4;
-}
+    .section {
+        @apply mb-5 ml-4;
+    }
 
-.anchor {
-    @apply text-gray-400 leading-loose hover:(cursor-pointer underline text-stroke-sm text-shadow-sm);
-}
+    .anchor {
+        @apply text-gray-400 leading-loose hover:(cursor-pointer underline text-stroke-sm text-shadow-sm);
+    }
 
-.active {
-    @apply text-yellow-400 underline text-stroke-sm text-shadow-sm;
-}
+    .active {
+        @apply underline text-stroke-sm text-shadow-sm;
+        color: rgb(80, 154, 219);
+    }
 </style>

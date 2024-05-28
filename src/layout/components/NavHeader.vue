@@ -1,30 +1,31 @@
 <template>
     <div class="Headercontainer">
         <div class="left">
-            <el-icon class="logoHouse" size="20px" @click="toIndex">
+            <el-icon class="logoHouse" size="25px" @click="toIndex">
                 <House />
             </el-icon>
-            <el-icon class="logoExpand hidden-sm-and-up" size="20px" @click="openMenu">
+            <el-icon class="logoExpand hidden-sm-and-up" size="25px" @click="openMenu">
                 <Expand />
             </el-icon>
+
             <el-drawer v-model="dialogMenu" title="菜单" direction="ltr" class="bg-light-800" size="200px">
-                <NavAsideForMobile ></NavAsideForMobile>
+                <NavAsideForMobile></NavAsideForMobile>
             </el-drawer>
         </div>
         <div class="middle">
-            <span>罹景偓佺的博客</span>
+            <span class="text-lg">罹景偓佺的博客</span>
         </div>
 
         <div class="right">
             <div class="search" @click="openSearch">
-                <el-icon size="20px">
+                <el-icon size="25px">
                     <search />
                 </el-icon>
             </div>
             <el-dropdown>
                 <div class="help">
                     <div class="text">帮助</div>
-                    <el-icon class="icon">
+                    <el-icon class="icon" size="25px">
                         <arrow-down />
                     </el-icon>
                 </div>
@@ -128,6 +129,7 @@ function searchMsg() {
 const gotoApointPath = (path) => {
     router.push("/essay" + path)
     dialogVisible.value = false
+    
 }
 
 
@@ -147,89 +149,101 @@ onBeforeMount(() => {
 </script>
 
 <style scoped>
-.Headercontainer {
-    @apply flex justify-between items-center fixed top-0 left-0 right-0 ;
-    z-index: 100;
-    height: 60px;
-    background-color: rgba(107, 95, 175, 0.168);
-}
+    .Headercontainer {
+        @apply flex justify-between items-center fixed top-0 left-0 right-0;
+        z-index: 100;
+        height: 60px;
+        background:
+            linear-gradient(to right, rgb(239, 242, 245), rgb(178, 174, 202), rgb(118, 112, 148), rgb(178, 174, 202), rgb(239, 242, 245));
+    }
 
-.Headercontainer .left {
-    @apply flex justify-start items-center;
-    width: 65px;
-    margin-right: 0;
-}
-
-
-.Headercontainer .left .logoHouse {
-    @apply text-xl mx-3 hover:cursor-pointer;
-    height: auto;
-}
-
-.Headercontainer .left .logoExpand {
-    @apply text-xl hover:cursor-pointer;
-    height: auto;
-}
-
-.Headercontainer .middle {
-    @apply text-sm  font-bold font-serif;
-    padding-left: 10%;
-    white-space: nowrap;
-}
-
-.Headercontainer .right {
-    @apply flex justify-end items-center left-0 right-0;
-    width: 100px;
-}
-
-.Headercontainer .right .search {
-    @apply flex justify-center items-center mr-3 hover:cursor-pointer;
-}
-
-.Headercontainer .right .help {
-    @apply flex justify-center items-center mr-1 hover:cursor-pointer;
-    height: 24px;
-}
-
-.Headercontainer .right .help .text {
-    width: 28px;
-}
-
-.Headercontainer .right .help .icon {
-    @apply mr-2;
-}
-
-.Headercontainer .right .search:hover {
-    border-color: red;
-    /* 悬停时改变边框颜色 */
-}
+    .Headercontainer .left {
+        @apply flex justify-start items-center;
+        width: 65px;
+        margin-right: 0;
+    }
 
 
-.input {
-    height: 50px;
-}
+    .Headercontainer .left .logoHouse {
+        @apply text-xl mx-3 hover:cursor-pointer;
+        height: auto;
+    }
 
-.essayList {
-    @apply flex justify-between items-center;
-    background-color: rgba(107, 95, 175, 0.168);
-    width: 100%;
-    height: 50px;
+    .Headercontainer .left .logoExpand {
+        @apply text-xl hover:cursor-pointer;
+        height: auto;
+    }
 
-}
+    .Headercontainer .middle {
+        @apply text-sm font-bold font-serif;
+        padding-left: 10%;
+        white-space: nowrap;
+    }
 
-:deep(.el-dialog__header) {
-    padding: 0px !important;
-    padding-bottom: 0px !important;
-    margin-right: 0px !important;
-}
+    .Headercontainer .right {
+        @apply flex justify-end items-center left-0 right-0;
+        width: 100px;
+    }
+
+    .Headercontainer .right .search {
+        @apply flex justify-center items-center mr-3 hover:cursor-pointer;
+    }
+
+    .Headercontainer .right .help {
+        @apply flex justify-center items-center mr-1 hover:cursor-pointer;
+        height: 25px;
+    }
+
+    .Headercontainer .right .help .text {
+        width: 30px;
+    }
+
+    .Headercontainer .right .help .icon {
+        @apply mr-2;
+    }
+
+    .Headercontainer .right .search:hover {
+        border-color: red;
+        /* 悬停时改变边框颜色 */
+    }
 
 
-:deep(.el-drawer__body) {
-    padding: 0 !important;
-    margin:  0 !important;
-}
+    .input {
+        height: 50px;
+    }
 
-:deep(.el-menu){
-    width: 200px !important;
-}
+    .essayList {
+        @apply flex justify-between items-center;
+        background-color: rgba(107, 95, 175, 0.168);
+        width: 100%;
+        height: 50px;
+    }
+
+    :deep(.el-dialog__header) {
+        padding: 0px !important;
+        padding-bottom: 0px !important;
+        margin-right: 0px !important;
+    }
+
+
+    :deep(.el-drawer__body) {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    :deep(.el-menu) {
+        width: 200px !important;
+        background:
+            linear-gradient(to top, rgba(177, 167, 224, 0.2), rgba(157, 169, 224, 0.2));
+    }
+
+    :deep(.el-drawer__header) {
+        @apply flex justify-center items-center;
+        background:
+            linear-gradient(to left, rgb(132, 223, 159), rgb(79, 169, 214));
+        margin: 0px !important;
+        padding: 10px !important;
+        box-sizing: border-box;
+        height: 60px;
+    }
 </style>

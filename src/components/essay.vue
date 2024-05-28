@@ -60,11 +60,9 @@
         <Memo />
     </el-icon>
 
-    <keep-alive>
-        <div v-show="anchorShow">
-            <NavAnchor ref="navAnchorRef" v-if="previewRef" mode="model" :preview="previewRef"></NavAnchor>
-        </div>
-    </keep-alive>
+    <div v-show="anchorShow">
+        <NavAnchor ref="navAnchorRef" v-if="previewRef" mode="model" :preview="previewRef"></NavAnchor>
+    </div>
 </template>
 
 <script setup>
@@ -197,8 +195,11 @@ onUnmounted(() => {
 
 <style scoped>
     .essayBasic {
-        @apply flex flex-col justify-center items-center overflow-hidden;
-        margin-top: 20px;
+        @apply flex flex-col justify-center items-center overflow-hidden p-5;
+        background: linear-gradient(to right, rgba(112, 180, 143, 0.055), rgb(106, 184, 195, 0.15));
+        border: 1px dotted rgba(112, 180, 143, 0.055);
+        border-top: 0;
+        border-radius: 5px;
     }
 
     .essayBasic .name {
@@ -233,7 +234,7 @@ onUnmounted(() => {
     }
 
     .content {
-        @apply md:text-xl lg:text-2xl xl:text-2xl xl:text-xl mx-3 ;
+        @apply md:text-xl lg:text-2xl xl:text-2xl xl:text-xl mx-3;
     }
 
     :deep(.v-md-editor__main) {

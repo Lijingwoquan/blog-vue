@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, onUpdated, ref,onActivated,onDeactivated } from 'vue'
+import { computed, onMounted, onUpdated, ref, onActivated, onDeactivated } from 'vue'
 import anime from 'animejs'; // 如果你使用模块化开发
 
 const anchors = ref("")
@@ -179,24 +179,29 @@ onUpdated(() => {
 </script>
 
 <style scoped>
-.anchorForComputer {
-    @apply fixed overflow-x-visible overflow-y-scroll mt-5 mr-2;
-    width: auto;
-    top: 60px;
-    height: 80vh;
-}
+    .anchorForComputer {
+        @apply fixed overflow-x-visible overflow-y-scroll mt-5 mr-2;
+        width: auto;
+        top: 60px;
+        height: 80vh;
+    }
 
-.anchorForMobil {
-    @apply fixed overflow-x-visible overflow-y-scroll bg-gray-50  rounded-md;
-    border-radius: 10px;
-    top:240px;
-    width: 210px;
-    height: 300px;
-    right: 30px;
-    z-index: 9999;
-}
+    .anchorForMobil {
+        @apply fixed overflow-x-visible overflow-y-scroll rounded-md;
+        border-radius: 10px;
+        top: 240px;
+        width: 210px;
+        height: 300px;
+        right: 30px;
+        background: linear-gradient(to right bottom, rgb(83, 219, 178), rgb(137, 139, 211));
+        z-index: 2;
+        border: 1px solid rgba(193, 24, 94, 0.4);
+        padding: 3px;
+        box-sizing: border-box;
+    }
 
-.active {
-    @apply text-blue-400 text-stroke-sm text-shadow-lg text-lg;
-}
+    .active {
+        @apply text-stroke-sm text-shadow-lg text-lg;
+        color: red;
+    }
 </style>
