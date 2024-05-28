@@ -44,7 +44,7 @@
                     </div>
                 </div>
                 <div>
-                    <v-md-editor @copy-code-success="handleCopyCodeSuccess" v-if="satisfyData"
+                    <v-md-editor class="bg-red" @copy-code-success="handleCopyCodeSuccess" v-if="satisfyData"
                         v-model="satisfyData.content" height="auto" mode="preview" ref="previewRef" />
                 </div>
             </div>
@@ -211,7 +211,6 @@ defineExpose({
 <style scoped>
     .essayBasic {
         @apply flex flex-col justify-center items-center overflow-hidden p-5;
-        background: linear-gradient(to right, rgba(112, 180, 143, 0.055), rgb(106, 184, 195, 0.15));
         border: 1px dotted rgba(112, 180, 143, 0.055);
         border-top: 0;
         border-radius: 5px;

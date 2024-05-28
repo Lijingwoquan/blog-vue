@@ -3,5 +3,5 @@
 
 export const config = {
     // 写你想要的路径
-    MANAGER_URL: "lzh",
+    MANAGER_URL: "xxoo",
 }
