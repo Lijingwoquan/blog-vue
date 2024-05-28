@@ -28,7 +28,9 @@ git clone https://github.com/Lijingwoquan/blog-vue.git
 npm install
 
 3. 环境配置:
-在/config.js中修改config.MANAGER_URL为你自己想要的url
+在 .env.development 中配置自己的生产环境
+在 .env.production 中配置自己的发布环境
+在  config.js中修改config.MANAGER_URL为你自己想要的url
 
 1. 运行开发服务器:
 
