@@ -151,31 +151,31 @@ onBeforeMount(() => {
 </script>
 
 <style scoped>
-.search {
-    @apply fixed;
-    top: 45px;
-    left: 50px;
-    height: 30px;
-    z-index: 999;
-}
+    .search {
+        @apply fixed;
+        top: 45px;
+        left: 50px;
+        height: 30px;
+        z-index: 999;
+    }
 
-.add {
-    @apply flex justify-center items-center;
-    height: 30px;
-}
+    .add {
+        @apply flex justify-center items-center;
+        height: 30px;
+    }
 
-.input {
-    height: 50px;
-}
+    .input {
+        height: 50px;
+    }
 
-.input2 {
-    @apply mx-2;
-    height: 40px;
-}
+    .input2 {
+        @apply mx-2;
+        height: 40px;
+    }
 
-.dateShow {
-    @apply flex justify-center items-center my-5;
-    width: 100%;
-    height: 50px;
-}
+    .dateShow {
+        @apply flex justify-center items-center my-5;
+        width: 100%;
+        height: 50px;
+    }
 </style>

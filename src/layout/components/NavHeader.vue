@@ -1,10 +1,10 @@
 <template>
     <div class="Headercontainer">
         <div class="left">
-            <el-icon class="logoHouse" size="25px" @click="toIndex">
+            <el-icon class="logoHouse" :size="sizeObj.iconSize" @click="toIndex">
                 <House />
             </el-icon>
-            <el-icon class="logoExpand hidden-sm-and-up" size="25px" @click="openMenu">
+            <el-icon class="logoExpand hidden-sm-and-up" :size="sizeObj.iconSize" @click="openMenu">
                 <Expand />
             </el-icon>
 
@@ -14,19 +14,19 @@
 
         </div>
         <div class="middle">
-            <span class="text-lg">罹景偓佺的博客</span>
+            <span :class="sizeObj.textSize">罹景偓佺的博客</span>
         </div>
 
         <div class="right">
             <div class="search" @click="openSearch">
-                <el-icon size="25px">
+                <el-icon :size="sizeObj.iconSize">
                     <search />
                 </el-icon>
             </div>
             <el-dropdown>
                 <div class="help">
                     <div class="text">帮助</div>
-                    <el-icon class="icon" size="25px">
+                    <el-icon class="icon" :size="sizeObj.iconSize">
                         <arrow-down />
                     </el-icon>
                 </div>
@@ -78,7 +78,7 @@
 
 <script setup>
 import NavAsideForMobile from '~/layout/components/NavAsideForMobile.vue';
-import { ref, onMounted, onBeforeMount, watch } from "vue"
+import { ref, onMounted, onBeforeMount, watch, reactive } from "vue"
 import { useStore } from 'vuex';
 import { useRouter, useRoute } from 'vue-router';
 import { toast } from '~/composables/util'
@@ -92,6 +92,11 @@ const dialogMenu = ref(false);
 const input = ref('')
 const getData = ref(false)
 const satisfyDate = ref([])
+
+const sizeObj = reactive({
+    textSize: "",
+    iconSize: ""
+})
 
 const emits = defineEmits(["openSearch", "closeSearch"])
 
@@ -134,10 +139,20 @@ const searchMsg = () => {
     getData.value = true
 }
 
-
 const onKeyUp = (e) => {
     if (e.key == "Enter" && dialogVisible.value == true) {
         searchMsg()
+    }
+}
+
+const handleResize = () => {
+    const windowWidth = window.innerWidth
+    if (windowWidth < 768) {
+        sizeObj.iconSize = "16px"
+        sizeObj.textSize = "text-md"
+    } else {
+        sizeObj.iconSize = "25px"
+        sizeObj.textSize = "text-lg"
     }
 }
 
@@ -148,11 +163,14 @@ watch(() => route.fullPath, () => {
 //添加键盘的监听
 onMounted(() => {
     document.addEventListener("keyup", onKeyUp)
+    // 监听窗口resize事件
+    window.addEventListener('resize', handleResize);
 })
 
 //移除键盘监听
 onBeforeMount(() => {
     document.removeEventListener("keyup", onKeyUp)
+    window.removeEventListener("resize", handleResize)
 })
 </script>
 
