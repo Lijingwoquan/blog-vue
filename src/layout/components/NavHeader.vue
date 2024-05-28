@@ -11,6 +11,7 @@
             <el-drawer v-model="dialogMenu" title="菜单" direction="ltr" class="bg-light-800" size="200px">
                 <NavAsideForMobile></NavAsideForMobile>
             </el-drawer>
+
         </div>
         <div class="middle">
             <span class="text-lg">罹景偓佺的博客</span>
@@ -44,7 +45,7 @@
 
     <template>
         <el-dialog v-model="dialogVisible" :v-close-on-click-modal="true" :show-close="false" append-to-body
-            :draggable="true" width="80%">
+            @close="$emit('closeSearch')" width="80%">
             <el-input v-model="input" placeholder="搜索文档" class="input">
                 <template #prefix>
                     <el-icon class="mx-2">
@@ -88,26 +89,32 @@ const essayData = store.state.essayData
 const router = useRouter()
 const route = useRoute()
 const dialogMenu = ref(false);
+const input = ref('')
+const getData = ref(false)
+const satisfyDate = ref([])
 
-function openMenu() {
+const emits = defineEmits(["openSearch", "closeSearch"])
+
+const openMenu = () => {
     dialogMenu.value = true
 }
-watch(() => route.fullPath, () => {
-    dialogMenu.value = false
-})
-function toIndex() {
+
+const toIndex = () => {
     router.push("/")
 }
 
-
-function openSearch() {
+const openSearch = () => {
     dialogVisible.value = true
+    emits("openSearch")
 }
-const input = ref('')
-let getData = ref(false)
-let satisfyDate = ref([])
 
-function searchMsg() {
+const gotoApointPath = (path) => {
+    router.push("/essay" + path)
+    dialogVisible.value = false
+
+}
+
+const searchMsg = () => {
     if (input.value == "") {
         toast("请输入搜索内容", "warning")
         return
@@ -126,22 +133,23 @@ function searchMsg() {
     }
     getData.value = true
 }
-const gotoApointPath = (path) => {
-    router.push("/essay" + path)
-    dialogVisible.value = false
-    
-}
 
 
-function onKeyUp(e) {
+const onKeyUp = (e) => {
     if (e.key == "Enter" && dialogVisible.value == true) {
         searchMsg()
     }
 }
+
+watch(() => route.fullPath, () => {
+    dialogMenu.value = false
+})
+
 //添加键盘的监听
 onMounted(() => {
     document.addEventListener("keyup", onKeyUp)
 })
+
 //移除键盘监听
 onBeforeMount(() => {
     document.removeEventListener("keyup", onKeyUp)

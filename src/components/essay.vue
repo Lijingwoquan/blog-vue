@@ -56,11 +56,11 @@
         </el-col>
     </el-row>
 
-    <el-icon @click="oppositedAnchor" class="anchorIcon hidden-sm-and-up" size="40px">
+    <el-icon v-show="anchorShow" @click="oppositedAnchor" class="anchorIcon hidden-sm-and-up" size="40px">
         <Memo />
     </el-icon>
 
-    <div v-show="anchorShow">
+    <div v-show="anchorContentShow">
         <NavAnchor ref="navAnchorRef" v-if="previewRef" mode="model" :preview="previewRef"></NavAnchor>
     </div>
 </template>
@@ -119,6 +119,7 @@ const satisfyData = ref(null)  //存储文章的数据
 const mode = ref("")
 const showEssay = ref(false)
 const anchorShow = ref(false)
+const anchorContentShow = ref(false)
 
 //根据文章名字去获取文章详细内容
 const getCurrentData = async () => {
@@ -152,12 +153,12 @@ const handleCopyCodeSuccess = (content) => {
 
 // 控制anchor的开关
 const oppositedAnchor = () => {
-    anchorShow.value = !anchorShow.value
+    anchorContentShow.value = !anchorContentShow.value
 }
 
 // 作用于全局 关闭anchor
 const closeAnchor = () => {
-    anchorShow.value = false
+    anchorContentShow.value = false
 }
 
 // 根据窗口大小来修改模式
@@ -170,8 +171,16 @@ const handleResize = () => {
     }
 }
 
-watch(anchorShow, () => {
-    if (anchorShow.value === true) {
+const hideAnchor = () => {
+    anchorShow.value = false
+}
+
+const showAnchor = () => {
+    anchorShow.value = true
+}
+
+watch(anchorContentShow, () => {
+    if (anchorContentShow.value === true) {
     }
 })
 
@@ -182,6 +191,7 @@ onMounted(async () => {
     waiting = await showLoading("正在加载文章中...", satisfyData.value)
     if (waiting === true) {
         showEssay.value = true
+        anchorShow.value = true
     }
     handleResize()
     window.addEventListener('resize', handleResize)
@@ -189,6 +199,11 @@ onMounted(async () => {
 
 onUnmounted(() => {
     window.removeEventListener('resize', handleResize)
+})
+
+defineExpose({
+    hideAnchor,
+    showAnchor
 })
 </script>
 
