@@ -179,6 +179,16 @@ const showAnchor = () => {
     anchorShow.value = true
 }
 
+const handelScoll = () => {
+    const scrollPosition = document.documentElement.scrollTop || window.pageYOffset;
+    if (scrollPosition >= 500) { // 滚动超过 500 像素时显示
+        anchorShow.value = true
+    } else {
+        anchorShow.value = false
+        closeAnchor()
+    }
+}
+
 watch(anchorContentShow, () => {
     if (anchorContentShow.value === true) {
     }
@@ -194,11 +204,14 @@ onMounted(async () => {
         anchorShow.value = true
     }
     handleResize()
+    handelScoll()
     window.addEventListener('resize', handleResize)
+    window.addEventListener('scroll', handelScoll)
 })
 
 onUnmounted(() => {
     window.removeEventListener('resize', handleResize)
+    window.addEventListener('scroll', handelScoll)
 })
 
 defineExpose({
@@ -210,10 +223,8 @@ defineExpose({
 
 <style scoped>
     .essayBasic {
-        @apply flex flex-col justify-center items-center overflow-hidden p-5;
-        border: 1px dotted rgba(112, 180, 143, 0.055);
-        border-top: 0;
-        border-radius: 5px;
+        @apply flex flex-col justify-center items-center overflow-hidden;
+        padding: 16px 5px 10px 5px;
     }
 
     .essayBasic .name {

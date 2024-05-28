@@ -114,9 +114,8 @@ watch(
     .background-color {
         position: fixed;
         top: 60px;
-        bottom: 0;
-        left: 0;
-        right: 0;
+        height: calc(100vh - 60px);
+        width: 100vw;
         background: linear-gradient(to right bottom, rgba(180, 174, 206, 0.1), rgba(137, 155, 231, 0.15));
         z-index: 10;
         pointer-events: none;
