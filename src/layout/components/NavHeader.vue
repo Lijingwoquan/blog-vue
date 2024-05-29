@@ -181,7 +181,7 @@ onBeforeMount(() => {
         height: 60px;
         background:
 
-            linear-gradient(to right, rgba(42, 157, 202, 0.365), lime, pink, cyan);
+            linear-gradient(to right, rgba(42, 157, 202, 0.365), rgba(0, 255, 0, 0.457), rgba(255, 192, 203, 0.47), rgba(0, 255, 255, 0.53));
     }
 
     .Headercontainer .left {

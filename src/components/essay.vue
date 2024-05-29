@@ -216,7 +216,8 @@ onUnmounted(() => {
 
 defineExpose({
     hideAnchor,
-    showAnchor
+    showAnchor,
+    handelScoll
 })
 </script>
 

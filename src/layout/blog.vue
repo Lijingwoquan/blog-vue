@@ -73,6 +73,7 @@ const handleOpenSearch = () => {
 
 const handleCloseSearch = () => {
     essayComponent.value.showAnchor()
+    essayComponent.value.handelScoll()
 }
 
 onMounted(() => {
