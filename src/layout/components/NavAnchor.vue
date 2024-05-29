@@ -3,7 +3,7 @@
         <div v-for="anchor in titles" :style="{
             padding: `5px 5px 5px ${anchor.indent * 20}px`,
         }" @click="handleAnchorClick(anchor)">
-            <p style="cursor: pointer" class="text-gray-500 text-shadow-sm" :class="{ active: anchor.active }">
+            <p style="cursor: pointer;color:dodgerblue;" class="text-shadow-sm" :class="{ active: anchor.active }">
                 {{ anchor.title }}
             </p>
         </div>
@@ -188,12 +188,13 @@ onUpdated(() => {
 
     .anchorForMobil {
         @apply fixed overflow-x-visible overflow-y-scroll rounded-md;
-        border-radius: 10px;
+        border-radius: 6px;
         top: 240px;
         width: 210px;
         height: 300px;
         right: 30px;
-        background: linear-gradient(to right bottom, rgb(83, 219, 178), rgb(137, 139, 211));
+        background:
+            linear-gradient(to right bottom, rgba(110, 216, 220, 0.63) 5%, cyan 45%, pink 75%, rgba(174, 92, 92, 0.575));
         z-index: 2;
         border: 1px solid rgba(193, 24, 94, 0.4);
         padding: 3px;
@@ -202,6 +203,6 @@ onUpdated(() => {
 
     .active {
         @apply text-stroke-sm text-shadow-lg text-lg;
-        color: red;
+        color: rgba(199, 44, 109, 0.621) !important;
     }
 </style>

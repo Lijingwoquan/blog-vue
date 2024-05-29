@@ -180,7 +180,8 @@ onBeforeMount(() => {
         z-index: 100;
         height: 60px;
         background:
-            linear-gradient(to right, rgb(239, 242, 245), rgb(178, 174, 202), rgb(118, 112, 148), rgb(178, 174, 202), rgb(239, 242, 245));
+
+            linear-gradient(to right, rgba(42, 157, 202, 0.365), lime, pink, cyan);
     }
 
     .Headercontainer .left {
