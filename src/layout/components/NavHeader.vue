@@ -165,6 +165,7 @@ onMounted(() => {
     document.addEventListener("keyup", onKeyUp)
     // 监听窗口resize事件
     window.addEventListener('resize', handleResize);
+    handleResize()
 })
 
 //移除键盘监听
