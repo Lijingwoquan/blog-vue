@@ -44,15 +44,16 @@
     </div>
 
     <template>
-        <el-dialog v-model="dialogVisible" :v-close-on-click-modal="true" :show-close="false" append-to-body
-            @close="$emit('closeSearch')" width="80%">
+        <el-dialog
+            style=" background: linear-gradient(to right bottom, rgba(82, 167, 220, 0.47), rgba(116, 215, 159, 0.53), rgb(122, 118, 159));"
+            v-model="dialogVisible" :v-close-on-click-modal="true" :show-close="false" append-to-body
+            @close="$emit('closeSearch')" width="90%">
             <el-input v-model="input" placeholder="搜索文档" class="input">
                 <template #prefix>
                     <el-icon class="mx-2">
                         <search />
                     </el-icon>
                 </template>
-
                 <template #suffix>
                     <el-button type="primary" @click="searchMsg">搜索</el-button>
                 </template>
@@ -239,19 +240,28 @@ onBeforeMount(() => {
         height: 50px;
     }
 
+
     .essayList {
         @apply flex justify-between items-center;
-        background-color: rgba(107, 95, 175, 0.168);
+        background:
+            linear-gradient(to right, rgba(68, 141, 187, 0.47), rgba(65, 207, 162, 0.324), rgba(135, 128, 196, 0.447));
         width: 100%;
         height: 50px;
     }
+
+    /* :deep(.el-input__wrapper) {
+        background: linear-gradient(to right bottom, rgba(140, 147, 151, 0.708), rgba(116, 215, 159, 0.53), rgb(122, 118, 159));
+    } */
+
+    /* :deep(.el-input__inner) {
+        @apply text-red-200 ;
+    } */
 
     :deep(.el-dialog__header) {
         padding: 0px !important;
         padding-bottom: 0px !important;
         margin-right: 0px !important;
     }
-
 
     :deep(.el-drawer__body) {
         padding: 0 !important;
