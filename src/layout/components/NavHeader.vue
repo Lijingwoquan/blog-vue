@@ -116,7 +116,6 @@ const openSearch = () => {
 const gotoApointPath = (path) => {
     router.push("/essay" + path)
     dialogVisible.value = false
-
 }
 
 const searchMsg = () => {

@@ -68,7 +68,7 @@
 <script setup>
 import { useStore } from "vuex"
 import { useRoute, useRouter } from 'vue-router';
-import { ref, watch, onMounted, onUnmounted } from "vue";
+import { ref, watch, onMounted, onUnmounted, onUpdated } from "vue";
 import { getEssayMsg } from "~/api/user.js"
 import {
     toast,
@@ -189,13 +189,14 @@ const handelScoll = () => {
     }
 }
 
-watch(anchorContentShow, () => {
-    if (anchorContentShow.value === true) {
+watch(
+    () => route.path,
+    async () => {
+        await initEssayData()
     }
-})
+)
 
-
-onMounted(async () => {
+const initEssayData = async () => {
     let waiting = false
     getCurrentData()
     waiting = await showLoading("正在加载文章中...", satisfyData.value)
@@ -203,8 +204,12 @@ onMounted(async () => {
         showEssay.value = true
         anchorShow.value = true
     }
-    handleResize()
     handelScoll()
+}
+
+onMounted(async () => {
+    await initEssayData()
+    handleResize()
     window.addEventListener('resize', handleResize)
     window.addEventListener('scroll', handelScoll)
 })

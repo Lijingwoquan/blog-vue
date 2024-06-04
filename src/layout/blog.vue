@@ -68,12 +68,16 @@ const handleResize = () => {
 }
 
 const handleOpenSearch = () => {
-    essayComponent.value.hideAnchor()
+    if (essayComponent.value) {
+        essayComponent.value.hideAnchor()
+    }
 }
 
 const handleCloseSearch = () => {
-    essayComponent.value.showAnchor()
-    essayComponent.value.handelScoll()
+    if (essayComponent.value) {
+        essayComponent.value.showAnchor()
+        essayComponent.value.handelScoll()
+    }
 }
 
 onMounted(() => {

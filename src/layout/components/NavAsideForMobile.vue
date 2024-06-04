@@ -56,7 +56,6 @@ watch(() => route.fullPath, () => {
         width: auto;
         top: 60px;
         bottom: 0px;
-
     }
 
     .nav-aside .menu {
