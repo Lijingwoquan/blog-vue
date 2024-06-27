@@ -4,33 +4,36 @@ import {
 } from 'vue-router'
 
 import { config } from "/config.js"
-import blog from '~/layout/blog.vue'
-
 import Login from '~/pages/login.vue'
+import blog from '~/layout/blog.vue'
+import blogAdmin from '~/layout/blogAdmin.vue'
 
 import userIndex from '~/pages/userIndex.vue'
 import userClassify from "~/pages/userClassify.vue"
 import userEssay from "~/pages/userEssay.vue"
 
-import Admin from "~/pages/admin.vue"
+import adminIndex from "~/pages/adminIndex.vue"
+import adminCreateEssay from "~/pages/adminCreateEssay.vue"
+import adminUpdateEssay from "~/pages/adminUpdateEssay.vue"
+import adminUpdateData from "~/pages/adminUpdateData.vue"
 
 import NotFound from '~/pages/404.vue'
 
 //默认路由 所有用户共享
 const routes = [{
+    path: "/login",
+    component: Login,
+},
+{
     path: "/",
     component: blog,
     name: "blog",
 },
 {
-    path: "/login",
-    component: Login,
+    path: `${config.MANAGER_URL}`,
+    component: blogAdmin,
+    name: "blogAdmin",
 },
-{
-    path: `/admin/${config.MANAGER_URL}`,
-    component: Admin,
-},
-
 {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
@@ -41,10 +44,35 @@ const userIndexPage = {
     path: "/",
     component: userIndex,
     meta: {
-        title: "后台首页"
+        title: "首页"
     }
 }
 
+const adminPages = [{
+    path: `${config.MANAGER_URL}/`,
+    component: adminIndex,
+    meta: {
+        title: "后台首页"
+    }
+}, {
+    path: `${config.MANAGER_URL}/createEssay`,
+    component: adminCreateEssay,
+    meta: {
+        title: "新建文章"
+    }
+}, {
+    path: `${config.MANAGER_URL}/updateEssay`,
+    component: adminUpdateEssay,
+    meta: {
+        title: "更新文章"
+    }
+}, {
+    path: `${config.MANAGER_URL}/updateData`,
+    component: adminUpdateData,
+    meta: {
+        title: "更新数据"
+    }
+}]
 
 export const router = createRouter({
     history: createWebHistory(),
@@ -52,10 +80,16 @@ export const router = createRouter({
 })
 
 //添加首页路由
-export function addIndexRouter() {
+export function addUserIndexRouter() {
     router.addRoute("blog", userIndexPage)
 }
 
+//添加管理路由
+export function addAdminIndexRouter() {
+    adminPages.forEach(element => {
+        router.addRoute("blogAdmin", element)
+    });
+}
 
 //动态添加路由
 export function addRouters(dataAboutIndexMenu) {

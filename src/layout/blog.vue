@@ -49,8 +49,8 @@
 </template>
 
 <script setup>
-import NavHeader from '~/components/NavHeader.vue';
-import NavAside from '~/components/NavAside.vue';
+import NavHeader from '~/components/user/NavHeader.vue';
+import NavAside from '~/components/user/NavAside.vue';
 import Essay from '~/layout/userEssay/essay.vue';
 
 import { ref, onMounted, watch } from "vue"

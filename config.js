@@ -3,5 +3,5 @@
 // 例如 https://liuzihao.online/admin/xxoo
 export const config = {
     // 写你想要的路径
-    MANAGER_URL: "lzh",
+    MANAGER_URL: "/admin/lzh",
 }

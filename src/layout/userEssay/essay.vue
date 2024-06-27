@@ -74,7 +74,7 @@ import {
     toast,
     showLoading
 } from "~/composables/util.js"
-import NavAnchor from "~/layout/components/NavAnchor.vue";
+import NavAnchor from "~/components/user/NavAnchor.vue";
 
 //富文本插件
 import VueMarkdownEditor from '@kangc/v-md-editor';

@@ -39,7 +39,7 @@ const chooseKind = (item) => {
     router.push("/classify" + item.router)
 }
 
-watch(() => route.fullPath, () => {
+watch(() => route.path, () => {
     activeClassify.value = '/classify/' + route.path.split('/')[2]
 })
 
