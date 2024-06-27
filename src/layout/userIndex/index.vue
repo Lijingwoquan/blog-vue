@@ -91,7 +91,6 @@ if (page <= pageMax.value) {
 }
 
 
-
 function toEssay(r) {
     router.push("essay" + r)
 }
@@ -107,8 +106,6 @@ function changePage(p) {
     setIndexPage(p)
 }
 </script>
-
-
 
 <style scoped>
     .essay {

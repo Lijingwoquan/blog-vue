@@ -49,9 +49,9 @@
 </template>
 
 <script setup>
-import NavHeader from '~/layout/components/NavHeader.vue';
-import NavAside from '~/layout/components/NavAside.vue';
-import Essay from '~/components/essay.vue';
+import NavHeader from '~/components/NavHeader.vue';
+import NavAside from '~/components/NavAside.vue';
+import Essay from '~/layout/userEssay/essay.vue';
 
 import { ref, onMounted, watch } from "vue"
 import { useRoute } from 'vue-router';

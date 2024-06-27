@@ -3,5 +3,5 @@
 </template>
 
 <script setup>
-import essay from '~/components/essay.vue';
+import essay from '~/layout/userEssay/essay.vue';
 </script>

@@ -68,7 +68,7 @@
 <script setup>
 import { useStore } from "vuex"
 import { useRoute, useRouter } from 'vue-router';
-import { ref, watch, onMounted, onUnmounted, onUpdated } from "vue";
+import { ref, watch, onMounted, onUnmounted } from "vue";
 import { getEssayMsg } from "~/api/user.js"
 import {
     toast,

@@ -3,5 +3,5 @@
 </template>
 
 <script setup>
-import Index from '~/components/index.vue';
+import Index from '~/layout/userIndex/index.vue';
 </script>

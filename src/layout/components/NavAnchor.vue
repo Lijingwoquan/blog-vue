@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, onUpdated, ref, onActivated, onDeactivated } from 'vue'
+import { computed, onMounted, onUpdated, ref } from 'vue'
 import anime from 'animejs'; // 如果你使用模块化开发
 
 const anchors = ref("")

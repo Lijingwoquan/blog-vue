@@ -76,9 +76,8 @@
     </template>
 </template>
 
-
 <script setup>
-import NavAsideForMobile from '~/layout/components/NavAsideForMobile.vue';
+import NavAsideForMobile from '~/components/NavAsideForMobile.vue';
 import { ref, onMounted, onBeforeMount, watch, reactive } from "vue"
 import { useStore } from 'vuex';
 import { useRouter, useRoute } from 'vue-router';

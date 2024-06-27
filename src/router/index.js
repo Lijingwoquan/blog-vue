@@ -4,14 +4,17 @@ import {
 } from 'vue-router'
 
 import { config } from "/config.js"
-
 import blog from '~/layout/blog.vue'
-import Index from '~/pages/index.vue'
-import NotFound from '~/pages/404.vue'
+
 import Login from '~/pages/login.vue'
-import Classify from "~/pages/classify.vue"
-import Essay from "~/pages/essay.vue"
+
+import userIndex from '~/pages/userIndex.vue'
+import userClassify from "~/pages/userClassify.vue"
+import userEssay from "~/pages/userEssay.vue"
+
 import Admin from "~/pages/admin.vue"
+
+import NotFound from '~/pages/404.vue'
 
 //默认路由 所有用户共享
 const routes = [{
@@ -34,9 +37,9 @@ const routes = [{
     component: NotFound,
 }]
 
-const index = {
+const userIndexPage = {
     path: "/",
-    component: Index,
+    component: userIndex,
     meta: {
         title: "后台首页"
     }
@@ -50,7 +53,7 @@ export const router = createRouter({
 
 //添加首页路由
 export function addIndexRouter() {
-    router.addRoute("blog", index)
+    router.addRoute("blog", userIndexPage)
 }
 
 
@@ -68,7 +71,7 @@ export function addRouters(dataAboutIndexMenu) {
                 let classifyPath = Details.router
                 let classify = {
                     path: "/classify" + classifyPath,
-                    component: Classify,
+                    component: userClassify,
                     meta: {
                         title: Details.name,
                     }
@@ -92,7 +95,7 @@ export function addRouters(dataAboutIndexMenu) {
             let essayPath = element.router
             let essay = {
                 path: "/essay" + classifyPath + essayPath,
-                component: Essay,
+                component: userEssay,
                 meta: {
                     title: element.name,
                 },
