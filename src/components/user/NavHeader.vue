@@ -82,6 +82,8 @@ import { ref, onMounted, onBeforeMount, watch, reactive } from "vue"
 import { useStore } from 'vuex';
 import { useRouter, useRoute } from 'vue-router';
 import { toast } from '~/composables/util'
+import { addSearchKeyCount } from "~/api/keyword.js"
+
 
 const dialogVisible = ref(false);
 const store = useStore()
@@ -123,6 +125,12 @@ const searchMsg = () => {
         toast("请输入搜索内容", "warning")
         return
     }
+
+    addSearchKeyCount(input.value)
+        .catch(err => {
+            console.log(err)
+        })
+
     satisfyDate.value = []
     essayData.forEach(essay => {
         if (essay.name.includes(input.value)) {

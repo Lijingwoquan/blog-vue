@@ -74,10 +74,9 @@ onMounted(() => {
         bottom: 0;
         color: rgb(224, 218, 218);
         background:
-            linear-gradient(to bottom,
-                rgba(164, 154, 230, 0.75) 80px,
-                rgba(227, 107, 129, 0.82),
-                rgba(164, 148, 135, 0.821));
+            linear-gradient(to left bottom,
+                rgba(0, 0, 255, 0.554),
+                rgba(255, 192, 203, 0.565));
     }
 
     .nav-aside-head {
@@ -86,10 +85,10 @@ onMounted(() => {
     }
 
     .nav-aside-item {
-        @apply flex justify-around mt-6 text-xl hover:(cursor-pointer text-blue-500);
+        @apply flex justify-around mt-6 text-xl hover:(cursor-pointer text-indigo-900);
     }
 
     .active {
-        @apply text-blue-500;
+        @apply text-indigo-900;
     }
 </style>
