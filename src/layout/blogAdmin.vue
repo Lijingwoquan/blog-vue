@@ -26,10 +26,10 @@ import NavAside from "~/components/admin/NavAside.vue";
         right: 0;
         top: 0;
         bottom: 0;
-        background:
+        /* background:
             linear-gradient(to right top,
                 rgba(0, 0, 255, 0.554),
-                rgba(255, 192, 203, 0.565));
+                rgba(255, 192, 203, 0.565)); */
     }
 
     .main {

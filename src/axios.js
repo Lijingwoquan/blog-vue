@@ -33,7 +33,7 @@ service.interceptors.response.use(function (response) {
     removeToken()
     location.reload()
   }
-  toast(msg, "error",)
+  // toast(msg, "error",)
   return Promise.reject(error);
 });
 

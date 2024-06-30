@@ -15,7 +15,7 @@ let hasGetInfo = false
 router.beforeEach(async (to, from, next) => {
     //显示loading
     showFullLoading()
-    if (to.path === `/admin/${config.MANAGER_URL}`) {
+    if (to.path === `${config.MANAGER_URL}/`) {
         const token = getToken()
         //没有登录,强制跳转到登录页面
         if (!token && to.path != "/login") {
@@ -25,7 +25,7 @@ router.beforeEach(async (to, from, next) => {
         //防止重复登录
         if (token && to.path == "/login") {
             toast("请勿重复登录", "warning")
-            return next({ path: from.path ? from.path : `/admin/${config.MANAGER_URL}` })
+            return next({ path: from.path ? from.path : `${config.MANAGER_URL}/` })
         }
     }
 

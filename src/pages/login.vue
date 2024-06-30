@@ -77,7 +77,7 @@ const onSubmit = () => {
         loading.value = true
         store.dispatch("login", form).then(res => {
             toast("登陆成功", "success")
-            router.push(`/admin/${config.MANAGER_URL}`)
+            router.push(`${config.MANAGER_URL}`)
         })
             .finally(() => {
                 loading.value = false

@@ -123,17 +123,12 @@ export function updateEssayContent(id, content) {
 }
 
 export function addEssay(addEssayParms) {
-    console.log(addEssayParms)
-    return new Promise((resolve, reject) => {
-        axios.post("/manager/addEssay", {
-            ...addEssayParms
-        })
-            .then(res => {
-                toast("添加文章成功", "success")
-                resolve(res)
-            }).catch(err => {
-                toast("添加文章失败", "error")
-                reject(err)
-            })
+    addEssayParms.router = addEssayParms.router.split(" ").join("")
+    if (addEssayParms.router[0] !== "/") {
+        addEssayParms.router = `/${addEssayParms.router}`
+    }
+
+    return axios.post("/manager/addEssay", {
+        ...addEssayParms
     })
 }
