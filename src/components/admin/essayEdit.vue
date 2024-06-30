@@ -1,41 +1,12 @@
 <template>
-    <!-- 底部 -->
-    <div class="bottom">
-        <el-button type="primary" size="large" @click="addEssayPre" class="btn">添加文章</el-button>
-    </div>
-
-    <!-- 添加文章的抽屉 -->
-    <el-drawer v-model="dialogForAddEssay" title="添加文章" direction="ttb" append-to-body size="700px">
-        分类
-        <el-select v-model="addEssayParms.kind" class="input" placeholder="选择分类">
-            <el-option v-for="item in classifyArr" :key="item.name" :label="item.name" :value="item.name" />
-            <el-option label="自定义" value="" @click="customInputPre" />
-        </el-select>
-        <el-input v-if="customInput == true" v-model="addEssayParms.kind" placeholder="输入分类" class="input"></el-input>
-
-        文章名
-        <el-input v-model="addEssayParms.name" placeholder="文章名" class="input" />
-
-        路由
-        <el-input v-model="addEssayParms.router" placeholder="路由" class="input" />
-
-        介绍
-        <el-input v-model="addEssayParms.introduction" placeholder="介绍" class="input" />
-
-
-        <el-button type="primary" size="large" style="width: 100%;" @click="add" class="mt-5">添加</el-button>
-    </el-drawer>
-
     <!-- 富文本编辑器 -->
-    <v-md-editor class="ml-2" :include-level="[1, 2, 3, 4, 5, 6]" v-model="edit" height="720px"
+    <v-md-editor class="ml-2" :include-level="[1, 2, 3, 4, 5, 6]" v-model="editContent" height="720px"
         @upload-image="handleUploadImage" right-toolbar="| toc | tip| todo-list | sync-scroll | preview | fullscreen "
         :disabled-menus="[]" @copy-code-success="handleCopyCodeSuccess" />
 </template>
 
 <script setup>
-import { ref, reactive } from "vue"
-import { useStore } from "vuex"
-import { addEssay, uploadImg } from "~/api/manager.js"
+import { uploadImg } from "~/api/manager.js"
 import { toast } from "~/composables/util";
 
 //富文本插件
@@ -57,6 +28,7 @@ import '@kangc/v-md-editor/lib/plugins/todo-list/todo-list.css';
 //mermaid(流程图等)
 import createMermaidPlugin from '@kangc/v-md-editor/lib/plugins/mermaid/cdn';
 import '@kangc/v-md-editor/lib/plugins/mermaid/mermaid.css';
+import { watch } from "vue";
 
 VueMarkdownEditor.use(vuepressTheme, {
     Prism,
@@ -69,19 +41,12 @@ VueMarkdownEditor.use(createCopyCodePlugin());
 VueMarkdownEditor.use(createTodoListPlugin());
 VueMarkdownEditor.use(createMermaidPlugin());
 
-const store = useStore()
-const classifyArr = store.state.classifyData
-const dialogForAddEssay = ref(false)
-const customInput = ref(false)
-const edit = ref("")
 
-const addEssayParms = reactive({
-    name: "",
-    kind: "",
-    introduction: "",
-    content: "",
-    router: "",
+const editContent = defineModel("editContent", {
+    type: String,
+    required: true
 })
+
 
 async function handleUploadImage(event, insertImage, files) {
     try {
@@ -93,7 +58,7 @@ async function handleUploadImage(event, insertImage, files) {
         await uploadImg(formData)
         const apiBase = import.meta.env.VITE_APP_BASE_API;
 
-        edit.value += `![Description](${apiBase}/img/${file.name})`
+        editContent.value += `![Description](${apiBase}/img/${file.name})`
 
     }
     catch (error) {
@@ -102,22 +67,6 @@ async function handleUploadImage(event, insertImage, files) {
 }
 
 
-function customInputPre() {
-    customInput.value = true
-}
-
-function addEssayPre() {
-    dialogForAddEssay.value = true
-}
-
-function add() {
-    addEssayParms.content = edit.value
-    addEssay(addEssayParms).then(res => {
-        toast("添加文章成功", "success")
-    }).catch(err => {
-        toast("添加文章失败", "error")
-    })
-}
 
 
 window.onbeforeunload = function (e) {
@@ -132,26 +81,9 @@ window.onbeforeunload = function (e) {
     e.returnValue = confirmationMessage; r
     return confirmationMessage;
 }
+
 //复制代码成功
-const handleCopyCodeSuccess = (content) => {
+const handleCopyCodeSuccess = () => {
     toast("复制成功", "success");
 }
 </script>
-
-
-<style scoped>
-    .input {
-        @apply my-3;
-        height: 35px;
-    }
-
-    .bottom {
-        @apply bottom-3 fixed;
-        z-index: 999;
-    }
-
-    .bottom .btn {
-        @apply mx-3;
-    }
-
-</style>
