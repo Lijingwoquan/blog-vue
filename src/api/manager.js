@@ -61,18 +61,20 @@ export function addClassify(classifyParms) {
 }
 
 // essay
-export function updateEssayMsg(essay) {
-    return new Promise((resolve, reject) => {
-        axios.put("/manager/updateEssayMsg", {
-            ...essay
-        })
-            .then(res => {
-                toast("修改文章信息成功", "success")
-                resolve(res)
-            }).catch(err => {
-                toast("添加文章信息失败", "error")
-                reject(err)
-            })
+export function addEssay(addEssayParms) {
+    addEssayParms.router = addEssayParms.router.split(" ").join("")
+    if (addEssayParms.router[0] !== "/") {
+        addEssayParms.router = `/${addEssayParms.router}`
+    }
+
+    return axios.post("/manager/addEssay", {
+        ...addEssayParms
+    })
+}
+
+export function updateEssayMsg(essayObj) {
+    axios.put("/manager/updateEssayMsg", {
+        essayObj
     })
 }
 
@@ -106,29 +108,19 @@ export function uploadImg(file) {
     })
 }
 
-export function updateEssayContent(id, content) {
-    return new Promise((resolve, reject) => {
-        axios.put("/manager/updateEssayContent", {
-            id,
-            content
-        })
-            .then(res => {
-                toast("修改文章内容成功", "success")
-                resolve(res)
-            }).catch(err => {
-                toast("修改文章内容失败", "error")
-                reject(err)
-            })
-    })
-}
+// export function updateEssayContent(id, content) {
+//     return new Promise((resolve, reject) => {
+//         axios.put("/manager/updateEssayContent", {
+//             id,
+//             content
+//         })
+//             .then(res => {
+//                 toast("修改文章内容成功", "success")
+//                 resolve(res)
+//             }).catch(err => {
+//                 toast("修改文章内容失败", "error")
+//                 reject(err)
+//             })
+//     })
+// }
 
-export function addEssay(addEssayParms) {
-    addEssayParms.router = addEssayParms.router.split(" ").join("")
-    if (addEssayParms.router[0] !== "/") {
-        addEssayParms.router = `/${addEssayParms.router}`
-    }
-
-    return axios.post("/manager/addEssay", {
-        ...addEssayParms
-    })
-}

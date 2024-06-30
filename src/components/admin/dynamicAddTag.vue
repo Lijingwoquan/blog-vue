@@ -1,12 +1,13 @@
 <template>
-    <div class="mt-2 flex gap-2">
-        <el-tag v-for="tag in tags" :key="tag" closable :disable-transitions="false" @close="handleClose(tag)">
+    <div class=" flex  items-center gap-2 mt-2">
+        <el-tag v-for="tag in tags" size="large" class="mx-1" :key="tag" closable :disable-transitions="false"
+            @close="handleClose(tag)">
             {{ tag }}
         </el-tag>
         <el-input v-if="inputVisible" ref="InputRef" v-model="inputValue" class="w-20" size="small"
             @keyup.enter="handleInputConfirm" @blur="handleInputConfirm" />
-        <el-button v-else class="button-new-tag" size="large" @click="showInput">
-            + 关键字
+        <el-button v-else class="button-new-tag"  @click="showInput">
+            {{ props.addText }}
         </el-button>
     </div>
 </template>
@@ -17,6 +18,12 @@ import { nextTick, ref } from 'vue'
 const tags = defineModel("tags", {
     type: Array,
     required: true,
+})
+const props = defineProps({
+    addText: {
+        type: String,
+        default: "+ 添加"
+    }
 })
 
 const inputValue = ref('')

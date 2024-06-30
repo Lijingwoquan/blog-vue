@@ -1,9 +1,4 @@
 <template>
-  <!-- 底部 -->
-  <div class="bottom">
-    <el-button type="primary" size="large" @click="addEssayPre" class="btn">添加文章</el-button>
-  </div>
-
   <!-- 添加文章的抽屉 -->
   <el-drawer v-model="dialogForAddEssay" title="添加文章" direction="ttb" append-to-body size="700px">
     分类
@@ -23,10 +18,15 @@
     <el-input v-model="addEssayParms.introduction" placeholder="介绍" class="input" />
 
 
-    <el-button type="primary" size="large" style="width: 100%;" @click="add" class="mt-5">添加</el-button>
+    <el-button type="primary" size="large" style="width: 100%;" @click="addEssayFunc" class="mt-5">添加</el-button>
   </el-drawer>
   <div class="mx-3 my-3">
-    <essayEdit  v-model:editContent="addEssayParms.content"></essayEdit>
+    <essayEdit v-model:editContent="addEssayParms.content"></essayEdit>
+  </div>
+
+  <!-- 底部按钮 -->
+  <div class="bottom">
+    <el-button type="primary" size="large" @click="addEssayPre" class="btn">添加文章</el-button>
   </div>
 </template>
 
@@ -58,7 +58,7 @@ function addEssayPre() {
   dialogForAddEssay.value = true
 }
 
-function add() {
+function addEssayFunc() {
   addEssay(addEssayParms).then(res => {
     toast("添加文章成功", "success")
   }).catch(err => {
