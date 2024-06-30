@@ -25,7 +25,9 @@
 
     <el-button type="primary" size="large" style="width: 100%;" @click="add" class="mt-5">添加</el-button>
   </el-drawer>
-  <essayEdit v-model:editContent="addEssayParms.content"></essayEdit>
+  <div class="mx-3 my-3">
+    <essayEdit  v-model:editContent="addEssayParms.content"></essayEdit>
+  </div>
 </template>
 
 <script setup>

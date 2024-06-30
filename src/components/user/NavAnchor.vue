@@ -11,7 +11,8 @@
 </template>
 
 <script setup>
-import { computed, onMounted, onUpdated, ref } from 'vue'
+import { computed, onMounted, onUpdated, onBeforeUnmount, ref } from 'vue'
+import { throttle } from '~/composables/common.js';
 import anime from 'animejs'; // 如果你使用模块化开发
 
 const anchors = ref("")
@@ -69,6 +70,14 @@ const getIndex = computed(() => {
     return indexRef.value
 })
 
+const anchorClass = computed(() => {
+    if (props.mode == "computer") {
+        return "anchorForComputer"
+    } else {
+        return "anchorForMobil"
+    }
+})
+
 // 侧边自动滑动
 const scrollToAnchor = (targetIndex = getIndex.value) => {
     const container = anchorContainer.value
@@ -91,8 +100,8 @@ const scrollToAnchor = (targetIndex = getIndex.value) => {
     }
 }
 
-// 添加滚动事件监听器
-window.addEventListener('scroll', throttle(() => {
+// 滚动函数
+function scrollThrottleFn() {
     // 获取当前滚动位置
     const scrollPosition = window.scrollY || window.pageYOffset;
 
@@ -141,41 +150,30 @@ window.addEventListener('scroll', throttle(() => {
             }
         }
     }
-}, 100)); // 节流滚动事件,每 200 毫秒执行一次
-
-// // 节流函数
-function throttle(fn, delay) {
-    let timer = null;
-    return function () {
-        const context = this,
-            args = arguments;
-        clearTimeout(timer);
-        timer = setTimeout(function () {
-            fn.apply(context, args);
-        }, delay);
-    };
 }
 
-const anchorClass = computed(() => {
-    if (props.mode == "computer") {
-        return "anchorForComputer"
-    } else {
-        return "anchorForMobil"
-    }
-})
 
 defineExpose({
     handleAnchorClick,
 })
 
 onMounted(() => {
+    // 添加滚动事件监听器
+    window.addEventListener('scroll', throttle(scrollThrottleFn, 100)); // 节流滚动事件,每 200 毫秒执行一次
+
     showAnchor()
-    titles.value[0].active = true
+    if (titles.value[0]) {
+        titles.value[0].active = true
+    }
 })
+
 onUpdated(() => {
     scrollToAnchor()
 })
 
+onBeforeUnmount(() => {
+    window.removeEventListener('scroll', throttle(scrollThrottleFn, 100)); // 节流滚动事件,每 200 毫秒执行一次
+})
 </script>
 
 <style scoped>

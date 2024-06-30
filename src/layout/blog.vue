@@ -6,7 +6,6 @@
         <el-header>
             <NavHeader @openSearch="handleOpenSearch" @closeSearch="handleCloseSearch"></NavHeader>
         </el-header>
-
         <el-row>
             <el-col ref="navAsideColRef" v-resize="handleResize" :xs="0" :sm="3" :md="3" :lg="3" :xl="3">
                 <NavAside class="hidden-xs-only" :width="navWidthRef"></NavAside>
@@ -25,7 +24,7 @@
 
             <!-- classify布局 -->
             <!-- 由于生命周期的问题 这里应该这么写 不能用essay -->
-            <el-col v-if="route.path.split('/')[1] != 'essay'" :xs="24" :sm="16" :md="16" :lg="16" :xl="16">
+            <el-col v-if="route.path.split('/')[1] !== 'essay'" :xs="24" :sm="16" :md="16" :lg="16" :xl="16">
                 <el-main>
                     <router-view v-slot="{ Component }" ref="essay">
                         <keep-alive :max="10">
