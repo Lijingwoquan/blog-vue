@@ -59,11 +59,16 @@ function addEssayPre() {
 }
 
 function addEssayFunc() {
-  addEssay(addEssayParms).then(res => {
-    toast("添加文章成功", "success")
-  }).catch(err => {
-    toast("添加文章失败", "error")
-  })
+  addEssay(addEssayParms)
+    .then(async res => {
+      await store.dispatch("getIndexInfo")
+      toast("添加文章成功", "success")
+    }).catch(err => {
+      toast("添加文章失败", "error")
+    })
+    .finally(() => {
+      dialogForAddEssay.value = false
+    })
 }
 
 </script>
