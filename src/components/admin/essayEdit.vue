@@ -28,7 +28,6 @@ import '@kangc/v-md-editor/lib/plugins/todo-list/todo-list.css';
 //mermaid(流程图等)
 import createMermaidPlugin from '@kangc/v-md-editor/lib/plugins/mermaid/cdn';
 import '@kangc/v-md-editor/lib/plugins/mermaid/mermaid.css';
-import { watch } from "vue";
 
 VueMarkdownEditor.use(vuepressTheme, {
     Prism,
@@ -66,21 +65,18 @@ async function handleUploadImage(event, insertImage, files) {
     }
 }
 
+// window.onbeforeunload = function (e) {
+//     e = e || window.event;
 
+//     // 兼容 IE8 及更早版本
+//     var confirmationMessage = '你真的要离开这个页面吗?';
 
-
-window.onbeforeunload = function (e) {
-    e = e || window.event;
-
-    // 兼容 IE8 及更早版本
-    var confirmationMessage = '你真的要离开这个页面吗?';
-
-    // 在 IE8 及更早版本中 e.returnValue 设置显示文本内容
-    // 在较新的浏览器中 (e.returnValue) 属性不起作用,
-    // 必须使用 e.preventDefault() 和设置 e.returnValue 来防止浏览器的默认行为
-    e.returnValue = confirmationMessage; r
-    return confirmationMessage;
-}
+//     // 在 IE8 及更早版本中 e.returnValue 设置显示文本内容
+//     // 在较新的浏览器中 (e.returnValue) 属性不起作用,
+//     // 必须使用 e.preventDefault() 和设置 e.returnValue 来防止浏览器的默认行为
+//     e.returnValue = confirmationMessage; r
+//     return confirmationMessage;
+// }
 
 //复制代码成功
 const handleCopyCodeSuccess = () => {

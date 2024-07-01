@@ -45,12 +45,12 @@
 <script setup>
 import { ref, reactive, onMounted, onBeforeMount } from 'vue'
 import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 import { toast } from '~/composables/util'
 import { config } from "/config.js"
+import { login } from "~/api/manager.js"
+import { setToken } from "~/composables/auth.js";
 
 const router = useRouter()
-const store = useStore()
 
 const form = reactive({
     username: "",
@@ -75,10 +75,18 @@ const onSubmit = () => {
             return false
         }
         loading.value = true
-        store.dispatch("login", form).then(res => {
-            toast("登陆成功", "success")
-            router.push(`${config.MANAGER_URL}`)
-        })
+
+        login(form)
+            .then(res => {
+                console.log(res)
+                setToken(res.token)
+                toast("登陆成功")
+                router.push(`${config.MANAGER_URL}`)
+            })
+            .catch(err => {
+                toast("登陆失败", "error")
+
+            })
             .finally(() => {
                 loading.value = false
             })

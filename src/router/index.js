@@ -14,7 +14,7 @@ import userEssay from "~/pages/userEssay.vue"
 
 import adminIndex from "~/pages/adminIndex.vue"
 import adminCreateEssay from "~/pages/adminCreateEssay.vue"
-import adminUpdateEssay from "~/pages/adminUpdateEssay.vue"
+import adminManageEssay from "~/pages/adminManageEssay.vue"
 import adminUpdateData from "~/pages/adminUpdateData.vue"
 
 import NotFound from '~/pages/404.vue'
@@ -61,10 +61,10 @@ const adminPages = [{
         title: "新建文章"
     }
 }, {
-    path: `${config.MANAGER_URL}/updateEssay`,
-    component: adminUpdateEssay,
+    path: `${config.MANAGER_URL}/manageEssay`,
+    component: adminManageEssay,
     meta: {
-        title: "更新文章"
+        title: "管理文章"
     }
 }, {
     path: `${config.MANAGER_URL}/updateData`,

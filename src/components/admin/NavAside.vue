@@ -42,8 +42,8 @@ const menu = [
         icon: "MoonNight"
     },
     {
-        name: "修改文章",
-        route: "/updateEssay",
+        name: "管理文章",
+        route: "/manageEssay",
         icon: "Edit"
     },
     {

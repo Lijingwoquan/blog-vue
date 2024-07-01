@@ -2,12 +2,9 @@ import axios from "~/axios.js";
 import { toast } from '~/composables/util'
 import { getToken } from "~/composables/auth.js";
 
-
-export function login(username, password) {
-    return axios.post("/user/login", {
-        username,
-        password
-    })
+// 登录
+export function login(form) {
+    return axios.post("/manager/login", form)
 }
 
 // kind
@@ -73,21 +70,11 @@ export function addEssay(addEssayParms) {
 }
 
 export function updateEssayMsg(essayObj) {
-    axios.put("/manager/updateEssayMsg", {
-        essayObj
-    })
+    return axios.put("/manager/updateEssayMsg", essayObj)
 }
 
 export function deleteEssay(id) {
-    return new Promise((resolve, reject) => {
-        axios.delete(`/manager/deleteEssay?id=${id}`)
-            .then(res => {
-                resolve(res);
-            })
-            .catch(err => {
-                reject(err);
-            });
-    })
+    return axios.delete(`/manager/deleteEssay?id=${id}`)
 }
 
 export function uploadImg(file) {
@@ -123,4 +110,3 @@ export function uploadImg(file) {
 //             })
 //     })
 // }
-

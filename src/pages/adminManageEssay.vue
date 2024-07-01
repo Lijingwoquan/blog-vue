@@ -84,13 +84,13 @@
 
     </dynamicAddTag>
 
-    <el-button type="primary" size="large" style="width: 100%;" @click="updateEssay" class="mt-5">添加</el-button>
+    <el-button type="primary" size="large" style="width: 100%;" @click="updateEssay" class="mt-5">修改</el-button>
   </el-drawer>
 
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeMount, reactive } from "vue"
+import { ref, onMounted, onBeforeMount, watch, computed } from "vue"
 import { useStore } from 'vuex';
 import { toast } from '~/composables/util'
 import { ElMessageBox } from 'element-plus'
@@ -100,14 +100,16 @@ import { getEssayMsg } from "~/api/user.js"
 import dynamicAddTag from "~/components/admin/dynamicAddTag.vue";
 
 const store = useStore()
-
-const essayData = store.state.essayData
+const essayData = computed(() => store.state.essayData)
 const classifyArr = store.state.classifyData
+
+watch(() => store.state.essayData, () => {
+  // essayData = store.state.essayData
+})
 
 const dialogVisible = ref(false)
 const dialogForUpdateEssay = ref(false)
 const updatePermission = ref(false)
-
 const updateEssayMsgObj = ref({})
 
 //搜索数据
@@ -117,9 +119,11 @@ function openSearch() {
 }
 let getData = ref(false)
 let satisfyDate = ref([])
+
+// 搜素
 function searchMsg() {
   satisfyDate.value = []
-  essayData.forEach(essay => {
+  essayData.value.forEach(essay => {
     if (essay.name.includes(input.value)) {
       let name = essay.name
       let kind = essay.kind
@@ -141,8 +145,8 @@ const chooseEssay = (essay) => {
   getEssayMsg(essay.id).then(res => {
     updateEssayMsgObj.value = { ...res, router: essay.router, keywords: [] };
   })
+  dialogVisible.value = false
 }
-
 
 // 删除文章
 const deleted = async (id) => {
@@ -156,10 +160,16 @@ const deleted = async (id) => {
         type: 'warning',
       }
     );
-    await deleteEssay(id)
-    toast("删除文章成功", "success");
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    location.reload()
+    deleteEssay(id)
+      .then(async res => {
+        dialogVisible.value = false
+        await store.dispatch("getIndexInfo")
+        searchMsg()
+        toast("删除文章成功", "success");
+      })
+      .catch((err) => {
+        toast(err, "warning");
+      })
   } catch (error) {
     toast("删除文章失败", "warning");
   }
@@ -176,11 +186,13 @@ function updateEssayPre() {
 
 // 更新文章
 const updateEssay = () => {
-  updateEssayMsg(updateEssayMsgObj.value).then(res => {
-    toast("修改文章成功", "success")
-  }).catch(err => {
-    toast("添加文章失败", "error")
-  })
+  updateEssayMsg(updateEssayMsgObj.value)
+    .then(async res => {
+      await store.dispatch("getIndexInfo")
+      toast("修改文章成功", "success")
+    }).catch(err => {
+      toast("添加文章失败", "error")
+    })
 }
 
 function onKeyUp(e) {
@@ -204,7 +216,6 @@ onBeforeMount(() => {
     z-index: 999;
   }
 
-
   .searchInput {
     height: 50px;
   }
@@ -215,8 +226,12 @@ onBeforeMount(() => {
   }
 
   .dateList {
-    @apply flex justify-center items-center my-5;
+    @apply flex justify-center items-center my-6;
     width: 100%;
+    height: 60px;
+  }
+
+  .dateList .el-input .el-button {
     height: 50px;
   }
 

@@ -1,7 +1,5 @@
 import { createStore } from 'vuex';
 import { getIndexInfo } from "~/api/user"
-import { login } from "~/api/manager.js"
-import { setToken, removeToken } from "~/composables/auth.js"
 const store = createStore({
   state() {
     return {
@@ -20,6 +18,8 @@ const store = createStore({
       state.indexData = indexData
     },
     setClassify(state, indexData) {
+      state.classifyKind = []
+      state.classifyData = []
       indexData.forEach((base) => {
         let kind = base.classifyKind
         let id = base.id
@@ -38,6 +38,7 @@ const store = createStore({
       })
     },
     setEssayInfo(state, indexData) { //单独添加文章数据
+      state.essayData = []
       indexData.forEach((base) => {
         if (base.classifyDetails == null) {
           return
@@ -59,22 +60,12 @@ const store = createStore({
     }
   },
   actions: {
-    login({ commit }, { username, password }) {
-      return new Promise((resolve, reject) => {
-        login(username, password).then(res => {
-          setToken(res.token)
-          resolve(res)
-        }).catch(err => {
-          reject(err)
-        })
-      })
-    },
     getIndexInfo({ commit }) {
       return new Promise((resolve, reject) => {
         getIndexInfo().then(res => {
           commit("setIndexInfo", res.dataAboutIndexMenu)
-          commit("setEssayInfo", res.dataAboutIndexMenu)
           commit("setClassify", res.dataAboutIndexMenu)
+          commit("setEssayInfo", res.dataAboutIndexMenu)
           resolve(res)
         }).catch(err => {
           removeToken()
