@@ -81,7 +81,6 @@
 
     关键词
     <dynamicAddTag v-model:tags="updateEssayMsgObj.keywords" :addText="添加关键字">
-
     </dynamicAddTag>
 
     <el-button type="primary" size="large" style="width: 100%;" @click="updateEssay" class="mt-5">修改</el-button>
@@ -143,7 +142,7 @@ function searchMsg() {
 const chooseEssay = (essay) => {
   updatePermission.value = true
   getEssayMsg(essay.id).then(res => {
-    updateEssayMsgObj.value = { ...res, router: essay.router, keywords: [] };
+    updateEssayMsgObj.value = { ...res, router: essay.router };
   })
   dialogVisible.value = false
 }

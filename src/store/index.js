@@ -53,7 +53,8 @@ const store = createStore({
             let id = e.id
             let createdTime = e.createdTime.split("T").join(" ")
             let page = e.page
-            state.essayData.push({ name, router, introduction, kind, id, createdTime, page })
+            let keywords = e.keywords
+            state.essayData.push({ name, router, introduction, kind, id, createdTime, page,keywords })
           })
         })
       })
