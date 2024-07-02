@@ -27,7 +27,7 @@
             <el-col v-if="route.path.split('/')[1] !== 'essay'" :xs="24" :sm="16" :md="16" :lg="16" :xl="16">
                 <el-main>
                     <router-view v-slot="{ Component }" ref="essay">
-                        <keep-alive :max="10">
+                        <keep-alive :max="5">
                             <component :is="Component">
                             </component>
                         </keep-alive>

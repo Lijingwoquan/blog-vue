@@ -89,7 +89,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeMount, watch, computed } from "vue"
+import { ref, onMounted, onBeforeMount, computed } from "vue"
 import { useStore } from 'vuex';
 import { toast } from '~/composables/util'
 import { ElMessageBox } from 'element-plus'
@@ -101,10 +101,6 @@ import dynamicAddTag from "~/components/admin/dynamicAddTag.vue";
 const store = useStore()
 const essayData = computed(() => store.state.essayData)
 const classifyArr = store.state.classifyData
-
-watch(() => store.state.essayData, () => {
-  // essayData = store.state.essayData
-})
 
 const dialogVisible = ref(false)
 const dialogForUpdateEssay = ref(false)

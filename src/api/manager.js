@@ -8,53 +8,28 @@ export function login(form) {
 }
 
 // kind
-export function updateKind(id, name, icon) {
-    return new Promise((resolve, reject) => {
-        axios.put("/manager/updateKind", {
-            id,
-            name,
-            icon
-        })
-            .then(res => {
-                toast("修改分类种类成功", "success")
-                resolve(res)
-            }).catch(err => {
-                toast("修改分类种类失败", "error")
-                reject(err)
-            })
+export function updateKind(kindParams) {
+    return axios.put("/manager/updateKind", {
+        ...kindParams,
+        name: kindParams.kind
     })
 }
-
 // classify
-export function updateClassify(id, name, router) {
-    return new Promise((resolve, reject) => {
-        axios.put("/manager/updateClassify", {
-            id,
-            name,
-            router
-        }).then(res => {
-            toast("修改分类成功", "success")
-            resolve(res)
-        }).catch(err => {
-            toast("修改分类失败", "error")
-            reject(err)
-        })
-    })
+export function updateClassify(classifyParams) {
+    classifyParams.router = classifyParams.router.split(" ").join("")
+    if (classifyParams.router[0] !== "/") {
+        classifyParams.router = `/${classifyParams.router}`
+    }
+    return axios.put("/manager/updateClassify", classifyParams)
 }
 
-export function addClassify(classifyParms) {
-    return new Promise((resolve, reject) => {
-        axios.post("/manager/addClassify", {
-            ...classifyParms
-        })
-            .then(res => {
-                toast("添加分类种类成功", "success")
-                resolve(res)
-            }).catch(err => {
-                toast("添加分类种类失败", "error")
-                reject(err)
-            })
-    })
+export function addClassify(classifyParams) {
+    classifyParams.router = classifyParams.router.split(" ").join("")
+    if (classifyParams.router[0] !== "/") {
+        classifyParams.router = `/${classifyParams.router}`
+    }
+    return axios.post("/manager/addClassify", classifyParams)
+      
 }
 
 // essay
@@ -94,19 +69,3 @@ export function uploadImg(file) {
             });
     })
 }
-
-// export function updateEssayContent(id, content) {
-//     return new Promise((resolve, reject) => {
-//         axios.put("/manager/updateEssayContent", {
-//             id,
-//             content
-//         })
-//             .then(res => {
-//                 toast("修改文章内容成功", "success")
-//                 resolve(res)
-//             }).catch(err => {
-//                 toast("修改文章内容失败", "error")
-//                 reject(err)
-//             })
-//     })
-// }

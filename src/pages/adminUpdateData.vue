@@ -1,26 +1,39 @@
 <template>
-  <el-container>
-    <el-header style="z-index: 1000;">
+  <div class="flex justify-between items-start">
+    <div class="kind">
+      <kind></kind>
+    </div>
+    <div class="classify">
       <classify></classify>
-    </el-header>
-    <el-row>
-      <el-col :span="1">
-        <el-aside style="z-index: 1000;">
-          <kind></kind>
-        </el-aside>
-      </el-col>
-    </el-row>
-  </el-container>
+    </div>
+  </div>
+  <div class="background">
+  </div>
 </template>
 
 <script setup>
-import classify from "~/layout/admin/classify.vue"
-import kind from "~/layout/admin/kind.vue"
+import classify from "~/components/admin/adminUpdateData/classify.vue"
+import kind from "~/components/admin/adminUpdateData/kind.vue"
 </script>
 
 <style scoped>
-  .el-aside {
-    @apply bottom-0 top-0 fixed;
-    width: auto;
+  .kind {
+    @apply mt-10 ml-10;
+    width: 50%;
   }
+
+  .classify {
+    @apply mt-10 mr-10;
+    width: 50%;
+  }
+  .background{
+    @apply fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 250px;
+    background: linear-gradient(to right, rgba(173, 173, 38, 0.1), rgba(100, 17, 202, 0.1), rgba(223, 94, 43, 0.1));
+    z-index: 100;
+    pointer-events: none;
+}
 </style>
