@@ -124,18 +124,15 @@ const gotoApointPath = (path) => {
     dialogVisible.value = false
 }
 
-const searchMsg = () => {
+const searchMsg = async() => {
     if (input.value == "") {
         toast("请输入搜索内容", "warning")
         return
     }
-
-    // 发请求
-    addSearchKeyCount(input.value)
+    await addSearchKeyCount(input.value)
         .catch(err => {
             console.log(err)
         })
-
     satisfyDate.value = []
     for (let index = 0; index < essayData.value.length; index++) {
         let essay = essayData.value[index]
