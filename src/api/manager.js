@@ -29,7 +29,7 @@ export function addClassify(classifyParams) {
         classifyParams.router = `/${classifyParams.router}`
     }
     return axios.post("/manager/addClassify", classifyParams)
-      
+
 }
 
 // essay

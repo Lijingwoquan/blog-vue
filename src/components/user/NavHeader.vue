@@ -47,7 +47,7 @@
         <el-dialog
             style=" background: linear-gradient(to right bottom, rgba(82, 167, 220, 0.47), rgba(116, 215, 159, 0.53), rgb(122, 118, 159));"
             v-model="dialogVisible" :v-close-on-click-modal="true" :show-close="false" append-to-body
-            @close="$emit('closeSearch')" width="90%">
+            @close="$emit('closeSearch')" width="80%">
             <el-input v-model="input" placeholder="搜索文档" class="input">
                 <template #prefix>
                     <el-icon class="mx-2">
@@ -60,17 +60,21 @@
             </el-input>
             <ul v-if="getData">
                 <el-divider v-if="satisfyDate.length > 0" />
-                <li v-for="essay in satisfyDate" @click="gotoApointPath(essay.path)">
-                    <div class="essayList">
-                        <div class="ml-3">
-                            文章:{{ essay.name }}
+                <el-tooltip v-for="essay in satisfyDate" effect="light" :content="'关键字: ' + essay.keywords.join(' ; ')"
+                    placement="bottom">
+                    <li @click="gotoApointPath(essay.path)">
+                        <div class="essayList">
+                            <div class="ml-3">
+                                文章:{{ essay.name }}
+                            </div>
+                            <div class="mr-3">
+                                分类:{{ essay.kind }}
+                            </div>
                         </div>
-                        <div class="mr-3">
-                            分类:{{ essay.kind }}
-                        </div>
-                    </div>
-                    <el-divider />
-                </li>
+                        <el-divider />
+                    </li>
+                </el-tooltip>
+
             </ul>
         </el-dialog>
     </template>
@@ -78,7 +82,7 @@
 
 <script setup>
 import NavAsideForMobile from '~/components/user/NavAsideForMobile.vue';
-import { ref, onMounted, onBeforeMount, watch, reactive } from "vue"
+import { ref, onMounted, onBeforeMount, watch, reactive, computed } from "vue"
 import { useStore } from 'vuex';
 import { useRouter, useRoute } from 'vue-router';
 import { toast } from '~/composables/util'
@@ -87,7 +91,7 @@ import { addSearchKeyCount } from "~/api/keyword.js"
 
 const dialogVisible = ref(false);
 const store = useStore()
-const essayData = store.state.essayData
+const essayData = computed(() => store.state.essayData)
 const router = useRouter()
 const route = useRoute()
 const dialogMenu = ref(false);
@@ -126,20 +130,30 @@ const searchMsg = () => {
         return
     }
 
+    // 发请求
     addSearchKeyCount(input.value)
         .catch(err => {
             console.log(err)
         })
 
     satisfyDate.value = []
-    essayData.forEach(essay => {
-        if (essay.name.includes(input.value)) {
+    for (let index = 0; index < essayData.value.length; index++) {
+        let essay = essayData.value[index]
+        let keywords = [...essay.keywords, essay.name.split(" ").join("").toLowerCase()]
+
+        for (let index2 = 0; index2 < keywords.length; index2++) {
+            let keyword = keywords[index2];
             let name = essay.name
             let path = essay.router
             let kind = essay.kind
-            satisfyDate.value.push({ name, path, kind })
+            if (keyword.includes(input.value.split(" ").join("").toLowerCase())) {
+                satisfyDate.value.push({ name, path, kind, keywords })
+                break
+            }
         }
-    })
+
+    }
+
     if (!(satisfyDate.value.length > 0)) {
         toast("没用查找到相关文章", "warning")
     }
@@ -249,7 +263,7 @@ onBeforeMount(() => {
 
 
     .essayList {
-        @apply flex justify-between items-center;
+        @apply flex justify-between items-center text-black;
         background:
             linear-gradient(to right, rgba(68, 141, 187, 0.47), rgba(65, 207, 162, 0.324), rgba(135, 128, 196, 0.447));
         width: 100%;

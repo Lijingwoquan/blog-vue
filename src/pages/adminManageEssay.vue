@@ -184,6 +184,7 @@ const updateEssay = () => {
   updateEssayMsg(updateEssayMsgObj.value)
     .then(async res => {
       await store.dispatch("getIndexInfo")
+      dialogForUpdateEssay.value = false
       toast("修改文章成功", "success")
     }).catch(err => {
       toast("添加文章失败", "error")

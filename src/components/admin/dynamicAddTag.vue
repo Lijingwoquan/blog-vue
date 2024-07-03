@@ -42,8 +42,9 @@ const showInput = () => {
 }
 
 const handleInputConfirm = () => {
-    if (inputValue.value) {
-        tags.value.push(inputValue.value)
+    let tag = inputValue.value.split(" ").join("").toLowerCase()
+    if (tag) {
+        tags.value.push(tag)
     }
     inputVisible.value = false
     inputValue.value = ''
