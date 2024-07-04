@@ -73,22 +73,22 @@ onMounted(() => {
         top: 0;
         bottom: 0;
         color: rgb(224, 218, 218);
-        background:
-            linear-gradient(to left bottom,
-                rgba(0, 0, 255, 0.554),
-                rgba(255, 192, 203, 0.565));
+        background-color: rgba(32, 167, 225, 0.884);
     }
 
     .nav-aside-head {
         @apply flex justify-around text-2xl p-2;
-        background: linear-gradient(to right, rgba(121, 110, 220, 0.622), rgba(52, 78, 226, 0.643) 75%, rgba(79, 170, 43, 0.575));
+        background-color: rgba(91, 141, 162, 0.868);
     }
 
     .nav-aside-item {
-        @apply flex justify-around mt-6 text-xl hover:(cursor-pointer text-indigo-900);
+        @apply flex justify-around mt-6 text-xl ;
     }
-
+    .nav-aside-item:hover{
+        cursor: pointer;
+        color: rgba(20, 231, 122, 0.825);
+    }
     .active {
-        @apply text-indigo-900;
+        color: rgb(182, 20, 231);
     }
 </style>

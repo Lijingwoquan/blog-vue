@@ -14,6 +14,7 @@ export function updateKind(kindParams) {
         name: kindParams.kind
     })
 }
+
 // classify
 export function updateClassify(classifyParams) {
     classifyParams.router = classifyParams.router.split(" ").join("")
@@ -29,7 +30,6 @@ export function addClassify(classifyParams) {
         classifyParams.router = `/${classifyParams.router}`
     }
     return axios.post("/manager/addClassify", classifyParams)
-
 }
 
 // essay
