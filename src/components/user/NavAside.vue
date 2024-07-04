@@ -36,7 +36,7 @@ if (route.path.split("/").length > 3) {
 
 const chooseKind = (item) => {
     activeClassify.value = "/classify" + item.router
-    router.push("/classify" + item.router)
+    router.push(activeClassify.value)
 }
 
 watch(() => route.path, () => {
@@ -69,11 +69,18 @@ const props = defineProps({
         @apply overflow-x-hidden overflow-y-scroll fixed;
         top: 60px;
         bottom: 0px;
+        background:
+            linear-gradient(to right bottom,
+                rgba(202, 163, 201, 0.365),
+                rgba(32, 161, 148, 0.384),
+                rgba(192, 204, 255, 0.47),
+                rgba(137, 199, 180, 0.53));
     }
 
     .kind {
-        @apply text-lg mb-2;
-        color: rgb(206, 27, 78);
+        @apply text-2xl mb-2;
+
+        color: rgb(16, 159, 241);
         font-weight: 600;
     }
 
@@ -82,11 +89,12 @@ const props = defineProps({
     }
 
     .anchor {
-        @apply text-gray-400 leading-loose hover:(cursor-pointer underline text-stroke-sm text-shadow-sm);
+        @apply text-lg leading-loose hover:(cursor-pointer underline text-shadow-sm);
+        color: rgb(58, 132, 139);
     }
 
     .active {
-        @apply underline text-stroke-sm text-shadow-sm;
-        color: rgb(80, 154, 219);
+        @apply text-xl underline text-stroke-sm text-shadow-sm;
+        color: rgb(38, 5, 255);
     }
 </style>

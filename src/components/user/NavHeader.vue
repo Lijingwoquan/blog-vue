@@ -44,10 +44,15 @@
     </div>
 
     <template>
-        <el-dialog
-            style=" background: linear-gradient(to right bottom, rgba(82, 167, 220, 0.47), rgba(116, 215, 159, 0.53), rgb(122, 118, 159));"
-            v-model="dialogVisible" :v-close-on-click-modal="true" :show-close="false" append-to-body
-            @close="$emit('closeSearch')" width="80%">
+        <el-dialog style="
+               background:
+            linear-gradient(to right ,
+                rgba(42, 157, 202, 0.365),
+                rgba(28, 171, 187, 0.384),
+                rgba(255, 192, 203, 0.47),
+                rgba(0, 255, 255, 0.53));
+             " v-model="dialogVisible" :v-close-on-click-modal="true" :show-close="false" append-to-body
+            @close="$emit('closeSearch')" width="85%">
             <el-input v-model="input" placeholder="搜索文档" class="input">
                 <template #prefix>
                     <el-icon class="mx-2">
@@ -124,7 +129,7 @@ const gotoApointPath = (path) => {
     dialogVisible.value = false
 }
 
-const searchMsg = async() => {
+const searchMsg = async () => {
     if (input.value == "") {
         toast("请输入搜索内容", "warning")
         return
@@ -199,8 +204,11 @@ onBeforeMount(() => {
         z-index: 100;
         height: 60px;
         background:
-
-            linear-gradient(to right, rgba(42, 157, 202, 0.365), rgba(0, 255, 0, 0.457), rgba(255, 192, 203, 0.47), rgba(0, 255, 255, 0.53));
+            linear-gradient(to right,
+                rgba(42, 157, 202, 0.365),
+                rgba(28, 171, 187, 0.384),
+                rgba(255, 192, 203, 0.47),
+                rgba(0, 255, 255, 0.53));
     }
 
     .Headercontainer .left {
