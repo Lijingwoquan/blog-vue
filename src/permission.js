@@ -1,4 +1,4 @@
-import { router, addRouters, addUserIndexRouter,addAdminIndexRouter } from "~/router"
+import { router, addRouters, addUserIndexRouter, addAdminIndexRouter } from "~/router"
 import {
     toast,
     showFullLoading,
@@ -15,7 +15,7 @@ let hasGetInfo = false
 router.beforeEach(async (to, from, next) => {
     //显示loading
     showFullLoading()
-    if (to.path === `${config.MANAGER_URL}/`) {
+    if (to.path === `${config.MANAGER_URL}`) {
         const token = getToken()
         //没有登录,强制跳转到登录页面
         if (!token && to.path != "/login") {
@@ -32,6 +32,7 @@ router.beforeEach(async (to, from, next) => {
     let hasNewRoutes = false
     if (!hasGetInfo) {
         let { dataAboutIndexMenu } = await store.dispatch("getIndexInfo")
+        console.log(dataAboutIndexMenu)
         // {dataAboutIndexMenu} 是解构 把res 里面的dataAboutIndexMenu解构出来
         hasGetInfo = true
         //添加路由首页路由

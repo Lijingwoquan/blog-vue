@@ -20,9 +20,7 @@
 
     <!-- 添加分类窗口 -->
     <template>
-        <el-dialog
-            style=" background: linear-gradient(to right, rgba(173, 173, 38, 0.783), rgba(100, 17, 202, 0.783), rgba(223, 94, 43, 0.813))"
-            v-model="dialogVisibleForAddKind" :v-close-on-click-modal="false" :show-close="true" append-to-body
+        <el-dialog v-model="dialogVisibleForAddKind" :v-close-on-click-modal="false" :show-close="true" append-to-body
             draggable width="60%">
             <div class="dialogForAddClassify">
                 <span class="title">kind</span>
@@ -56,10 +54,8 @@
 
     <!-- 添加修改分类窗口 -->
     <template>
-        <el-dialog
-            style=" background: linear-gradient(to right, rgba(173, 173, 38, 0.783), rgba(100, 17, 202, 0.783), rgba(223, 94, 43, 0.813))"
-            v-model="dialogVisibleForUpdateClassify" :v-close-on-click-modal="true" :show-close="true" append-to-body
-            :draggable="true" width="80%">
+        <el-dialog v-model="dialogVisibleForUpdateClassify" :v-close-on-click-modal="true" :show-close="true"
+            append-to-body :draggable="false" width="80%">
 
             <div class="text-center text-xl text-blue-400">该kind下的classify</div>
             <ul>
@@ -85,6 +81,9 @@
             </ul>
         </el-dialog>
     </template>
+    <div class="test">
+
+    </div>
 </template>
 
 <script setup>
@@ -164,6 +163,8 @@ const updateClassifyHandel = (classify) => {
 
 
 <style scoped>
+
+
     .containerClassify {
         @apply flex flex-col justify-center items-center mt-5;
     }
@@ -186,7 +187,7 @@ const updateClassifyHandel = (classify) => {
     }
 
     .dialogForAddClassify {
-        @apply flex flex-col justify-center items-center;
+        @apply flex flex-col justify-center items-center text-lg text-blue-700;
     }
 
     .dialogForAddClassify .title {
