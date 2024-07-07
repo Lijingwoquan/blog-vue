@@ -1,6 +1,6 @@
 import { createStore } from 'vuex';
 import { getIndexInfo } from "~/api/user"
-import { removeToken } from "~/composables/auth"
+import { setToken } from "~/composables/auth"
 
 const store = createStore({
   state() {
@@ -56,7 +56,7 @@ const store = createStore({
             let createdTime = e.createdTime.split("T").join(" ")
             let page = e.page
             let keywords = e.keywords
-            state.essayData.push({ name, router, introduction, kind, id, createdTime, page,keywords })
+            state.essayData.push({ name, router, introduction, kind, id, createdTime, page, keywords })
           })
         })
       })
@@ -67,15 +67,15 @@ const store = createStore({
       return new Promise((resolve, reject) => {
         getIndexInfo()
           .then(res => {
-          commit("setIndexInfo", res.dataAboutIndexMenu)
-          commit("setClassify", res.dataAboutIndexMenu)
-          commit("setEssayInfo", res.dataAboutIndexMenu)
-          resolve(res)
+            commit("setIndexInfo", res.dataAboutIndexMenu)
+            commit("setClassify", res.dataAboutIndexMenu)
+            commit("setEssayInfo", res.dataAboutIndexMenu)
+            resolve(res)
           })
           .catch(err => {
-          removeToken()
-          reject(err)
-        })
+            setToken(null)
+            reject(err)
+          })
       })
     },
   }

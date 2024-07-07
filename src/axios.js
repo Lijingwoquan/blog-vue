@@ -1,8 +1,7 @@
 import axios from "axios";
 import { useRouter } from 'vue-router';
 import { getToken } from "~/composables/auth.js"
-import { toast } from "~/composables/util"
-import { removeToken } from "~/composables/auth";
+import { setToken } from "~/composables/auth";
 const service = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_API,
 })
@@ -29,11 +28,11 @@ service.interceptors.response.use(function (response) {
   return response.data.data; //后续请求响应数据写起来更加优雅
 }, function (error) {
   const msg = error.response.data.msg || "请求失败"
+  console.log(msg)
   if (msg === "需要登录") {
-    removeToken()
+    setToken(null)
     location.reload()
   }
-  // toast(msg, "error",)
   return Promise.reject(error);
 });
 
