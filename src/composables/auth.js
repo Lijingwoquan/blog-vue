@@ -13,6 +13,10 @@ export function setToken(token) {
     return cookie.set(tokenKey, token)
 }
 
+export function removeToken(token) {
+    return cookie.remove(tokenKey)
+}
+
 //设置首页页码
 export function setIndexPage(page) {
     return cookie.set(indexPageKey, page)

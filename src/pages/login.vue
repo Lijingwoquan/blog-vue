@@ -78,7 +78,6 @@ const onSubmit = () => {
 
         login(form)
             .then(res => {
-                console.log(res)
                 setToken(res.token)
                 toast("登陆成功")
                 router.push(`${config.MANAGER_URL}`)

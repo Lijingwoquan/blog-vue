@@ -15,7 +15,14 @@ let hasGetInfo = false
 router.beforeEach(async (to, from, next) => {
     //显示loading
     showFullLoading()
-    if (to.path === `${config.MANAGER_URL}` ||  to.path === `${config.MANAGER_URL}/` ) {
+
+    // 去除路由最后的"/"
+    const path = to.path.replace(/\/$/, '')
+    if (path !== to.path) {
+        return next({ path, query: to.query, hash: to.hash })
+    }
+
+    if (to.path === `${config.MANAGER_URL}`) {
         const token = getToken()
         //没有登录,强制跳转到登录页面
         if (!token && to.path != "/login") {

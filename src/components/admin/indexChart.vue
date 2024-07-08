@@ -99,7 +99,6 @@ onMounted(async () => {
             keywordRankArr.value.push({ x: res.year.x, y: res.year.y })
             keywordRankArr.value.push({ x: res.month.x, y: res.month.y })
             keywordRankArr.value.push({ x: res.week.x, y: res.week.y })
-            console.log(keywordRankArr.value)
         })
     let chartDom = document.getElementById("chart")
     if (chartDom) {
