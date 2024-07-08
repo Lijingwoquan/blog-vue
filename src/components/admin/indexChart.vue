@@ -63,7 +63,7 @@ function getData(index) {
             {
                 name: "搜索次数",//配合 legend 配置项，可进行图例筛选
                 type: "bar",//必须
-                data:keywordRankArr.value[index].y,
+                data: keywordRankArr.value[index].y,
                 label: {//图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等。
                     show: true,//是否显示
                     position: 'top'//标签的位置
@@ -105,11 +105,12 @@ onMounted(async () => {
         myChart = echarts.init(chartDom)
         getData(0)
     }
+    useResizeObserver(el, (entries) => {
+        myChart.resize()
+    })
 })
 
 
 
-useResizeObserver(el, (entries) => {
-    myChart.resize()
-})
+
 </script>

@@ -17,12 +17,10 @@ router.beforeEach(async (to, from, next) => {
     showFullLoading()
 
     // 去除路由最后的"/"
-    const path = to.path.replace(/\/$/, '')
-    if (path !== to.path) {
-        return next({ path, query: to.query, hash: to.hash })
-    }
+    const toPath = to.path.length > 1 ? to.path.replace(/\/$/, '') : to.path
 
-    if (to.path === `${config.MANAGER_URL}`) {
+
+    if (toPath === `${config.MANAGER_URL}`) {
         const token = getToken()
         //没有登录,强制跳转到登录页面
         if (!token && to.path != "/login") {
@@ -48,7 +46,8 @@ router.beforeEach(async (to, from, next) => {
         hasNewRoutes = addRouters(dataAboutIndexMenu)
     }
 
-    hasNewRoutes ? next(to.fullPath) : next();
+
+    hasNewRoutes ? next({ path: toPath, query: to.query, hash: to.hash }) : next();
 });
 
 router.afterEach((to, from) => {
