@@ -49,9 +49,9 @@
                 </div>
             </div>
         </el-col>
-        <el-col :xs="0" :sm="1" :md="1" :lg="1" :xl="1">
+        <el-col :xs="0" :sm="2" :md="2" :lg="2" :xl="2">
         </el-col>
-        <el-col :xs="0" :sm="5" :md="5" :lg="5" :xl="5">
+        <el-col :xs="0" :sm="4" :md="4" :lg="4" :xl="4">
             <NavAnchor v-show="showEssay" v-if="mode == 'computer' && previewRef" :preview="previewRef"></NavAnchor>
         </el-col>
     </el-row>

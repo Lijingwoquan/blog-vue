@@ -69,12 +69,6 @@ const props = defineProps({
         @apply overflow-x-hidden overflow-y-scroll fixed;
         top: 60px;
         bottom: 0px;
-        background:
-            linear-gradient(to right bottom,
-                rgba(202, 163, 201, 0.365),
-                rgba(32, 161, 148, 0.384),
-                rgba(192, 204, 255, 0.47),
-                rgba(137, 199, 180, 0.53));
     }
 
     .kind {

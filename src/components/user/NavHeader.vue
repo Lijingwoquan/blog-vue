@@ -158,6 +158,8 @@ const searchMsg = async () => {
 
     if (!(satisfyDate.value.length > 0)) {
         toast("没用查找到相关文章", "warning")
+    } else {
+        toast(`搜索成功,共有${satisfyDate.value.length}篇文章`)
     }
     getData.value = true
 }
