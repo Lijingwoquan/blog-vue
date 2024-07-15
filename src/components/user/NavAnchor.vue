@@ -1,6 +1,6 @@
 <template>
     <div :class="anchorClass" ref="anchorContainer">
-        <div v-for="anchor in titles" :style="{
+        <div v-for="anchor in anchors" :style="{
             padding: `5px 5px 5px ${anchor.indent * 20}px`,
         }" @click="handleAnchorClick(anchor)">
             <p style="cursor: pointer;color:dodgerblue;" class="text-shadow-sm" :class="{ active: anchor.active }">
@@ -18,9 +18,9 @@ import anime from 'animejs'; // 如果你使用模块化开发
 
 const router = useRouter()
 const route = useRoute()
-const anchors = ref("")
-const titles = ref([])
-const hTags = ref("")
+const anchorElement = ref([])
+const anchors = ref([])
+const hTags = ref([])
 const anchorContainer = ref(null)
 const indexRef = ref("")
 
@@ -38,10 +38,10 @@ const props = defineProps({
 // 初始化锚点位置
 const initAnchorPosition = () => {
     // 由hash拿到lineIndex 
-    const title = titles.value.find((anchor) => route.hash === anchor.id)
+    const anchor = anchors.value.find((anchor) => route.hash === anchor.id)
 
-    if (title) {
-        const heading = props.preview.$el.querySelector(`[data-v-md-line="${title.lineIndex}"]`);
+    if (anchor) {
+        const heading = props.preview.$el.querySelector(`[data-v-md-line="${anchor.lineIndex}"]`);
         props.preview.previewScrollToTarget({
             target: heading,
             scrollContainer: window,
@@ -65,12 +65,12 @@ const handleAnchorClick = (anchor = getIndex.value) => {
 
 // 锚点数据处理
 const showAnchor = () => {
-    anchors.value = props.preview.$el.querySelectorAll('h1,h2,h3,h4,h5,h6')
+    anchorElement.value = props.preview.$el.querySelectorAll('h1,h2,h3,h4,h5,h6')
 
-    titles.value = Array.from(anchors.value).filter((title) => !!title.innerText.trim())
-    hTags.value = Array.from(new Set(titles.value.map((title) => title.tagName))).sort();
-    titles.value = titles.value.map((el, index) => ({
-        id: `#title-${index}`, // 添加唯一 id
+    anchors.value = Array.from(anchorElement.value).filter((anchor) => !!anchor.innerText.trim())
+    hTags.value = Array.from(new Set(anchors.value.map((anchor) => anchor.tagName))).sort();
+    anchors.value = anchors.value.map((el, index) => ({
+        id: `#anchor-${index}`, // 添加唯一 id
         title: el.innerText,
         lineIndex: el.getAttribute("data-v-md-line"),
         indent: hTags.value.indexOf(el.tagName),
@@ -78,8 +78,8 @@ const showAnchor = () => {
     }));
 
     // 为每个标题元素设置 id
-    titles.value.forEach((title, index) => {
-        anchors.value[index].id = title.id;
+    anchors.value.forEach((anchor, index) => {
+        anchorElement.value[index].id = anchor.id;
     });
 }
 
@@ -122,12 +122,12 @@ function scrollThrottleFn() {
     // 获取当前滚动位置
     const scrollPosition = window.scrollY || window.pageYOffset;
 
-    // 确保 anchors.value 不为空
-    if (anchors.value && anchors.value.length > 0) {
+    // 确保 anchorElement.value 不为空
+    if (anchorElement.value && anchorElement.value.length > 0) {
         let closestAnchor = null;
         let closestDistance = Infinity;
 
-        anchors.value.forEach(anchor => {
+        anchorElement.value.forEach(anchor => {
             // 获取元素的位置信息
             const rect = anchor.getBoundingClientRect();
             const elementTop = rect.top + scrollPosition;
@@ -145,19 +145,19 @@ function scrollThrottleFn() {
             }
         });
         // 移除所有高亮样式
-        titles.value.forEach((title) => {
+        anchors.value.forEach((anchor) => {
             if (closestAnchor) {
-                title.active = false
+                anchor.active = false
             }
         })
 
         // 如果找到最近的元素,则高亮显示它
         if (closestAnchor) {
             let index = null
-            const activeTitle = titles.value.find((title) => {
-                if (title.id === closestAnchor.id) {
-                    indexRef.value = title
-                    index = parseInt(title.id.split('-')[1])
+            const activeTitle = anchors.value.find((anchor) => {
+                if (anchor.id === closestAnchor.id) {
+                    indexRef.value = anchor
+                    index = parseInt(anchor.id.split('-')[1])
                     return true
                 }
             })
@@ -172,8 +172,8 @@ function scrollThrottleFn() {
 onMounted(() => {
     // 添加滚动事件监听器
     window.addEventListener('scroll', throttle(scrollThrottleFn, 100)); // 节流滚动事件,每 100 毫秒执行一次
-    if (titles.value[0]) {
-        titles.value[0].active = true
+    if (anchors.value[0]) {
+        anchors.value[0].active = true
     }
     showAnchor()
     initAnchorPosition()
