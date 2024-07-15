@@ -1,4 +1,5 @@
 <template>
+    <NavHead ></NavHead>
     <NavAside></NavAside>
     <div class="main">
         <router-view v-slot="{ Component }">
@@ -7,18 +8,18 @@
             </keep-alive>
         </router-view>
     </div>
-
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue"
-import { useRoute } from 'vue-router';
+
 import NavAside from "~/components/admin/NavAside.vue";
+import NavHead from "~/components/admin/NavHead.vue";
 
 </script>
 
 <style scoped>
     .main {
+        margin-top: 85px;
         margin-left: 250px;
     }
 </style>

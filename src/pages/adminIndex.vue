@@ -1,11 +1,11 @@
 <template>
-  <div class="flex flex-col justify-center items-center px-15 mt-10">
+  <div class="flex flex-col justify-center items-center px-15">
     <div class="flex" style="width: 100%;">
       <indexChart></indexChart>
     </div>
 
     <div class="flex mt-10" style="width: 100%;">
-      <el-card shadow="never" style="width: 100%;height: 300px;">
+      <el-card shadow="never" style="width: 100%;height: 350px;">
         <template #header>
           <div class="flex justify-between items-center">
             <span class="text-sm">用户访问量</span>

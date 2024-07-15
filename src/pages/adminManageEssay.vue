@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col mx-3 mt-3">
     <div class="search">
-      <el-button :icon="Search" circle @click="openSearch">
+      <el-button  circle @click="openSearch">
         <el-icon size="25px">
           <Search />
         </el-icon>

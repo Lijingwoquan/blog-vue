@@ -9,10 +9,7 @@ export function login(form) {
 
 // kind
 export function updateKind(kindParams) {
-    return axios.put("/manager/updateKind", {
-        ...kindParams,
-        name: kindParams.kind
-    })
+    return axios.put("/manager/updateKind",kindParams)
 }
 
 // classify

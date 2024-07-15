@@ -1,6 +1,6 @@
 <template>
     <!-- 富文本编辑器 -->
-    <v-md-editor class="ml-2" :include-level="[1, 2, 3, 4, 5, 6]" v-model="editContent" height="720px"
+    <v-md-editor class="ml-2" :include-level="[1, 2, 3, 4, 5, 6]" v-model="editContent" :height="props.height"
         @upload-image="handleUploadImage" right-toolbar="| toc | tip| todo-list | sync-scroll | preview | fullscreen "
         :disabled-menus="[]" @copy-code-success="handleCopyCodeSuccess" />
 </template>
@@ -40,6 +40,15 @@ VueMarkdownEditor.use(vuepressTheme, {
 VueMarkdownEditor.use(createCopyCodePlugin());
 VueMarkdownEditor.use(createTodoListPlugin());
 VueMarkdownEditor.use(createMermaidPlugin());
+
+
+const props = defineProps({
+    height: {
+        type: String,
+        required: false,
+        default:"650px",
+    }
+})
 
 
 const editContent = defineModel("editContent", {
@@ -89,6 +98,6 @@ onUnmounted(() => {
 })
 //复制代码成功
 const handleCopyCodeSuccess = () => {
-    toast("复制成功", "success");
+    toast("复制成功");
 }
 </script>

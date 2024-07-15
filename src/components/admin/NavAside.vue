@@ -1,22 +1,17 @@
 <template>
     <div class="nav-aside">
-        <div class="nav-aside-head" style="height: 80px;">
-            <el-icon style="height: 100%;" class="flex items-center text-rose-300">
-                <Burger />
-            </el-icon>
-            <div style="height: 100%;" class="flex items-center text-purple-200">后台管理系统</div>
-        </div>
-        <div class="item-background-color">
-            <div v-for="(item, index) in menu" :key="index" class="nav-aside-item" style="height: 40px;"
-                @click="switchTool(item)" :class="{ active: item.route === activeToolRoute }">
-                <el-icon style="height: 100%;" class="flex justify-center items-center " :size="30" text>
-                    <component :is="item.icon" />
-                </el-icon>
-                <span style="height: 100%;" class="flex justify-center items-center ">
-                    {{ item.name }}
-                </span>
-            </div>
-        </div>
+      
+        <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
+            <el-menu-item v-for="(item, index) in menu" :key="index" @click="switchTool(item)"
+                :class="{ active: item.route === activeToolRoute }">
+                <template #default>
+                    <el-icon style="height: 100%;" class="flex justify-center items-center " :size="30" text>
+                        <component :is="item.icon" />
+                    </el-icon>
+                    <span>{{ item.name }}</span>
+                </template>
+            </el-menu-item>
+        </el-menu>
     </div>
 </template>
 
@@ -70,24 +65,23 @@ onMounted(() => {
         @apply fixed;
         box-sizing: border-box;
         width: 250px;
-        top: 0;
+        top: 80px;
         bottom: 0;
         color: rgb(224, 218, 218);
         background-color: rgba(32, 167, 225, 0.884);
     }
 
-    .nav-aside-head {
-        @apply flex justify-around text-2xl p-2;
-        background-color: rgba(91, 141, 162, 0.868);
-    }
+  
 
     .nav-aside-item {
-        @apply flex justify-around mt-6 text-xl ;
+        @apply flex justify-around mt-6 text-xl;
     }
-    .nav-aside-item:hover{
+
+    .nav-aside-item:hover {
         cursor: pointer;
         color: rgba(20, 231, 122, 0.825);
     }
+
     .active {
         color: rgb(182, 20, 231);
     }
