@@ -50,7 +50,7 @@ const initAnchorPosition = () => {
 }
 
 // 锚点跳转
-const handleAnchorClick = (anchor = getIndex.value) => {
+const handleAnchorClick = (anchor) => {
     const { lineIndex } = anchor;
     const heading = props.preview.$el.querySelector(`[data-v-md-line="${lineIndex}"]`);
     if (heading) {
@@ -64,11 +64,41 @@ const handleAnchorClick = (anchor = getIndex.value) => {
 
 
 // 锚点数据处理
-const showAnchor = () => {
+const anchorDataDispose = () => {
     anchorElement.value = props.preview.$el.querySelectorAll('h1,h2,h3,h4,h5,h6')
+    anchorElement.value.forEach((anchor, index) => {
+        // 创建一个新的 a 元素
+        const aTag = document.createElement('a');
+
+        // 设置 a 标签的 href 属性
+        // 这里假设你想要使用标题的文本内容作为 href 的一部分
+        // 你可以根据需要修改这个逻辑
+        const hrefValue = `#anchor-${index}`;
+        aTag.setAttribute('href', hrefValue);
+
+        // 设置 a 标签的其他属性（如果需要）
+        // aTag.classList.add('anchor-link');
+
+        // 保存父代的文本
+        const textContent = anchor.textContent;
+
+        // 清空原有的 h 标签内容，然后将 a 标签添加进去
+        anchor.textContent = '';
+        aTag.textContent = '🔗' + textContent;
+
+        // 添加点击事件
+        aTag.addEventListener('click', (event) => {
+            event.preventDefault();
+            handleAnchorClick(anchors.value[index])
+        });
+
+        anchor.appendChild(aTag);
+    });
 
     anchors.value = Array.from(anchorElement.value).filter((anchor) => !!anchor.innerText.trim())
+
     hTags.value = Array.from(new Set(anchors.value.map((anchor) => anchor.tagName))).sort();
+
     anchors.value = anchors.value.map((el, index) => ({
         id: `#anchor-${index}`, // 添加唯一 id
         title: el.innerText,
@@ -83,6 +113,7 @@ const showAnchor = () => {
     });
 }
 
+// 计算属性
 const getIndex = computed(() => {
     return indexRef.value
 })
@@ -175,7 +206,7 @@ onMounted(() => {
     if (anchors.value[0]) {
         anchors.value[0].active = true
     }
-    showAnchor()
+    anchorDataDispose()
     initAnchorPosition()
 })
 
