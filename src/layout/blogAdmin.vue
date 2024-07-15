@@ -1,7 +1,6 @@
 <template>
-    <NavHead ></NavHead>
     <NavAside></NavAside>
-    <div class="main">
+    <div class="main" :style="{ marginLeft: $store.state.adminAsideWidth }">
         <router-view v-slot="{ Component }">
             <keep-alive :max="5">
                 <component :is="Component"></component>
@@ -11,15 +10,15 @@
 </template>
 
 <script setup>
-
+import { useStore } from "vuex"
 import NavAside from "~/components/admin/NavAside.vue";
-import NavHead from "~/components/admin/NavHead.vue";
 
+const store = useStore()
+store.commit("initAsideWidth")
 </script>
 
 <style scoped>
     .main {
-        margin-top: 85px;
-        margin-left: 250px;
+        margin-top: 5px;
     }
 </style>

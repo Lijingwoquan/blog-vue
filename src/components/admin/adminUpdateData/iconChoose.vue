@@ -1,7 +1,7 @@
 <template>
     <div class="flex items-center" style="width: 100%;">
         <div style="width: 10%;" class="flex justify-center items-center">
-            <el-icon :size="16">
+            <el-icon size="24px">
                 <component :is="modelValue"></component>
             </el-icon>
         </div>

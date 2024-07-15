@@ -28,7 +28,7 @@
     </div>
   </div>
 
-  <div class="background-color">
+  <div class="background" :style="{ left: $store.state.adminAsideWidth }">
   </div>
 </template>
 
@@ -92,9 +92,8 @@ onMounted(async () => {
     height: 20%;
   }
 
-  .background-color {
+  .background {
     @apply fixed;
-    left: 250px;
     right: 0;
     top: 0;
     bottom: 0;

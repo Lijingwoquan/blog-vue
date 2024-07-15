@@ -4,23 +4,25 @@
         <div v-for="kind in classifiesKind" class="lists">
             <div class="list">
                 <el-input style="width: 35%;" v-model="kind.kind" placeholder="分类名" class="input"></el-input>
-                <el-icon class="ml-2" :size="16">
+                <el-icon class="mx-4" size="18px" >
                     <component :is="kind.icon"></component>
                 </el-icon>
-                <el-button class="ml-3" style="width: 30%;" type="primary" size="default"
+                <el-button  style="width: 30%;" type="primary" size="default"
                     @click="updateKindHandelPre(kind)">选择</el-button>
             </div>
         </div>
     </div>
 
     <el-drawer v-model="dialogForAddEssay" title="添加文章" direction="rtl" append-to-body size="700px">
-        类型名
-        <el-input class="mb-5" v-model="kindForm.name" placeholder="文章名" />
-        图标
-        <iconChoose class=" mx-3" style="width: 30%;" :modelValue="kindForm.icon"
-            @update:modelValue="(icon) => chooseIcon(kindForm, icon)"></iconChoose>
-        <el-button type="primary" size="large" style="width: 100%;" @click="updateKindHandel"
-            class="mt-5">添加</el-button>
+        <div class="text-blue-700">
+            span
+            <el-input class="mb-5" v-model="kindForm.name" placeholder="文章名" />
+            图标
+            <iconChoose class="mt-1 mx-1" style="width: 30%;" :modelValue="kindForm.icon"
+                @update:modelValue="(icon) => chooseIcon(kindForm, icon)"></iconChoose>
+            <el-button type="primary" size="large" style="width: 100%;" @click="updateKindHandel"
+                class="mt-5">添加</el-button>
+        </div>
     </el-drawer>
 
 </template>

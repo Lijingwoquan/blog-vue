@@ -7,7 +7,7 @@
       <classify></classify>
     </div>
   </div>
-  <div class="background">
+  <div class="background" :style="{ left: $store.state.adminAsideWidth }">
   </div>
 </template>
 
@@ -32,10 +32,9 @@ import kind from "~/components/admin/adminUpdateData/kind.vue"
     top: 0;
     bottom: 0;
     right: 0;
-    left: 250px;
     background: linear-gradient(to right,
         rgba(173, 173, 38, 0.1),
-        rgba(100, 17, 202, 0.1), 
+        rgba(100, 17, 202, 0.1),
         rgba(223, 94, 43, 0.1));
     z-index: 100;
     pointer-events: none;

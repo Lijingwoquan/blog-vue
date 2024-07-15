@@ -22,8 +22,8 @@ import { computed, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 
 const router = useRouter()
-const store = useStore()
 const route = useRoute()
+const store = useStore()
 
 //保证刷新也能选中
 const activeClassify = ref(route.path)
@@ -72,7 +72,7 @@ const props = defineProps({
     }
 
     .kind {
-        @apply text-3xl mb-2;
+        @apply text-2xl mb-2;
         color: rgb(16, 159, 241);
         font-weight: 600;
     }
@@ -82,14 +82,14 @@ const props = defineProps({
     }
 
     .anchor {
-        @apply text-lg leading-loose hover:(cursor-pointer underline text-shadow-sm);
+        @apply leading-loose hover:(cursor-pointer underline text-shadow-sm);
         color: rgb(58, 132, 139);
-        font-size: 150%;
+        font-size: 130%;
     }
 
     .active {
         @apply underline text-stroke-sm text-shadow-sm;
         color: rgb(38, 5, 255);
-        font-size: 150%;
+        font-size: 130%;
     }
 </style>

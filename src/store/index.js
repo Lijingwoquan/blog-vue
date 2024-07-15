@@ -1,7 +1,7 @@
+import { ref } from 'vue';
 import { createStore } from 'vuex';
 import { getIndexInfo } from "~/api/user"
-import { setToken } from "~/composables/auth"
-
+import { setToken, getExpendAside, setExpendAside } from "~/composables/auth"
 const store = createStore({
   state() {
     return {
@@ -13,6 +13,7 @@ const store = createStore({
       classifyData: [],
       //文章数据
       essayData: [],
+      adminAsideWidth: "250px"
     }
   },
   mutations: {
@@ -60,7 +61,27 @@ const store = createStore({
           })
         })
       })
-    }
+    },
+    //展开|缩起侧边
+    handleAdminAsideWidth(state) {
+      const ifExpendAside = ref(getExpendAside())
+      if (!ifExpendAside.value) {
+        state.adminAsideWidth = "250px"
+        setExpendAside(1)
+      } else {
+        state.adminAsideWidth = "60px"
+        setExpendAside(0)
+      }
+    },
+    initAsideWidth(state) {
+      const ifExpendAside = ref(getExpendAside())
+      if (ifExpendAside.value) {
+        state.adminAsideWidth = "250px"
+      } else {
+        state.adminAsideWidth = "60px"
+      }
+    },
+
   },
   actions: {
     getIndexInfo({ commit }) {

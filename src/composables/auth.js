@@ -1,6 +1,7 @@
 import { useCookies } from '@vueuse/integrations/useCookies';
 const tokenKey = "token"
 const indexPageKey = "index-page"
+const ExpendAside = "expend"
 
 const cookie = useCookies()
 
@@ -24,5 +25,14 @@ export function setIndexPage(page) {
 //获取首页页码
 export function getIndexPage() {
     return cookie.get(indexPageKey)
+}
+
+//获取expend
+export function getExpendAside() {
+    return cookie.get(ExpendAside)
+}
+//设置expend
+export function setExpendAside(value) {
+    return cookie.set(ExpendAside, value)
 }
 

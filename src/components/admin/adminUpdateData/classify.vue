@@ -38,8 +38,8 @@
             </el-input>
 
             <span class="title">图标</span>
-            <div style="width: 100%;" class="flex justify-center items-center">
-                <iconChoose class="AddClassify" :modelValue="classifyParms.icon"
+            <div style="width: 100%;" class="flex items-center mt-2">
+                <iconChoose class="AddClassify ml-1"  style="width: 30%;" :modelValue="classifyParms.icon"
                     @update:modelValue="(icon) => chooseIcon(classifyParms, icon)"></iconChoose>
             </div>
 
@@ -161,8 +161,6 @@ const updateClassifyHandel = (classify) => {
 
 
 <style scoped>
-
-
     .containerClassify {
         @apply flex flex-col justify-center items-center mt-5;
     }
