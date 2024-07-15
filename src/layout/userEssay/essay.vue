@@ -1,67 +1,73 @@
 <template>
-    <el-row>
-        <el-col :xs="24" :sm="18" :md="18" :lg="18" :xl="18">
-            <div v-show="showEssay" @click="closeAnchor">
-                <div class="essayBasic">
-                    <span class="name">
-                        {{ satisfyData ? satisfyData.name : '' }}
-                    </span>
-                    <div class="subTitle">
-                        <div>
-                            <div>
-                                <div class="left mb-5">
-                                    创建于:
-                                    {{
-                                        satisfyData ? satisfyData.createdTime.split("T").join(" ").split("Z")[0]
-                                            .split(" ").join(" ").split(" ")[0] : ""
-                                    }}
-                                </div>
-
-                                <div class="left">
-                                    更新于:
-                                    {{
-                                        satisfyData ? satisfyData.updatedTime.split("T").join(" ").split("Z")[0]
-                                            .split(" ").join(" ").split(" ")[0] : "" }}
-                                </div>
-                            </div>
-
-                            <div>
-                                <div class="right mb-5 ml-auto hover:(cursor-pointer text-blue-400)" @click="toKind">
-                                    <span class="ml-auto ">
-                                        {{ satisfyData ? satisfyData.kind : "" }}
-                                    </span>
-                                </div>
-                                <div class="right">
-                                    <span class="ml-auto"> {{ satisfyData ? satisfyData.visitedTimes : "" }}次
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <span class="introduction">
-                            简介:{{ satisfyData ? satisfyData.introduction : "" }}
+    <div v-if="satisfyData != null">
+        <el-row>
+            <el-col :xs="24" :sm="18" :md="18" :lg="18" :xl="18">
+                <div @click="closeAnchor">
+                    <div class="essayBasic">
+                        <span class="name">
+                            {{ satisfyData.name }}
                         </span>
+                        <div class="subTitle">
+                            <div>
+                                <div>
+                                    <div class="left mb-5">
+                                        创建于:
+                                        {{
+                                            satisfyData.createdTime.split("T").join(" ").split("Z")[0]
+                                                .split(" ").join(" ").split(" ")[0]
+                                        }}
+                                    </div>
+
+                                    <div class="left">
+                                        更新于:
+                                        {{
+                                            satisfyData.updatedTime.split("T").join(" ").split("Z")[0]
+                                                .split(" ").join(" ").split(" ")[0] }}
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="right mb-5 ml-auto hover:(cursor-pointer text-blue-400)"
+                                        @click="toKind">
+                                        <span class="ml-auto ">
+                                            {{ satisfyData.kind }}
+                                        </span>
+                                    </div>
+                                    <div class="right">
+                                        <span class="ml-auto"> {{ satisfyData.visitedTimes }}次
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <span class="introduction">
+                                简介:{{ satisfyData.introduction }}
+                            </span>
+                        </div>
+                    </div>
+                    <div>
+                        <v-md-editor class="bg-red" @copy-code-success="handleCopyCodeSuccess" v-model="satisfyData.content" height="auto" mode="preview" ref="previewRef" />
                     </div>
                 </div>
-                <div>
-                    <v-md-editor class="bg-red" @copy-code-success="handleCopyCodeSuccess" v-if="satisfyData"
-                        v-model="satisfyData.content" height="auto" mode="preview" ref="previewRef" />
-                </div>
-            </div>
-        </el-col>
-        <el-col :xs="0" :sm="2" :md="2" :lg="2" :xl="2">
-        </el-col>
-        <el-col :xs="0" :sm="4" :md="4" :lg="4" :xl="4">
-            <NavAnchor v-show="showEssay" v-if="mode == 'computer' && previewRef" :preview="previewRef"></NavAnchor>
-        </el-col>
-    </el-row>
+            </el-col>
+            <el-col :xs="0" :sm="2" :md="2" :lg="2" :xl="2">
+            </el-col>
+            <el-col :xs="0" :sm="4" :md="4" :lg="4" :xl="4">
+                <NavAnchor v-if="facility == 'computer' && previewRef != null" :facility="facility"
+                    :preview="previewRef">
+                </NavAnchor>
+            </el-col>
+        </el-row>
 
-    <el-icon v-show="anchorShow" @click="oppositedAnchor" class="anchorIcon hidden-sm-and-up" size="40px">
-        <Memo />
-    </el-icon>
+        <el-icon v-show="anchorShow" @click="oppositedAnchor" class="anchorIcon hidden-sm-and-up" size="40px">
+            <Memo />
+        </el-icon>
 
-    <NavAnchor v-if="previewRef" v-show="anchorContentShow" ref="navAnchorRef" mode="model" :preview="previewRef">
-    </NavAnchor>
+        <NavAnchor v-if="facility == 'mobile' && previewRef != null" v-show="anchorContentShow" :facility="facility"
+            :preview="previewRef">
+        </NavAnchor>
+    </div>
+
 </template>
 
 <script setup>
@@ -111,11 +117,10 @@ const route = useRoute()
 const router = useRouter()
 
 const previewRef = ref(null)
-const navAnchorRef = ref(null)
 
 const kind = ref(null)
 const satisfyData = ref(null)  //存储文章的数据
-const mode = ref("")
+const facility = ref("")
 const showEssay = ref(false)
 const anchorShow = ref(false)
 const anchorContentShow = ref(false)
@@ -163,10 +168,10 @@ const closeAnchor = () => {
 // 根据窗口大小来修改模式
 const handleResize = () => {
     const windowWidth = window.innerWidth
-    if (windowWidth < 768) {
-        mode.value = 'mobile'
+    if (windowWidth <= 768) {
+        facility.value = 'mobile'
     } else {
-        mode.value = 'computer'
+        facility.value = 'computer'
     }
 }
 
@@ -201,12 +206,12 @@ const initEssayData = async () => {
     showEssay.value = true
     anchorShow.value = true
     handelScoll()
+    handleResize()
 }
 
 
 onMounted(async () => {
     await initEssayData()
-    handleResize()
     window.addEventListener('resize', handleResize)
     window.addEventListener('scroll', handelScoll)
 })

@@ -4,14 +4,14 @@
             padding: `5px 5px 5px ${anchor.indent * 20}px`,
         }" @click="handleAnchorClick(anchor)">
             <p style="cursor: pointer;color:dodgerblue;" class="text-shadow-sm" :class="{ active: anchor.active }">
-                {{ anchor.title }}
+                {{ anchor.title.split("🔗")[1] }}
             </p>
         </div>
     </div>
 </template>
 
 <script setup>
-import { computed, onMounted, onUpdated, onBeforeUnmount, ref } from 'vue'
+import { computed, onMounted, onBeforeUnmount, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router';
 import { throttle } from '~/composables/common.js';
 import anime from 'animejs'; // 如果你使用模块化开发
@@ -29,11 +29,13 @@ const props = defineProps({
         type: Object,
         required: true
     },
-    mode: {
+    facility: {
         type: String,
         default: "computer"
     }
 })
+
+const previewMsg = ref(props.preview)
 
 // 初始化锚点位置
 const initAnchorPosition = () => {
@@ -41,8 +43,8 @@ const initAnchorPosition = () => {
     const anchor = anchors.value.find((anchor) => route.hash === anchor.id)
 
     if (anchor) {
-        const heading = props.preview.$el.querySelector(`[data-v-md-line="${anchor.lineIndex}"]`);
-        props.preview.previewScrollToTarget({
+        const heading = previewMsg.value.$el.querySelector(`[data-v-md-line="${anchor.lineIndex}"]`);
+        previewMsg.value.previewScrollToTarget({
             target: heading,
             scrollContainer: window,
         });
@@ -52,9 +54,9 @@ const initAnchorPosition = () => {
 // 锚点跳转
 const handleAnchorClick = (anchor) => {
     const { lineIndex } = anchor;
-    const heading = props.preview.$el.querySelector(`[data-v-md-line="${lineIndex}"]`);
+    const heading = previewMsg.value.$el.querySelector(`[data-v-md-line="${lineIndex}"]`);
     if (heading) {
-        props.preview.previewScrollToTarget({
+        previewMsg.value.previewScrollToTarget({
             target: heading,
             scrollContainer: window,
         });
@@ -65,34 +67,35 @@ const handleAnchorClick = (anchor) => {
 
 // 锚点数据处理
 const anchorDataDispose = () => {
-    anchorElement.value = props.preview.$el.querySelectorAll('h1,h2,h3,h4,h5,h6')
+    anchorElement.value = previewMsg.value.$el.querySelectorAll('h1,h2,h3,h4,h5,h6')
     anchorElement.value.forEach((anchor, index) => {
-        // 创建一个新的 a 元素
-        const aTag = document.createElement('a');
+        // 检查是否已经包含 a 标签
+        const existingATag = anchor.querySelector('a');
 
-        // 设置 a 标签的 href 属性
-        // 这里假设你想要使用标题的文本内容作为 href 的一部分
-        // 你可以根据需要修改这个逻辑
-        const hrefValue = `#anchor-${index}`;
-        aTag.setAttribute('href', hrefValue);
+        if (!existingATag) {
+            // 如果没有 a 标签，创建新的 a 元素
+            const aTag = document.createElement('a');
 
-        // 设置 a 标签的其他属性（如果需要）
-        // aTag.classList.add('anchor-link');
+            const hrefValue = `#anchor-${index}`;
+            aTag.setAttribute('href', hrefValue);
 
-        // 保存父代的文本
-        const textContent = anchor.textContent;
+            // 保存原有的内容
+            const originalContent = anchor.innerHTML;
 
-        // 清空原有的 h 标签内容，然后将 a 标签添加进去
-        anchor.textContent = '';
-        aTag.textContent = '🔗' + textContent;
+            // 清空原有的 h 标签内容
+            anchor.innerHTML = '';
 
-        // 添加点击事件
-        aTag.addEventListener('click', (event) => {
-            event.preventDefault();
-            handleAnchorClick(anchors.value[index])
-        });
+            // 添加链接图标和原有内容
+            aTag.innerHTML = '🔗' + originalContent;
 
-        anchor.appendChild(aTag);
+            // 添加点击事件
+            aTag.addEventListener('click', (event) => {
+                event.preventDefault();
+                handleAnchorClick(anchors.value[index]);
+            });
+
+            anchor.appendChild(aTag);
+        }
     });
 
     anchors.value = Array.from(anchorElement.value).filter((anchor) => !!anchor.innerText.trim())
@@ -119,7 +122,7 @@ const getIndex = computed(() => {
 })
 
 const anchorClass = computed(() => {
-    if (props.mode == "computer") {
+    if (props.facility == "computer") {
         return "anchorForComputer"
     } else {
         return "anchorForMobil"
@@ -213,6 +216,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
     window.removeEventListener('scroll', throttle(scrollThrottleFn, 100)); // 节流滚动事件,每 100 毫秒执行一次
+    previewMsg.value = null
 })
 </script>
 

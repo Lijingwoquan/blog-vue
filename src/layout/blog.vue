@@ -13,12 +13,11 @@
             <el-col :xs="0" :sm="1" :md="1" :lg="1" :xl="1">
             </el-col>
             <!-- essay布局 -->
-            <el-col v-if="ifToEssay === true" :xs="24" :sm="20" :md="20" :lg="20" :xl="20">
+            <el-col v-if="route.path.split('/')[1] === 'essay'" :xs="24" :sm="20" :md="20" :lg="20" :xl="20">
                 <el-main>
-                    <!-- <router-view ref="essayComponent" v-slot="{ Component }">
-                        <component :is="Component" />
-                    </router-view> -->
-                    <Essay ref="essayComponent"></Essay>
+                    <keep-alive :max="5">
+                        <Essay ref="essayComponent"></Essay>
+                    </keep-alive>
                 </el-main>
             </el-col>
 

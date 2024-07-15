@@ -65,9 +65,8 @@
             </el-input>
             <ul v-if="getData">
                 <el-divider v-if="satisfyDate.length > 0" />
-                <el-tooltip v-for="essay in satisfyDate" effect="light" :content="'关键字: ' + essay.keywords.join(' ; ')"
-                    placement="bottom">
-                    <li @click="gotoApointPath(essay.path)">
+                <!-- <el-tooltip effect="light" :content="'关键字: ' + essay.keywords.join(' ; ')" placement="bottom"> -->
+                    <li v-for="essay in satisfyDate" @click="gotoApointPath(essay.path)">
                         <div class="essayList">
                             <div class="ml-3">
                                 文章:{{ essay.name }}
@@ -78,8 +77,7 @@
                         </div>
                         <el-divider />
                     </li>
-                </el-tooltip>
-
+                <!-- </el-tooltip> -->
             </ul>
         </el-dialog>
     </template>
