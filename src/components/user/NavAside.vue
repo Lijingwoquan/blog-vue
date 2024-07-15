@@ -72,8 +72,7 @@ const props = defineProps({
     }
 
     .kind {
-        @apply text-2xl mb-2;
-
+        @apply text-3xl mb-2;
         color: rgb(16, 159, 241);
         font-weight: 600;
     }
@@ -85,10 +84,12 @@ const props = defineProps({
     .anchor {
         @apply text-lg leading-loose hover:(cursor-pointer underline text-shadow-sm);
         color: rgb(58, 132, 139);
+        font-size: 150%;
     }
 
     .active {
-        @apply text-xl underline text-stroke-sm text-shadow-sm;
+        @apply underline text-stroke-sm text-shadow-sm;
         color: rgb(38, 5, 255);
+        font-size: 150%;
     }
 </style>

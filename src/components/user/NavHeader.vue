@@ -268,7 +268,7 @@ onBeforeMount(() => {
 
 
     .essayList {
-        @apply flex justify-between items-center text-black;
+        @apply flex justify-between items-center text-black hover:cursor-pointer;
         background:
             linear-gradient(to right, rgba(68, 141, 187, 0.47), rgba(65, 207, 162, 0.324), rgba(135, 128, 196, 0.447));
         width: 100%;

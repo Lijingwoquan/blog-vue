@@ -2,7 +2,7 @@
     <div v-if="satisfyData != null">
         <el-row>
             <el-col :xs="24" :sm="18" :md="18" :lg="18" :xl="18">
-                <div @click="closeAnchor">
+                <div @click="closeAnchor" :class="fontMode">
                     <div class="essayBasic">
                         <span class="name">
                             {{ satisfyData.name }}
@@ -46,13 +46,12 @@
                         </div>
                     </div>
                     <div>
-                        <v-md-editor class="bg-red" @copy-code-success="handleCopyCodeSuccess" v-model="satisfyData.content" height="auto" mode="preview" ref="previewRef" />
+                        <v-md-editor :class="fontMode" class="bg-red" @copy-code-success="handleCopyCodeSuccess"
+                            v-model="satisfyData.content" height="auto" mode="preview" ref="previewRef" />
                     </div>
                 </div>
             </el-col>
-            <el-col :xs="0" :sm="2" :md="2" :lg="2" :xl="2">
-            </el-col>
-            <el-col :xs="0" :sm="4" :md="4" :lg="4" :xl="4">
+            <el-col :xs="0" :sm="6" :md="6" :lg="6" :xl="6">
                 <NavAnchor v-if="facility == 'computer' && previewRef != null" :facility="facility"
                     :preview="previewRef">
                 </NavAnchor>
@@ -67,13 +66,12 @@
             :preview="previewRef">
         </NavAnchor>
     </div>
-
 </template>
 
 <script setup>
 import { useStore } from "vuex"
 import { useRoute, useRouter } from 'vue-router';
-import { ref, watch, onMounted, onUnmounted } from "vue";
+import { ref, watch, onMounted, onUnmounted, computed } from "vue";
 import { getEssayMsg } from "~/api/user.js"
 import {
     toast,
@@ -124,6 +122,11 @@ const facility = ref("")
 const showEssay = ref(false)
 const anchorShow = ref(false)
 const anchorContentShow = ref(false)
+
+const fontMode = computed(() => {
+    return facility.value === 'computer' ? "computer-text-size" : "mobile-text-size"
+
+})
 
 //根据文章名字去获取文章详细内容
 const getCurrentData = async () => {
@@ -201,12 +204,12 @@ watch(
 )
 
 const initEssayData = async () => {
+    handleResize()
     await getCurrentData()
     await showLoading("正在加载文章中...", satisfyData)
     showEssay.value = true
     anchorShow.value = true
     handelScoll()
-    handleResize()
 }
 
 
@@ -283,5 +286,17 @@ defineExpose({
         z-index: 9999;
         top: 200px;
         right: 40px;
+    }
+
+    :deep(.vuepress-markdown-body) {
+        font-size: var(--markdown-font-size);
+    }
+
+    .computer-text-size {
+        font-size: 140%;
+    }
+
+    .mobile-text-size {
+        font-size: initial;
     }
 </style>

@@ -1,7 +1,8 @@
 <template>
-    <div :class="anchorClass" ref="anchorContainer">
+    <div class="ml-2" :class="anchorClass" ref="anchorContainer">
         <div v-for="anchor in anchors" :style="{
             padding: `5px 5px 5px ${anchor.indent * 20}px`,
+            fontSize: `${props.facility === 'computer' ? 24 - anchor.indent * 1.5 : 18 - anchor.indent * 1.5}px`
         }" @click="handleAnchorClick(anchor)">
             <p style="cursor: pointer;color:dodgerblue;" class="text-shadow-sm" :class="{ active: anchor.active }">
                 {{ anchor.title.split("🔗")[1] }}
@@ -18,11 +19,11 @@ import anime from 'animejs'; // 如果你使用模块化开发
 
 const router = useRouter()
 const route = useRoute()
+
 const anchorElement = ref([])
 const anchors = ref([])
 const hTags = ref([])
 const anchorContainer = ref(null)
-const indexRef = ref("")
 
 const props = defineProps({
     preview: {
@@ -68,6 +69,8 @@ const handleAnchorClick = (anchor) => {
 // 锚点数据处理
 const anchorDataDispose = () => {
     anchorElement.value = previewMsg.value.$el.querySelectorAll('h1,h2,h3,h4,h5,h6')
+
+    // 为每个h标签加上子元素a标签
     anchorElement.value.forEach((anchor, index) => {
         // 检查是否已经包含 a 标签
         const existingATag = anchor.querySelector('a');
@@ -96,8 +99,9 @@ const anchorDataDispose = () => {
 
             anchor.appendChild(aTag);
         }
-    });
+    })
 
+    // 去掉空格h标签 !!的作用是将字符串转化为布尔值
     anchors.value = Array.from(anchorElement.value).filter((anchor) => !!anchor.innerText.trim())
 
     hTags.value = Array.from(new Set(anchors.value.map((anchor) => anchor.tagName))).sort();
@@ -116,10 +120,6 @@ const anchorDataDispose = () => {
     });
 }
 
-// 计算属性
-const getIndex = computed(() => {
-    return indexRef.value
-})
 
 const anchorClass = computed(() => {
     if (props.facility == "computer") {
@@ -130,7 +130,7 @@ const anchorClass = computed(() => {
 })
 
 // 侧边自动滑动
-const scrollToAnchor = (targetIndex = getIndex.value) => {
+const scrollToAnchor = (targetIndex) => {
     const container = anchorContainer.value
     if (container && container.children && container.children.length > 0) {
 
@@ -190,7 +190,6 @@ function scrollThrottleFn() {
             let index = null
             const activeTitle = anchors.value.find((anchor) => {
                 if (anchor.id === closestAnchor.id) {
-                    indexRef.value = anchor
                     index = parseInt(anchor.id.split('-')[1])
                     return true
                 }
@@ -236,7 +235,7 @@ onBeforeUnmount(() => {
         height: 300px;
         right: 30px;
         background:
-            linear-gradient(to right bottom, rgba(110, 216, 220, 0.63) 5%, cyan 45%, pink 75%, rgba(174, 92, 92, 0.575));
+            linear-gradient(to right bottom, rgba(110, 216, 220, 0.63) 5%, rgb(53, 235, 235) 45%, pink 75%, rgba(211, 153, 153, 0.575));
         z-index: 2;
         border: 1px solid rgba(193, 24, 94, 0.4);
         padding: 3px;
@@ -244,7 +243,7 @@ onBeforeUnmount(() => {
     }
 
     .active {
-        @apply text-stroke-sm text-shadow-lg text-lg;
-        color: rgba(199, 44, 109, 0.621) !important;
+        @apply text-stroke-sm text-shadow-md;
+        color: rgb(232, 18, 189) !important;
     }
 </style>
