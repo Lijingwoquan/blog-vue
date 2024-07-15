@@ -12,7 +12,7 @@ export function toast(message, type = "success") {
     })
 }
 
-export async function showLoading(text = "正在加载中...", data) {
+export async function showLoading(text = "正在加载中...") {
     const loading = ElLoading.service({
         lock: true,
         text: text,
@@ -20,7 +20,6 @@ export async function showLoading(text = "正在加载中...", data) {
     })
     await new Promise(resolve => setTimeout(resolve, 300));
     loading.close()
-    return true
 }
 
 

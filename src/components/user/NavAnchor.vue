@@ -12,11 +12,14 @@
 
 <script setup>
 import { computed, onMounted, onUpdated, onBeforeUnmount, ref } from 'vue'
+import { useRouter, useRoute } from 'vue-router';
 import { throttle } from '~/composables/common.js';
 import anime from 'animejs'; // 如果你使用模块化开发
 
+const router = useRouter()
+const route = useRoute()
 const anchors = ref("")
-const titles = ref("")
+const titles = ref([])
 const hTags = ref("")
 const anchorContainer = ref(null)
 const indexRef = ref("")
@@ -32,28 +35,42 @@ const props = defineProps({
     }
 })
 
-// 锚点跳转
-const handleAnchorClick = (anchor = getIndex.value) => {
-    const { lineIndex } = anchor;
+// 初始化锚点位置
+const initAnchorPosition = () => {
+    // 由hash拿到lineIndex 
+    const title = titles.value.find((anchor) => route.hash === anchor.id)
 
-    const heading = props.preview.$el.querySelector(`[data-v-md-line="${lineIndex}"]`);
-
-    if (heading) {
+    if (title) {
+        const heading = props.preview.$el.querySelector(`[data-v-md-line="${title.lineIndex}"]`);
         props.preview.previewScrollToTarget({
             target: heading,
             scrollContainer: window,
-            top: 50,
         });
     }
 }
 
+// 锚点跳转
+const handleAnchorClick = (anchor = getIndex.value) => {
+    const { lineIndex } = anchor;
+    const heading = props.preview.$el.querySelector(`[data-v-md-line="${lineIndex}"]`);
+    if (heading) {
+        props.preview.previewScrollToTarget({
+            target: heading,
+            scrollContainer: window,
+        });
+    }
+    router.push(`${anchor.id}`)
+}
+
+
 // 锚点数据处理
 const showAnchor = () => {
     anchors.value = props.preview.$el.querySelectorAll('h1,h2,h3,h4,h5,h6')
+
     titles.value = Array.from(anchors.value).filter((title) => !!title.innerText.trim())
     hTags.value = Array.from(new Set(titles.value.map((title) => title.tagName))).sort();
     titles.value = titles.value.map((el, index) => ({
-        id: `title-${index}`, // 添加唯一 id
+        id: `#title-${index}`, // 添加唯一 id
         title: el.innerText,
         lineIndex: el.getAttribute("data-v-md-line"),
         indent: hTags.value.indexOf(el.tagName),
@@ -81,11 +98,11 @@ const anchorClass = computed(() => {
 // 侧边自动滑动
 const scrollToAnchor = (targetIndex = getIndex.value) => {
     const container = anchorContainer.value
-    if (container.children && container.children.length > 0) {
+    if (container && container.children && container.children.length > 0) {
 
         const targetElement = container.children[targetIndex]; // 获取目标元素
         if (targetElement && targetElement.offsetTop > 0) {
-            const targetScrollTop = targetElement.offsetTop - 120;
+            const targetScrollTop = targetElement.offsetTop;
             // 使用 anime.js 实现平滑滚动动画
             anime({
                 targets: container,
@@ -152,27 +169,19 @@ function scrollThrottleFn() {
     }
 }
 
-
-defineExpose({
-    handleAnchorClick,
-})
-
 onMounted(() => {
     // 添加滚动事件监听器
-    window.addEventListener('scroll', throttle(scrollThrottleFn, 100)); // 节流滚动事件,每 200 毫秒执行一次
-
-    showAnchor()
+    window.addEventListener('scroll', throttle(scrollThrottleFn, 100)); // 节流滚动事件,每 100 毫秒执行一次
     if (titles.value[0]) {
         titles.value[0].active = true
     }
+    showAnchor()
+    initAnchorPosition()
 })
 
-onUpdated(() => {
-    scrollToAnchor()
-})
 
 onBeforeUnmount(() => {
-    window.removeEventListener('scroll', throttle(scrollThrottleFn, 100)); // 节流滚动事件,每 200 毫秒执行一次
+    window.removeEventListener('scroll', throttle(scrollThrottleFn, 100)); // 节流滚动事件,每 100 毫秒执行一次
 })
 </script>
 

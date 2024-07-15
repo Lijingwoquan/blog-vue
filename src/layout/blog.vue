@@ -94,7 +94,8 @@ watch(
             ifToEssay.value = true
         }
         navWidthRef.value = navAsideColRef.value.$el.clientWidth
-    })
+    }
+)
 </script>
 
 <style scoped>

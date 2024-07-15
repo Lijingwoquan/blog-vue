@@ -56,12 +56,15 @@
         </el-col>
     </el-row>
 
-    <el-icon v-show="anchorShow" @click="oppositedAnchor" class="anchorIcon hidden-sm-and-up" size="40px">
-        <Memo />
-    </el-icon>
+    <div v-if="essayLoading">
+        <el-icon v-show="anchorShow" @click="oppositedAnchor" class="anchorIcon hidden-sm-and-up" size="40px">
+            <Memo />
+        </el-icon>
+    </div>
 
-    <div v-show="anchorContentShow">
-        <NavAnchor ref="navAnchorRef" v-if="previewRef" mode="model" :preview="previewRef"></NavAnchor>
+    <div v-if="essayLoading">
+        <NavAnchor v-if="previewRef" v-show="anchorContentShow" ref="navAnchorRef" mode="model" :preview="previewRef">
+        </NavAnchor>
     </div>
 </template>
 
@@ -120,6 +123,7 @@ const mode = ref("")
 const showEssay = ref(false)
 const anchorShow = ref(false)
 const anchorContentShow = ref(false)
+const essayLoading = ref(false)
 
 //根据文章名字去获取文章详细内容
 const getCurrentData = async () => {
@@ -197,18 +201,17 @@ watch(
 )
 
 const initEssayData = async () => {
-    let waiting = false
-    getCurrentData()
-    waiting = await showLoading("正在加载文章中...", satisfyData.value)
-    if (waiting === true) {
-        showEssay.value = true
-        anchorShow.value = true
-    }
+    await getCurrentData()
+    await showLoading("正在加载文章中...", satisfyData)
+    showEssay.value = true
+    anchorShow.value = true
     handelScoll()
 }
 
+
 onMounted(async () => {
     await initEssayData()
+    essayLoading.value = true
     handleResize()
     window.addEventListener('resize', handleResize)
     window.addEventListener('scroll', handelScoll)
