@@ -46,14 +46,14 @@
                         </div>
                     </div>
                     <div>
-                        <v-md-editor :class="fontMode" class="bg-red" @copy-code-success="handleCopyCodeSuccess"
+                        <v-md-editor :class="fontMode" @copy-code-success="handleCopyCodeSuccess"
                             v-model="satisfyData.content" height="auto" mode="preview" ref="previewRef" />
                     </div>
                 </div>
             </el-col>
             <el-col :xs="0" :sm="6" :md="6" :lg="6" :xl="6">
-                <NavAnchor v-if="facility == 'computer' && previewRef != null" :facility="facility"
-                    :preview="previewRef">
+                <NavAnchor v-if="facility == 'computer' && previewRef != null" :previewRef="previewRef"
+                    :anchors="anchorData.anchors" :anchorElement="anchorData.anchorElement" :facility="facility">
                 </NavAnchor>
             </el-col>
         </el-row>
@@ -61,26 +61,27 @@
         <el-icon v-show="anchorShow" @click="oppositedAnchor" class="anchorIcon hidden-sm-and-up" size="40px">
             <Memo />
         </el-icon>
-
-        <NavAnchor v-if="facility == 'mobile' && previewRef != null" v-show="anchorContentShow" :facility="facility"
-            :preview="previewRef">
-        </NavAnchor>
     </div>
+
+    <NavAnchor v-if="facility == 'mobile' && previewRef != null" v-show="anchorContentShow" :previewRef="previewRef"
+        :anchors="anchorData.anchors" :anchorElement="anchorData.anchorElement" :facility="facility">
+    </NavAnchor>
 </template>
 
 <script setup>
 import { useStore } from "vuex"
 import { useRoute, useRouter } from 'vue-router';
-import { ref, watch, onMounted, onUnmounted, computed } from "vue";
+import { ref, watch, onMounted, onUnmounted, computed, reactive } from "vue";
 import { getEssayMsg } from "~/api/user.js"
 import {
     toast,
     showLoading
 } from "~/composables/util.js"
 import NavAnchor from "~/components/user/NavAnchor.vue";
+import { diposeHAndGetAnchors } from "~/helper/dataForAnchor.js"
 
 //富文本插件
-import VueMarkdownEditor from '@kangc/v-md-editor';
+import VueMarkdownEditor, { resolve } from '@kangc/v-md-editor';
 import '@kangc/v-md-editor/lib/style/base-editor.css';
 // vuepressTheme主题
 import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
@@ -114,12 +115,18 @@ const store = useStore()
 const route = useRoute()
 const router = useRouter()
 
-const previewRef = ref(null)
-
 const kind = ref(null)
 const satisfyData = ref(null)  //存储文章的数据
 const facility = ref("")
-const showEssay = ref(false)
+
+const previewRef = ref(null)
+
+const anchorData = reactive({
+    anchors: [],
+    anchorElement: [],
+    scrollThrottleFn: null
+})
+
 const anchorShow = ref(false)
 const anchorContentShow = ref(false)
 
@@ -206,15 +213,20 @@ watch(
 const initEssayData = async () => {
     handleResize()
     await getCurrentData()
-    await showLoading("正在加载文章中...", satisfyData)
-    showEssay.value = true
-    anchorShow.value = true
     handelScoll()
+    anchorShow.value = true
 }
 
 
 onMounted(async () => {
     await initEssayData()
+    const result = diposeHAndGetAnchors(previewRef, { route, router })
+    await showLoading("文章页面渲染中...")
+
+    anchorData.anchors = result.anchors.value
+    anchorData.scrollThrottleFn = result.scrollThrottleFn
+    anchorData.anchorElement = result.anchorElement
+
     window.addEventListener('resize', handleResize)
     window.addEventListener('scroll', handelScoll)
 })

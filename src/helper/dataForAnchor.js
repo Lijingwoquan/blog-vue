@@ -1,24 +1,13 @@
-import { computed, onMounted, onBeforeUnmount, ref } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
-import { throttle } from '~/composables/common.js';
-import anime from 'animejs';
-
-
+import { ref } from 'vue';
 // 在essay页处理数据 然后将anchors传给anchor
-export function diposeHAndGetAnchors(preview = {}) {
-    const router = useRouter()
-    const route = useRoute()
-
+export function diposeHAndGetAnchors(previewRef = {}, { route, router } = {}) {
     const anchorElement = ref([])
     const anchors = ref([])
     const hTags = ref([])
-    const anchorContainer = ref(null)
-
-    const previewMsg = ref(props.preview)
 
     // 锚点数据处理
     const anchorDataDispose = () => {
-        anchorElement.value = previewMsg.value.$el.querySelectorAll('h1,h2,h3,h4,h5,h6')
+        anchorElement.value = previewRef.value.$el.querySelectorAll('h1,h2,h3,h4,h5,h6')
 
         // 为每个h标签加上子元素a标签
         anchorElement.value.forEach((anchor, index) => {
@@ -70,85 +59,25 @@ export function diposeHAndGetAnchors(preview = {}) {
         })
     }
 
-    // 滚动函数 实现文章内部滚动
-    function scrollThrottleFn() {
-        // 获取当前滚动到的位置
-        const scrollPosition = window.scrollY || window.pageYOffset;
-
-        // 确保 anchorElement.value 不为空
-        if (anchorElement.value && anchorElement.value.length > 0) {
-            let closestAnchor = null
-            let closestDistance = Infinity //距离默认无穷大
-            const viewportHeight = window.innerHeight
-
-            anchorElement.value.forEach(anchor => {
-                // 获取元素的位置信息
-                const rect = anchor.getBoundingClientRect()
-
-                // 元素距离窗口top的位置 加上已经滑动位置
-                const elementTop = rect.top + scrollPosition
-
-                // 元素距离窗口bottom的位置 加上已经滑动位置
-                const elementBottom = rect.bottom + scrollPosition
-
-                // 是否在当前窗口可见
-                const isPartiallyVisible = elementBottom > scrollPosition && elementTop < (scrollPosition + viewportHeight)
-
-                if (isPartiallyVisible) {
-                    // 元素距离窗体top的位置 
-                    const distance = Math.abs(elementTop - scrollPosition)
-
-                    // 找到距离视口顶部最近的元素
-                    if (distance < closestDistance) {
-                        closestDistance = distance;
-                        closestAnchor = anchor;
-                    }
-                }
-            })
-            // 移除所有高亮样式
-            anchors.value.forEach((anchor) => {
-                if (closestAnchor) {
-                    anchor.active = false
-                }
-            })
-
-            // 如果找到最近的元素 则高亮显示它
-            if (closestAnchor) {
-                let index = null
-                const activeTitle = anchors.value.find((anchor) => {
-                    if (anchor.id === closestAnchor.id) {
-                        index = parseInt(anchor.id.split('-')[1])
-                        return true
-                    }
-                })
-                if (activeTitle && index !== null) {
-                    activeTitle.active = true;
-                    scrollToAnchor(index)
-                }
-            }
-        }
-    }
-
-    // 初始化锚点位置
     const initAnchorPosition = () => {
         // 由hash拿到lineIndex 
-        const anchor = anchors.value.find((anchor) => route.hash === anchor.id)
-
-        if (anchor) {
-            const heading = previewMsg.value.$el.querySelector(`[data-v-md-line="${anchor.lineIndex}"]`);
-            previewMsg.value.previewScrollToTarget({
-                target: heading,
-                scrollContainer: window,
-            });
-        }
+        anchors.value = anchors.value.map((anchor) => {
+            if (route.hash === anchor.id) {
+                return { ...anchor, active: true }
+            } else {
+                return anchor
+            }
+        })
+        const activeAnchor = anchors.value.find(anchor => anchor.active === true)
+        handleAnchorClick(activeAnchor)
     }
 
     // 锚点跳转
     const handleAnchorClick = (anchor) => {
         const { lineIndex } = anchor;
-        const heading = previewMsg.value.$el.querySelector(`[data-v-md-line="${lineIndex}"]`);
+        const heading = previewRef.value.$el.querySelector(`[data-v-md-line="${lineIndex}"]`);
         if (heading) {
-            previewMsg.value.previewScrollToTarget({
+            previewRef.value.previewScrollToTarget({
                 target: heading,
                 scrollContainer: window,
             });
@@ -156,17 +85,17 @@ export function diposeHAndGetAnchors(preview = {}) {
         router.push(`${anchor.id}`)
     }
 
-    onMounted(() => {
-        // 添加滚动事件监听器
-        window.addEventListener('scroll', throttle(scrollThrottleFn, 100)); // 节流滚动事件,每 100 毫秒执行一次
-        if (anchors.value[0]) {
-            anchors.value[0].active = true
-        }
-        anchorDataDispose()
-        initAnchorPosition()
-    })
 
-    onBeforeUnmount(() => {
-        window.removeEventListener('scroll', throttle(scrollThrottleFn, 100)); // 节流滚动事件,每 100 毫秒执行一次
-    })
+    // 添加滚动事件监听器
+    if (anchors.value[0]) {
+        anchors.value[0].active = true
+    }
+
+    anchorDataDispose()
+    initAnchorPosition()
+
+    return {
+        anchors,
+        anchorElement,
+    }
 }

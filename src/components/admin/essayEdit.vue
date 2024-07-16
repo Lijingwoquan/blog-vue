@@ -1,8 +1,14 @@
 <template>
-    <!-- 富文本编辑器 -->
-    <v-md-editor class="ml-2" :include-level="[1, 2, 3, 4, 5, 6]" v-model="editContent" :height="props.height"
-        @upload-image="handleUploadImage" right-toolbar="| toc | tip| todo-list | sync-scroll | preview | fullscreen "
-        :disabled-menus="[]" @copy-code-success="handleCopyCodeSuccess" />
+    <div class="ml-2">
+        <!-- 富文本编辑器 -->
+        <v-md-editor :include-level="[1, 2, 3, 4, 5, 6]" v-model="editContent" :height="props.height"
+            @upload-image="handleUploadImage"
+            right-toolbar="| toc | tip| todo-list | sync-scroll | preview | fullscreen " :disabled-menus="[]"
+            @copy-code-success="handleCopyCodeSuccess" />
+    </div>
+
+    <!-- <v-md-editor :class="fontMode" @copy-code-success="handleCopyCodeSuccess" v-model="satisfyData.content"
+        height="auto" mode="preview" ref="previewRef" /> -->
 </template>
 
 <script setup>
@@ -41,12 +47,11 @@ VueMarkdownEditor.use(createCopyCodePlugin());
 VueMarkdownEditor.use(createTodoListPlugin());
 VueMarkdownEditor.use(createMermaidPlugin());
 
-
 const props = defineProps({
     height: {
         type: String,
         required: false,
-        default:"650px",
+        default: "650px",
     }
 })
 
