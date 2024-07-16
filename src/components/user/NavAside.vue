@@ -88,8 +88,8 @@ const props = defineProps({
     }
 
     .active {
-        @apply underline text-stroke-sm text-shadow-sm;
-        color: rgb(38, 5, 255);
+        @apply underline underline-pink-400 text-stroke-sm text-shadow-sm;
+        color: blueviolet;
         font-size: 130%;
     }
 </style>

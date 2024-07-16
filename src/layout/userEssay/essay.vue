@@ -305,7 +305,7 @@ defineExpose({
     }
 
     .computer-text-size {
-        font-size: 140%;
+        font-size: 130%;
     }
 
     .mobile-text-size {

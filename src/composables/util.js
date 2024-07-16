@@ -22,7 +22,6 @@ export async function showLoading(text = "正在加载中...") {
     loading.close()
 }
 
-
 //显示全局loading
 export function showFullLoading() {
     nprogress.start();

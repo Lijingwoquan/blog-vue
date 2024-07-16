@@ -69,7 +69,9 @@ export function diposeHAndGetAnchors(previewRef = {}, { route, router } = {}) {
             }
         })
         const activeAnchor = anchors.value.find(anchor => anchor.active === true)
-        handleAnchorClick(activeAnchor)
+        if (activeAnchor) {
+            handleAnchorClick(activeAnchor)
+        }
     }
 
     // 锚点跳转
@@ -83,12 +85,6 @@ export function diposeHAndGetAnchors(previewRef = {}, { route, router } = {}) {
             });
         }
         router.push(`${anchor.id}`)
-    }
-
-
-    // 添加滚动事件监听器
-    if (anchors.value[0]) {
-        anchors.value[0].active = true
     }
 
     anchorDataDispose()

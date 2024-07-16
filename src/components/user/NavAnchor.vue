@@ -167,7 +167,10 @@ onBeforeUnmount(() => {
         height: 300px;
         right: 30px;
         background:
-            linear-gradient(to right bottom, rgba(110, 216, 220, 0.63) 5%, rgb(53, 235, 235) 45%, pink 75%, rgba(211, 153, 153, 0.575));
+            linear-gradient(to right bottom,
+                rgb(110, 216, 220) 30%,
+                rgb(53, 235, 235) 60%,
+                pink);
         z-index: 2;
         border: 1px solid rgba(193, 24, 94, 0.4);
         padding: 3px;

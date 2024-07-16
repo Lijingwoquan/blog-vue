@@ -61,7 +61,10 @@ watch(() => route.fullPath, () => {
     .nav-aside .menu {
         z-index: 0;
         height: 100%;
-        background: linear-gradient(to right, rgb(230, 228, 242, 0.2), rgb(157, 169, 224, 0.2));
+        background:
+            linear-gradient(to right,
+                rgb(230, 228, 242, 0.2),
+                rgb(157, 169, 224, 0.2))
     }
 
     .nav-aside::-webkit-scrollbar {
