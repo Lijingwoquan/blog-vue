@@ -68,12 +68,12 @@ async function handleUploadImage(event, insertImage, files) {
         const formData = new FormData();
         formData.append('img', file);
         await uploadImg(formData)
-        const apiBase = import.meta.env.VITE_APP_BASE_API;
+        const apiBase = import.meta.env.VITE_APP_BASE_API
 
 
         editorRef.value.insert(function (selected) {
-            const placeholder = `![Description](${apiBase}/img/${file.name})`;
-            const content = selected || placeholder;
+            const placeholder = `![Description](${apiBase}/img/${file.name})`
+            const content = selected || placeholder
             return {
                 text: `${placeholder}`,
                 selected: content,
@@ -89,23 +89,20 @@ async function handleUploadImage(event, insertImage, files) {
 
 // 修改事件监听
 function handleBeforeUnload(e) {
-    e = e || window.event;
+    e = e || window.event
 
     // 兼容 IE8 及更早版本
-    var confirmationMessage = '确认离开页面?';
+    var confirmationMessage = '确认离开页面?'
 
-    // 在 IE8 及更早版本中 e.returnValue 设置显示文本内容
-    // 在较新的浏览器中 (e.returnValue) 属性不起作用,
-    // 必须使用 e.preventDefault() 和设置 e.returnValue 来防止浏览器的默认行为
     e.returnValue = confirmationMessage; r
-    return confirmationMessage;
+    return confirmationMessage
 }
 
 onMounted(() => {
-    window.addEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener('beforeunload', handleBeforeUnload)
 })
 onUnmounted(() => {
-    window.removeEventListener('beforeunload', handleBeforeUnload);
+    window.removeEventListener('beforeunload', handleBeforeUnload)
 
 })
 //复制代码成功
