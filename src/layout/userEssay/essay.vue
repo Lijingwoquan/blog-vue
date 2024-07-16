@@ -214,18 +214,17 @@ const initEssayData = async () => {
     handleResize()
     await getCurrentData()
     handelScoll()
-    anchorShow.value = true
+    const result = diposeHAndGetAnchors(previewRef, { route, router })
+
+    anchorData.anchors = result.anchors.value
+    anchorData.scrollThrottleFn = result.scrollThrottleFn
+    anchorData.anchorElement = result.anchorElement
+    await showLoading("文章页面渲染中...")
 }
 
 
 onMounted(async () => {
     await initEssayData()
-    const result = diposeHAndGetAnchors(previewRef, { route, router })
-    await showLoading("文章页面渲染中...")
-
-    anchorData.anchors = result.anchors.value
-    anchorData.scrollThrottleFn = result.scrollThrottleFn
-    anchorData.anchorElement = result.anchorElement
 
     window.addEventListener('resize', handleResize)
     window.addEventListener('scroll', handelScoll)
