@@ -1,18 +1,15 @@
 <template>
     <div class="ml-2">
         <!-- 富文本编辑器 -->
-        <v-md-editor :include-level="[1, 2, 3, 4, 5, 6]" v-model="editContent" :height="props.height"
+        <v-md-editor ref="editorRef" :include-level="[1, 2, 3, 4, 5, 6]" v-model="editContent" :height="props.height"
             @upload-image="handleUploadImage"
             right-toolbar="| toc | tip| todo-list | sync-scroll | preview | fullscreen " :disabled-menus="[]"
             @copy-code-success="handleCopyCodeSuccess" />
     </div>
-
-    <!-- <v-md-editor :class="fontMode" @copy-code-success="handleCopyCodeSuccess" v-model="satisfyData.content"
-        height="auto" mode="preview" ref="previewRef" /> -->
 </template>
 
 <script setup>
-import { onMounted, onUnmounted } from "vue"
+import { onMounted, onUnmounted, ref } from "vue"
 import { uploadImg } from "~/api/manager.js"
 import { toast } from "~/composables/util";
 
@@ -55,6 +52,7 @@ const props = defineProps({
     }
 })
 
+const editorRef = ref(null)
 
 const editContent = defineModel("editContent", {
     type: String,
@@ -72,13 +70,22 @@ async function handleUploadImage(event, insertImage, files) {
         await uploadImg(formData)
         const apiBase = import.meta.env.VITE_APP_BASE_API;
 
-        editContent.value += `![Description](${apiBase}/img/${file.name})`
+
+        editorRef.value.insert(function (selected) {
+            const placeholder = `![Description](${apiBase}/img/${file.name})`;
+            const content = selected || placeholder;
+            return {
+                text: `${placeholder}`,
+                selected: content,
+            }
+        })
 
     }
     catch (error) {
         toast("上传图片失败", "error")
     }
 }
+
 
 // 修改事件监听
 function handleBeforeUnload(e) {
