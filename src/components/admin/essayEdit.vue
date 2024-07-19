@@ -67,9 +67,10 @@ async function handleUploadImage(event, insertImage, files) {
         // 创建一个 FormData 对象，并将图片文件添加到其中
         const formData = new FormData();
         formData.append('img', file);
-        await uploadImg(formData)
-        const apiBase = import.meta.env.VITE_APP_BASE_API
 
+        await uploadImg(formData)
+
+        const apiBase = import.meta.env.VITE_APP_BASE_API
 
         editorRef.value.insert(function (selected) {
             const placeholder = `![Description](${apiBase}/img/${file.name})`

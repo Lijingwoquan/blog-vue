@@ -178,7 +178,7 @@ onBeforeUnmount(() => {
     }
 
     .active {
-        @apply text-stroke-sm text-shadow-md;
+        @apply  text-shadow-md;
         color: rgb(232, 18, 189) !important;
     }
 </style>
