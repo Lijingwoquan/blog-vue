@@ -1,100 +1,125 @@
 <template>
-    <div class="nav-aside" :style="{ width: $store.state.adminAsideWidth }">
-        <div class="nav-aside-head" style="height: 80px;">
-            <el-icon style="height: 100%;" class="flex items-center text-blue-300 ml-3 hover:cursor-pointer"
-                @click="$store.commit('handleAdminAsideWidth')">
-                <Fold v-if="$store.state.adminAsideWidth === '250px'" />
-                <Expand v-else />
-            </el-icon>
-            <div v-show="$store.state.adminAsideWidth === '250px'" style="height: 100%;"
-                class="flex items-center text-purple-200">后台管理系统</div>
-        </div>
-        <div class="item-background-color">
-            <div v-for="(item, index) in menu" :key="index" class="nav-aside-item" style="height: 40px;"
-                @click="switchTool(item)" :class="{ active: item.route === activeToolRoute }">
-                <el-icon style="height: 100%;" class="flex justify-center items-center " :size="30" text>
-                    <component :is="item.icon" />
-                </el-icon>
-                <span v-show="$store.state.adminAsideWidth === '250px'" style="height: 100%;"
-                    class="flex justify-center items-center ">
-                    {{ item.name }}
-                </span>
-            </div>
-        </div>
+  <div class="nav-aside" :style="{ width: $store.state.adminAsideWidth }">
+    <div class="nav-aside-head" style="height: 80px">
+      <el-icon
+        style="height: 100%"
+        class="flex items-center text-blue-300 ml-3 hover:cursor-pointer"
+        @click="$store.commit('handleAdminAsideWidth')"
+      >
+        <Fold v-if="$store.state.adminAsideWidth === '250px'" />
+        <Expand v-else />
+      </el-icon>
+      <div
+        v-show="$store.state.adminAsideWidth === '250px'"
+        style="height: 100%"
+        class="flex items-center text-purple-200"
+      >
+        后台管理系统
+      </div>
     </div>
+    <div class="item-background-color">
+      <div
+        v-for="(item, index) in menu"
+        :key="index"
+        class="nav-aside-item"
+        style="height: 40px"
+        @click="switchTool(item)"
+        :class="{ active: item.route === activeToolRoute }"
+      >
+        <el-icon
+          style="height: 100%"
+          class="flex justify-center items-center"
+          :size="30"
+          text
+        >
+          <component :is="item.icon" />
+        </el-icon>
+        <span
+          v-show="$store.state.adminAsideWidth === '250px'"
+          style="height: 100%"
+          class="flex justify-center items-center"
+        >
+          {{ item.name }}
+        </span>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
-import { config } from "/config.js"
-import { useRouter, useRoute } from 'vue-router';
-import { onMounted, ref, watch } from 'vue';
+import { config } from "/config.js";
+import { useRouter, useRoute } from "vue-router";
+import { onMounted, ref, watch } from "vue";
 
-const route = useRoute()
-const router = useRouter()
+const route = useRoute();
+const router = useRouter();
 
-const activeToolRoute = ref("")
+const activeToolRoute = ref("");
 
 const menu = [
-    {
-        name: "数据展示",
-        route: "/",
-        icon: "DataLine"
-    },
-    {
-        name: "创建文章",
-        route: "/createEssay",
-        icon: "FolderAdd"
-    },
-    {
-        name: "管理文章",
-        route: "/manageEssay",
-        icon: "EditPen"
-    },
-    {
-        name: "修改数据",
-        route: "/updateData",
-        icon: "Operation"
-    }
-]
+  {
+    name: "数据展示",
+    route: "/",
+    icon: "DataLine",
+  },
+  {
+    name: "创建文章",
+    route: "/createEssay",
+    icon: "FolderAdd",
+  },
+  {
+    name: "管理文章",
+    route: "/manageEssay",
+    icon: "EditPen",
+  },
+  {
+    name: "修改数据",
+    route: "/updateData",
+    icon: "Operation",
+  },
+];
 
 const switchTool = (item) => {
-    router.push(`${config.MANAGER_URL}${item.route}`)
-}
+  router.push(`${config.MANAGER_URL}${item.route}`);
+};
 
-watch(() => route.path, () => {
-    activeToolRoute.value = "/" + route.path.split("/")[3]
-})
+watch(
+  () => route.path,
+  () => {
+    activeToolRoute.value = "/" + route.path.split("/")[3];
+  }
+);
 onMounted(() => {
-    activeToolRoute.value = "/" + route.path.split("/")[3]
-})
+  activeToolRoute.value = "/" + route.path.split("/")[3];
+});
 </script>
 
 <style scoped>
-    .nav-aside {
-        @apply fixed;
-        box-sizing: border-box;
-        width: 250px;
-        top: 0;
-        bottom: 0;
-        color: rgb(224, 218, 218);
-        background-color: rgba(32, 167, 225, 0.884);
-    }
+.nav-aside {
+  @apply fixed;
+  box-sizing: border-box;
+  width: 250px;
+  top: 0;
+  bottom: 0;
+  color: rgb(224, 218, 218);
+  background-color: rgba(32, 167, 225, 0.884);
+}
 
-    .nav-aside-head {
-        @apply flex justify-around text-2xl p-2;
-        background-color: rgba(91, 141, 162, 0.868);
-    }
+.nav-aside-head {
+  @apply flex justify-around text-2xl p-2;
+  background-color: rgba(91, 141, 162, 0.868);
+}
 
-    .nav-aside-item {
-        @apply flex justify-around mt-6 text-xl;
-    }
+.nav-aside-item {
+  @apply flex justify-around mt-6 text-xl;
+}
 
-    .nav-aside-item:hover {
-        cursor: pointer;
-        color: rgba(20, 231, 122, 0.825);
-    }
+.nav-aside-item:hover {
+  cursor: pointer;
+  color: rgba(20, 231, 122, 0.825);
+}
 
-    .active {
-        color: rgb(182, 20, 231);
-    }
+.active {
+  color: rgb(182, 20, 231);
+}
 </style>

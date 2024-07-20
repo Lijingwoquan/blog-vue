@@ -1,7 +1,7 @@
-import { ref } from 'vue';
-import { createStore } from 'vuex';
-import { getIndexInfo } from "~/api/user"
-import { setToken, getExpendAside, setExpendAside } from "~/composables/auth"
+import { ref } from "vue";
+import { createStore } from "vuex";
+import { getIndexInfo } from "~/api/user";
+import { setToken, getExpendAside, setExpendAside } from "~/composables/auth";
 const store = createStore({
   state() {
     return {
@@ -13,93 +13,103 @@ const store = createStore({
       classifyData: [],
       //文章数据
       essayData: [],
-      adminAsideWidth: "250px"
-    }
+      adminAsideWidth: "250px",
+    };
   },
   mutations: {
-    setIndexInfo(state, indexData) {//添加index数据
-      state.indexData = indexData
+    setIndexInfo(state, indexData) {
+      //添加index数据
+      state.indexData = indexData;
     },
     setClassify(state, indexData) {
-      state.classifyKind = []
-      state.classifyData = []
+      state.classifyKind = [];
+      state.classifyData = [];
       indexData.forEach((base) => {
-        let kind = base.classifyKind
-        let id = base.id
-        let icon = base.icon
-        state.classifyKind.push({ kind, id, icon })
+        let kind = base.classifyKind;
+        let id = base.id;
+        let icon = base.icon;
+        state.classifyKind.push({ kind, id, icon });
         if (base.classifyDetails == null) {
-          return
+          return;
         }
         base.classifyDetails.forEach((classifyDetails) => {
-          let kind = classifyDetails.kind
-          let router = classifyDetails.router
-          let name = classifyDetails.name
-          let id = classifyDetails.id
-          state.classifyData.push({ kind, name, router, id })
-        })
-      })
+          let kind = classifyDetails.kind;
+          let router = classifyDetails.router;
+          let name = classifyDetails.name;
+          let id = classifyDetails.id;
+          state.classifyData.push({ kind, name, router, id });
+        });
+      });
     },
-    setEssayInfo(state, indexData) { //单独添加文章数据
-      state.essayData = []
+    setEssayInfo(state, indexData) {
+      //单独添加文章数据
+      state.essayData = [];
       indexData.forEach((base) => {
         if (base.classifyDetails == null) {
-          return
+          return;
         }
         base.classifyDetails.forEach((classifyDetails) => {
-          let classifyRoute = classifyDetails.router
-          let kind = classifyDetails.name
-          classifyDetails.essay.forEach(e => {
-            let name = e.name
-            let router = classifyRoute + e.router
-            let introduction = e.introduction
-            let id = e.id
-            let createdTime = e.createdTime.split("T").join(" ")
-            let page = e.page
-            let keywords = e.keywords
-            state.essayData.push({ name, router, introduction, kind, id, createdTime, page, keywords })
-          })
-        })
-      })
+          let classifyRoute = classifyDetails.router;
+          let kind = classifyDetails.name;
+          classifyDetails.essay.forEach((e) => {
+            let name = e.name;
+            let router = classifyRoute + e.router;
+            let introduction = e.introduction;
+            let id = e.id;
+            let createdTime = e.createdTime.split("T").join(" ");
+            let page = e.page;
+            let keywords = e.keywords;
+            state.essayData.push({
+              name,
+              router,
+              introduction,
+              kind,
+              id,
+              createdTime,
+              page,
+              keywords,
+            });
+          });
+        });
+      });
     },
     //展开|缩起侧边
     handleAdminAsideWidth(state) {
-      const ifExpendAside = ref(getExpendAside())
+      const ifExpendAside = ref(getExpendAside());
       if (!ifExpendAside.value) {
-        state.adminAsideWidth = "250px"
-        setExpendAside(1)
+        state.adminAsideWidth = "250px";
+        setExpendAside(1);
       } else {
-        state.adminAsideWidth = "60px"
-        setExpendAside(0)
+        state.adminAsideWidth = "60px";
+        setExpendAside(0);
       }
     },
     initAsideWidth(state) {
-      const ifExpendAside = ref(getExpendAside())
+      const ifExpendAside = ref(getExpendAside());
       if (ifExpendAside.value) {
-        state.adminAsideWidth = "250px"
+        state.adminAsideWidth = "250px";
       } else {
-        state.adminAsideWidth = "60px"
+        state.adminAsideWidth = "60px";
       }
     },
-
   },
   actions: {
     getIndexInfo({ commit }) {
       return new Promise((resolve, reject) => {
         getIndexInfo()
-          .then(res => {
-            commit("setIndexInfo", res.dataAboutIndexMenu)
-            commit("setClassify", res.dataAboutIndexMenu)
-            commit("setEssayInfo", res.dataAboutIndexMenu)
-            resolve(res)
+          .then((res) => {
+            commit("setIndexInfo", res.dataAboutIndexMenu);
+            commit("setClassify", res.dataAboutIndexMenu);
+            commit("setEssayInfo", res.dataAboutIndexMenu);
+            resolve(res);
           })
-          .catch(err => {
-            setToken(null)
-            reject(err)
-          })
-      })
+          .catch((err) => {
+            setToken(null);
+            reject(err);
+          });
+      });
     },
-  }
+  },
 });
 
-export default store
+export default store;

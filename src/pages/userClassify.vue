@@ -3,6 +3,5 @@
 </template>
 
 <script setup>
-import Classify from '~/layout/userClassify/classify.vue';
+import Classify from "~/layout/userClassify/classify.vue";
 </script>
-
