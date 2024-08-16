@@ -86,7 +86,7 @@
 <script setup>
 import NavHeader from "~/components/user/NavHeader.vue";
 import NavAside from "~/components/user/NavAside.vue";
-import Essay from "~/layout/userEssay/essay.vue";
+import Essay from "~/pages/userEssay.vue";
 
 import { ref, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";

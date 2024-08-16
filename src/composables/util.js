@@ -53,6 +53,19 @@ export function listenWindowWidth() {
   });
 }
 
+// 节流函数
+export function throttle(fn, delay) {
+  let timer = null;
+  return function () {
+    const context = this,
+      args = arguments;
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      fn.apply(context, args);
+    }, delay);
+  };
+}
+
 // 将query参数转为url
 export function queryToUrl(query) {
   let q = [];

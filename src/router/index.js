@@ -129,14 +129,14 @@ export function addIndexRouters(dataAboutIndexMenu) {
 }
 
 export function addEssayRouters(essayList) {
-  essayArr.forEach((essayMSg) => {
+  essayList.forEach((essayMSg) => {
     let essayRouter = essayMSg.router;
     let essayKind = essayMSg.kind;
     let essay = {
-      path: "/essay" + essayKind + essayRouter,
+      path: `/essay/${essayKind}/${essayRouter}`,
       component: userEssay,
       meta: {
-        title: element.name,
+        title: essayMSg.name,
       },
       name: "/essay" + essayKind + essayRouter,
     };

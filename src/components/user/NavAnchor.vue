@@ -26,7 +26,7 @@
 <script setup>
 import { computed, onMounted, onBeforeUnmount, ref } from "vue";
 import { useRouter } from "vue-router";
-import { throttle } from "~/composables/common.js";
+import { throttle } from "~/composables/util.js";
 import anime from "animejs";
 
 const router = useRouter();

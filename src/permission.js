@@ -43,7 +43,6 @@ router.beforeEach(async (to, from, next) => {
     //动态添加路由
     hasNewRoutes = addIndexRouters(dataAboutIndexMenu);
   }
-
   hasNewRoutes
     ? next({ path: toPath, query: to.query, hash: to.hash })
     : next();
