@@ -1,5 +1,6 @@
 import { reactive, ref } from "vue";
 import { setIndexPage, getIndexPage } from "~/composables/auth.js";
+import { showLoading } from "~/composables/util.js";
 
 export function useCommonInitData(opt = {}) {
   const searchForm = reactive({ ...opt.form });
@@ -16,11 +17,12 @@ export function useCommonInitData(opt = {}) {
   };
   getOldPage();
 
-  const getData = () => {
+  const getData = async () => {
     searchForm.page = currentPage.value;
     if (typeof opt.getData === "function") {
       loading.value = true;
       tableData.value = [];
+      await showLoading("文章列表渲染中");
       opt
         .getData(searchForm)
         .then((res) => {

@@ -1,48 +1,45 @@
 <template>
-  <div v-loading="loading">
-    <div v-for="(essay, index) in tableData" class="essay" :key="index">
-      <div class="top" @click="toEssay(essay)">
-        <span class="title">{{ essay.name }}</span>
-      </div>
-      <div class="middle">
-        <div class="kind" @click="toKind(essay)">
-          {{ essay.kind }}
-        </div>
-        <div style="width: auto" class="flex-1" @click="toEssay(essay)"></div>
-        <span class="date" @click="toEssay(essay)">
-          {{ essay.createdTime.split("T")[0] }}
-        </span>
-      </div>
-
-      <div class="bottom" @click="toEssay(essay)">
-        <el-text truncated class="introduction">
-          {{ essay.introduction }}
-        </el-text>
-      </div>
-      <el-divider border-style="dotted" />
+  <div v-for="essay in tableData" class="essay" :key="essay.id">
+    <div class="top" @click="toEssay(essay)">
+      <span class="title">{{ essay.name }}</span>
     </div>
-    <el-pagination
-      background
-      layout="prev, pager, next"
-      :current-page="currentPage"
-      :page-count="totalPages"
-      @update:current-page="changePage"
-      class="page"
-    />
+    <div class="middle">
+      <div class="kind" @click="toKind(essay)">
+        {{ essay.kind }}
+      </div>
+      <div style="width: auto" class="flex-1" @click="toEssay(essay)"></div>
+      <span class="date" @click="toEssay(essay)">
+        {{ essay.createdTime.split("T")[0] }}
+      </span>
+    </div>
+
+    <div class="bottom" @click="toEssay(essay)">
+      <el-text truncated class="introduction">
+        {{ essay.introduction }}
+      </el-text>
+    </div>
+    <el-divider border-style="dotted" />
   </div>
+  <el-pagination
+    background
+    layout="prev, pager, next"
+    :current-page="currentPage"
+    :page-count="totalPages"
+    @update:current-page="changePage"
+    class="page"
+  />
 </template>
 
 <script setup>
 import { useRouter } from "vue-router";
-import { reactive, watch } from "vue";
+import { watch } from "vue";
 import { addEssayRouters } from "~/router/index.js";
 import { getEssayList } from "~/api/user.js";
 import {
   useCommonInitData,
   useCommonInitForm,
 } from "~/composables/useCommon.js";
-import { setIndexPage, getIndexPage } from "~/composables/auth.js";
-
+import { setIndexPage } from "~/composables/auth.js";
 const router = useRouter();
 
 const { form } = useCommonInitForm({
@@ -51,11 +48,10 @@ const { form } = useCommonInitForm({
   classify: "",
 });
 
-const { tableData, currentPage, totalPages, loading, getData } =
-  useCommonInitData({
-    form,
-    getData: getEssayList,
-  });
+const { tableData, currentPage, totalPages, getData } = useCommonInitData({
+  form,
+  getData: getEssayList,
+});
 
 function toEssay(r) {
   router.push(`essay/${r.kind}${r.router}`);
