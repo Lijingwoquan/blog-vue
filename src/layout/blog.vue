@@ -17,7 +17,7 @@
       <NavHeader
         @openSearch="handleOpenSearch"
         @closeSearch="handleCloseSearch"
-      ></NavHeader>
+      />
     </el-header>
     <el-row>
       <el-col
@@ -29,7 +29,7 @@
         :lg="4"
         :xl="4"
       >
-        <NavAside class="hidden-xs-only" :width="navWidthRef"></NavAside>
+        <NavAside class="hidden-xs-only" :width="navWidthRef" />
       </el-col>
       <!-- essay布局 -->
       <el-col

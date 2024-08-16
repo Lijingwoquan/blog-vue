@@ -39,13 +39,15 @@ import {
   useCommonInitData,
   useCommonInitForm,
 } from "~/composables/useCommon.js";
-import { setIndexPage } from "~/composables/auth.js";
+import { useCommonNav } from "~/composables/useCommon";
+
 const router = useRouter();
 
 const { form } = useCommonInitForm({
-  page: 1,
-  pageSize: 5,
-  classify: "",
+  form: {
+    page: 1,
+    pageSize: 5,
+  },
 });
 
 const { tableData, currentPage, totalPages, getData } = useCommonInitData({
@@ -53,19 +55,11 @@ const { tableData, currentPage, totalPages, getData } = useCommonInitData({
   getData: getEssayList,
 });
 
-function toEssay(r) {
-  router.push(`essay/${r.kind}${r.router}`);
-}
-
-function toKind(r) {
-  router.push("classify/" + r.router.split("/")[1]);
-}
-
-const changePage = (p) => {
-  currentPage.value = p;
-  setIndexPage(p);
-  getData();
-};
+const { toEssay, toKind, changePage } = useCommonNav(
+  router,
+  currentPage,
+  getData
+);
 
 watch(
   () => tableData.value,

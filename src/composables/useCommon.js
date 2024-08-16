@@ -4,7 +4,7 @@ import { showLoading } from "~/composables/util.js";
 
 export function useCommonInitData(opt = {}) {
   const searchForm = reactive({ ...opt.form });
-
+  console.log(searchForm);
   const tableData = ref([]);
   const currentPage = ref(1);
   const totalPages = ref(0);
@@ -12,8 +12,11 @@ export function useCommonInitData(opt = {}) {
 
   const getOldPage = () => {
     let oldPage = getIndexPage();
-    console.log(oldPage);
-    currentPage.value = oldPage;
+    if (oldPage) {
+      currentPage.value = oldPage;
+    }
+    currentPage.value = 1;
+    setIndexPage(1);
   };
   getOldPage();
 
@@ -29,7 +32,6 @@ export function useCommonInitData(opt = {}) {
           tableData.value = res.list;
           totalPages.value = res.totalPages;
           if (res.list == null) {
-            setIndexPage(1);
             getOldPage();
             getData();
           }
@@ -42,6 +44,7 @@ export function useCommonInitData(opt = {}) {
   getData();
 
   return {
+    searchForm,
     tableData,
     currentPage,
     totalPages,
@@ -54,5 +57,28 @@ export function useCommonInitForm(opt = {}) {
   let form = opt.form;
   return {
     form,
+  };
+}
+
+export function useCommonNav(router, currentPage, getData) {
+  const toEssay = (r) => {
+    router.push(`essay/${r.kind}${r.router}`);
+  };
+
+  const toKind = (r) => {
+    console.log(r);
+    router.push("classify" + r.kindRoute);
+  };
+
+  const changePage = (p) => {
+    currentPage.value = p;
+    setIndexPage(p);
+    getData();
+  };
+
+  return {
+    toEssay,
+    toKind,
+    changePage,
   };
 }

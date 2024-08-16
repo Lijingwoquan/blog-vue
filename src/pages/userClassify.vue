@@ -1,97 +1,99 @@
 <template>
-  <div v-loading="loading">
-    <div v-for="(essay, index) in satisfyData" class="essay" :key="index">
-      <div class="top" @click="toEssay(essay.router)">
-        <el-link class="title" target="_self" type="info">{{
-          essay.name
-        }}</el-link>
-      </div>
-
-      <div class="middle">
-        <div class="kind">
-          {{ essay.kind }}
-        </div>
-        <div class="flex-1" @click="toEssay(essay.router)"></div>
-        <span class="date" @click="toEssay(essay.router)">
-          {{ essay.createdTime.split(" ")[0] }}
-        </span>
-      </div>
-
-      <div class="bottom" @click="toEssay(essay.router)">
-        <el-text truncated class="introduction">
-          {{ essay.introduction }}
-        </el-text>
-      </div>
-
-      <el-divider border-style="dotted" />
+  <div v-for="essay in tableData" class="essay" :key="essay.id">
+    <div class="top" @click="toEssay(essay)">
+      <el-link class="title" target="_self" type="info">{{
+        essay.name
+      }}</el-link>
     </div>
 
-    <el-pagination
-      background
-      layout="prev, pager, next"
-      :page-count="pageMax"
-      @update:current-page="changePage"
-      class="page"
-    />
+    <div class="middle">
+      <div class="kind">
+        {{ essay.kind }}
+      </div>
+      <div class="flex-1" @click="toEssay(essay)"></div>
+      <span class="date" @click="toEssay(essay)">
+        {{ essay.createdTime.split("T")[0] }}
+      </span>
+    </div>
+
+    <div class="bottom" @click="toEssay(essay)">
+      <el-text truncated class="introduction">
+        {{ essay.introduction }}
+      </el-text>
+    </div>
+
+    <el-divider border-style="dotted" />
   </div>
+
+  <el-pagination
+    background
+    layout="prev, pager, next"
+    :page-count="totalPages"
+    @update:current-page="changePage"
+    class="page"
+  />
 </template>
 
 <script setup>
-import { useStore } from "vuex";
 import { useRouter, useRoute } from "vue-router";
-import { ref, watch } from "vue";
+import { computed, watch } from "vue";
+import { useStore } from "vuex";
+import { addEssayRouters } from "~/router/index.js";
+import { getEssayList } from "~/api/user.js";
+import {
+  useCommonInitData,
+  useCommonInitForm,
+} from "~/composables/useCommon.js";
+import { useCommonNav } from "~/composables/useCommon";
 
-const store = useStore();
 const route = useRoute();
 const router = useRouter();
-const pageMax = ref(1);
-const satisfyData = ref([]);
-const loading = ref(false);
+const store = useStore();
 
-const getCurrentData = (page) => {
-  loading.value = true;
-  let currentClassify = ref(null);
-  const classifyData = store.state.classifyData;
-  const essayData = store.state.essayData;
-  const currentRoute = "/" + route.path.split("/")[2];
-  for (const classify of classifyData) {
-    if (classify.router == currentRoute) {
-      currentClassify.value = classify.name;
-      break;
+const classifyRouter = computed(() => {
+  return "/" + route.fullPath.split("/")[2];
+});
+
+let nowClassify = "";
+const getNowClassify = () => {
+  store.state.classifyData.forEach((classify) => {
+    if (classifyRouter.value === classify.router) {
+      nowClassify = classify.name;
+    }
+  });
+};
+getNowClassify();
+
+const { form } = useCommonInitForm({
+  form: {
+    page: 1,
+    pageSize: 5,
+    classify: nowClassify,
+  },
+});
+
+const { searchForm, tableData, currentPage, totalPages, getData } =
+  useCommonInitData({
+    form,
+    getData: getEssayList,
+  });
+
+const { toEssay, changePage } = useCommonNav(router, currentPage, getData);
+
+watch(
+  () => tableData.value,
+  () => {
+    if (tableData.value) {
+      addEssayRouters(tableData.value);
     }
   }
-  // 这里只需要遍历一次
-  for (const essay of essayData) {
-    if (currentClassify.value == essay.kind) {
-      if (essay.page == page) {
-        satisfyData.value.push(essay);
-      }
-      if (pageMax.value < essay.page) {
-        pageMax.value = essay.page;
-      }
-    }
-  }
-  loading.value = false;
-};
-
-const toEssay = (r) => {
-  router.push("/essay" + r);
-};
-
-function changePage(p) {
-  satisfyData.value = [];
-  getCurrentData(p);
-}
-
-changePage(1);
-
-// 监听路由变化，当路由变化时更新 ref 值
+);
 watch(
   () => route.fullPath,
   () => {
-    satisfyData.value = [];
-    pageMax.value = 1;
-    getCurrentData(1);
+    getNowClassify();
+    searchForm.classify = nowClassify;
+    getData();
   }
 );
 </script>

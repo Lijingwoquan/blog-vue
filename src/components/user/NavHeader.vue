@@ -81,7 +81,6 @@
         </el-icon>
       </template>
       <template #suffix>
-        {{ searchBtnLoading }}
         <el-button type="primary" @click="searchMsg" :loading="searchBtnLoading"
           >搜索</el-button
         >
