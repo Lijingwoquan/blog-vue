@@ -48,29 +48,6 @@ const store = createStore({
         if (base.classifyDetails == null) {
           return;
         }
-        base.classifyDetails.forEach((classifyDetails) => {
-          let classifyRoute = classifyDetails.router;
-          let kind = classifyDetails.name;
-          classifyDetails.essay.forEach((e) => {
-            let name = e.name;
-            let router = classifyRoute + e.router;
-            let introduction = e.introduction;
-            let id = e.id;
-            let createdTime = e.createdTime.split("T").join(" ");
-            let page = e.page;
-            let keywords = e.keywords;
-            state.essayData.push({
-              name,
-              router,
-              introduction,
-              kind,
-              id,
-              createdTime,
-              page,
-              keywords,
-            });
-          });
-        });
       });
     },
     //展开|缩起侧边

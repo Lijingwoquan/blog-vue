@@ -57,48 +57,49 @@
     </div>
   </div>
 
-  <template>
-    <el-dialog
-      style="
-        background: linear-gradient(
-          to right,
-          rgba(42, 157, 202, 0.365),
-          rgba(28, 171, 187, 0.384),
-          rgba(255, 192, 203, 0.47),
-          rgba(0, 255, 255, 0.53)
-        );
-      "
-      v-model="dialogVisible"
-      :v-close-on-click-modal="true"
-      :show-close="false"
-      append-to-body
-      @close="$emit('closeSearch')"
-      width="85%"
-    >
-      <el-input v-model="input" placeholder="搜索文档" class="input">
-        <template #prefix>
-          <el-icon class="mx-2">
-            <search />
-          </el-icon>
-        </template>
-        <template #suffix>
-          <el-button type="primary" @click="searchMsg">搜索</el-button>
-        </template>
-      </el-input>
-      <ul v-if="getData">
-        <el-divider v-if="satisfyDate.length > 0" />
-        <!-- <el-tooltip effect="light" :content="'关键字: ' + essay.keywords.join(' ; ')" placement="bottom"> -->
-        <li v-for="essay in satisfyDate" @click="gotoApointPath(essay.path)">
-          <div class="essayList">
-            <div class="ml-3">文章:{{ essay.name }}</div>
-            <div class="mr-3">分类:{{ essay.kind }}</div>
-          </div>
-          <el-divider />
-        </li>
-        <!-- </el-tooltip> -->
-      </ul>
-    </el-dialog>
-  </template>
+  <el-dialog
+    style="
+      background: linear-gradient(
+        to right,
+        rgba(42, 157, 202, 0.365),
+        rgba(28, 171, 187, 0.384),
+        rgba(255, 192, 203, 0.47),
+        rgba(0, 255, 255, 0.53)
+      );
+    "
+    v-model="dialogVisible"
+    :v-close-on-click-modal="true"
+    :show-close="false"
+    append-to-body
+    @close="$emit('closeSearch')"
+    width="85%"
+  >
+    <el-input v-model="input" placeholder="搜索文档" class="input">
+      <template #prefix>
+        <el-icon class="mx-2">
+          <search />
+        </el-icon>
+      </template>
+      <template #suffix>
+        {{ searchBtnLoading }}
+        <el-button type="primary" @click="searchMsg" :loading="searchBtnLoading"
+          >搜索</el-button
+        >
+      </template>
+    </el-input>
+    <ul v-if="getData">
+      <el-divider v-if="satisfyDate.length > 0" />
+      <!-- <el-tooltip effect="light" :content="'关键字: ' + essay.keywords.join(' ; ')" placement="bottom"> -->
+      <li v-for="essay in satisfyDate" @click="gotoApointPath(essay.path)">
+        <div class="essayList">
+          <div class="ml-3">文章:{{ essay.name }}</div>
+          <div class="mr-3">分类:{{ essay.kind }}</div>
+        </div>
+        <el-divider />
+      </li>
+      <!-- </el-tooltip> -->
+    </ul>
+  </el-dialog>
 </template>
 
 <script setup>
@@ -144,13 +145,15 @@ const gotoApointPath = (path) => {
   dialogVisible.value = false;
 };
 
+const searchBtnLoading = ref(false);
 const searchMsg = async () => {
+  searchBtnLoading.value = true;
   if (input.value == "") {
     toast("请输入搜索内容", "warning");
     return;
   }
-  await addSearchKeyCount(input.value).catch((err) => {
-    console.log(err);
+  await addSearchKeyCount(input.value).finally(() => {
+    searchBtnLoading.value = false;
   });
   satisfyDate.value = [];
   for (let index = 0; index < essayData.value.length; index++) {

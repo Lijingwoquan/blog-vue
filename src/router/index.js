@@ -96,12 +96,12 @@ export function addAdminIndexRouter() {
 }
 
 //动态添加路由
-export function addRouters(dataAboutIndexMenu) {
+export function addIndexRouters(dataAboutIndexMenu) {
   //是否有新的路由
   let hasNewRoutes = false;
-  const findAndAddRoutes = (arr) => {
-    arr.forEach((element) => {
-      let classifyDetails = element.classifyDetails;
+  const findAndAddRoutes = (menu) => {
+    menu.forEach((DataAboutIndexMenu) => {
+      let classifyDetails = DataAboutIndexMenu.classifyDetails;
       if (classifyDetails == null) {
         return;
       }
@@ -119,32 +119,29 @@ export function addRouters(dataAboutIndexMenu) {
           hasNewRoutes = true;
           router.addRoute("blog", classify);
         }
-
-        let essayArr = Details.essay;
-        if (essayArr && essayArr.length > 0) {
-          findAndAddRoutesForChild(classifyPath, essayArr);
-        }
       });
-    });
-  };
-  const findAndAddRoutesForChild = (classifyPath, essayArr) => {
-    essayArr.forEach((element) => {
-      let essayPath = element.router;
-      let essay = {
-        path: "/essay" + classifyPath + essayPath,
-        component: userEssay,
-        meta: {
-          title: element.name,
-        },
-        name: "essay" + essayPath,
-      };
-      if (!router.hasRoute(essay.path)) {
-        router.addRoute("blog", essay);
-      }
     });
   };
   findAndAddRoutes(dataAboutIndexMenu);
 
   //当前全部得到路由
   return hasNewRoutes;
+}
+
+export function addEssayRouters(essayList) {
+  essayArr.forEach((essayMSg) => {
+    let essayRouter = essayMSg.router;
+    let essayKind = essayMSg.kind;
+    let essay = {
+      path: "/essay" + essayKind + essayRouter,
+      component: userEssay,
+      meta: {
+        title: element.name,
+      },
+      name: "/essay" + essayKind + essayRouter,
+    };
+    if (!router.hasRoute(essay.path)) {
+      router.addRoute("blog", essay);
+    }
+  });
 }

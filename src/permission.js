@@ -1,9 +1,9 @@
 import {
   router,
-  addRouters,
+  addIndexRouters,
   addUserIndexRouter,
   addAdminIndexRouter,
-} from "~/router";
+} from "~/router/index.js";
 import { toast, showFullLoading, hideFullLoading } from "~/composables/util";
 import { getToken } from "~/composables/auth";
 import store from "./store";
@@ -36,13 +36,12 @@ router.beforeEach(async (to, from, next) => {
   let hasNewRoutes = false;
   if (!hasGetInfo) {
     let { dataAboutIndexMenu } = await store.dispatch("getIndexInfo");
-    // {dataAboutIndexMenu} 是解构 把res 里面的dataAboutIndexMenu解构出来
     hasGetInfo = true;
     //添加路由首页路由
     addUserIndexRouter();
     addAdminIndexRouter();
     //动态添加路由
-    hasNewRoutes = addRouters(dataAboutIndexMenu);
+    hasNewRoutes = addIndexRouters(dataAboutIndexMenu);
   }
 
   hasNewRoutes
