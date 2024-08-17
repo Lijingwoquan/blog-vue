@@ -2,7 +2,7 @@
   <div v-if="loading">
     <el-row>
       <el-col :xs="24" :sm="18" :md="18" :lg="18" :xl="18">
-        <div @click="closeAnchor" :class="fontMode">
+        <div @click="closeAnchor" :class="sizeObj.dynamicStyle">
           <div class="essayBasic">
             <span class="name">
               {{ tableData.name }}
@@ -50,7 +50,7 @@
           </div>
           <div>
             <v-md-editor
-              :class="fontMode"
+              :class="sizeObj.dynamicStyle"
               @copy-code-success="handleCopyCodeSuccess"
               v-model="tableData.content"
               height="auto"
@@ -148,21 +148,17 @@ const {
   handelScoll,
 } = initEssayCommonUse();
 
-const facility = ref("");
-
-// 根据窗口大小来修改模式
-const handleResize = () => {
-  const windowWidth = window.innerWidth;
-  if (windowWidth <= 768) {
-    facility.value = "mobile";
-  } else {
-    facility.value = "computer";
-  }
-};
-const fontMode = computed(() => {
-  return facility.value === "computer"
-    ? "computer-text-size"
-    : "mobile-text-size";
+const { sizeObj, facility, handleResize } = listenScreen({
+  resize: {
+    facilityStandard: {
+      computer: {
+        dynamicStyle: "computer-text-size",
+      },
+      mobile: {
+        dynamicStyle: "mobile-text-size",
+      },
+    },
+  },
 });
 
 function getCurrentEssayId() {
