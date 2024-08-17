@@ -1,18 +1,32 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 import { config } from "/config.js";
-import Login from "~/pages/login.vue";
-import blog from "~/layout/blog.vue";
-import blogAdmin from "~/layout/blogAdmin.vue";
 
-import userIndex from "~/pages/userIndex.vue";
-import userClassify from "~/pages/userClassify.vue";
-import userEssay from "~/pages/userEssay.vue";
+const Login = () => import("~/pages/login.vue");
+const blog = () => import("~/layout/blog.vue");
+const blogAdmin = () => import("~/layout/blogAdmin.vue");
 
-import adminIndex from "~/pages/adminIndex.vue";
-import adminCreateEssay from "~/pages/adminCreateEssay.vue";
-import adminManageEssay from "~/pages/adminManageEssay.vue";
-import adminUpdateData from "~/pages/adminUpdateData.vue";
+const userIndex = () => import("~/pages/userIndex.vue");
+const userClassify = () => import("~/pages/userClassify.vue");
+const userEssay = () => import("~/pages/userEssay.vue");
+
+const adminIndex = () => import("~/pages/adminIndex.vue");
+const adminCreateEssay = () => import("~/pages/adminCreateEssay.vue");
+const adminManageEssay = () => import("~/pages/adminManageEssay.vue");
+const adminUpdateData = () => import("~/pages/adminUpdateData.vue");
+
+// import Login from "~/pages/login.vue";
+// import blog from "~/layout/blog.vue";
+// import blogAdmin from "~/layout/blogAdmin.vue";
+
+// import userIndex from "~/pages/userIndex.vue";
+// import userClassify from "~/pages/userClassify.vue";
+// import userEssay from "~/pages/userEssay.vue";
+
+// import adminIndex from "~/pages/adminIndex.vue";
+// import adminCreateEssay from "~/pages/adminCreateEssay.vue";
+// import adminManageEssay from "~/pages/adminManageEssay.vue";
+// import adminUpdateData from "~/pages/adminUpdateData.vue";
 
 import NotFound from "~/pages/404.vue";
 
@@ -39,7 +53,7 @@ const routes = [
   },
 ];
 
-const userIndexPage = {
+const userIndexRouter = {
   path: "/",
   component: userIndex,
   meta: {
@@ -47,7 +61,7 @@ const userIndexPage = {
   },
 };
 
-const adminPages = [
+const adminRouters = [
   {
     path: `${config.MANAGER_URL}/`,
     component: adminIndex,
@@ -85,18 +99,26 @@ export const router = createRouter({
 
 //添加首页路由
 export function addUserIndexRouter() {
-  router.addRoute("blog", userIndexPage);
+  let hasNewRoutes = false;
+  if (!router.hasRoute(userIndexRouter.path)) {
+    hasNewRoutes = true;
+    router.addRoute("blog", userIndexRouter);
+  }
+  return hasNewRoutes;
 }
 
 //添加管理路由
 export function addAdminIndexRouter() {
-  adminPages.forEach((element) => {
-    router.addRoute("blogAdmin", element);
+  adminRouters.forEach((component) => {
+    if (!router.hasRoute(component.path)) {
+      router.addRoute("blogAdmin", component);
+      // hasNewRoutes = true;
+    }
   });
 }
 
 //动态添加路由
-export function addIndexRouters(dataAboutIndexMenu) {
+export function addIndexMenuRouters(dataAboutIndexMenu) {
   //是否有新的路由
   let hasNewRoutes = false;
   const findAndAddRoutes = (menu) => {
@@ -122,9 +144,9 @@ export function addIndexRouters(dataAboutIndexMenu) {
       });
     });
   };
+
   findAndAddRoutes(dataAboutIndexMenu);
 
-  //当前全部得到路由
   return hasNewRoutes;
 }
 

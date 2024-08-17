@@ -1,5 +1,5 @@
 <template>
-  <div v-if="tableData">
+  <div v-if="loading">
     <el-row>
       <el-col :xs="24" :sm="18" :md="18" :lg="18" :xl="18">
         <div @click="closeAnchor" :class="fontMode">
@@ -72,6 +72,7 @@
       </el-col>
     </el-row>
   </div>
+
   <el-icon
     v-show="anchorShow"
     @click="oppositedAnchor"
@@ -94,9 +95,9 @@
 
 <script setup>
 import { useRoute, useRouter } from "vue-router";
-import { ref, watch, onMounted, onUnmounted, computed, reactive } from "vue";
+import { ref, watch, onMounted, onUnmounted } from "vue";
 import { getEssayMsg } from "~/api/user.js";
-import { toast, showLoading } from "~/composables/util.js";
+import { showLoading } from "~/composables/util.js";
 import NavAnchor from "~/components/user/NavAnchor.vue";
 import { diposeHAndGetAnchors } from "~/helper/dataForAnchor.js";
 
@@ -113,7 +114,7 @@ import createCopyCodePlugin from "@kangc/v-md-editor/lib/plugins/copy-code/index
 import "@kangc/v-md-editor/lib/plugins/copy-code/copy-code.css";
 // 代码行数
 // import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index';
-//todolist
+// todolist
 import createTodoListPlugin from "@kangc/v-md-editor/lib/plugins/todo-list/index";
 import "@kangc/v-md-editor/lib/plugins/todo-list/todo-list.css";
 //mermaid(流程图等)
@@ -152,37 +153,8 @@ const {
   handelScoll,
 } = initEssayCommonUse();
 
-const essayID = ref(0);
-const tableData = ref({});
-const getData = () => {
-  getEssayMsg(essayID.value)
-    .then((res) => {
-      tableData.value = res;
-    })
-    .finally(() => {});
-};
-
-const initEssayData = () => {
-  essayID.value = getCurrentEssayId();
-  handleResize();
-  getData();
-  handelScoll();
-  // const result = diposeHAndGetAnchors(previewRef, { route, router });
-  // anchorData.anchors = result.anchors.value;
-  // anchorData.scrollThrottleFn = result.scrollThrottleFn;
-  // anchorData.anchorElement = result.anchorElement;
-};
-initEssayData();
-
-watch(
-  () => route.fullPath,
-  () => {
-    initEssayData();
-  }
-);
-
 function getCurrentEssayId() {
-  const currentRouter = route.fullPath;
+  const currentRouter = route.path;
   for (let i = 0; i < store.state.essayList.length; i++) {
     if (store.state.essayList[i].complexRouter === currentRouter) {
       return store.state.essayList[i].id;
@@ -190,7 +162,41 @@ function getCurrentEssayId() {
   }
 }
 
+const essayID = ref(0);
+const tableData = ref({});
+const loading = ref(false);
+const getData = async () => {
+  loading.value = false;
+  await showLoading("正在渲染文章页面...");
+  await getEssayMsg(essayID.value)
+    .then((res) => {
+      tableData.value = res;
+      loading.value = true;
+    })
+    .finally(() => {});
+};
+
+const initEssayData = async () => {
+  tableData.value = {};
+  essayID.value = getCurrentEssayId();
+  await getData();
+  handleResize();
+  handelScoll();
+  const result = diposeHAndGetAnchors(previewRef, { route, router });
+  anchorData.anchors = result.anchors.value;
+  anchorData.scrollThrottleFn = result.scrollThrottleFn;
+  anchorData.anchorElement = result.anchorElement;
+  console.log(result);
+};
+
+watch(
+  () => route.path,
+  () => {
+    initEssayData();
+  }
+);
 onMounted(() => {
+  initEssayData();
   window.addEventListener("resize", handleResize);
   window.addEventListener("scroll", handelScoll);
 });
@@ -272,70 +278,3 @@ defineExpose({
   font-size: initial;
 }
 </style>
-
-<!-- 
-
-const facility = ref("");
-
-const previewRef = ref(null);
-
-const anchorData = reactive({
-  anchors: [],
-  anchorElement: [],
-  scrollThrottleFn: null,
-});
-
-const anchorShow = ref(false);
-const anchorContentShow = ref(false);
-
-const fontMode = computed(() => {
-  return facility.value === "computer"
-    ? "computer-text-size"
-    : "mobile-text-size";
-});
-
-//复制代码成功
-const handleCopyCodeSuccess = (content) => {
-  toast("复制成功", "success");
-};
-
-// 控制anchor的开关
-const oppositedAnchor = () => {
-  anchorContentShow.value = !anchorContentShow.value;
-};
-
-// 作用于全局 关闭anchor
-const closeAnchor = () => {
-  anchorContentShow.value = false;
-};
-
-// 根据窗口大小来修改模式
-const handleResize = () => {
-  const windowWidth = window.innerWidth;
-  if (windowWidth <= 768) {
-    facility.value = "mobile";
-  } else {
-    facility.value = "computer";
-  }
-};
-
-const hideAnchor = () => {
-  anchorShow.value = false;
-};
-
-const showAnchor = () => {
-  anchorShow.value = true;
-};
-
-const handelScoll = () => {
-  const scrollPosition =
-    document.documentElement.scrollTop || window.pageYOffset;
-  if (scrollPosition >= 500) {
-    // 滚动超过 500 像素时显示
-    anchorShow.value = true;
-  } else {
-    anchorShow.value = false;
-    closeAnchor();
-  }
-};
--->

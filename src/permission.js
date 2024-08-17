@@ -1,6 +1,6 @@
 import {
   router,
-  addIndexRouters,
+  addIndexMenuRouters,
   addUserIndexRouter,
   addAdminIndexRouter,
   addEssayRouters,
@@ -42,7 +42,7 @@ router.beforeEach(async (to, from, next) => {
     addUserIndexRouter();
     addAdminIndexRouter();
     //动态添加路由
-    hasNewRoutes = addIndexRouters(dataAboutIndexMenu);
+    hasNewRoutes = addIndexMenuRouters(dataAboutIndexMenu);
   }
 
   if (toPath.split("/")[1] && toPath.split("/")[1] === "essay") {
