@@ -1,85 +1,77 @@
 <template>
-  <el-row>
-    <el-col :xs="24" :sm="18" :md="18" :lg="18" :xl="18">
-      <div @click="closeAnchor" :class="fontMode">
-        <div class="essayBasic">
-          <span class="name">
-            {{ tableData.name }}
-          </span>
-          <div class="subTitle">
-            <div>
-              <div>
-                <div class="left mb-5">
-                  创建于:
-                  {{
-                    tableData.createdTime
-                      .split("T")
-                      .join(" ")
-                      .split("Z")[0]
-                      .split(" ")
-                      .join(" ")
-                      .split(" ")[0]
-                  }}
-                </div>
-
-                <div class="left">
-                  更新于:
-                  {{
-                    tableData.updatedTime
-                      .split("T")
-                      .join(" ")
-                      .split("Z")[0]
-                      .split(" ")
-                      .join(" ")
-                      .split(" ")[0]
-                  }}
-                </div>
-              </div>
-
-              <div>
-                <div
-                  class="right mb-5 ml-auto hover:(cursor-pointer text-blue-400)"
-                  @click="toKind"
-                >
-                  <span class="ml-auto">
-                    {{ tableData.kind }}
-                  </span>
-                </div>
-                <div class="right">
-                  <span class="ml-auto"> {{ tableData.visitedTimes }}次 </span>
-                </div>
-              </div>
-            </div>
-
-            <span class="introduction">
-              简介:{{ tableData.introduction }}
+  <div v-if="tableData">
+    <el-row>
+      <el-col :xs="24" :sm="18" :md="18" :lg="18" :xl="18">
+        <div @click="closeAnchor" :class="fontMode">
+          <div class="essayBasic">
+            <span class="name">
+              {{ tableData.name }}
             </span>
+            <div class="subTitle">
+              <div>
+                <div>
+                  <div class="left mb-5">
+                    创建于:
+                    {{
+                      tableData.createdTime
+                        ? tableData.createdTime.split("T")[0]
+                        : ""
+                    }}
+                  </div>
+
+                  <div class="left">
+                    更新于:
+                    {{
+                      tableData.updatedTime
+                        ? tableData.updatedTime.split("T")[0]
+                        : ""
+                    }}
+                  </div>
+                </div>
+
+                <div>
+                  <div class="right mb-5 ml-auto hover:( text-blue-400)">
+                    <span class="ml-auto">
+                      {{ tableData.kind }}
+                    </span>
+                  </div>
+                  <div class="right">
+                    <span class="ml-auto">
+                      {{ tableData.visitedTimes }}次
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <span class="introduction">
+                简介:{{ tableData.introduction }}
+              </span>
+            </div>
+          </div>
+          <div>
+            <v-md-editor
+              :class="fontMode"
+              @copy-code-success="handleCopyCodeSuccess"
+              v-model="tableData.content"
+              height="auto"
+              mode="preview"
+              ref="previewRef"
+            />
           </div>
         </div>
-        <div>
-          <v-md-editor
-            :class="fontMode"
-            @copy-code-success="handleCopyCodeSuccess"
-            v-model="tableData.content"
-            height="auto"
-            mode="preview"
-            ref="previewRef"
-          />
-        </div>
-      </div>
-    </el-col>
-    <el-col :xs="0" :sm="6" :md="6" :lg="6" :xl="6">
-      <NavAnchor
-        v-if="facility == 'computer' && previewRef != null"
-        :previewRef="previewRef"
-        :anchors="anchorData.anchors"
-        :anchorElement="anchorData.anchorElement"
-        :facility="facility"
-      >
-      </NavAnchor>
-    </el-col>
-  </el-row>
-
+      </el-col>
+      <el-col :xs="0" :sm="6" :md="6" :lg="6" :xl="6">
+        <NavAnchor
+          v-if="facility == 'computer' && previewRef != null"
+          :previewRef="previewRef"
+          :anchors="anchorData.anchors"
+          :anchorElement="anchorData.anchorElement"
+          :facility="facility"
+        >
+        </NavAnchor>
+      </el-col>
+    </el-row>
+  </div>
   <el-icon
     v-show="anchorShow"
     @click="oppositedAnchor"
@@ -101,7 +93,6 @@
 </template>
 
 <script setup>
-import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
 import { ref, watch, onMounted, onUnmounted, computed, reactive } from "vue";
 import { getEssayMsg } from "~/api/user.js";
@@ -129,121 +120,79 @@ import "@kangc/v-md-editor/lib/plugins/todo-list/todo-list.css";
 import createMermaidPlugin from "@kangc/v-md-editor/lib/plugins/mermaid/cdn";
 import "@kangc/v-md-editor/lib/plugins/mermaid/mermaid.css";
 
-import {
-  useCommonInitData,
-  useCommonInitForm,
-} from "~/composables/useCommon.js";
+import { useStore } from "vuex";
+import { initEssayCommonUse } from "~/composables/essayCommonUse";
 
 VueMarkdownEditor.use(vuepressTheme, {
   Prism,
   extend(md) {},
 });
-
 // VueMarkdownEditor.use(createLineNumbertPlugin());
 VueMarkdownEditor.use(createCopyCodePlugin());
 VueMarkdownEditor.use(createTodoListPlugin());
 VueMarkdownEditor.use(createMermaidPlugin());
 
+const store = useStore();
 const route = useRoute();
 const router = useRouter();
 
-const { form } = useCommonInitForm({
-  form: {
-    id,
-  },
-});
+const {
+  facility,
+  previewRef,
+  anchorData,
+  anchorShow,
+  anchorContentShow,
+  fontMode,
+  handleCopyCodeSuccess,
+  oppositedAnchor,
+  closeAnchor,
+  handleResize,
+  hideAnchor,
+  showAnchor,
+  handelScoll,
+} = initEssayCommonUse();
 
-const { getData } = useCommonInitData({
-  form,
-  getData: getEssayMsg,
-});
-
-const { toKind } = useCommonNav(router, getData);
-
-const facility = ref("");
-
-const previewRef = ref(null);
-
-const anchorData = reactive({
-  anchors: [],
-  anchorElement: [],
-  scrollThrottleFn: null,
-});
-
-const anchorShow = ref(false);
-const anchorContentShow = ref(false);
-
-const fontMode = computed(() => {
-  return facility.value === "computer"
-    ? "computer-text-size"
-    : "mobile-text-size";
-});
-
-//复制代码成功
-const handleCopyCodeSuccess = (content) => {
-  toast("复制成功", "success");
+const essayID = ref(0);
+const tableData = ref({});
+const getData = () => {
+  getEssayMsg(essayID.value)
+    .then((res) => {
+      console.log(res);
+      tableData.value = res;
+    })
+    .finally(() => {});
 };
 
-// 控制anchor的开关
-const oppositedAnchor = () => {
-  anchorContentShow.value = !anchorContentShow.value;
+const initEssayData = () => {
+  essayID.value = getCurrentEssayId();
+  handleResize();
+  getData();
+  handelScoll();
+  // const result = diposeHAndGetAnchors(previewRef, { route, router });
+  // anchorData.anchors = result.anchors.value;
+  // anchorData.scrollThrottleFn = result.scrollThrottleFn;
+  // anchorData.anchorElement = result.anchorElement;
 };
-
-// 作用于全局 关闭anchor
-const closeAnchor = () => {
-  anchorContentShow.value = false;
-};
-
-// 根据窗口大小来修改模式
-const handleResize = () => {
-  const windowWidth = window.innerWidth;
-  if (windowWidth <= 768) {
-    facility.value = "mobile";
-  } else {
-    facility.value = "computer";
-  }
-};
-
-const hideAnchor = () => {
-  anchorShow.value = false;
-};
-
-const showAnchor = () => {
-  anchorShow.value = true;
-};
-
-const handelScoll = () => {
-  const scrollPosition =
-    document.documentElement.scrollTop || window.pageYOffset;
-  if (scrollPosition >= 500) {
-    // 滚动超过 500 像素时显示
-    anchorShow.value = true;
-  } else {
-    anchorShow.value = false;
-    closeAnchor();
-  }
-};
+initEssayData();
 
 watch(
-  () => route.path,
-  async () => {
-    await initEssayData();
+  () => route.fullPath,
+  () => {
+    initEssayData();
   }
 );
 
-const initEssayData = async () => {
-  handleResize();
-  await getCurrentData();
-  handelScoll();
-  const result = diposeHAndGetAnchors(previewRef, { route, router });
+function getCurrentEssayId() {
+  const currentRouter = route.fullPath;
+  for (let i = 0; i < store.state.essayList.length; i++) {
+    console.log(store.state.essayList[i]);
+    if (store.state.essayList[i].complexRouter === currentRouter) {
+      return store.state.essayList[i].id;
+    }
+  }
+}
 
-  anchorData.anchors = result.anchors.value;
-  anchorData.scrollThrottleFn = result.scrollThrottleFn;
-  anchorData.anchorElement = result.anchorElement;
-  await showLoading("文章页面渲染中...");
-};
-
-onMounted(async () => {
+onMounted(() => {
   window.addEventListener("resize", handleResize);
   window.addEventListener("scroll", handelScoll);
 });
@@ -325,3 +274,70 @@ defineExpose({
   font-size: initial;
 }
 </style>
+
+<!-- 
+
+const facility = ref("");
+
+const previewRef = ref(null);
+
+const anchorData = reactive({
+  anchors: [],
+  anchorElement: [],
+  scrollThrottleFn: null,
+});
+
+const anchorShow = ref(false);
+const anchorContentShow = ref(false);
+
+const fontMode = computed(() => {
+  return facility.value === "computer"
+    ? "computer-text-size"
+    : "mobile-text-size";
+});
+
+//复制代码成功
+const handleCopyCodeSuccess = (content) => {
+  toast("复制成功", "success");
+};
+
+// 控制anchor的开关
+const oppositedAnchor = () => {
+  anchorContentShow.value = !anchorContentShow.value;
+};
+
+// 作用于全局 关闭anchor
+const closeAnchor = () => {
+  anchorContentShow.value = false;
+};
+
+// 根据窗口大小来修改模式
+const handleResize = () => {
+  const windowWidth = window.innerWidth;
+  if (windowWidth <= 768) {
+    facility.value = "mobile";
+  } else {
+    facility.value = "computer";
+  }
+};
+
+const hideAnchor = () => {
+  anchorShow.value = false;
+};
+
+const showAnchor = () => {
+  anchorShow.value = true;
+};
+
+const handelScoll = () => {
+  const scrollPosition =
+    document.documentElement.scrollTop || window.pageYOffset;
+  if (scrollPosition >= 500) {
+    // 滚动超过 500 像素时显示
+    anchorShow.value = true;
+  } else {
+    anchorShow.value = false;
+    closeAnchor();
+  }
+};
+-->

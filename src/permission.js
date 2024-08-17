@@ -3,6 +3,7 @@ import {
   addIndexRouters,
   addUserIndexRouter,
   addAdminIndexRouter,
+  addEssayRouters,
 } from "~/router/index.js";
 import { toast, showFullLoading, hideFullLoading } from "~/composables/util";
 import { getToken } from "~/composables/auth";
@@ -18,6 +19,12 @@ router.beforeEach(async (to, from, next) => {
 
   // 去除路由最后的"/"
   const toPath = to.path.length > 1 ? to.path.replace(/\/$/, "") : to.path;
+
+  if (toPath.split("/")[1] && toPath.split("/")[1] == "essay") {
+    console.log("aaa");
+    console.log(toPath);
+    await addEssayRouters(toPath);
+  }
 
   if (toPath === `${config.MANAGER_URL}`) {
     const token = getToken();

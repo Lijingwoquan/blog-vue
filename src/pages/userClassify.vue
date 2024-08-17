@@ -41,7 +41,6 @@
 import { useRouter, useRoute } from "vue-router";
 import { computed, watch } from "vue";
 import { useStore } from "vuex";
-import { addEssayRouters } from "~/router/index.js";
 import { getEssayList } from "~/api/user.js";
 import {
   useCommonInitData,
@@ -86,16 +85,6 @@ const { toEssay, changePage } = useCommonNav({
   currentPage,
   getData,
 });
-
-// 这个addEssayRoute后续要删掉 直接在文章页add就行
-watch(
-  () => tableData.value,
-  () => {
-    if (tableData.value) {
-      addEssayRouters(tableData.value);
-    }
-  }
-);
 
 watch(
   () => route.fullPath,

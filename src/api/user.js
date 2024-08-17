@@ -10,7 +10,6 @@ export function getEssayList(form) {
   return axios.get(`/base/essay_list${q}`);
 }
 
-export function getEssayMsg(form) {
-  let q = queryToUrl(form);
-  return axios.get(`/base/essay_content${q}`);
+export function getEssayMsg(id) {
+  return axios.get(`/base/essay_content?id=${id}`);
 }

@@ -197,7 +197,7 @@ import { getEssayMsg } from "~/api/user.js";
 import dynamicAddTag from "~/components/admin/dynamicAddTag.vue";
 
 const store = useStore();
-const essayData = computed(() => store.state.essayData);
+const essayData = computed(() => store.state.essayList);
 const classifyArr = store.state.classifyData;
 
 const dialogVisible = ref(false);
@@ -221,7 +221,7 @@ function searchMsg() {
       let name = essay.name;
       let kind = essay.kind;
       let introduction = essay.introduction;
-      let router = "/" + essay.router.split("/")[2];
+      let router = essay.router;
       let id = essay.id;
       satisfyDate.value.push({ name, introduction, kind, router, id });
     }
@@ -255,6 +255,7 @@ const deleted = async (id) => {
         await store.dispatch("getIndexInfo");
         searchMsg();
         toast("删除文章成功", "success");
+        updateEssayMsgObj.value = {};
       })
       .catch((err) => {
         toast(err, "warning");

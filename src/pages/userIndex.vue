@@ -35,7 +35,6 @@
 <script setup>
 import { useRouter } from "vue-router";
 import { watch } from "vue";
-import { addEssayRouters } from "~/router/index.js";
 import { getEssayList } from "~/api/user.js";
 import {
   useCommonInitData,
@@ -63,14 +62,6 @@ const { toEssay, toKind, changePage } = useCommonNav({
   getData,
 });
 
-watch(
-  () => tableData.value,
-  () => {
-    if (tableData.value) {
-      addEssayRouters(tableData.value);
-    }
-  }
-);
 </script>
 
 <style scoped>

@@ -12,19 +12,19 @@ const store = createStore({
       //分类数据
       classifyData: [],
       //文章数据
-      essayData: [],
+      essayList: [],
       adminAsideWidth: "250px",
     };
   },
   mutations: {
-    setIndexInfo(state, indexData) {
+    setIndexInfo(state, data) {
       //添加index数据
-      state.indexData = indexData;
+      state.indexData = data;
     },
-    setClassify(state, indexData) {
+    setClassify(state, data) {
       state.classifyKind = [];
       state.classifyData = [];
-      indexData.forEach((base) => {
+      data.forEach((base) => {
         let kind = base.classifyKind;
         let id = base.id;
         let icon = base.icon;
@@ -41,14 +41,9 @@ const store = createStore({
         });
       });
     },
-    setEssayInfo(state, indexData) {
+    setEssayList(state, list) {
       //单独添加文章数据
-      state.essayData = [];
-      indexData.forEach((base) => {
-        if (base.classifyDetails == null) {
-          return;
-        }
-      });
+      state.essayList = list;
     },
     //展开|缩起侧边
     handleAdminAsideWidth(state) {
@@ -76,8 +71,8 @@ const store = createStore({
         getIndexInfo()
           .then((res) => {
             commit("setIndexInfo", res.dataAboutIndexMenu);
+            commit("setEssayList", res.essayList);
             commit("setClassify", res.dataAboutIndexMenu);
-            commit("setEssayInfo", res.dataAboutIndexMenu);
             resolve(res);
           })
           .catch((err) => {

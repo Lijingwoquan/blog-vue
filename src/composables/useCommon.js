@@ -10,19 +10,23 @@ export function useCommonInitData(opt = {}) {
   const loading = ref(false);
 
   const getOldPage = () => {
-    let oldPage = getIndexPage();
-    if (oldPage) {
-      currentPage.value = oldPage;
-    } else {
-      currentPage.value = 1;
+    if (searchForm.page) {
+      let oldPage = getIndexPage();
+      if (oldPage) {
+        currentPage.value = oldPage;
+      } else {
+        currentPage.value = 1;
+      }
+      searchForm.page = currentPage.value;
     }
-    searchForm.page = currentPage.value;
   };
 
   getOldPage();
 
   const getData = async () => {
-    searchForm.page = currentPage.value;
+    if (searchForm.page) {
+      searchForm.page = currentPage.value;
+    }
     if (typeof opt.getData === "function") {
       loading.value = true;
       tableData.value = [];
