@@ -95,10 +95,10 @@
 
 <script setup>
 import { useRoute, useRouter } from "vue-router";
-import { ref, watch, onMounted, onUnmounted, computed } from "vue";
+import { ref, watch, onMounted, onUnmounted } from "vue";
 import { getEssayMsg } from "~/api/user.js";
 import { showLoading, listenScreen } from "~/composables/util.js";
-import NavAnchor from "~/components/user/NavAnchor.vue";
+import NavAnchor from "./components/NavAnchor.vue";
 import { diposeHAndGetAnchors } from "~/helper/dataForAnchor.js";
 import { useStore } from "vuex";
 import { initEssayCommonUse } from "~/composables/essayCommonUse";

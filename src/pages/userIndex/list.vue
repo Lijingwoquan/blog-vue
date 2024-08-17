@@ -34,7 +34,6 @@
 
 <script setup>
 import { useRouter } from "vue-router";
-import { watch } from "vue";
 import { getEssayList } from "~/api/user.js";
 import {
   useCommonInitData,
@@ -61,7 +60,6 @@ const { toEssay, toKind, changePage } = useCommonNav({
   currentPage,
   getData,
 });
-
 </script>
 
 <style scoped>

@@ -138,10 +138,10 @@
         :label="item.name"
         :value="item.name"
       />
-      <el-option label="自定义" value="" @click="customInputPre" />
+      <el-option label="自定义" value="" @click="ifCustomInput = true" />
     </el-select>
     <el-input
-      v-if="customInput == true"
+      v-if="ifCustomInput == true"
       v-model="updateEssayMsgObj.kind"
       placeholder="输入分类"
       class="dialogInput"
@@ -169,11 +169,7 @@
     />
 
     关键词
-    <dynamicAddTag
-      v-model:tags="updateEssayMsgObj.keywords"
-      :addText="添加关键字"
-    >
-    </dynamicAddTag>
+    <dynamicAddTag v-model:tags="updateEssayMsgObj.keywords"> </dynamicAddTag>
 
     <el-button
       type="primary"
@@ -194,12 +190,12 @@ import { ElMessageBox } from "element-plus";
 import essayEdit from "~/components/admin/essayEdit.vue";
 import { updateEssayMsg, deleteEssay } from "~/api/manager.js";
 import { getEssayMsg } from "~/api/user.js";
-import dynamicAddTag from "~/components/admin/dynamicAddTag.vue";
+import dynamicAddTag from "./components/dynamicAddTag.vue";
 
 const store = useStore();
 const essayData = computed(() => store.state.essayList);
 const classifyArr = store.state.classifyData;
-
+const ifCustomInput = ref(false);
 const dialogVisible = ref(false);
 const dialogForUpdateEssay = ref(false);
 const updatePermission = ref(false);
@@ -283,7 +279,7 @@ const updateEssay = () => {
       toast("修改文章成功", "success");
     })
     .catch((err) => {
-      toast("添加文章失败", "error");
+      toast("修改文章失败", "error");
     });
 };
 

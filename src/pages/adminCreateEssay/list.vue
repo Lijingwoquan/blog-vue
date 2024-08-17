@@ -68,7 +68,7 @@
 <script setup>
 import { ref, reactive } from "vue";
 import { useStore } from "vuex";
-import { addEssay, uploadImg } from "~/api/manager.js";
+import { addEssay } from "~/api/manager.js";
 import { toast } from "~/composables/util";
 import essayEdit from "~/components/admin/essayEdit.vue";
 

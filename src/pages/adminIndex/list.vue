@@ -42,7 +42,7 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { getUserVisitedCount } from "~/api/count.js";
-import indexChart from "~/components/admin/indexChart.vue";
+import indexChart from "./components/indexChart.vue";
 
 const userVisitedCountArr = ref([
   {

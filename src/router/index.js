@@ -6,27 +6,14 @@ const Login = () => import("~/pages/login.vue");
 const blog = () => import("~/layout/blog.vue");
 const blogAdmin = () => import("~/layout/blogAdmin.vue");
 
-const userIndex = () => import("~/pages/userIndex.vue");
-const userClassify = () => import("~/pages/userClassify.vue");
-const userEssay = () => import("~/pages/userEssay.vue");
+const userIndex = () => import("~/pages/userIndex/list.vue");
+const userClassify = () => import("~/pages/userClassify/list.vue");
+const userEssay = () => import("~/pages/userEssay/list.vue");
 
-const adminIndex = () => import("~/pages/adminIndex.vue");
-const adminCreateEssay = () => import("~/pages/adminCreateEssay.vue");
-const adminManageEssay = () => import("~/pages/adminManageEssay.vue");
-const adminUpdateData = () => import("~/pages/adminUpdateData.vue");
-
-// import Login from "~/pages/login.vue";
-// import blog from "~/layout/blog.vue";
-// import blogAdmin from "~/layout/blogAdmin.vue";
-
-// import userIndex from "~/pages/userIndex.vue";
-// import userClassify from "~/pages/userClassify.vue";
-// import userEssay from "~/pages/userEssay.vue";
-
-// import adminIndex from "~/pages/adminIndex.vue";
-// import adminCreateEssay from "~/pages/adminCreateEssay.vue";
-// import adminManageEssay from "~/pages/adminManageEssay.vue";
-// import adminUpdateData from "~/pages/adminUpdateData.vue";
+const adminIndex = () => import("~/pages/adminIndex/list.vue");
+const adminCreateEssay = () => import("~/pages/adminCreateEssay/list.vue");
+const adminManageEssay = () => import("~/pages/adminManageEssay/list.vue");
+const adminUpdateData = () => import("~/pages/adminUpdateData/list.vue");
 
 import NotFound from "~/pages/404.vue";
 

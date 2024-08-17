@@ -11,8 +11,8 @@
 </template>
 
 <script setup>
-import classify from "~/components/admin/adminUpdateData/classify.vue";
-import kind from "~/components/admin/adminUpdateData/kind.vue";
+import classify from "./components/classify.vue";
+import kind from "./components/kind.vue";
 </script>
 
 <style scoped>
