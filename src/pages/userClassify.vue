@@ -1,37 +1,40 @@
 <template>
-  <div v-for="essay in tableData" class="essay" :key="essay.id">
-    <div class="top" @click="toEssay(essay)">
-      <el-link class="title" target="_self" type="info">{{
-        essay.name
-      }}</el-link>
-    </div>
-
-    <div class="middle">
-      <div class="kind">
-        {{ essay.kind }}
+  <div v-if="!loading">
+    <div v-for="essay in tableData" class="essay" :key="essay.id">
+      <div class="top" @click="toEssay(essay)">
+        <el-link class="title" target="_self" type="info">{{
+          essay.name
+        }}</el-link>
       </div>
-      <div class="flex-1" @click="toEssay(essay)"></div>
-      <span class="date" @click="toEssay(essay)">
-        {{ essay.createdTime.split("T")[0] }}
-      </span>
+
+      <div class="middle">
+        <div class="kind">
+          {{ essay.kind }}
+        </div>
+        <div class="flex-1" @click="toEssay(essay)"></div>
+        <span class="date" @click="toEssay(essay)">
+          {{ essay.createdTime.split("T")[0] }}
+        </span>
+      </div>
+
+      <div class="bottom" @click="toEssay(essay)">
+        <el-text truncated class="introduction">
+          {{ essay.introduction }}
+        </el-text>
+      </div>
+
+      <el-divider border-style="dotted" />
     </div>
 
-    <div class="bottom" @click="toEssay(essay)">
-      <el-text truncated class="introduction">
-        {{ essay.introduction }}
-      </el-text>
-    </div>
-
-    <el-divider border-style="dotted" />
+    <el-pagination
+      background
+      layout="prev, pager, next"
+      :page-count="totalPages"
+      :current-page="currentPage"
+      @update:current-page="changePage"
+      class="page"
+    />
   </div>
-
-  <el-pagination
-    background
-    layout="prev, pager, next"
-    :page-count="totalPages"
-    @update:current-page="changePage"
-    class="page"
-  />
 </template>
 
 <script setup>
@@ -72,14 +75,19 @@ const { form } = useCommonInitForm({
   },
 });
 
-const { searchForm, tableData, currentPage, totalPages, getData } =
+const { searchForm, tableData, currentPage, totalPages, loading, getData } =
   useCommonInitData({
     form,
     getData: getEssayList,
   });
 
-const { toEssay, changePage } = useCommonNav(router, currentPage, getData);
+const { toEssay, changePage } = useCommonNav({
+  router,
+  currentPage,
+  getData,
+});
 
+// 这个addEssayRoute后续要删掉 直接在文章页add就行
 watch(
   () => tableData.value,
   () => {
@@ -88,6 +96,7 @@ watch(
     }
   }
 );
+
 watch(
   () => route.fullPath,
   () => {

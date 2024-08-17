@@ -1,97 +1,93 @@
 <template>
-  <div v-if="satisfyData != null">
-    <el-row>
-      <el-col :xs="24" :sm="18" :md="18" :lg="18" :xl="18">
-        <div @click="closeAnchor" :class="fontMode">
-          <div class="essayBasic">
-            <span class="name">
-              {{ satisfyData.name }}
-            </span>
-            <div class="subTitle">
+  <el-row>
+    <el-col :xs="24" :sm="18" :md="18" :lg="18" :xl="18">
+      <div @click="closeAnchor" :class="fontMode">
+        <div class="essayBasic">
+          <span class="name">
+            {{ tableData.name }}
+          </span>
+          <div class="subTitle">
+            <div>
               <div>
-                <div>
-                  <div class="left mb-5">
-                    创建于:
-                    {{
-                      satisfyData.createdTime
-                        .split("T")
-                        .join(" ")
-                        .split("Z")[0]
-                        .split(" ")
-                        .join(" ")
-                        .split(" ")[0]
-                    }}
-                  </div>
-
-                  <div class="left">
-                    更新于:
-                    {{
-                      satisfyData.updatedTime
-                        .split("T")
-                        .join(" ")
-                        .split("Z")[0]
-                        .split(" ")
-                        .join(" ")
-                        .split(" ")[0]
-                    }}
-                  </div>
+                <div class="left mb-5">
+                  创建于:
+                  {{
+                    tableData.createdTime
+                      .split("T")
+                      .join(" ")
+                      .split("Z")[0]
+                      .split(" ")
+                      .join(" ")
+                      .split(" ")[0]
+                  }}
                 </div>
 
-                <div>
-                  <div
-                    class="right mb-5 ml-auto hover:(cursor-pointer text-blue-400)"
-                    @click="toKind"
-                  >
-                    <span class="ml-auto">
-                      {{ satisfyData.kind }}
-                    </span>
-                  </div>
-                  <div class="right">
-                    <span class="ml-auto">
-                      {{ satisfyData.visitedTimes }}次
-                    </span>
-                  </div>
+                <div class="left">
+                  更新于:
+                  {{
+                    tableData.updatedTime
+                      .split("T")
+                      .join(" ")
+                      .split("Z")[0]
+                      .split(" ")
+                      .join(" ")
+                      .split(" ")[0]
+                  }}
                 </div>
               </div>
 
-              <span class="introduction">
-                简介:{{ satisfyData.introduction }}
-              </span>
+              <div>
+                <div
+                  class="right mb-5 ml-auto hover:(cursor-pointer text-blue-400)"
+                  @click="toKind"
+                >
+                  <span class="ml-auto">
+                    {{ tableData.kind }}
+                  </span>
+                </div>
+                <div class="right">
+                  <span class="ml-auto"> {{ tableData.visitedTimes }}次 </span>
+                </div>
+              </div>
             </div>
-          </div>
-          <div>
-            <v-md-editor
-              :class="fontMode"
-              @copy-code-success="handleCopyCodeSuccess"
-              v-model="satisfyData.content"
-              height="auto"
-              mode="preview"
-              ref="previewRef"
-            />
+
+            <span class="introduction">
+              简介:{{ tableData.introduction }}
+            </span>
           </div>
         </div>
-      </el-col>
-      <el-col :xs="0" :sm="6" :md="6" :lg="6" :xl="6">
-        <NavAnchor
-          v-if="facility == 'computer' && previewRef != null"
-          :previewRef="previewRef"
-          :anchors="anchorData.anchors"
-          :anchorElement="anchorData.anchorElement"
-          :facility="facility"
-        >
-        </NavAnchor>
-      </el-col>
-    </el-row>
+        <div>
+          <v-md-editor
+            :class="fontMode"
+            @copy-code-success="handleCopyCodeSuccess"
+            v-model="tableData.content"
+            height="auto"
+            mode="preview"
+            ref="previewRef"
+          />
+        </div>
+      </div>
+    </el-col>
+    <el-col :xs="0" :sm="6" :md="6" :lg="6" :xl="6">
+      <NavAnchor
+        v-if="facility == 'computer' && previewRef != null"
+        :previewRef="previewRef"
+        :anchors="anchorData.anchors"
+        :anchorElement="anchorData.anchorElement"
+        :facility="facility"
+      >
+      </NavAnchor>
+    </el-col>
+  </el-row>
 
-    <el-icon
-      v-show="anchorShow"
-      @click="oppositedAnchor"
-      class="anchorIcon hidden-sm-and-up"
-      size="40px"
-    >
-      <Memo />
-    </el-icon>
-  </div>
+  <el-icon
+    v-show="anchorShow"
+    @click="oppositedAnchor"
+    class="anchorIcon hidden-sm-and-up"
+    size="40px"
+  >
+    <Memo />
+  </el-icon>
 
   <NavAnchor
     v-if="facility == 'mobile' && previewRef != null"
@@ -114,7 +110,7 @@ import NavAnchor from "~/components/user/NavAnchor.vue";
 import { diposeHAndGetAnchors } from "~/helper/dataForAnchor.js";
 
 //富文本插件
-import VueMarkdownEditor, { resolve } from "@kangc/v-md-editor";
+import VueMarkdownEditor, { id } from "@kangc/v-md-editor";
 import "@kangc/v-md-editor/lib/style/base-editor.css";
 // vuepressTheme主题
 import vuepressTheme from "@kangc/v-md-editor/lib/theme/vuepress.js";
@@ -133,6 +129,11 @@ import "@kangc/v-md-editor/lib/plugins/todo-list/todo-list.css";
 import createMermaidPlugin from "@kangc/v-md-editor/lib/plugins/mermaid/cdn";
 import "@kangc/v-md-editor/lib/plugins/mermaid/mermaid.css";
 
+import {
+  useCommonInitData,
+  useCommonInitForm,
+} from "~/composables/useCommon.js";
+
 VueMarkdownEditor.use(vuepressTheme, {
   Prism,
   extend(md) {},
@@ -143,12 +144,22 @@ VueMarkdownEditor.use(createCopyCodePlugin());
 VueMarkdownEditor.use(createTodoListPlugin());
 VueMarkdownEditor.use(createMermaidPlugin());
 
-const store = useStore();
 const route = useRoute();
 const router = useRouter();
 
-const kind = ref(null);
-const satisfyData = ref(null); //存储文章的数据
+const { form } = useCommonInitForm({
+  form: {
+    id,
+  },
+});
+
+const { getData } = useCommonInitData({
+  form,
+  getData: getEssayMsg,
+});
+
+const { toKind } = useCommonNav(router, getData);
+
 const facility = ref("");
 
 const previewRef = ref(null);
@@ -167,31 +178,6 @@ const fontMode = computed(() => {
     ? "computer-text-size"
     : "mobile-text-size";
 });
-
-//根据文章名字去获取文章详细内容
-const getCurrentData = async () => {
-  const essayRouter = "/" + route.path.split("/").slice(2, 4).join("/");
-  // 去查文章的名字
-  const essayData = store.state.essayData;
-  let essayId = null;
-  for (const essay of essayData) {
-    if (essay.router == essayRouter) {
-      kind.value = essay.kind;
-      essayId = essay.id;
-      break;
-    }
-  }
-  //从后端得到相关文章的数据
-  await getEssayMsg(essayId).then((res) => {
-    satisfyData.value = res;
-  });
-};
-
-//跳转到分类页面
-const toKind = () => {
-  let essayRouter = "/" + route.path.split("/").slice(2, 4).join("/");
-  router.push("/classify/" + essayRouter.split("/")[1]);
-};
 
 //复制代码成功
 const handleCopyCodeSuccess = (content) => {
@@ -258,8 +244,6 @@ const initEssayData = async () => {
 };
 
 onMounted(async () => {
-  await initEssayData();
-
   window.addEventListener("resize", handleResize);
   window.addEventListener("scroll", handelScoll);
 });

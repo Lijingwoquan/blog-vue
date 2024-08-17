@@ -1,33 +1,35 @@
 <template>
-  <div v-for="essay in tableData" class="essay" :key="essay.id">
-    <div class="top" @click="toEssay(essay)">
-      <span class="title">{{ essay.name }}</span>
-    </div>
-    <div class="middle">
-      <div class="kind" @click="toKind(essay)">
-        {{ essay.kind }}
+  <div v-if="!loading">
+    <div v-for="essay in tableData" class="essay" :key="essay.id">
+      <div class="top" @click="toEssay(essay)">
+        <span class="title">{{ essay.name }}</span>
       </div>
-      <div style="width: auto" class="flex-1" @click="toEssay(essay)"></div>
-      <span class="date" @click="toEssay(essay)">
-        {{ essay.createdTime.split("T")[0] }}
-      </span>
-    </div>
+      <div class="middle">
+        <div class="kind" @click="toKind(essay)">
+          {{ essay.kind }}
+        </div>
+        <div style="width: auto" class="flex-1" @click="toEssay(essay)"></div>
+        <span class="date" @click="toEssay(essay)">
+          {{ essay.createdTime.split("T")[0] }}
+        </span>
+      </div>
 
-    <div class="bottom" @click="toEssay(essay)">
-      <el-text truncated class="introduction">
-        {{ essay.introduction }}
-      </el-text>
+      <div class="bottom" @click="toEssay(essay)">
+        <el-text truncated class="introduction">
+          {{ essay.introduction }}
+        </el-text>
+      </div>
+      <el-divider border-style="dotted" />
     </div>
-    <el-divider border-style="dotted" />
+    <el-pagination
+      background
+      layout="prev, pager, next"
+      :current-page="currentPage"
+      :page-count="totalPages"
+      @update:current-page="changePage"
+      class="page"
+    />
   </div>
-  <el-pagination
-    background
-    layout="prev, pager, next"
-    :current-page="currentPage"
-    :page-count="totalPages"
-    @update:current-page="changePage"
-    class="page"
-  />
 </template>
 
 <script setup>
@@ -42,7 +44,6 @@ import {
 import { useCommonNav } from "~/composables/useCommon";
 
 const router = useRouter();
-
 const { form } = useCommonInitForm({
   form: {
     page: 1,
@@ -50,16 +51,17 @@ const { form } = useCommonInitForm({
   },
 });
 
-const { tableData, currentPage, totalPages, getData } = useCommonInitData({
-  form,
-  getData: getEssayList,
-});
+const { tableData, currentPage, totalPages, loading, getData } =
+  useCommonInitData({
+    form,
+    getData: getEssayList,
+  });
 
-const { toEssay, toKind, changePage } = useCommonNav(
+const { toEssay, toKind, changePage } = useCommonNav({
   router,
   currentPage,
-  getData
-);
+  getData,
+});
 
 watch(
   () => tableData.value,

@@ -4,7 +4,6 @@ import { showLoading } from "~/composables/util.js";
 
 export function useCommonInitData(opt = {}) {
   const searchForm = reactive({ ...opt.form });
-  console.log(searchForm);
   const tableData = ref([]);
   const currentPage = ref(1);
   const totalPages = ref(0);
@@ -14,10 +13,12 @@ export function useCommonInitData(opt = {}) {
     let oldPage = getIndexPage();
     if (oldPage) {
       currentPage.value = oldPage;
+    } else {
+      currentPage.value = 1;
     }
-    currentPage.value = 1;
-    setIndexPage(1);
+    searchForm.page = currentPage.value;
   };
+
   getOldPage();
 
   const getData = async () => {
@@ -32,7 +33,8 @@ export function useCommonInitData(opt = {}) {
           tableData.value = res.list;
           totalPages.value = res.totalPages;
           if (res.list == null) {
-            getOldPage();
+            currentPage.value = 1;
+            setIndexPage(1);
             getData();
           }
         })
@@ -60,20 +62,21 @@ export function useCommonInitForm(opt = {}) {
   };
 }
 
-export function useCommonNav(router, currentPage, getData) {
+export function useCommonNav(opt = {}) {
   const toEssay = (r) => {
-    router.push(`essay/${r.kind}${r.router}`);
+    opt.router.push(`/essay${r.kindRouter}${r.router}`);
   };
 
   const toKind = (r) => {
-    console.log(r);
-    router.push("classify" + r.kindRoute);
+    opt.router.push("classify" + r.kindRouter);
   };
 
   const changePage = (p) => {
-    currentPage.value = p;
-    setIndexPage(p);
-    getData();
+    if (opt.currentPage) {
+      opt.currentPage.value = p;
+      setIndexPage(p);
+      opt.getData();
+    }
   };
 
   return {

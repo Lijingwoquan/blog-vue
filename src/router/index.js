@@ -130,15 +130,15 @@ export function addIndexRouters(dataAboutIndexMenu) {
 
 export function addEssayRouters(essayList) {
   essayList.forEach((essayMSg) => {
-    let essayRouter = essayMSg.router;
-    let essayKind = essayMSg.kind;
+    let essayRouter  = essayMSg.router;
+    let essayKindRouter = essayMSg.kindRouter;
     let essay = {
-      path: `/essay/${essayKind}/${essayRouter}`,
+      path: `/essay${essayKindRouter}/${essayRouter}`,
       component: userEssay,
       meta: {
         title: essayMSg.name,
       },
-      name: "/essay" + essayKind + essayRouter,
+      name: "/essay" + essayKindRouter + essayRouter,
     };
     if (!router.hasRoute(essay.path)) {
       router.addRoute("blog", essay);
