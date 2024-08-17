@@ -100,7 +100,8 @@ import { getEssayMsg } from "~/api/user.js";
 import { showLoading } from "~/composables/util.js";
 import NavAnchor from "~/components/user/NavAnchor.vue";
 import { diposeHAndGetAnchors } from "~/helper/dataForAnchor.js";
-
+import { useStore } from "vuex";
+import { initEssayCommonUse } from "~/composables/essayCommonUse";
 //富文本插件
 import VueMarkdownEditor, { id } from "@kangc/v-md-editor";
 import "@kangc/v-md-editor/lib/style/base-editor.css";
@@ -120,9 +121,6 @@ import "@kangc/v-md-editor/lib/plugins/todo-list/todo-list.css";
 //mermaid(流程图等)
 import createMermaidPlugin from "@kangc/v-md-editor/lib/plugins/mermaid/cdn";
 import "@kangc/v-md-editor/lib/plugins/mermaid/mermaid.css";
-
-import { useStore } from "vuex";
-import { initEssayCommonUse } from "~/composables/essayCommonUse";
 
 VueMarkdownEditor.use(vuepressTheme, {
   Prism,
@@ -171,9 +169,10 @@ const getData = async () => {
   await getEssayMsg(essayID.value)
     .then((res) => {
       tableData.value = res;
-      loading.value = true;
     })
-    .finally(() => {});
+    .finally(() => {
+      loading.value = true;
+    });
 };
 
 const initEssayData = async () => {
@@ -186,7 +185,6 @@ const initEssayData = async () => {
   anchorData.anchors = result.anchors.value;
   anchorData.scrollThrottleFn = result.scrollThrottleFn;
   anchorData.anchorElement = result.anchorElement;
-  console.log(result);
 };
 
 watch(

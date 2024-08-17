@@ -74,149 +74,117 @@
     @close="$emit('closeSearch')"
     width="85%"
   >
-    <el-input v-model="input" placeholder="搜索文档" class="input">
+    <el-input v-model="form.keyword" placeholder="搜索文档" class="input">
       <template #prefix>
         <el-icon class="mx-2">
           <search />
         </el-icon>
       </template>
       <template #suffix>
-        <el-button type="primary" @click="searchMsg" :loading="searchBtnLoading"
+        <el-button type="primary" @click="searchMsg" :loading="loading"
           >搜索</el-button
         >
       </template>
     </el-input>
-    <ul v-if="getData">
-      <el-divider v-if="satisfyDate.length > 0" />
-      <!-- <el-tooltip effect="light" :content="'关键字: ' + essay.keywords.join(' ; ')" placement="bottom"> -->
-      <li v-for="essay in satisfyDate" @click="gotoApointPath(essay.path)">
+    <ul v-if="!loading">
+      <el-divider v-if="!loading" />
+      <li v-for="essay in essayList" @click="gotoApointPath(essay)">
         <div class="essayList">
           <div class="ml-3">文章:{{ essay.name }}</div>
           <div class="mr-3">分类:{{ essay.kind }}</div>
         </div>
         <el-divider />
       </li>
-      <!-- </el-tooltip> -->
     </ul>
   </el-dialog>
 </template>
 
 <script setup>
 import NavAsideForMobile from "~/components/user/NavAsideForMobile.vue";
-import { ref, onMounted, onBeforeMount, watch, reactive, computed } from "vue";
-import { useStore } from "vuex";
+import { ref, onMounted, onBeforeMount, watch, reactive } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { toast } from "~/composables/util";
 import { addSearchKeyCount } from "~/api/keyword.js";
+import { listenScreen } from "~/composables/util";
 
 const dialogVisible = ref(false);
-const store = useStore();
-const essayData = computed(() => store.state.essayData);
 const router = useRouter();
 const route = useRoute();
 const dialogMenu = ref(false);
-const input = ref("");
-const getData = ref(false);
-const satisfyDate = ref([]);
-
-const sizeObj = reactive({
-  textSize: "",
-  iconSize: "",
-});
-
-const emits = defineEmits(["openSearch", "closeSearch"]);
 
 const openMenu = () => {
   dialogMenu.value = true;
 };
-
-const toIndex = () => {
-  router.push("/");
-};
-
 const openSearch = () => {
   dialogVisible.value = true;
   emits("openSearch");
 };
+const emits = defineEmits(["openSearch", "closeSearch"]);
 
-const gotoApointPath = (path) => {
-  router.push("/essay" + path);
+const gotoApointPath = (essay) => {
+  router.push(essay.complexRouter);
   dialogVisible.value = false;
 };
+const toIndex = () => {
+  router.push("/");
+};
 
-const searchBtnLoading = ref(false);
-const searchMsg = async () => {
-  searchBtnLoading.value = true;
-  if (input.value == "") {
+const form = reactive({
+  keyword: "",
+});
+
+const essayList = ref([]);
+const loading = ref(false);
+const searchMsg = () => {
+  essayList.value = [];
+  loading.value = true;
+  if (form.keyword == "") {
     toast("请输入搜索内容", "warning");
     return;
   }
-  await addSearchKeyCount(input.value).finally(() => {
-    searchBtnLoading.value = false;
-  });
-  satisfyDate.value = [];
-  for (let index = 0; index < essayData.value.length; index++) {
-    let essay = essayData.value[index];
-    let keywords = [
-      ...essay.keywords,
-      essay.name.split(" ").join("").toLowerCase(),
-    ];
-
-    for (let index2 = 0; index2 < keywords.length; index2++) {
-      let keyword = keywords[index2];
-      let name = essay.name;
-      let path = essay.router;
-      let kind = essay.kind;
-      if (keyword.includes(input.value.split(" ").join("").toLowerCase())) {
-        satisfyDate.value.push({ name, path, kind, keywords });
-        break;
-      }
-    }
-  }
-
-  if (!(satisfyDate.value.length > 0)) {
-    toast("没用查找到相关文章", "warning");
-  } else {
-    toast(`搜索成功,共有${satisfyDate.value.length}篇文章`);
-  }
-  getData.value = true;
+  addSearchKeyCount(form)
+    .then((res) => {
+      essayList.value = res;
+    })
+    .finally(() => {
+      loading.value = false;
+    });
 };
 
-const onKeyUp = (e) => {
-  if (e.key == "Enter" && dialogVisible.value == true) {
-    searchMsg();
-  }
-};
-
-const handleResize = () => {
-  const windowWidth = window.innerWidth;
-  if (windowWidth < 768) {
-    sizeObj.iconSize = "16px";
-    sizeObj.textSize = "text-md";
-  } else {
-    sizeObj.iconSize = "25px";
-    sizeObj.textSize = "text-lg";
-  }
-};
+const { sizeObj, handleResize, handelOnKeyUp } = listenScreen({
+  resize: {
+    facilityStandard: {
+      computer: {
+        iconSize: "25px",
+        textSize: "text-lg",
+      },
+      mobile: {
+        iconSize: "16px",
+        textSize: "text-md",
+      },
+    },
+  },
+  onKeyUp: {
+    visiable: dialogVisible,
+    getData: searchMsg,
+  },
+});
 
 watch(
-  () => route.fullPath,
+  () => route.path,
   () => {
     dialogMenu.value = false;
   }
 );
 
-//添加键盘的监听
 onMounted(() => {
-  document.addEventListener("keyup", onKeyUp);
-  // 监听窗口resize事件
+  document.addEventListener("keyup", handelOnKeyUp);
   window.addEventListener("resize", handleResize);
   handleResize();
 });
 
-//移除键盘监听
 onBeforeMount(() => {
-  document.removeEventListener("keyup", onKeyUp);
+  document.removeEventListener("keyup", handelOnKeyUp);
   window.removeEventListener("resize", handleResize);
 });
 </script>
@@ -299,14 +267,6 @@ onBeforeMount(() => {
   width: 100%;
   height: 50px;
 }
-
-/* :deep(.el-input__wrapper) {
-        background: linear-gradient(to right bottom, rgba(140, 147, 151, 0.708), rgba(116, 215, 159, 0.53), rgb(122, 118, 159));
-    } */
-
-/* :deep(.el-input__inner) {
-        @apply text-red-200 ;
-    } */
 
 :deep(.el-dialog__header) {
   padding: 0px !important;

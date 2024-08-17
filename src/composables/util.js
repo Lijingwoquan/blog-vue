@@ -2,6 +2,7 @@ import { ElNotification } from "element-plus";
 import { ElLoading } from "element-plus";
 
 import nprogress from "nprogress";
+import { reactive } from "vue";
 //成功提示
 export function toast(message, type = "success") {
   ElNotification({
@@ -77,4 +78,35 @@ export function queryToUrl(query) {
   let r = q.join("&");
   r = r ? "?" + r : "";
   return r;
+}
+
+export function listenScreen(opt = {}) {
+  const sizeObj = reactive({});
+
+  const handleResize = () => {
+    if (Object.keys(opt.resize).length > 0) {
+      let resize = opt.resize;
+      let facility = "computer";
+      if (resize.windowWidth < 768) {
+        facility = "mobile";
+      }
+      for (let k in resize.facilityStandard[facility]) {
+        sizeObj[k] = resize.facilityStandard[facility][k];
+      }
+    }
+  };
+
+  const handelOnKeyUp = (e) => {
+    if (Object.keys(opt.onKeyUp).length > 0) {
+      let onKeyUp = opt.onKeyUp;
+      if (e.key == "Enter" && onKeyUp.visiable.value == true) {
+        onKeyUp.getData();
+      }
+    }
+  };
+  return {
+    sizeObj,
+    handleResize,
+    handelOnKeyUp,
+  };
 }

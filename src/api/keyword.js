@@ -1,7 +1,7 @@
 import axios from "~/axios.js";
 
-export function addSearchKeyCount(keyword) {
-  return axios.post(`/keyword/search`, { keyword });
+export function addSearchKeyCount(form) {
+  return axios.post(`/keyword/search`, form);
 }
 
 export function getSearchKeyCount() {
