@@ -2,7 +2,7 @@ import { ElNotification } from "element-plus";
 import { ElLoading } from "element-plus";
 
 import nprogress from "nprogress";
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 //成功提示
 export function toast(message, type = "success") {
   ElNotification({
@@ -82,12 +82,13 @@ export function queryToUrl(query) {
 
 export function listenScreen(opt = {}) {
   const sizeObj = reactive({});
-
+  const sizeStyle = ref("");
   const handleResize = () => {
+    let windowWidth = window.innerWidth;
     if (Object.keys(opt.resize).length > 0) {
       let resize = opt.resize;
       let facility = "computer";
-      if (resize.windowWidth < 768) {
+      if (windowWidth < 768) {
         facility = "mobile";
       }
       for (let k in resize.facilityStandard[facility]) {

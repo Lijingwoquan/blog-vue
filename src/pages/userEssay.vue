@@ -95,15 +95,15 @@
 
 <script setup>
 import { useRoute, useRouter } from "vue-router";
-import { ref, watch, onMounted, onUnmounted } from "vue";
+import { ref, watch, onMounted, onUnmounted, computed } from "vue";
 import { getEssayMsg } from "~/api/user.js";
-import { showLoading } from "~/composables/util.js";
+import { showLoading, listenScreen } from "~/composables/util.js";
 import NavAnchor from "~/components/user/NavAnchor.vue";
 import { diposeHAndGetAnchors } from "~/helper/dataForAnchor.js";
 import { useStore } from "vuex";
 import { initEssayCommonUse } from "~/composables/essayCommonUse";
 //富文本插件
-import VueMarkdownEditor, { id } from "@kangc/v-md-editor";
+import VueMarkdownEditor from "@kangc/v-md-editor";
 import "@kangc/v-md-editor/lib/style/base-editor.css";
 // vuepressTheme主题
 import vuepressTheme from "@kangc/v-md-editor/lib/theme/vuepress.js";
@@ -136,20 +136,34 @@ const route = useRoute();
 const router = useRouter();
 
 const {
-  facility,
   previewRef,
   anchorData,
   anchorShow,
   anchorContentShow,
-  fontMode,
   handleCopyCodeSuccess,
   oppositedAnchor,
   closeAnchor,
-  handleResize,
   hideAnchor,
   showAnchor,
   handelScoll,
 } = initEssayCommonUse();
+
+const facility = ref("");
+
+// 根据窗口大小来修改模式
+const handleResize = () => {
+  const windowWidth = window.innerWidth;
+  if (windowWidth <= 768) {
+    facility.value = "mobile";
+  } else {
+    facility.value = "computer";
+  }
+};
+const fontMode = computed(() => {
+  return facility.value === "computer"
+    ? "computer-text-size"
+    : "mobile-text-size";
+});
 
 function getCurrentEssayId() {
   const currentRouter = route.path;
