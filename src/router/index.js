@@ -129,6 +129,7 @@ export function addIndexRouters(dataAboutIndexMenu) {
 }
 
 export function addEssayRouters(essayRoute) {
+  let hasNewRoutes = false;
   let essay = {
     path: essayRoute,
     component: userEssay,
@@ -139,6 +140,8 @@ export function addEssayRouters(essayRoute) {
   };
 
   if (!router.hasRoute(essayRoute)) {
+    hasNewRoutes = true;
     router.addRoute("blog", essay);
   }
+  return hasNewRoutes;
 }

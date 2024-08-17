@@ -1,11 +1,9 @@
 import axios from "axios";
-import { useRouter } from "vue-router";
 import { getToken } from "~/composables/auth.js";
 import { removeToken } from "~/composables/auth";
 const service = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_API,
 });
-const router = useRouter();
 
 // 添加请求拦截器
 service.interceptors.request.use(

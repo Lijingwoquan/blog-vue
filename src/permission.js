@@ -20,12 +20,6 @@ router.beforeEach(async (to, from, next) => {
   // 去除路由最后的"/"
   const toPath = to.path.length > 1 ? to.path.replace(/\/$/, "") : to.path;
 
-  if (toPath.split("/")[1] && toPath.split("/")[1] == "essay") {
-    console.log("aaa");
-    console.log(toPath);
-    await addEssayRouters(toPath);
-  }
-
   if (toPath === `${config.MANAGER_URL}`) {
     const token = getToken();
     //没有登录,强制跳转到登录页面
@@ -50,6 +44,11 @@ router.beforeEach(async (to, from, next) => {
     //动态添加路由
     hasNewRoutes = addIndexRouters(dataAboutIndexMenu);
   }
+
+  if (toPath.split("/")[1] && toPath.split("/")[1] === "essay") {
+    hasNewRoutes = addEssayRouters(toPath);
+  }
+
   hasNewRoutes
     ? next({ path: toPath, query: to.query, hash: to.hash })
     : next();

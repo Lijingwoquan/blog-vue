@@ -157,7 +157,6 @@ const tableData = ref({});
 const getData = () => {
   getEssayMsg(essayID.value)
     .then((res) => {
-      console.log(res);
       tableData.value = res;
     })
     .finally(() => {});
@@ -185,7 +184,6 @@ watch(
 function getCurrentEssayId() {
   const currentRouter = route.fullPath;
   for (let i = 0; i < store.state.essayList.length; i++) {
-    console.log(store.state.essayList[i]);
     if (store.state.essayList[i].complexRouter === currentRouter) {
       return store.state.essayList[i].id;
     }
