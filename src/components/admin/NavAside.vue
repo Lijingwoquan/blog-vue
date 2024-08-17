@@ -54,7 +54,7 @@ import { onMounted, ref, watch } from "vue";
 const route = useRoute();
 const router = useRouter();
 
-const activeToolRoute = ref("");
+const activeToolRoute = ref("/");
 
 const menu = [
   {
@@ -83,15 +83,20 @@ const switchTool = (item) => {
   router.push(`${config.MANAGER_URL}${item.route}`);
 };
 
+const initActiveToolBar = () => {
+  if (route.path.split("/").length > 3) {
+    activeToolRoute.value = "/" + route.path.split("/")[3];
+  } else {
+    activeToolRoute.value = "/";
+  }
+};
+initActiveToolBar();
 watch(
   () => route.path,
   () => {
-    activeToolRoute.value = "/" + route.path.split("/")[3];
+    initActiveToolBar();
   }
 );
-onMounted(() => {
-  activeToolRoute.value = "/" + route.path.split("/")[3];
-});
 </script>
 
 <style scoped>
