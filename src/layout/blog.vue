@@ -1,12 +1,6 @@
 <template>
   <div class="background-color"></div>
   <el-backtop
-    class="hidden-sm-and-down"
-    :right="40"
-    :bottom="30"
-    :visibility-height="300"
-  />
-  <el-backtop
     class="hidden-sm-and-up"
     :right="40"
     :bottom="30"
@@ -20,16 +14,8 @@
       />
     </el-header>
     <el-row>
-      <el-col
-        ref="navAsideColRef"
-        v-resize="handleResize"
-        :xs="0"
-        :sm="4"
-        :md="4"
-        :lg="4"
-        :xl="4"
-      >
-        <NavAside class="hidden-xs-only" :width="navWidthRef" />
+      <el-col :xs="0" :sm="4" :md="4" :lg="4" :xl="4">
+        <NavAside class="hidden-xs-only" />
       </el-col>
       <!-- essay布局 -->
       <el-col
@@ -48,7 +34,7 @@
       </el-col>
 
       <!-- classify布局 -->
-      <!-- 由于生命周期的问题 这里应该这么写 不能用essay -->
+      <!-- 由于生命周期的问题 这里应该这么写 不能用classify -->
       <el-col
         v-if="route.path.split('/')[1] !== 'essay'"
         :xs="24"
@@ -93,14 +79,8 @@ import { useRoute } from "vue-router";
 
 const ifToEssay = ref(false);
 const route = useRoute();
-const navAsideColRef = ref(null);
-const navWidthRef = ref(0);
 
 const essayComponent = ref(null);
-
-const handleResize = () => {
-  navWidthRef.value = navAsideColRef.value.$el.clientWidth;
-};
 
 const handleOpenSearch = () => {
   if (essayComponent.value) {
@@ -119,7 +99,6 @@ onMounted(() => {
   if (route.fullPath.split("/")[1] === "essay") {
     ifToEssay.value = true;
   }
-  handleResize();
 });
 
 watch(
@@ -129,7 +108,6 @@ watch(
     if (route.path.split("/")[1] === "essay") {
       ifToEssay.value = true;
     }
-    navWidthRef.value = navAsideColRef.value.$el.clientWidth;
   }
 );
 </script>

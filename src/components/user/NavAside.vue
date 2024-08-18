@@ -1,5 +1,5 @@
 <template>
-  <div :class="navAsideClass" :style="navAsideStyle" class="pl-4 pr-3">
+  <div class="nav-aside pl-4 pr-3">
     <div v-for="(item, index) in menu" :key="index" class="mt-2">
       <h2 class="kind">{{ item.classifyKind }}</h2>
       <section class="section">
@@ -28,7 +28,7 @@
 
 <script setup>
 import { useRouter, useRoute } from "vue-router";
-import { computed, ref, watch } from "vue";
+import { ref, watch } from "vue";
 import { useStore } from "vuex";
 
 const router = useRouter();
@@ -55,25 +55,6 @@ watch(
     activeClassify.value = "/classify/" + route.path.split("/")[2];
   }
 );
-
-const navAsideStyle = computed(() => {
-  if (props.width && props.width > 10) {
-    return props.width ? { width: props.width + "px" } : {};
-  }
-});
-
-const navAsideClass = computed(() => {
-  if (props.width && props.width > 10) {
-    return props.width ? "nav-aside" : "";
-  }
-});
-
-const props = defineProps({
-  width: {
-    type: Number,
-    required: true,
-  },
-});
 </script>
 
 <style scoped>
