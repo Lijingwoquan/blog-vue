@@ -108,8 +108,6 @@
             @click="deleted(essay.id)"
             >删除文章</el-button
           >
-          <!-- <el-button type="primary" size="large" @click="updateEssayMsg(essay)">修改信息</el-button>
-          <el-button type="primary" size="large" @click="updateEssayContentPre(essay.id)">修改内容</el-button> -->
         </li>
       </ul>
     </el-dialog>
@@ -187,13 +185,15 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeMount, computed } from "vue";
+import { ref, computed } from "vue";
 import { useStore } from "vuex";
 import { toast } from "~/composables/util";
 import { ElMessageBox } from "element-plus";
-import essayEdit from "~/components/essayEdit.vue";
+
 import { updateEssayMsg, deleteEssay } from "~/api/manager.js";
 import { getEssayMsg } from "~/api/user.js";
+
+import essayEdit from "~/components/essayEdit.vue";
 import dynamicAddTag from "./components/dynamicAddTag.vue";
 
 const store = useStore();
@@ -286,20 +286,6 @@ const updateEssay = () => {
       toast("修改文章失败", "error");
     });
 };
-
-function onKeyUp(e) {
-  if (e.key == "Enter" && dialogVisible.value == true) {
-    searchMsg();
-  }
-}
-//添加键盘的监听
-onMounted(() => {
-  document.addEventListener("keyup", onKeyUp);
-});
-//移除键盘监听
-onBeforeMount(() => {
-  document.removeEventListener("keyup", onKeyUp);
-});
 </script>
 
 <style scoped>

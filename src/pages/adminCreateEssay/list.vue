@@ -1,67 +1,75 @@
 <template>
   <!-- 添加文章的抽屉 -->
   <el-drawer
-    v-model="dialogForAddEssay"
+    v-model="drawerVisiableRef"
     title="添加文章"
-    direction="ttb"
     append-to-body
-    size="700px"
+    size="45%"
   >
-    分类
-    <el-select
-      v-model="addEssayParms.kind"
-      class="input"
-      placeholder="选择分类"
-    >
-      <el-option
-        v-for="item in classifyArr"
-        :key="item.name"
-        :label="item.name"
-        :value="item.name"
-      />
-      <el-option label="自定义" value="" @click="customInputPre" />
-    </el-select>
-    <el-input
-      v-if="customInput == true"
-      v-model="addEssayParms.kind"
-      placeholder="输入分类"
-      class="input"
-    ></el-input>
+    <el-form :model="form" label-width="80px" :inline="false">
+      <el-form-item label="分类">
+        <el-select v-model="form.kind" class="input" placeholder="选择分类">
+          <el-option
+            v-for="item in classifyArr"
+            :key="item.name"
+            :label="item.name"
+            :value="item.name"
+          />
+          <el-option label="自定义" value="" @click="ifCustomInput = true" />
+        </el-select>
+        <el-input
+          v-if="ifCustomInput == true"
+          v-model="form.kind"
+          placeholder="输入分类"
+        ></el-input>
+      </el-form-item>
 
-    文章名
-    <el-input v-model="addEssayParms.name" placeholder="文章名" class="input" />
+      <el-form-item label="文章名">
+        <el-input v-model="form.name" placeholder="文章名" />
+      </el-form-item>
 
-    路由
-    <el-input v-model="addEssayParms.router" placeholder="路由" class="input" />
+      <el-form-item label="路由">
+        <el-input v-model="form.router" placeholder="路由" />
+      </el-form-item>
 
-    介绍
-    <el-input
-      v-model="addEssayParms.introduction"
-      placeholder="介绍"
-      class="input"
-    />
+      <el-form-item label="介绍">
+        <el-input
+          v-model="form.introduction"
+          placeholder="介绍"
+          class="input"
+        />
+      </el-form-item>
 
-    <el-button
-      type="primary"
-      size="large"
-      style="width: 100%"
-      @click="addEssayFunc"
-      class="mt-5"
-      >添加</el-button
-    >
+      <el-form-item>
+        <el-button
+          type="primary"
+          size="large"
+          style="width: 100%"
+          @click="handelCreate"
+          class="mt-5"
+          :loading="btnLoading"
+          >添加</el-button
+        >
+      </el-form-item>
+    </el-form>
   </el-drawer>
+
   <div class="mx-3 my-3">
     <essayEdit
       mode="edit"
       height="690px"
       v-model:previewRef="previewRef"
-      v-model:editContent="addEssayParms.content"
+      v-model:editContent="form.content"
     />
   </div>
 
   <!-- 底部按钮 -->
   <div class="bottom">
-    <el-button type="primary" size="large" @click="addEssayPre" class="btn"
+    <el-button
+      type="primary"
+      size="large"
+      @click="drawerVisiableRef = true"
+      class="btn"
       >添加文章</el-button
     >
   </div>
@@ -70,58 +78,35 @@
 <script setup>
 import { ref, reactive } from "vue";
 import { useStore } from "vuex";
-import { addEssay } from "~/api/manager.js";
-import { toast } from "~/composables/util";
 import essayEdit from "~/components/essayEdit.vue";
+import { createEssay } from "~/api/manager.js";
+import { useCommonForm } from "~/composables/useCommon.js";
 
 const store = useStore();
 const classifyArr = store.state.classifyData;
-const dialogForAddEssay = ref(false);
-const customInput = ref(false);
+
+const ifCustomInput = ref(false);
 const previewRef = ref({});
-const addEssayParms = reactive({
-  name: "",
-  kind: "",
-  introduction: "",
-  content: ref(""),
-  router: "",
+
+const { form, btnLoading, drawerVisiableRef, handelCreate } = useCommonForm({
+  form: reactive({
+    name: "",
+    kind: "",
+    introduction: "",
+    content: "",
+    router: "",
+  }),
+  create: createEssay,
 });
-
-function customInputPre() {
-  customInput.value = true;
-}
-
-function addEssayPre() {
-  dialogForAddEssay.value = true;
-}
-
-function addEssayFunc() {
-  addEssay(addEssayParms)
-    .then(async (res) => {
-      await store.dispatch("getIndexInfo");
-      toast("添加文章成功", "success");
-    })
-    .catch((err) => {
-      toast("添加文章失败", "error");
-    })
-    .finally(() => {
-      dialogForAddEssay.value = false;
-    });
-}
 </script>
 
 <style scoped>
-.input {
-  @apply my-3;
-  height: 35px;
-}
-
 .bottom {
   @apply bottom-3 fixed;
   z-index: 999;
 }
 
 .bottom .btn {
-  @apply mx-3;
+  @apply ml-3;
 }
 </style>

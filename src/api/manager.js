@@ -8,41 +8,26 @@ export function login(form) {
 }
 
 // kind
-export function updateKind(kindParams) {
-  return axios.put("/manager/updateKind", kindParams);
+export function updateKind(form) {
+  return axios.put("/manager/updateKind", form);
 }
 
 // classify
-export function updateClassify(classifyParams) {
-  classifyParams.router = classifyParams.router.split(" ").join("");
-  if (classifyParams.router[0] !== "/") {
-    classifyParams.router = `/${classifyParams.router}`;
-  }
-  return axios.put("/manager/updateClassify", classifyParams);
+export function updateClassify(form) {
+  return axios.put("/manager/updateClassify", form);
 }
 
-export function addClassify(classifyParams) {
-  classifyParams.router = classifyParams.router.split(" ").join("");
-  if (classifyParams.router[0] !== "/") {
-    classifyParams.router = `/${classifyParams.router}`;
-  }
-  return axios.post("/manager/addClassify", classifyParams);
+export function addClassify(form) {
+  return axios.post("/manager/addClassify", form);
 }
 
 // essay
-export function addEssay(addEssayParms) {
-  addEssayParms.router = addEssayParms.router.split(" ").join("");
-  if (addEssayParms.router[0] !== "/") {
-    addEssayParms.router = `/${addEssayParms.router}`;
-  }
-
-  return axios.post("/manager/addEssay", {
-    ...addEssayParms,
-  });
+export function createEssay(form) {
+  return axios.post("/manager/addEssay", form);
 }
 
-export function updateEssayMsg(essayObj) {
-  return axios.put("/manager/updateEssayMsg", essayObj);
+export function updateEssayMsg(form) {
+  return axios.put("/manager/updateEssayMsg", form);
 }
 
 export function deleteEssay(id) {

@@ -1,6 +1,6 @@
 import { reactive, ref } from "vue";
 import { setIndexPage, getIndexPage } from "~/composables/auth.js";
-import { showLoading } from "~/composables/util.js";
+import { showLoading, toast } from "~/composables/util.js";
 
 // 获取数据 分页 loading状态
 export function useCommonGetData(opt = {}) {
@@ -82,10 +82,41 @@ export function useCommonGetData(opt = {}) {
 
 // 增删改 简而言之就是除get以外的请求
 export function useCommonForm(opt = {}) {
+  const btnLoading = ref(false);
+  const drawerVisiableRef = ref(false);
   let form = opt.form;
 
+  const disposeRouter = () => {
+    if (form.router) {
+      form.router = form.router.split(" ").join("");
+      if (form.router[0] !== "/") {
+        form.router = `/${form.router}`;
+      }
+    }
+  };
+
+  const handelCreate = () => {
+    btnLoading.value = true;
+    if (typeof opt.create === "function") {
+      disposeRouter();
+      opt
+        .create(form)
+        .then(() => {
+          toast("创建成功");
+        })
+        .catch((err) => {
+          toast(err, "error");
+        })
+        .finally(() => {
+          btnLoading.value = false;
+          drawerVisiableRef.value = false;
+        });
+    }
+  };
+
   const handleUpdate = () => {
-    loading.value = true;
+    btnLoading.value = true;
+    disposeRouter();
     if (typeof opt.update === "function") {
       opt
         .update(form)
@@ -93,13 +124,14 @@ export function useCommonForm(opt = {}) {
           toast("更新成功");
         })
         .finally(() => {
-          loading.value = false;
+          btnLoading.value = false;
+          drawerVisiableRef.value = false;
         });
     }
   };
 
   const handelDelete = () => {
-    loading.value = true;
+    btnLoading.value = true;
     if (typeof opt.delete === "function")
       opt
         .delete(form)
@@ -107,12 +139,15 @@ export function useCommonForm(opt = {}) {
           toast("删除成功");
         })
         .finally(() => {
-          loading.value = false;
+          btnLoading.value = false;
         });
   };
 
   return {
     form,
+    btnLoading,
+    drawerVisiableRef,
+    handelCreate,
     handleUpdate,
     handelDelete,
   };
