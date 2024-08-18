@@ -49,14 +49,12 @@
             </div>
           </div>
           <div>
-            <v-md-editor
-              :class="sizeObj.dynamicStyle"
-              @copy-code-success="handleCopyCodeSuccess"
-              v-model="tableData.content"
-              height="auto"
-              mode="preview"
-              ref="previewRef"
-            />
+            <essayEdit
+              v-if="tableData.content"
+              ref="essayEditRef"
+              v-model:editContent="tableData.content"
+              v-model:previewRef="previewRef"
+            ></essayEdit>
           </div>
         </div>
       </el-col>
@@ -102,35 +100,8 @@ import NavAnchor from "./components/NavAnchor.vue";
 import { diposeHAndGetAnchors } from "~/helper/dataForAnchor.js";
 import { useStore } from "vuex";
 import { initEssayCommonUse } from "~/composables/essayCommonUse";
-//富文本插件
-import VueMarkdownEditor from "@kangc/v-md-editor";
-import "@kangc/v-md-editor/lib/style/base-editor.css";
-// vuepressTheme主题
-import vuepressTheme from "@kangc/v-md-editor/lib/theme/vuepress.js";
-import "@kangc/v-md-editor/lib/theme/style/vuepress.css";
-// 代码高亮
-import Prism from "prismjs";
-//代码快捷复制
-import createCopyCodePlugin from "@kangc/v-md-editor/lib/plugins/copy-code/index";
-import "@kangc/v-md-editor/lib/plugins/copy-code/copy-code.css";
-// 代码行数
-// import createLineNumbertPlugin from '@kangc/v-md-editor/lib/plugins/line-number/index';
-// todolist
-import createTodoListPlugin from "@kangc/v-md-editor/lib/plugins/todo-list/index";
-import "@kangc/v-md-editor/lib/plugins/todo-list/todo-list.css";
-//mermaid(流程图等)
-import createMermaidPlugin from "@kangc/v-md-editor/lib/plugins/mermaid/cdn";
-import "@kangc/v-md-editor/lib/plugins/mermaid/mermaid.css";
-
-VueMarkdownEditor.use(vuepressTheme, {
-  Prism,
-  extend(md) {},
-});
-// VueMarkdownEditor.use(createLineNumbertPlugin());
-VueMarkdownEditor.use(createCopyCodePlugin());
-VueMarkdownEditor.use(createTodoListPlugin());
-VueMarkdownEditor.use(createMermaidPlugin());
-
+import essayEdit from "~/components/essayEdit.vue";
+const essayEditRef = ref(null);
 const store = useStore();
 const route = useRoute();
 const router = useRouter();
@@ -140,13 +111,12 @@ const {
   anchorData,
   anchorShow,
   anchorContentShow,
-  handleCopyCodeSuccess,
   oppositedAnchor,
   closeAnchor,
   hideAnchor,
   showAnchor,
   handelScoll,
-} = initEssayCommonUse();
+} = initEssayCommonUse(essayEditRef);
 
 const { sizeObj, facility, handleResize } = listenScreen({
   resize: {
@@ -276,13 +246,5 @@ defineExpose({
 
 :deep(.vuepress-markdown-body) {
   font-size: var(--markdown-font-size);
-}
-
-.computer-text-size {
-  font-size: 130%;
-}
-
-.mobile-text-size {
-  font-size: initial;
 }
 </style>

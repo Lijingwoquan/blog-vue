@@ -52,9 +52,11 @@
   </el-drawer>
   <div class="mx-3 my-3">
     <essayEdit
-      v-model:editContent="addEssayParms.content"
+      mode="edit"
       height="690px"
-    ></essayEdit>
+      v-model:previewRef="previewRef"
+      v-model:editContent="addEssayParms.content"
+    />
   </div>
 
   <!-- 底部按钮 -->
@@ -70,13 +72,13 @@ import { ref, reactive } from "vue";
 import { useStore } from "vuex";
 import { addEssay } from "~/api/manager.js";
 import { toast } from "~/composables/util";
-import essayEdit from "~/components/admin/essayEdit.vue";
+import essayEdit from "~/components/essayEdit.vue";
 
 const store = useStore();
 const classifyArr = store.state.classifyData;
 const dialogForAddEssay = ref(false);
 const customInput = ref(false);
-
+const previewRef = ref({});
 const addEssayParms = reactive({
   name: "",
   kind: "",

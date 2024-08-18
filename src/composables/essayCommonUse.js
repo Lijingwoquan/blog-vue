@@ -1,7 +1,7 @@
 import { ref, reactive, computed } from "vue";
 
 export function initEssayCommonUse() {
-  const previewRef = ref(null);
+  const previewRef = ref({});
   const anchorData = reactive({
     anchors: [],
     anchorElement: [],
@@ -9,10 +9,6 @@ export function initEssayCommonUse() {
   });
   const anchorShow = ref(false);
   const anchorContentShow = ref(false);
-
-  const handleCopyCodeSuccess = () => {
-    toast("复制成功", "success");
-  };
 
   const oppositedAnchor = () => {
     anchorContentShow.value = !anchorContentShow.value;
@@ -48,7 +44,6 @@ export function initEssayCommonUse() {
     anchorData,
     anchorShow,
     anchorContentShow,
-    handleCopyCodeSuccess,
     oppositedAnchor,
     closeAnchor,
     hideAnchor,

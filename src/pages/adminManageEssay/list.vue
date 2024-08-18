@@ -7,7 +7,11 @@
         </el-icon>
       </el-button>
     </div>
-    <essayEdit v-model:editContent="updateEssayMsgObj.content"></essayEdit>
+    <essayEdit
+      mode="edit"
+      v-model:previewRef="previewRef"
+      v-model:editContent="updateEssayMsgObj.content"
+    />
   </div>
 
   <!-- 修改文章的窗口 -->
@@ -187,7 +191,7 @@ import { ref, onMounted, onBeforeMount, computed } from "vue";
 import { useStore } from "vuex";
 import { toast } from "~/composables/util";
 import { ElMessageBox } from "element-plus";
-import essayEdit from "~/components/admin/essayEdit.vue";
+import essayEdit from "~/components/essayEdit.vue";
 import { updateEssayMsg, deleteEssay } from "~/api/manager.js";
 import { getEssayMsg } from "~/api/user.js";
 import dynamicAddTag from "./components/dynamicAddTag.vue";
@@ -200,7 +204,7 @@ const dialogVisible = ref(false);
 const dialogForUpdateEssay = ref(false);
 const updatePermission = ref(false);
 const updateEssayMsgObj = ref({});
-
+const previewRef = ref({});
 //搜索数据
 const input = ref("");
 function openSearch() {

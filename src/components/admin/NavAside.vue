@@ -49,7 +49,7 @@
 <script setup>
 import { config } from "/config.js";
 import { useRouter, useRoute } from "vue-router";
-import { onMounted, ref, watch } from "vue";
+import { ref, watch } from "vue";
 
 const route = useRoute();
 const router = useRouter();

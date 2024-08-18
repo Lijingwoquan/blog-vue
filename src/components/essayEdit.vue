@@ -1,32 +1,24 @@
 <template>
-  <div class="ml-2">
-    <!-- edit -->
-    <v-md-editor
-      ref="editorRef"
-      :include-level="[1, 2, 3, 4, 5, 6]"
-      v-model="editContent"
-      :height="props.height"
-      @upload-image="handleUploadImage"
-      right-toolbar="| toc | tip| todo-list | sync-scroll | preview | fullscreen "
-      :disabled-menus="[]"
-      @copy-code-success="handleCopyCodeSuccess"
-    />
-    <!-- essay -->
-    <v-md-editor
-      :class="sizeObj.dynamicStyle"
-      @copy-code-success="handleCopyCodeSuccess"
-      v-model="tableData.content"
-      height="auto"
-      mode="preview"
-      ref="previewRef"
-    />
-  </div>
+  <v-md-editor
+    class="ml-2"
+    ref="previewRef"
+    :include-level="[1, 2, 3, 4, 5, 6]"
+    v-model="editContent"
+    :height="ifEdit ? props.height : ''"
+    @upload-image="handleUploadImage"
+    right-toolbar="ifEdit ?  '| toc | tip| todo-list | sync-scroll | preview | fullscreen'"
+    :disabled-menus="[]"
+    @copy-code-success="handleCopyCodeSuccess"
+    :mode="ifEdit ? 'editable' : 'preview'"
+    :class="sizeObj.dynamicStyle"
+  />
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, ref } from "vue";
+import { computed, onMounted, onUnmounted, ref } from "vue";
 import { uploadImg } from "~/api/manager.js";
 import { toast } from "~/composables/util";
+import { listenScreen } from "~/composables/util.js";
 
 //富文本插件
 import VueMarkdownEditor from "@kangc/v-md-editor";
@@ -65,16 +57,44 @@ const props = defineProps({
     required: false,
     default: "650px",
   },
+  mode: {
+    type: String,
+    required: false,
+    default: "read",
+  },
 });
-
-const editorRef = ref(null);
 
 const editContent = defineModel("editContent", {
   type: String,
   required: true,
 });
+const previewRef = defineModel("previewRef", {
+  type: Object,
+  required: true,
+});
+const { sizeObj, handleResize } = listenScreen({
+  resize: {
+    facilityStandard: {
+      computer: {
+        dynamicStyle: "computer-text-size",
+      },
+      mobile: {
+        dynamicStyle: "mobile-text-size",
+      },
+    },
+  },
+});
+
+const ifEdit = computed(() => {
+  return props.mode == "edit" ? true : false;
+});
+
+const handleCopyCodeSuccess = () => {
+  toast("复制成功");
+};
 
 async function handleUploadImage(event, insertImage, files) {
+  console.log("ddd");
   try {
     // 获取上传的图片文件
     const file = files[0]; // 假设只上传了一张图片
@@ -85,7 +105,7 @@ async function handleUploadImage(event, insertImage, files) {
     await uploadImg(formData);
 
     const apiBase = import.meta.env.VITE_APP_BASE_API;
-    editorRef.value.insert(function (selected) {
+    previewRef.value.insert(function (selected) {
       const placeholder = `![Description](${apiBase}/img/${file.name})`;
       const content = selected || placeholder;
       return {
@@ -99,25 +119,33 @@ async function handleUploadImage(event, insertImage, files) {
 }
 
 // 修改事件监听
-function handleBeforeUnload(e) {
-  e = e || window.event;
-
-  // 兼容 IE8 及更早版本
-  var confirmationMessage = "确认离开页面?";
-
-  e.returnValue = confirmationMessage;
-  r;
-  return confirmationMessage;
+function handleBeforeLeave(e) {
+  if (ifEdit.value && editContent.value) {
+    e = e || window.event;
+    // 兼容 IE8 及更早版本
+    var confirmationMessage = "确认离开页面?";
+    e.returnValue = confirmationMessage;
+    return confirmationMessage;
+  }
 }
 
 onMounted(() => {
-  window.addEventListener("beforeunload", handleBeforeUnload);
+  handleResize();
+  window.addEventListener("beforeunload", handleBeforeLeave);
+  window.addEventListener("resize", handleResize);
 });
 onUnmounted(() => {
-  window.removeEventListener("beforeunload", handleBeforeUnload);
+  window.removeEventListener("beforeunload", handleBeforeLeave);
+  window.removeEventListener("resize", handleResize);
 });
-//复制代码成功
-const handleCopyCodeSuccess = () => {
-  toast("复制成功");
-};
 </script>
+
+<style scoped>
+.computer-text-size {
+  font-size: 130%;
+}
+
+.mobile-text-size {
+  font-size: initial;
+}
+</style>
