@@ -97,13 +97,6 @@
             :label="item.name"
             :value="item.name"
           />
-          <el-option label="自定义" value="" @click="ifCustomInput = true" />
-          <el-input
-            v-if="ifCustomInput == true"
-            v-model="form.kind"
-            placeholder="输入分类"
-            class="mt-3"
-          ></el-input>
         </el-select>
       </el-form-item>
       <el-form-item label="文章名">
@@ -170,7 +163,6 @@ const {
   reloadData: getEssayList,
 });
 
-const ifCustomInput = ref(false);
 const dialogVisibleRef = ref(false);
 const previewRef = ref({});
 

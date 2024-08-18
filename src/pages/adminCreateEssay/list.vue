@@ -15,14 +15,7 @@
             :label="item.name"
             :value="item.name"
           />
-          <el-option label="自定义" value="" @click="ifCustomInput = true" />
         </el-select>
-        <el-input
-          v-if="ifCustomInput == true"
-          class="mt-3"
-          v-model="form.kind"
-          placeholder="输入分类"
-        ></el-input>
       </el-form-item>
 
       <el-form-item label="文章名">
@@ -87,7 +80,6 @@ import { useCommonForm } from "~/composables/useCommon.js";
 const store = useStore();
 const classifyArr = store.state.classifyData;
 
-const ifCustomInput = ref(false);
 const previewRef = ref({});
 
 const { form, btnLoading, drawerVisiableRef, handelCreate } = useCommonForm({
