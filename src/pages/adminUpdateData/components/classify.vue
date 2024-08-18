@@ -5,7 +5,7 @@
       <el-button
         type="success"
         size="default"
-        @click="addClassifyPre"
+        @click="drawerVisiableRef = true"
         class="btn"
       >
         添加分类
@@ -15,7 +15,7 @@
       </el-button>
     </div>
     <div class="classifyList">
-      <div v-for="(classify, index) in classifiesKind">
+      <div v-for="(classify, index) in classifiesKind" :key="index">
         <el-button
           type="primary"
           size="default"
@@ -30,178 +30,135 @@
 
   <!-- 添加分类抽屉 -->
   <el-drawer
-    v-model="drawerVisibleForAddKind"
+    v-model="drawerVisiableRef"
     title="添加classify"
     direction="rtl"
     append-to-body
     size="700px"
   >
-    <div class="drawerForAddClassify" destroy-on-close>
-      <span class="title">类型</span>
-      <el-select
-        v-model="classifyParms.kind"
-        class="AddClassify"
-        placeholder="选择分类"
-      >
-        <el-option
-          v-for="item in classifiesKind"
-          :key="item.kind"
-          :label="item.kind"
-          :value="item.kind"
+    <el-form :model="form" label-width="80px" :inline="false">
+      <el-form-item label="类型">
+        <el-select size="small" v-model="form.kind" placeholder="选择分类">
+          <el-option
+            v-for="item in classifiesKind"
+            :key="item.kind"
+            :label="item.kind"
+            :value="item.kind"
+          />
+          <el-option label="自定义" value="" @click="customInput = true" />
+        </el-select>
+        <el-input
+          v-if="customInput == true"
+          v-model="form.kind"
+          placeholder="输入分类"
+          class="mt-4"
         />
-        <el-option label="自定义" value="" @click="customInputPre" />
-      </el-select>
-      <el-input
-        v-if="customInput == true"
-        v-model="classifyParms.kind"
-        placeholder="输入分类"
-        class="mt-6 AddClassify"
-      ></el-input>
-
-      <span class="title">分类名称</span>
-      <el-input v-model="classifyParms.name" class="AddClassify"> </el-input>
-
-      <span class="title">路由</span>
-      <el-input v-model="classifyParms.router" class="AddClassify"> </el-input>
-
-      <span class="title">图标</span>
-      <div style="width: 100%" class="flex items-center mt-2">
+      </el-form-item>
+      <el-form-item label="分类名称">
+        <el-input v-model="form.name" />
+      </el-form-item>
+      <el-form-item label="路由">
+        <el-input v-model="form.router" />
+      </el-form-item>
+      <el-form-item label="图标">
         <iconChoose
-          class="AddClassify ml-1"
-          style="width: 30%"
-          :modelValue="classifyParms.icon"
-          @update:modelValue="(icon) => chooseIcon(classifyParms, icon)"
+          :modelValue="form.icon"
+          @update:modelValue="(icon) => (form.icon = icon)"
         ></iconChoose>
-      </div>
+      </el-form-item>
 
-      <el-button
-        type="primary"
-        size="default"
-        @click="addClassifyHandel(classifyParms)"
-        class="btn"
-        >提交</el-button
-      >
-    </div>
+      <el-form-item>
+        <el-button
+          type="primary"
+          style="width: 100%"
+          @click="handelCreate"
+          :loading="btnLoading"
+          >提交</el-button
+        >
+      </el-form-item>
+    </el-form>
   </el-drawer>
 
   <!-- 修改分类窗口 -->
-  <template>
-    <el-dialog
-      v-model="dialogVisibleForUpdateClassify"
-      :v-close-on-click-modal="true"
-      :show-close="true"
-      append-to-body
-      :draggable="false"
-      width="80%"
-    >
-      <div class="text-center text-xl text-blue-400">该kind下的classify</div>
-      <ul>
-        <li>
-          <div class="updateClassify">
-            <div>
-              <el-input disabled placeholder="分类名称" class="mx-5"></el-input>
-              <el-input disabled placeholder="分类路由" class="mx-5"></el-input>
-              <el-button disabled type="primary" size="default"
-                >修改分类</el-button
-              >
-            </div>
-          </div>
-        </li>
-        <li v-for="(classify, index) in satisfyClassify">
-          <div class="updateClassify">
-            <div>
-              <el-input
-                v-model="classify.name"
-                placeholder="分类名称"
-                class="mx-5"
-              ></el-input>
-              <el-input
-                v-model="classify.router"
-                placeholder="分类路由"
-                class="mx-5"
-              ></el-input>
-              <el-button
-                type="primary"
-                size="default"
-                @click="updateClassifyHandel(classify)"
-                >修改分类</el-button
-              >
-            </div>
-          </div>
-        </li>
-      </ul>
-    </el-dialog>
-  </template>
-  <div class="test"></div>
+  <el-dialog
+    v-model="dialogVisibleRef"
+    :v-close-on-click-modal="true"
+    :show-close="true"
+    append-to-body
+    :draggable="false"
+    width="80%"
+  >
+    <el-card shadow="always">
+      <el-table :data="satisfyClassify" border stripe v-loading="tableLoading">
+        <el-table-column type="index" width="50" />
+        <el-table-column label="分类名称" align="center">
+          <template #default="{ row }">
+            <el-input v-model="row.name"></el-input>
+          </template>
+        </el-table-column>
+        <el-table-column label="分类路由" align="center">
+          <template #default="{ row }">
+            <el-input v-model="row.router"></el-input>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" align="center">
+          <template #default="{ row }">
+            <el-button type="primary" text @click="updateClassifyHandel(row)"
+              >修改分类</el-button
+            >
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-card>
+  </el-dialog>
 </template>
 
 <script setup>
 import { useStore } from "vuex";
 import { ref, reactive, computed } from "vue";
-import { updateClassify, addClassify } from "~/api/manager.js";
-import { toast } from "~/composables/util";
+import { updateClassify, createClassify } from "~/api/manager.js";
+import { useCommonForm } from "~/composables/useCommon.js";
+import { toast } from "~/composables/util.js";
 import iconChoose from "./iconChoose.vue";
 
+const { form, btnLoading, tableLoading, drawerVisiableRef, handelCreate } =
+  useCommonForm({
+    form: reactive({
+      kind: "",
+      name: "",
+      router: "",
+      icon: "",
+    }),
+    create: createClassify,
+    reload: true,
+  });
 
 const store = useStore();
-const classifyParms = reactive({
-  kind: "",
-  name: "",
-  router: "",
-  icon: "",
-});
 
 const classifiesKind = computed(() => store.state.classifyKind);
 const classifies = computed(() => store.state.classifyData);
 
 const satisfyClassify = ref([]);
 const customInput = ref(false);
-const dialogVisibleForUpdateClassify = ref(false);
-const drawerVisibleForAddKind = ref(false);
-
-const customInputPre = () => {
-  customInput.value = true;
-};
-
-// 选择图标
-const chooseIcon = (classifyParms, icon) => {
-  classifyParms.icon = icon;
-};
-
-// 添加
-const addClassifyPre = () => {
-  drawerVisibleForAddKind.value = true;
-};
-
-const addClassifyHandel = (classifyParms) => {
-  addClassify(classifyParms)
-    .then(async () => {
-      await store.dispatch("getIndexInfo");
-      toast("添加分类种类成功");
-    })
-    .catch(() => {
-      toast("添加分类种类失败", "error");
-    });
-};
+const dialogVisibleRef = ref(false);
 
 // 更新
 const updateClassifyPre = (kind) => {
   satisfyClassify.value = [];
-  dialogVisibleForUpdateClassify.value = true;
+  dialogVisibleRef.value = true;
   classifies.value.forEach((classify) => {
     if (classify.kind == kind) {
-      let id = classify.id;
-      let name = classify.name;
-      let router = classify.router;
-      satisfyClassify.value.push({ id, name, router });
+      satisfyClassify.value.push(classify);
     }
   });
 };
 
-const updateClassifyHandel = (classify) => {
-  updateClassify(classify)
+const updateClassifyHandel = (row) => {
+  tableLoading.value = true;
+  updateClassify(row)
     .then(async () => {
       await store.dispatch("getIndexInfo");
+      tableLoading.value = false;
       toast("修改分类成功");
     })
     .catch(() => {
@@ -232,34 +189,7 @@ const updateClassifyHandel = (classify) => {
   width: 150px;
 }
 
-.drawerForAddClassify {
-  @apply flex flex-col justify-center items-center text-lg text-blue-700;
-}
-
-.drawerForAddClassify .title {
-  @apply mr-auto mt-5;
-}
-
-.drawerForAddClassify .btn {
-  @apply mr-auto my-10;
-  width: 100%;
-}
-
-.updateClassify {
-  @apply flex flex-col justify-center items-center my-5;
-  height: auto;
-}
-
-.AddClassify {
-  height: 40px;
-}
-
 :deep(.el-select__selection) {
   height: 40px;
-}
-
-.updateClassify > div {
-  @apply flex justify-around my-3;
-  width: 80%;
 }
 </style>

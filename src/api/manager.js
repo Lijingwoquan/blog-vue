@@ -17,7 +17,7 @@ export function updateClassify(form) {
   return axios.put("/manager/updateClassify", form);
 }
 
-export function addClassify(form) {
+export function createClassify(form) {
   return axios.post("/manager/addClassify", form);
 }
 
