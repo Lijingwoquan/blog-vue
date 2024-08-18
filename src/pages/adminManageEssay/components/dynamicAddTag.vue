@@ -2,7 +2,7 @@
   <div class="flex items-center gap-2 mt-2 flex-wrap">
     <el-tag
       v-for="(tag, index) in tags"
-      size="large"
+      size="small"
       class="mx-1"
       :class="{ 'p-0': showEdit[index] }"
       :key="index"
@@ -14,6 +14,7 @@
       <el-input
         v-if="showEdit[index]"
         v-model="tags[index]"
+        size="small"
         style="width: auto"
         @keyup.enter="handleEditConfirm(tag, index)"
         @blur="handleEditConfirm(tag, index)"
@@ -33,7 +34,7 @@
       @keyup.enter="handleInputConfirm"
       @blur="handleInputConfirm"
     />
-    <el-button v-else class="button-new-tag" @click="showInput">
+    <el-button v-else size="small" class="button-new-tag" @click="showInput">
       {{ props.addText }}
     </el-button>
   </div>

@@ -142,6 +142,7 @@ import { updateClassify, addClassify } from "~/api/manager.js";
 import { toast } from "~/composables/util";
 import iconChoose from "./iconChoose.vue";
 
+
 const store = useStore();
 const classifyParms = reactive({
   kind: "",

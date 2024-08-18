@@ -19,6 +19,7 @@
         </el-select>
         <el-input
           v-if="ifCustomInput == true"
+          class="mt-3"
           v-model="form.kind"
           placeholder="输入分类"
         ></el-input>
@@ -48,7 +49,8 @@
           @click="handelCreate"
           class="mt-5"
           :loading="btnLoading"
-          >添加</el-button
+        >
+          添加</el-button
         >
       </el-form-item>
     </el-form>
@@ -97,6 +99,7 @@ const { form, btnLoading, drawerVisiableRef, handelCreate } = useCommonForm({
     router: "",
   }),
   create: createEssay,
+  reloadData: true,
 });
 </script>
 

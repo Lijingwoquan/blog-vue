@@ -1,6 +1,7 @@
 import { reactive, ref } from "vue";
 import { setIndexPage, getIndexPage } from "~/composables/auth.js";
 import { showLoading, toast } from "~/composables/util.js";
+import store from "~/store/index.js";
 
 // 获取数据 分页 loading状态
 export function useCommonGetData(opt = {}) {
@@ -83,7 +84,10 @@ export function useCommonGetData(opt = {}) {
 // 增删改 简而言之就是除get以外的请求
 export function useCommonForm(opt = {}) {
   const btnLoading = ref(false);
+  const tableLoading = ref(false);
   const drawerVisiableRef = ref(false);
+  const id = ref(0);
+
   let form = opt.form;
 
   const disposeRouter = () => {
@@ -91,6 +95,19 @@ export function useCommonForm(opt = {}) {
       form.router = form.router.split(" ").join("");
       if (form.router[0] !== "/") {
         form.router = `/${form.router}`;
+      }
+    }
+  };
+
+  const reload = async () => {
+    if (opt.reloadData) {
+      tableLoading.value = true;
+      await store.dispatch("getIndexInfo").then((res) => {
+        tableLoading.value = false;
+      });
+
+      if (typeof opt.reloadData === "function") {
+        opt.reloadData();
       }
     }
   };
@@ -103,6 +120,7 @@ export function useCommonForm(opt = {}) {
         .create(form)
         .then(() => {
           toast("创建成功");
+          reload();
         })
         .catch((err) => {
           toast(err, "error");
@@ -122,6 +140,7 @@ export function useCommonForm(opt = {}) {
         .update(form)
         .then(() => {
           toast("更新成功");
+          reload();
         })
         .finally(() => {
           btnLoading.value = false;
@@ -134,9 +153,10 @@ export function useCommonForm(opt = {}) {
     btnLoading.value = true;
     if (typeof opt.delete === "function")
       opt
-        .delete(form)
+        .delete(id.value)
         .then(() => {
           toast("删除成功");
+          reload();
         })
         .finally(() => {
           btnLoading.value = false;
@@ -146,7 +166,9 @@ export function useCommonForm(opt = {}) {
   return {
     form,
     btnLoading,
+    tableLoading,
     drawerVisiableRef,
+    id,
     handelCreate,
     handleUpdate,
     handelDelete,

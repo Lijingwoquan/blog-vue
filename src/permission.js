@@ -7,12 +7,11 @@ import {
 } from "~/router/index.js";
 import { toast, showFullLoading, hideFullLoading } from "~/composables/util";
 import { getToken } from "~/composables/auth";
-import store from "./store";
+import store from "~/store/index.js";
 import { config } from "/config.js";
 
 //全局前置守卫
 let hasGetInfo = false;
-
 router.beforeEach(async (to, from, next) => {
   //显示loading
   showFullLoading();
