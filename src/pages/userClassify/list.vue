@@ -42,10 +42,7 @@ import { useRouter, useRoute } from "vue-router";
 import { computed, watch } from "vue";
 import { useStore } from "vuex";
 import { getEssayList } from "~/api/user.js";
-import {
-  useCommonInitData,
-  useCommonInitForm,
-} from "~/composables/useCommon.js";
+import { useCommonGetData } from "~/composables/useCommon.js";
 import { useCommonNav } from "~/composables/useCommon";
 
 const route = useRoute();
@@ -56,42 +53,38 @@ const classifyRouter = computed(() => {
   return "/" + route.fullPath.split("/")[2];
 });
 
-let nowClassify = "";
 const getNowClassify = () => {
   store.state.classifyData.forEach((classify) => {
     if (classifyRouter.value === classify.router) {
-      nowClassify = classify.name;
+      return classify.name;
     }
   });
 };
-getNowClassify();
 
-const { form } = useCommonInitForm({
-  form: {
-    page: 1,
-    pageSize: 5,
-    classify: nowClassify,
-  },
-});
-
-const { searchForm, tableData, currentPage, totalPages, loading, getData } =
-  useCommonInitData({
-    form,
-    getData: getEssayList,
+const { searchForm, tableData, currentPage, totalPages, loading, getDataList } =
+  useCommonGetData({
+    form: {
+      page: 1,
+      pageSize: 5,
+      classify: getNowClassify(),
+    },
+    getDataList: getEssayList,
+    loadingText: "文章列表渲染中",
   });
 
 const { toEssay, changePage } = useCommonNav({
   router,
   currentPage,
-  getData,
+  getDataList,
 });
+getDataList();
 
 watch(
-  () => route.fullPath,
+  () => route.path,
   () => {
     getNowClassify();
-    searchForm.classify = nowClassify;
-    getData();
+    searchForm.classify = getNowClassify();
+    getDataList();
   }
 );
 </script>

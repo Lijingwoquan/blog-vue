@@ -7,7 +7,7 @@ export function useCommonGetData(opt = {}) {
   const searchForm = reactive({ ...opt.form });
   const id = ref(opt.id);
   const tableData = ref([]);
-  const OneData = ref({});
+  const oneData = ref({});
   const currentPage = ref(1);
   const totalPages = ref(0);
   const loading = ref(false);
@@ -35,7 +35,7 @@ export function useCommonGetData(opt = {}) {
     await opt
       .getOneData(id.value)
       .then((res) => {
-        OneData.value = res;
+        oneData.value = res;
       })
       .finally(() => {
         loading.value = true;
@@ -71,7 +71,7 @@ export function useCommonGetData(opt = {}) {
     searchForm,
     id,
     tableData,
-    OneData,
+    oneData,
     currentPage,
     totalPages,
     loading,

@@ -35,30 +35,26 @@
 <script setup>
 import { useRouter } from "vue-router";
 import { getEssayList } from "~/api/user.js";
-import {
-  useCommonInitData,
-  useCommonInitForm,
-} from "~/composables/useCommon.js";
+import { useCommonGetData } from "~/composables/useCommon.js";
 import { useCommonNav } from "~/composables/useCommon";
 
 const router = useRouter();
-const { form } = useCommonInitForm({
-  form: {
-    page: 1,
-    pageSize: 5,
-  },
-});
 
-const { tableData, currentPage, totalPages, loading, getData } =
-  useCommonInitData({
-    form,
-    getData: getEssayList,
+const { tableData, currentPage, totalPages, loading, getDataList } =
+  useCommonGetData({
+    form: {
+      page: 1,
+      pageSize: 5,
+    },
+    getDataList: getEssayList,
+    loadingText: "文章列表渲染中",
   });
+getDataList();
 
 const { toEssay, toKind, changePage } = useCommonNav({
   router,
   currentPage,
-  getData,
+  getDataList,
 });
 </script>
 

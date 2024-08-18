@@ -5,7 +5,7 @@
         <div @click="closeAnchor" :class="sizeObj.dynamicStyle">
           <div class="essayBasic">
             <span class="name">
-              {{ tableData.name }}
+              {{ oneData.name }}
             </span>
             <div class="subTitle">
               <div>
@@ -13,8 +13,8 @@
                   <div class="left mb-5">
                     创建于:
                     {{
-                      tableData.createdTime
-                        ? tableData.createdTime.split("T")[0]
+                      oneData.createdTime
+                        ? oneData.createdTime.split("T")[0]
                         : ""
                     }}
                   </div>
@@ -22,8 +22,8 @@
                   <div class="left">
                     更新于:
                     {{
-                      tableData.updatedTime
-                        ? tableData.updatedTime.split("T")[0]
+                      oneData.updatedTime
+                        ? oneData.updatedTime.split("T")[0]
                         : ""
                     }}
                   </div>
@@ -32,27 +32,25 @@
                 <div>
                   <div class="right mb-5 ml-auto hover:( text-blue-400)">
                     <span class="ml-auto">
-                      {{ tableData.kind }}
+                      {{ oneData.kind }}
                     </span>
                   </div>
                   <div class="right">
-                    <span class="ml-auto">
-                      {{ tableData.visitedTimes }}次
-                    </span>
+                    <span class="ml-auto"> {{ oneData.visitedTimes }}次 </span>
                   </div>
                 </div>
               </div>
 
               <span class="introduction">
-                简介:{{ tableData.introduction }}
+                简介:{{ oneData.introduction }}
               </span>
             </div>
           </div>
           <div>
             <essayEdit
-              v-if="tableData.content"
+              v-if="oneData.content"
               ref="essayEditRef"
-              v-model:editContent="tableData.content"
+              v-model:editContent="oneData.content"
               v-model:previewRef="previewRef"
             ></essayEdit>
           </div>
@@ -94,13 +92,16 @@
 <script setup>
 import { useRoute, useRouter } from "vue-router";
 import { ref, watch, onMounted, onUnmounted } from "vue";
-import { getEssayMsg } from "~/api/user.js";
-import { showLoading, listenScreen } from "~/composables/util.js";
-import NavAnchor from "./components/NavAnchor.vue";
-import { diposeHAndGetAnchors } from "~/helper/dataForAnchor.js";
 import { useStore } from "vuex";
+import { getEssayMsg } from "~/api/user.js";
+import { listenScreen } from "~/composables/util.js";
+import { useCommonGetData } from "~/composables/useCommon.js";
+import { diposeHAndGetAnchors } from "~/helper/dataForAnchor.js";
 import { initEssayCommonUse } from "~/composables/essayCommonUse";
+
 import essayEdit from "~/components/essayEdit.vue";
+import NavAnchor from "./components/NavAnchor.vue";
+
 const essayEditRef = ref(null);
 const store = useStore();
 const route = useRoute();
@@ -140,25 +141,16 @@ function getCurrentEssayId() {
   }
 }
 
-const essayID = ref(0);
-const tableData = ref({});
-const loading = ref(false);
-const getData = async () => {
-  loading.value = false;
-  await showLoading("正在渲染文章页面...");
-  await getEssayMsg(essayID.value)
-    .then((res) => {
-      tableData.value = res;
-    })
-    .finally(() => {
-      loading.value = true;
-    });
-};
+const { id, oneData, loading, getOneData } = useCommonGetData({
+  id: getCurrentEssayId(),
+  getOneData: getEssayMsg,
+  loadingText: "文章列表渲染中",
+});
 
 const initEssayData = async () => {
-  tableData.value = {};
-  essayID.value = getCurrentEssayId();
-  await getData();
+  oneData.value = {};
+  id.value = getCurrentEssayId();
+  await getOneData();
   handleResize();
   handelScoll();
   const result = diposeHAndGetAnchors(previewRef, { route, router });
