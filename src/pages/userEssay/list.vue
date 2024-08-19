@@ -91,15 +91,16 @@
 
 <script setup>
 import { useRoute, useRouter } from "vue-router";
-import { ref, watch, onMounted, onUnmounted } from "vue";
+import { ref, watch, onMounted, onUnmounted, defineAsyncComponent } from "vue";
 import { getEssayMsg } from "~/api/user.js";
 import { listenScreen } from "~/composables/util.js";
 import { useCommonGetData, useCommonData } from "~/composables/useCommon.js";
 import { diposeHAndGetAnchors } from "~/helper/dataForAnchor.js";
-import { initEssayCommonUse } from "~/composables/essayCommonUse";
+import { initEssayCommonUse } from "~/composables/essayCommonUse.js";
 import essayEdit from "~/components/essayEdit.vue";
-import NavAnchor from "./components/NavAnchor.vue";
-
+const NavAnchor = defineAsyncComponent(() =>
+  import("./components/NavAnchor.vue")
+);
 const route = useRoute();
 const router = useRouter();
 

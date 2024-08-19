@@ -15,10 +15,9 @@
 </template>
 
 <script setup>
-import { computed, onMounted, onUnmounted, ref } from "vue";
+import { computed, onMounted, onUnmounted } from "vue";
 import { uploadImg } from "~/api/manager.js";
-import { toast } from "~/composables/util";
-import { listenScreen } from "~/composables/util.js";
+import { toast, listenScreen } from "~/composables/util";
 
 //富文本插件
 import VueMarkdownEditor from "@kangc/v-md-editor";

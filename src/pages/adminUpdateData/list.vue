@@ -11,8 +11,11 @@
 </template>
 
 <script setup>
-import classify from "./components/classify.vue";
-import kind from "./components/kind.vue";
+import { defineAsyncComponent } from "vue";
+const classify = defineAsyncComponent(() =>
+  import("./components/classify.vue")
+);
+const kind = defineAsyncComponent(() => import("./components/kind.vue"));
 </script>
 
 <style scoped>

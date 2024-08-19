@@ -36,7 +36,7 @@
 <script setup>
 import { useRouter, useRoute } from "vue-router";
 import { ref, watch } from "vue";
-import { useCommonData } from "~/composables/useCommon";
+import { useCommonData } from "~/composables/useCommon.js";
 const { menu } = useCommonData();
 
 const router = useRouter();

@@ -100,13 +100,20 @@
 </template>
 
 <script setup>
-import NavAsideForMobile from "~/components/user/NavAsideForMobile.vue";
-import { ref, onMounted, onBeforeMount, watch, reactive } from "vue";
+import {
+  ref,
+  onMounted,
+  onBeforeMount,
+  watch,
+  reactive,
+  defineAsyncComponent,
+} from "vue";
 import { useRouter, useRoute } from "vue-router";
-import { toast } from "~/composables/util";
+import { toast, listenScreen } from "~/composables/util.js";
 import { addSearchKeyCount } from "~/api/keyword.js";
-import { listenScreen } from "~/composables/util";
-
+const NavAsideForMobile = defineAsyncComponent(() =>
+  import("~/components/user/NavAsideForMobile.vue")
+);
 const dialogVisible = ref(false);
 const router = useRouter();
 const route = useRoute();

@@ -127,15 +127,18 @@
 </template>
 
 <script setup>
-import { ref, reactive } from "vue";
+import { ref, reactive, defineAsyncComponent } from "vue";
 import { toast } from "~/composables/util";
 import { ElMessageBox } from "element-plus";
 import { updateEssayMsg, deleteEssay } from "~/api/manager.js";
 import { getEssayMsg } from "~/api/user.js";
 import { useCommonForm, useCommonData } from "~/composables/useCommon.js";
-import essayEdit from "~/components/essayEdit.vue";
-import dynamicAddTag from "./components/dynamicAddTag.vue";
-
+const essayEdit = defineAsyncComponent(() =>
+  import("~/components/essayEdit.vue")
+);
+const dynamicAddTag = defineAsyncComponent(() =>
+  import("./components/dynamicAddTag.vue")
+);
 const { classifyList, essayList } = useCommonData();
 
 const {

@@ -11,7 +11,10 @@
 
 <script setup>
 import { useStore } from "vuex";
-import NavAside from "~/components/admin/NavAside.vue";
+import { defineAsyncComponent } from "vue";
+const NavAside = defineAsyncComponent(() =>
+  import("~/components/admin/NavAside.vue")
+);
 
 const store = useStore();
 store.commit("initAsideWidth");

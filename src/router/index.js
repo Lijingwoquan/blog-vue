@@ -14,8 +14,7 @@ const adminIndex = () => import("~/pages/adminIndex/list.vue");
 const adminCreateEssay = () => import("~/pages/adminCreateEssay/list.vue");
 const adminManageEssay = () => import("~/pages/adminManageEssay/list.vue");
 const adminUpdateData = () => import("~/pages/adminUpdateData/list.vue");
-
-import NotFound from "~/pages/404.vue";
+const NotFound = () => import("~/pages/404.vue");
 
 //默认路由 所有用户共享
 const routes = [

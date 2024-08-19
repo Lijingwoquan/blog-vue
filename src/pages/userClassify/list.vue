@@ -84,10 +84,11 @@ getDataList();
 
 watch(
   () => route.path,
-  () => {
+  async () => {
     getNowClassify();
     searchForm.classify = getNowClassify();
-    getDataList();
+    await getDataList();
+    console.log(tableData);
   }
 );
 </script>

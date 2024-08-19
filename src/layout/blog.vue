@@ -70,12 +70,15 @@
 </template>
 
 <script setup>
-import NavHeader from "~/components/user/NavHeader.vue";
-import NavAside from "~/components/user/NavAside.vue";
-import Essay from "~/pages/userEssay/list.vue";
-
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, defineAsyncComponent } from "vue";
 import { useRoute } from "vue-router";
+const NavHeader = defineAsyncComponent(() =>
+  import("~/components/user/NavHeader.vue")
+);
+const NavAside = defineAsyncComponent(() =>
+  import("~/components/user/NavAside.vue")
+);
+const Essay = defineAsyncComponent(() => import("~/pages/userEssay/list.vue"));
 
 const ifToEssay = ref(false);
 const route = useRoute();

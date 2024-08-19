@@ -118,6 +118,7 @@ import { updateClassify, createClassify } from "~/api/manager.js";
 import { useCommonForm, useCommonData } from "~/composables/useCommon.js";
 import { toast } from "~/composables/util.js";
 import iconChoose from "./iconChoose.vue";
+
 import store from "~/store/index.js";
 
 const { kindList, classifyList } = useCommonData();

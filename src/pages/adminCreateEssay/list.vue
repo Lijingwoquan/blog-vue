@@ -71,10 +71,12 @@
 </template>
 
 <script setup>
-import { ref, reactive } from "vue";
-import essayEdit from "~/components/essayEdit.vue";
+import { ref, reactive, defineAsyncComponent } from "vue";
 import { createEssay } from "~/api/manager.js";
 import { useCommonForm, useCommonData } from "~/composables/useCommon.js";
+const essayEdit = defineAsyncComponent(() =>
+  import("~/components/essayEdit.vue")
+);
 
 const { classifyList } = useCommonData();
 

@@ -40,10 +40,11 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, defineAsyncComponent } from "vue";
 import { getUserVisitedCount } from "~/api/count.js";
-import indexChart from "./components/indexChart.vue";
-
+const indexChart = defineAsyncComponent(() =>
+  import("./components/indexChart.vue")
+);
 const userVisitedCountArr = ref([
   {
     period: "用户年访问量",
