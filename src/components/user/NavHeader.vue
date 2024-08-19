@@ -1,61 +1,67 @@
 <template>
-  <div class="Headercontainer">
-    <div class="left">
-      <el-icon class="logoHouse" :size="sizeObj.iconSize" @click="toIndex">
-        <House />
+  <div class="headerContainer">
+    <div class="w-[150px]">
+      <el-icon @click="toIndex" class="mx-3 hover" size="1.4em">
+        <House style="height: 100%; width: 100%" />
       </el-icon>
       <el-icon
-        class="logoExpand hidden-sm-and-up"
-        :size="sizeObj.iconSize"
-        @click="openMenu"
+        class="hidden-sm-and-up hover"
+        size="1.4em"
+        @click="drawerVisiableRef = true"
       >
-        <Expand />
+        <Expand style="height: 100%; width: 100%" />
       </el-icon>
-
-      <el-drawer
-        v-model="dialogMenu"
-        title="菜单"
-        direction="ltr"
-        class="bg-light-800"
-        size="200px"
-      >
-        <NavAsideForMobile></NavAsideForMobile>
-      </el-drawer>
-    </div>
-    <div class="middle">
-      <span :class="sizeObj.textSize">罹景偓佺的博客</span>
     </div>
 
-    <div class="right">
-      <div class="search" @click="openSearch">
-        <el-icon :size="sizeObj.iconSize">
-          <search />
-        </el-icon>
-      </div>
-      <el-dropdown>
-        <div class="help">
-          <div class="text">帮助</div>
-          <el-icon class="icon" :size="sizeObj.iconSize">
-            <arrow-down />
+    <div class="mx-auto text-sm font-bold font-serif" style="text-wrap: nowrap">
+      <h5>罹景偓佺的博客</h5>
+    </div>
+
+    <div class="flex w-[150px]">
+      <div class="ml-auto">
+        <span class="search" @click="openSearch">
+          <el-icon @click="toIndex" class="mx-3 hover" size="1.4em">
+            <search style="height: 100%; width: 100%" />
           </el-icon>
-        </div>
-
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item>
-              <el-link
-                type="primary"
-                :underline="false"
-                href="https://github.com/Lijingwoquan"
-                target="_blank"
-                >联系作者</el-link
-              >
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
+        </span>
+        <el-dropdown>
+          <div class="flex items-center">
+            <span class="">帮助</span>
+            <el-icon @click="toIndex" class="mx-3" size="1.4em">
+              <arrow-down style="height: 100%; width: 100%" />
+            </el-icon>
+          </div>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item>
+                <el-link
+                  type="primary"
+                  :underline="false"
+                  href="https://github.com/Lijingwoquan"
+                  target="_blank"
+                  >联系作者</el-link
+                >
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </div>
     </div>
   </div>
+
+  <span>
+    <el-drawer
+      v-model="drawerVisiableRef"
+      title="菜单"
+      direction="ltr"
+      class="bg-light-800"
+      size="250px"
+    >
+      <template #default>
+        <NavAsideForMobile></NavAsideForMobile>
+      </template>
+    </el-drawer>
+  </span>
 
   <el-dialog
     style="
@@ -74,7 +80,7 @@
     @close="$emit('closeSearch')"
     width="85%"
   >
-    <el-input v-model="form.keyword" placeholder="搜索文档" class="input">
+    <el-input v-model="form.keyword" placeholder="搜索文档" class="h-[50px]">
       <template #prefix>
         <el-icon class="mx-2">
           <search />
@@ -117,15 +123,13 @@ const NavAsideForMobile = defineAsyncComponent(() =>
 const dialogVisible = ref(false);
 const router = useRouter();
 const route = useRoute();
-const dialogMenu = ref(false);
+const drawerVisiableRef = ref(false);
 
-const openMenu = () => {
-  dialogMenu.value = true;
-};
 const openSearch = () => {
   dialogVisible.value = true;
   emits("openSearch");
 };
+
 const emits = defineEmits(["openSearch", "closeSearch"]);
 
 const gotoApointPath = (essay) => {
@@ -158,19 +162,7 @@ const searchMsg = () => {
     });
 };
 
-const { sizeObj, handleResize, handelOnKeyUp } = listenScreen({
-  resize: {
-    facilityStandard: {
-      computer: {
-        iconSize: "25px",
-        textSize: "text-lg",
-      },
-      mobile: {
-        iconSize: "16px",
-        textSize: "text-md",
-      },
-    },
-  },
+const { handelOnKeyUp } = listenScreen({
   onKeyUp: {
     visiable: dialogVisible,
     getData: searchMsg,
@@ -180,25 +172,22 @@ const { sizeObj, handleResize, handelOnKeyUp } = listenScreen({
 watch(
   () => route.path,
   () => {
-    dialogMenu.value = false;
+    drawerVisiableRef.value = false;
   }
 );
 
 onMounted(() => {
   document.addEventListener("keyup", handelOnKeyUp);
-  window.addEventListener("resize", handleResize);
-  handleResize();
 });
 
 onBeforeMount(() => {
   document.removeEventListener("keyup", handelOnKeyUp);
-  window.removeEventListener("resize", handleResize);
 });
 </script>
 
 <style scoped>
-.Headercontainer {
-  @apply flex justify-between items-center fixed top-0 left-0 right-0;
+.headerContainer {
+  @apply flex  items-center fixed top-0 left-0 right-0;
   z-index: 100;
   height: 60px;
   background: linear-gradient(
@@ -210,57 +199,8 @@ onBeforeMount(() => {
   );
 }
 
-.Headercontainer .left {
-  @apply flex justify-start items-center;
-  width: 65px;
-  margin-right: 0;
-}
-
-.Headercontainer .left .logoHouse {
-  @apply text-xl mx-3 hover:cursor-pointer;
-  height: auto;
-}
-
-.Headercontainer .left .logoExpand {
-  @apply text-xl hover:cursor-pointer;
-  height: auto;
-}
-
-.Headercontainer .middle {
-  @apply text-sm font-bold font-serif;
-  padding-left: 10%;
-  white-space: nowrap;
-}
-
-.Headercontainer .right {
-  @apply flex justify-end items-center left-0 right-0;
-  width: 100px;
-}
-
-.Headercontainer .right .search {
-  @apply flex justify-center items-center mr-3 hover:cursor-pointer;
-}
-
-.Headercontainer .right .help {
-  @apply flex justify-center items-center mr-1 hover:cursor-pointer;
-  height: 25px;
-}
-
-.Headercontainer .right .help .text {
-  width: 30px;
-}
-
-.Headercontainer .right .help .icon {
-  @apply mr-2;
-}
-
-.Headercontainer .right .search:hover {
-  border-color: red;
-  /* 悬停时改变边框颜色 */
-}
-
-.input {
-  height: 50px;
+.hover {
+  @apply hover:cursor-pointer;
 }
 
 .essayList {
@@ -273,26 +213,6 @@ onBeforeMount(() => {
   );
   width: 100%;
   height: 50px;
-}
-
-:deep(.el-dialog__header) {
-  padding: 0px !important;
-  padding-bottom: 0px !important;
-  margin-right: 0px !important;
-}
-
-:deep(.el-drawer__body) {
-  padding: 0 !important;
-  margin: 0 !important;
-}
-
-:deep(.el-menu) {
-  width: 200px !important;
-  background: linear-gradient(
-    to top,
-    rgba(177, 167, 224, 0.2),
-    rgba(157, 169, 224, 0.2)
-  );
 }
 
 :deep(.el-drawer__header) {

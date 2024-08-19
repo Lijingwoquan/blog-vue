@@ -6,6 +6,7 @@
     :bottom="30"
     :visibility-height="300"
   />
+
   <el-container>
     <el-header>
       <NavHeader
@@ -118,6 +119,7 @@ watch(
 <style scoped>
 .el-header {
   --el-header-height: 60px;
+  padding: 0px;
 }
 
 .el-main {

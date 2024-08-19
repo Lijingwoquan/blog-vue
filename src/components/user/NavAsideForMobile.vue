@@ -66,6 +66,13 @@ watch(
   width: auto;
   top: 60px;
   bottom: 0px;
+  left: 0;
+  width: 250px;
+  background: linear-gradient(
+    to top,
+    rgba(177, 167, 224, 0.2),
+    rgba(157, 169, 224, 0.2)
+  );
 }
 
 .nav-aside .menu {
@@ -85,6 +92,7 @@ watch(
 
 .el-sub-menu {
   /* menu鼠标hover的颜色 */
-  --el-menu-hover-bg-color: rgb(157, 169, 224, 0.5);
+  --el-menu-hover-bg-color: rgba(157, 169, 224, 0.5);
 }
+
 </style>
