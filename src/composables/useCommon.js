@@ -111,8 +111,8 @@ export function useCommonForm(opt = {}) {
         tableLoading.value = false;
       });
 
-      if (typeof opt.reloadData === "function") {
-        opt.reloadData();
+      if (typeof opt.reload === "function") {
+        opt.reload();
       }
     }
   };
