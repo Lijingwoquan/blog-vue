@@ -101,7 +101,7 @@
 
 <script setup>
 import NavAsideForMobile from "~/components/user/NavAsideForMobile.vue";
-import { ref, onMounted, onBeforeMount, watch, reactive, computed } from "vue";
+import { ref, onMounted, onBeforeMount, watch, reactive } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { toast } from "~/composables/util";
 import { addSearchKeyCount } from "~/api/keyword.js";

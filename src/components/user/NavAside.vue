@@ -1,24 +1,25 @@
 <template>
   <div class="nav-aside pl-4 pr-3">
     <div v-for="(item, index) in menu" :key="index" class="mt-2">
-      <h2 class="kind">{{ item.classifyKind }}</h2>
+      <h2 class="kind">{{ item.kind?.name }}</h2>
       <section class="section">
         <div
           class="flex justify-center flex-col"
           v-if="
-            Array.isArray(item.classifyDetails) &&
-            item.classifyDetails.length > 0
+            Array.isArray(item.classifyList) && item.classifyList.length > 0
           "
         >
           <span
             class="anchor"
-            v-for="(item2, index2) in item.classifyDetails"
+            v-for="(classify, index2) in item.classifyList"
             :key="index2"
-            @click="chooseKind(item2)"
-            :class="{ active: activeClassify === '/classify' + item2.router }"
+            @click="chooseKind(classify)"
+            :class="{
+              active: activeClassify === '/classify' + classify.router,
+            }"
           >
-            {{ item2.checked }}
-            {{ item2.name }}
+            {{ classify.checked }}
+            {{ classify.name }}
           </span>
         </div>
       </section>
@@ -29,15 +30,14 @@
 <script setup>
 import { useRouter, useRoute } from "vue-router";
 import { ref, watch } from "vue";
-import { useStore } from "vuex";
+import { useCommonData } from "~/composables/useCommon";
+const { menu } = useCommonData();
 
 const router = useRouter();
 const route = useRoute();
-const store = useStore();
 
 //保证刷新也能选中
 const activeClassify = ref(route.path);
-const menu = store.state.indexData;
 
 // 保证切换文章时也能选中
 if (route.path.split("/").length > 3) {

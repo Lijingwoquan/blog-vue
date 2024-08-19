@@ -35,8 +35,7 @@
 <script setup>
 import { useRouter } from "vue-router";
 import { getEssayList } from "~/api/user.js";
-import { useCommonGetData } from "~/composables/useCommon.js";
-import { useCommonNav } from "~/composables/useCommon";
+import { useCommonGetData, useCommonNav } from "~/composables/useCommon.js";
 
 const router = useRouter();
 

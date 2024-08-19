@@ -14,15 +14,15 @@
         </el-icon>
       </el-button>
     </div>
-    <div class="classifyList">
-      <div v-for="(classify, index) in classifiesKind" :key="index">
+    <div class="list">
+      <div v-for="(kind, index) in kindList" :key="index">
         <el-button
           type="primary"
           size="default"
-          @click="updateClassifyPre(classify.kind)"
+          @click="updateClassifyPre(kind)"
           class="btn"
         >
-          {{ classify.kind }}
+          {{ kind.name }}
         </el-button>
       </div>
     </div>
@@ -32,18 +32,17 @@
   <el-drawer
     v-model="drawerVisiableRef"
     title="添加classify"
-    direction="rtl"
     append-to-body
-    size="700px"
+    size="45%"
   >
     <el-form :model="form" label-width="80px" :inline="false">
       <el-form-item label="类型">
         <el-select size="small" v-model="form.kind" placeholder="选择分类">
           <el-option
-            v-for="item in classifiesKind"
-            :key="item.kind"
-            :label="item.kind"
-            :value="item.kind"
+            v-for="item in kindList"
+            :key="item.name"
+            :label="item.name"
+            :value="item.name"
           />
           <el-option label="自定义" value="" @click="customInput = true" />
         </el-select>
@@ -89,7 +88,7 @@
     width="80%"
   >
     <el-card shadow="always">
-      <el-table :data="classifyList" border stripe v-loading="tableLoading">
+      <el-table :data="list" border stripe v-loading="tableLoading">
         <el-table-column type="index" width="50" />
         <el-table-column label="分类名称" align="center">
           <template #default="{ row }">
@@ -114,12 +113,14 @@
 </template>
 
 <script setup>
-import { useStore } from "vuex";
-import { ref, reactive, computed } from "vue";
+import { ref, reactive } from "vue";
 import { updateClassify, createClassify } from "~/api/manager.js";
-import { useCommonForm } from "~/composables/useCommon.js";
+import { useCommonForm, useCommonData } from "~/composables/useCommon.js";
 import { toast } from "~/composables/util.js";
 import iconChoose from "./iconChoose.vue";
+import store from "~/store/index.js";
+
+const { kindList, classifyList } = useCommonData();
 
 const { form, btnLoading, tableLoading, drawerVisiableRef, handelCreate } =
   useCommonForm({
@@ -133,22 +134,17 @@ const { form, btnLoading, tableLoading, drawerVisiableRef, handelCreate } =
     reload: true,
   });
 
-const store = useStore();
-
-const classifiesKind = computed(() => store.state.classifyKind);
-const classifies = computed(() => store.state.classifyData);
-
-const classifyList = ref([]);
+const list = ref([]);
 const customInput = ref(false);
 const dialogVisibleRef = ref(false);
 
 // 更新
 const updateClassifyPre = (kind) => {
-  classifyList.value = [];
+  list.value = [];
   dialogVisibleRef.value = true;
-  classifies.value.forEach((classify) => {
-    if (classify.kind == kind) {
-      classifyList.value.push(classify);
+  classifyList.value.forEach((classify) => {
+    if (classify.kind == kind.name) {
+      list.value.push(classify);
     }
   });
 };
@@ -180,11 +176,11 @@ const updateClassifyHandel = (row) => {
   @apply ml-5;
 }
 
-.containerClassify .classifyList {
+.containerClassify .list {
   @apply flex justify-center items-center flex-wrap;
 }
 
-.containerClassify .classifyList .btn {
+.containerClassify .list .btn {
   @apply mx-2 my-2;
   width: 150px;
 }

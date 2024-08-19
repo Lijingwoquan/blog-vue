@@ -1,11 +1,11 @@
 <template>
   <div v-loading="tableLoading" class="flex flex-col items-center">
     <span>修改kind类型</span>
-    <div v-for="kind in classifiesKind" class="lists">
+    <div v-for="kind in kindList" class="lists">
       <div class="list">
         <el-input
           style="width: 35%"
-          v-model="kind.kind"
+          v-model="kind.name"
           placeholder="分类名"
           class="input"
         ></el-input>
@@ -31,7 +31,7 @@
   >
     <el-form :model="form" label-width="80px" :inline="false">
       <el-form-item label="分类名">
-        <el-input v-model="form.kind"></el-input>
+        <el-input v-model="form.name"></el-input>
       </el-form-item>
 
       <el-form-item label="图标">
@@ -57,17 +57,17 @@
 </template>
 
 <script setup>
-import { computed, reactive } from "vue";
-import { useStore } from "vuex";
+import { reactive } from "vue";
 import { updateKind } from "~/api/manager.js";
 import iconChoose from "./iconChoose.vue";
-import { useCommonForm } from "~/composables/useCommon.js";
-const store = useStore();
+import { useCommonForm, useCommonData } from "~/composables/useCommon.js";
+
+const { kindList } = useCommonData();
 
 const { form, btnLoading, tableLoading, drawerVisiableRef, handelUpdate } =
   useCommonForm({
     form: reactive({
-      kind: "",
+      name: "",
       icon: "",
       id: null,
     }),
@@ -75,14 +75,8 @@ const { form, btnLoading, tableLoading, drawerVisiableRef, handelUpdate } =
     reload: true,
   });
 
-const classifiesKind = computed(() => store.state.classifyKind);
-
 const updateKindHandelPre = (item) => {
   for (let k in item) {
-    if (k === "kind") {
-      form["name"] = item[k];
-    } else {
-    }
     form[k] = item[k];
   }
   drawerVisiableRef.value = true;

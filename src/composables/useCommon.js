@@ -105,7 +105,7 @@ export function useCommonForm(opt = {}) {
   };
 
   const reload = async () => {
-    if (opt.reloadData) {
+    if (opt.reload) {
       tableLoading.value = true;
       await store.dispatch("getIndexInfo").then((res) => {
         tableLoading.value = false;

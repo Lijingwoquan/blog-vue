@@ -40,21 +40,24 @@
 <script setup>
 import { useRouter, useRoute } from "vue-router";
 import { computed, watch } from "vue";
-import { useStore } from "vuex";
 import { getEssayList } from "~/api/user.js";
-import { useCommonGetData } from "~/composables/useCommon.js";
-import { useCommonNav } from "~/composables/useCommon";
+import {
+  useCommonGetData,
+  useCommonData,
+  useCommonNav,
+} from "~/composables/useCommon.js";
 
 const route = useRoute();
 const router = useRouter();
-const store = useStore();
+
+const { classifyList } = useCommonData();
 
 const classifyRouter = computed(() => {
   return "/" + route.fullPath.split("/")[2];
 });
 
 const getNowClassify = () => {
-  store.state.classifyData.forEach((classify) => {
+  classifyList.value.forEach((classify) => {
     if (classifyRouter.value === classify.router) {
       return classify.name;
     }

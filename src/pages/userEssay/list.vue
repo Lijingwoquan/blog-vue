@@ -92,20 +92,20 @@
 <script setup>
 import { useRoute, useRouter } from "vue-router";
 import { ref, watch, onMounted, onUnmounted } from "vue";
-import { useStore } from "vuex";
 import { getEssayMsg } from "~/api/user.js";
 import { listenScreen } from "~/composables/util.js";
-import { useCommonGetData } from "~/composables/useCommon.js";
+import { useCommonGetData, useCommonData } from "~/composables/useCommon.js";
 import { diposeHAndGetAnchors } from "~/helper/dataForAnchor.js";
 import { initEssayCommonUse } from "~/composables/essayCommonUse";
-
 import essayEdit from "~/components/essayEdit.vue";
 import NavAnchor from "./components/NavAnchor.vue";
 
-const essayEditRef = ref(null);
-const store = useStore();
 const route = useRoute();
 const router = useRouter();
+
+const { essayList } = useCommonData();
+
+const essayEditRef = ref(null);
 
 const {
   previewRef,
@@ -134,9 +134,9 @@ const { sizeObj, facility, handleResize } = listenScreen({
 
 function getCurrentEssayId() {
   const currentRouter = route.path;
-  for (let i = 0; i < store.state.essayList.length; i++) {
-    if (store.state.essayList[i].complexRouter === currentRouter) {
-      return store.state.essayList[i].id;
+  for (let i = 0; i < essayList.value.length; i++) {
+    if (essayList.value[i].complexRouter === currentRouter) {
+      return essayList.value[i].id;
     }
   }
 }
@@ -150,6 +150,10 @@ const { id, oneData, loading, getOneData } = useCommonGetData({
 const initEssayData = async () => {
   oneData.value = {};
   id.value = getCurrentEssayId();
+  if (!id.value) {
+    router.push("/404");
+    return;
+  }
   await getOneData();
   handleResize();
   handelScoll();

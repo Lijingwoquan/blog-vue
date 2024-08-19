@@ -7,22 +7,21 @@
       class="menu"
       @select="handleSelect"
     >
-      <div v-for="(item, index) in menu" :key="index" :index="index">
+      <div v-for="(item, index) in menu" :key="index">
         <el-sub-menu
           v-if="
-            Array.isArray(item.classifyDetails) &&
-            item.classifyDetails.length > 0
+            Array.isArray(item.classifyList) && item.classifyList.length > 0
           "
-          :index="item.icon"
+          :index="item.kind?.name"
         >
           <template #title>
             <el-icon>
-              <component :is="item.icon"></component>
+              <component :is="item.kind?.icon"></component>
             </el-icon>
-            <span>{{ item.classifyKind }}</span>
+            <span>{{ item.kind?.name }}</span>
           </template>
           <el-menu-item
-            v-for="item2 in item.classifyDetails"
+            v-for="item2 in item.classifyList"
             :key="item2.router"
             :index="'/classify' + item2.router"
           >
@@ -37,10 +36,10 @@
 <script setup>
 import { useRouter, useRoute } from "vue-router";
 import { ref, watch } from "vue";
-import { useStore } from "vuex";
+import { useCommonData } from "~/composables/useCommon";
+const { menu } = useCommonData();
 
 const router = useRouter();
-const store = useStore();
 const route = useRoute();
 const defaultActive = ref(route.path);
 
@@ -48,7 +47,6 @@ const defaultActive = ref(route.path);
 if (route.path.split("/").length > 3) {
   defaultActive.value = "/classify/" + route.path.split("/")[2];
 }
-const menu = store.state.indexData;
 
 const handleSelect = (e) => {
   router.push(e);

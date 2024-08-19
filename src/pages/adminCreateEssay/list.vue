@@ -10,7 +10,7 @@
       <el-form-item label="分类">
         <el-select v-model="form.kind" class="input" placeholder="选择分类">
           <el-option
-            v-for="item in classifyArr"
+            v-for="item in classifyList"
             :key="item.name"
             :label="item.name"
             :value="item.name"
@@ -72,13 +72,11 @@
 
 <script setup>
 import { ref, reactive } from "vue";
-import { useStore } from "vuex";
 import essayEdit from "~/components/essayEdit.vue";
 import { createEssay } from "~/api/manager.js";
-import { useCommonForm } from "~/composables/useCommon.js";
+import { useCommonForm, useCommonData } from "~/composables/useCommon.js";
 
-const store = useStore();
-const classifyArr = store.state.classifyData;
+const { classifyList } = useCommonData();
 
 const previewRef = ref({});
 
@@ -91,7 +89,7 @@ const { form, btnLoading, drawerVisiableRef, handelCreate } = useCommonForm({
     router: "",
   }),
   create: createEssay,
-  reloadData: true,
+  reload: true,
 });
 </script>
 

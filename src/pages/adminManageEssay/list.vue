@@ -1,5 +1,5 @@
 <template>
-  <div v-loading="loading">
+  <div v-loading="tableLoading">
     <div class="flex flex-col mx-3 mt-3">
       <div class="search">
         <el-button circle @click="dialogVisibleRef = true">
@@ -92,7 +92,7 @@
       <el-form-item label="分类">
         <el-select v-model="form.kind" placeholder="选择分类">
           <el-option
-            v-for="item in classifyArr"
+            v-for="item in classifyList"
             :key="item.name"
             :label="item.name"
             :value="item.name"
@@ -127,19 +127,16 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed } from "vue";
-import { useStore } from "vuex";
+import { ref, reactive } from "vue";
 import { toast } from "~/composables/util";
 import { ElMessageBox } from "element-plus";
 import { updateEssayMsg, deleteEssay } from "~/api/manager.js";
 import { getEssayMsg } from "~/api/user.js";
-import { useCommonForm } from "~/composables/useCommon.js";
+import { useCommonForm, useCommonData } from "~/composables/useCommon.js";
 import essayEdit from "~/components/essayEdit.vue";
 import dynamicAddTag from "./components/dynamicAddTag.vue";
 
-const store = useStore();
-const essayList = computed(() => store.state.essayList);
-const classifyArr = store.state.classifyData;
+const { classifyList, essayList } = useCommonData();
 
 const {
   form,
@@ -160,7 +157,7 @@ const {
   }),
   update: updateEssayMsg,
   delete: deleteEssay,
-  reloadData: getEssayList,
+  reload: getEssayList,
 });
 
 const dialogVisibleRef = ref(false);
@@ -185,12 +182,12 @@ function getEssayList() {
 const updatePermission = ref(false);
 const chooseEssay = (essay) => {
   updatePermission.value = true;
-  loading.value = true;
+  tableLoading.value = true;
   getEssayMsg(essay.id).then((res) => {
     for (let k in res) {
       form[k] = res[k];
     }
-    loading.value = false;
+    tableLoading.value = false;
   });
   dialogVisibleRef.value = false;
 };
@@ -210,7 +207,7 @@ const deletedEssyConfirm = async (essay) => {
   }
 };
 
-// 打开更新文章抽屉
+// 打开更新文章前处理
 function updateEssayPre() {
   if (updatePermission.value) {
     drawerVisiableRef.value = true;

@@ -68,7 +68,7 @@ const store = createStore({
               menu,
             });
             commit("setEssayList", {
-              list: essayList,
+              essayList,
             });
             commit("setKindList", {
               kindList,

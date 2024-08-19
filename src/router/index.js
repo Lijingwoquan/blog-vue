@@ -105,25 +105,20 @@ export function addAdminIndexRouter() {
 }
 
 //动态添加路由
-export function addIndexMenuRouters(dataAboutIndexMenu) {
+export function addIndexMenuRouters(menu) {
   //是否有新的路由
   let hasNewRoutes = false;
   const findAndAddRoutes = (menu) => {
-    menu.forEach((DataAboutIndexMenu) => {
-      let classifyDetails = DataAboutIndexMenu.classifyDetails;
-      if (classifyDetails == null) {
-        return;
-      }
-      classifyDetails.forEach((Details) => {
-        let classifyPath = Details.router;
+    menu.forEach((o) => {
+      let classifyList = o.classifyList;
+      classifyList.forEach((classifyObj) => {
         let classify = {
-          path: "/classify" + classifyPath,
+          path: "/classify" + classifyObj.router,
           component: userClassify,
           meta: {
-            title: Details.name,
+            title: classifyObj.name,
           },
         };
-
         if (!router.hasRoute(classify.path)) {
           hasNewRoutes = true;
           router.addRoute("blog", classify);
@@ -132,7 +127,7 @@ export function addIndexMenuRouters(dataAboutIndexMenu) {
     });
   };
 
-  findAndAddRoutes(dataAboutIndexMenu);
+  findAndAddRoutes(menu);
 
   return hasNewRoutes;
 }
