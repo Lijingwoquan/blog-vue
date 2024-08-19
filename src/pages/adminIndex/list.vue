@@ -70,32 +70,8 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.cardData {
-  @apply mx-2 rounded-3xl;
-  height: 300px;
-}
-
 :deep(.el-card__body) {
   height: 100%;
-}
-
-.card-container {
-  @apply flex flex-col justify-between items-center;
-  height: 100%;
-}
-
-.card-container .top {
-  @apply flex justify-start;
-  width: 100%;
-}
-
-.card-container .body {
-  @apply flex items-center justify-center text-4xl;
-  height: 60%;
-}
-
-.card-container .bottom {
-  height: 20%;
 }
 
 .background {

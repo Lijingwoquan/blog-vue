@@ -1,8 +1,10 @@
 <template>
   <div class="nav-aside pl-4 pr-3">
     <div v-for="(item, index) in menu" :key="index" class="mt-2">
-      <h2 class="kind">{{ item.kind?.name }}</h2>
-      <section class="section">
+      <h3 class="mb-2" style="color: rgb(16, 159, 241); font-weight: 600">
+        {{ item.kind?.name }}
+      </h3>
+      <section class="mb-5 ml-4">
         <div
           class="flex justify-center flex-col"
           v-if="
@@ -10,7 +12,7 @@
           "
         >
           <span
-            class="anchor"
+            class="list"
             v-for="(classify, index2) in item.classifyList"
             :key="index2"
             @click="chooseKind(classify)"
@@ -18,7 +20,6 @@
               active: activeClassify === '/classify' + classify.router,
             }"
           >
-            {{ classify.checked }}
             {{ classify.name }}
           </span>
         </div>
@@ -29,7 +30,7 @@
 
 <script setup>
 import { useRouter, useRoute } from "vue-router";
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import { useCommonData } from "~/composables/useCommon.js";
 const { menu } = useCommonData();
 
@@ -62,19 +63,10 @@ watch(
   @apply overflow-x-hidden overflow-y-scroll fixed;
   top: 60px;
   bottom: 0px;
+  width: 15%;
 }
 
-.kind {
-  @apply text-2xl mb-2;
-  color: rgb(16, 159, 241);
-  font-weight: 600;
-}
-
-.section {
-  @apply mb-5 ml-4;
-}
-
-.anchor {
+.list {
   @apply leading-loose hover:(cursor-pointer underline text-shadow-sm);
   color: rgb(58, 132, 139);
   font-size: 130%;

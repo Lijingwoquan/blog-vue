@@ -1,9 +1,9 @@
 <template>
   <div class="flex justify-between items-start">
-    <div class="kind">
+    <div class="mt-10 ml-10" style="width: 50%">
       <kind></kind>
     </div>
-    <div class="classify">
+    <div class="mt-10 mr-10" style="width: 50%">
       <classify></classify>
     </div>
   </div>
@@ -19,16 +19,6 @@ const kind = defineAsyncComponent(() => import("./components/kind.vue"));
 </script>
 
 <style scoped>
-.kind {
-  @apply mt-10 ml-10;
-  width: 50%;
-}
-
-.classify {
-  @apply mt-10 mr-10;
-  width: 50%;
-}
-
 .background {
   @apply fixed;
   top: 0;

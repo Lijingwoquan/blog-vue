@@ -1,8 +1,8 @@
 <template>
   <el-row :gutter="20" class="login-container">
     <el-col :lg="16" :md="12" class="left">
-      <div>欢迎开始学习</div>
-      <span>请先注册登录</span>
+      <div>博客管理系统</div>
+      <span>请先登录</span>
     </el-col>
 
     <el-col :lg="8" :md="12" class="right">
@@ -50,7 +50,7 @@
 <script setup>
 import { ref, reactive, onMounted, onBeforeMount } from "vue";
 import { useRouter } from "vue-router";
-import { toast } from "~/composables/util";
+import { toast, listenScreen } from "~/composables/util";
 import { config } from "/config.js";
 import { login } from "~/api/manager.js";
 import { setToken } from "~/composables/auth.js";
@@ -91,18 +91,19 @@ const onSubmit = () => {
   });
 };
 
-//监听回车事件
-function onKeyUp(e) {
-  if (e.key == "Enter") onSubmit();
-}
+const { handelOnKeyUp } = listenScreen({
+  onKeyUp: {
+    getData: onSubmit,
+  },
+});
 
 //添加键盘的监听
 onMounted(() => {
-  document.addEventListener("keyup", onKeyUp);
+  document.addEventListener("keyup", handelOnKeyUp);
 });
 //移除键盘的监听
 onBeforeMount(() => {
-  document.removeEventListener("keyup", onKeyUp);
+  document.removeEventListener("keyup", handelOnKeyUp);
 });
 </script>
 

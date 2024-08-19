@@ -78,7 +78,7 @@
     :show-close="false"
     append-to-body
     @close="$emit('closeSearch')"
-    width="85%"
+    width="90%"
   >
     <el-input v-model="form.keyword" placeholder="搜索文档" class="h-[50px]">
       <template #prefix>
@@ -156,6 +156,9 @@ const searchMsg = () => {
   addSearchKeyCount(form)
     .then((res) => {
       essayList.value = res;
+      if (!res) {
+        toast("没有相关文章", "warning");
+      }
     })
     .finally(() => {
       loading.value = false;
@@ -216,11 +219,8 @@ onBeforeMount(() => {
 }
 
 :deep(.el-drawer__header) {
-  @apply flex justify-center items-center;
   background: linear-gradient(to left, rgb(132, 223, 159), rgb(79, 169, 214));
-  margin: 0px !important;
   padding: 10px !important;
-  box-sizing: border-box;
   height: 60px;
 }
 </style>

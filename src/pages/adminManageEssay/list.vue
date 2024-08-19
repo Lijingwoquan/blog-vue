@@ -1,7 +1,7 @@
 <template>
   <div v-loading="tableLoading">
     <div class="flex flex-col mx-3 mt-3">
-      <div class="search">
+      <div class="mb-2" style="z-index: 999">
         <el-button circle @click="dialogVisibleRef = true">
           <el-icon size="25px">
             <Search />
@@ -15,8 +15,12 @@
       />
     </div>
 
-    <div class="bottom">
-      <el-button type="primary" size="large" @click="updateEssayPre" class="btn"
+    <div class="bottom-3 fixed" style="z-index: 999">
+      <el-button
+        type="primary"
+        size="large"
+        @click="updateEssayPre"
+        class="ml-3"
         >修改文章</el-button
       >
     </div>
@@ -36,7 +40,7 @@
         <el-input
           v-model="searchInput"
           placeholder="搜索文档"
-          class="searchInput"
+          style="height: 50px"
         >
           <template #prefix>
             <el-icon size="20px" class="mx-2">
@@ -219,28 +223,3 @@ function updateEssayPre() {
   toast("请先选择文章", "warning");
 }
 </script>
-
-<style scoped>
-.search {
-  @apply mb-2;
-  z-index: 999;
-}
-
-.searchInput {
-  height: 50px;
-}
-
-.bottom {
-  @apply bottom-3 fixed;
-  z-index: 999;
-}
-
-.bottom .btn {
-  @apply mx-3;
-}
-
-.dialogInput {
-  @apply my-3;
-  height: 35px;
-}
-</style>

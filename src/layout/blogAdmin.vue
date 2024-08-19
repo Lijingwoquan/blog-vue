@@ -1,6 +1,6 @@
 <template>
   <NavAside></NavAside>
-  <div class="main" :style="{ marginLeft: $store.state.adminAsideWidth }">
+  <div class="mt-[10px]" :style="{ marginLeft: $store.state.adminAsideWidth }">
     <router-view v-slot="{ Component }">
       <keep-alive :max="5">
         <component :is="Component"></component>
@@ -19,9 +19,3 @@ const NavAside = defineAsyncComponent(() =>
 const store = useStore();
 store.commit("initAsideWidth");
 </script>
-
-<style scoped>
-.main {
-  margin-top: 5px;
-}
-</style>

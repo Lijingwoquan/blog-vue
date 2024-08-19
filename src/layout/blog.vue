@@ -117,18 +117,8 @@ watch(
 </script>
 
 <style scoped>
-.el-header {
-  --el-header-height: 60px;
-  padding: 0px;
-}
-
 .el-main {
   padding: 0;
-}
-
-.el-aside {
-  width: 110px;
-  top: 60px;
 }
 
 .register {

@@ -1,51 +1,48 @@
 <template>
-  <div v-if="loading">
-    <el-row>
-      <el-col :xs="24" :sm="18" :md="18" :lg="18" :xl="18">
-        <div @click="closeAnchor" :class="sizeObj.dynamicStyle">
-          <div class="essayBasic">
-            <span class="name">
+  <el-row>
+    <el-col :xs="24" :sm="18" :md="18" :lg="18" :xl="18">
+      <div v-if="loading">
+        <div @click="closeAnchor" class="flex flex-col p-3">
+          <!-- 文章名 -->
+          <div class="mx-auto">
+            <span
+              class="text-2xl m-auto font-serif font-bold"
+              style="white-space: nowrap !important"
+            >
               {{ oneData.name }}
             </span>
-            <div class="subTitle">
-              <div>
-                <div>
-                  <div class="left mb-5">
-                    创建于:
-                    {{
-                      oneData.createdTime
-                        ? oneData.createdTime.split("T")[0]
-                        : ""
-                    }}
-                  </div>
+          </div>
 
-                  <div class="left">
-                    更新于:
-                    {{
-                      oneData.updatedTime
-                        ? oneData.updatedTime.split("T")[0]
-                        : ""
-                    }}
-                  </div>
-                </div>
-
-                <div>
-                  <div class="right mb-5 ml-auto hover:( text-blue-400)">
-                    <span class="ml-auto">
-                      {{ oneData.kind }}
-                    </span>
-                  </div>
-                  <div class="right">
-                    <span class="ml-auto"> {{ oneData.visitedTimes }}次 </span>
-                  </div>
-                </div>
-              </div>
-
-              <span class="introduction">
-                简介:{{ oneData.introduction }}
-              </span>
+          <!-- 创建时间和分类 -->
+          <div
+            class="flex items-center justify-between font-mono text-purple-700 my-3"
+          >
+            <div class="text-lg">
+              创建于:
+              {{ oneData.createdTime ? oneData.createdTime.split("T")[0] : "" }}
+            </div>
+            <div class="text-lg hover:( text-blue-400)">
+              {{ oneData.kind }}
             </div>
           </div>
+
+          <!-- 更新时间和访问次数 -->
+          <div
+            class="flex items-center justify-between font-mono text-purple-700"
+          >
+            <div class="text-lg">
+              更新于:
+              {{ oneData.updatedTime ? oneData.updatedTime.split("T")[0] : "" }}
+            </div>
+            <div class="text-lg">{{ oneData.visitedTimes }}次</div>
+          </div>
+
+          <!-- 简介 -->
+          <div class="my-3 text-pink-500 px-2">
+            简介:{{ oneData.introduction }}
+          </div>
+
+          <!-- 文章内容 -->
           <div>
             <essayEdit
               v-if="oneData.content"
@@ -55,19 +52,19 @@
             ></essayEdit>
           </div>
         </div>
-      </el-col>
-      <el-col :xs="0" :sm="6" :md="6" :lg="6" :xl="6">
-        <NavAnchor
-          v-if="facility == 'computer' && previewRef != null"
-          :previewRef="previewRef"
-          :anchors="anchorData.anchors"
-          :anchorElement="anchorData.anchorElement"
-          :facility="facility"
-        >
-        </NavAnchor>
-      </el-col>
-    </el-row>
-  </div>
+      </div>
+    </el-col>
+    <el-col :xs="0" :sm="6" :md="6" :lg="6" :xl="6">
+      <NavAnchor
+        v-if="facility == 'computer' && previewRef != null"
+        :previewRef="previewRef"
+        :anchors="anchorData.anchors"
+        :anchorElement="anchorData.anchorElement"
+        :facility="facility"
+      >
+      </NavAnchor>
+    </el-col>
+  </el-row>
 
   <el-icon
     v-show="anchorShow"
@@ -120,7 +117,7 @@ const {
   handelScoll,
 } = initEssayCommonUse(essayEditRef);
 
-const { sizeObj, facility, handleResize } = listenScreen({
+const { facility, handleResize } = listenScreen({
   resize: {
     facilityStandard: {
       computer: {
@@ -189,49 +186,8 @@ defineExpose({
 </script>
 
 <style scoped>
-.essayBasic {
-  @apply flex flex-col justify-center items-center overflow-hidden;
-  padding: 16px 5px 10px 5px;
-}
-
-.essayBasic .name {
-  @apply text-2xl m-auto font-serif font-bold;
-  white-space: nowrap !important;
-}
-
-.essayBasic .subTitle {
-  @apply flex flex-col justify-center items-center mb-10 font-mono;
-  width: 100%;
-}
-
-.subTitle > div {
-  @apply flex justify-between items-center text-purple-700 my-5 px-2;
-  width: 100%;
-}
-
-.subTitle > div > div .right {
-  @apply text-purple-700 mr-1 flex ml-auto;
-  white-space: nowrap;
-}
-
-.subTitle > div > div .left {
-  @apply text-purple-700;
-}
-
-.introduction {
-  @apply mr-auto italic text-pink-500 font-sans px-2;
-}
-
-.content {
-  @apply md:text-xl lg:text-2xl xl:text-2xl xl:text-xl mx-3;
-}
-
 :deep(.v-md-editor__main) {
   overflow: unset !important;
-}
-
-:deep(.github-markdown-body) {
-  padding: 5px;
 }
 
 .anchorIcon {
@@ -243,5 +199,6 @@ defineExpose({
 
 :deep(.vuepress-markdown-body) {
   font-size: var(--markdown-font-size);
+  @apply px-[5px] py-[8px];
 }
 </style>

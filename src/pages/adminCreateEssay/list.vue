@@ -59,12 +59,12 @@
   </div>
 
   <!-- 底部按钮 -->
-  <div class="bottom">
+  <div class="bottom-3 fixed" style="z-index: 999">
     <el-button
       type="primary"
       size="large"
       @click="drawerVisiableRef = true"
-      class="btn"
+      class="ml-3"
       >添加文章</el-button
     >
   </div>
@@ -94,14 +94,3 @@ const { form, btnLoading, drawerVisiableRef, handelCreate } = useCommonForm({
   reload: true,
 });
 </script>
-
-<style scoped>
-.bottom {
-  @apply bottom-3 fixed;
-  z-index: 999;
-}
-
-.bottom .btn {
-  @apply ml-3;
-}
-</style>

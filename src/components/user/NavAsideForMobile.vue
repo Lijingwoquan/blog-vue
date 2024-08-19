@@ -94,5 +94,4 @@ watch(
   /* menu鼠标hover的颜色 */
   --el-menu-hover-bg-color: rgba(157, 169, 224, 0.5);
 }
-
 </style>

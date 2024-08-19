@@ -1,13 +1,16 @@
 <template>
   <div v-loading="tableLoading" class="flex flex-col items-center">
     <span>修改kind类型</span>
-    <div v-for="kind in kindList" class="lists">
-      <div class="list">
+    <div
+      v-for="kind in kindList"
+      class="flex flex-col justify-between items-center my-2"
+    >
+      <div class="flex justify-center items-center">
         <el-input
           style="width: 35%"
           v-model="kind.name"
           placeholder="分类名"
-          class="input"
+          class="my-2"
         ></el-input>
         <el-icon class="mx-4" size="18px">
           <component :is="kind.icon"></component>
@@ -33,7 +36,6 @@
       <el-form-item label="分类名">
         <el-input v-model="form.name"></el-input>
       </el-form-item>
-
       <el-form-item label="图标">
         <iconChoose
           class="mt-1 mx-1"
@@ -82,27 +84,3 @@ const updateKindHandelPre = (item) => {
   drawerVisiableRef.value = true;
 };
 </script>
-
-<style scoped>
-.aside {
-  @apply flex flex-col justify-center items-center;
-  height: 100%;
-  width: 40px;
-  background-color: rgba(130, 120, 194, 0.297);
-}
-
-.lists {
-  height: auto;
-  width: auto;
-  @apply flex flex-col justify-between items-center my-2;
-}
-
-.lists .list {
-  height: auto;
-  @apply flex justify-center items-center;
-}
-
-.lists .input {
-  @apply text-red-700 my-2;
-}
-</style>

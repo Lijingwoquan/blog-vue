@@ -1,12 +1,12 @@
 <template>
-  <div class="containerClassify">
+  <div class="flex flex-col justify-center items-center mt-5">
     <div class="flex justify-center">
       <span>修改classify分类</span>
       <el-button
         type="success"
         size="default"
         @click="drawerVisiableRef = true"
-        class="btn"
+        class="ml-5"
       >
         添加分类
         <el-icon>
@@ -14,13 +14,13 @@
         </el-icon>
       </el-button>
     </div>
-    <div class="list">
+    <div class="flex justify-center items-center flex-wrap mt-5">
       <div v-for="(kind, index) in kindList" :key="index">
         <el-button
           type="primary"
           size="default"
           @click="updateClassifyPre(kind)"
-          class="btn"
+          class="mx-2"
         >
           {{ kind.name }}
         </el-button>
@@ -88,16 +88,22 @@
     width="80%"
   >
     <el-card shadow="always">
-      <el-table :data="list" border stripe v-loading="tableLoading">
+      <el-table
+        :data="list"
+        size="large"
+        border
+        stripe
+        v-loading="tableLoading"
+      >
         <el-table-column type="index" width="50" />
         <el-table-column label="分类名称" align="center">
           <template #default="{ row }">
-            <el-input v-model="row.name"></el-input>
+            <el-input size="large" v-model="row.name"></el-input>
           </template>
         </el-table-column>
         <el-table-column label="分类路由" align="center">
           <template #default="{ row }">
-            <el-input v-model="row.router"></el-input>
+            <el-input size="large" v-model="row.router"></el-input>
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center">
@@ -163,30 +169,3 @@ const updateClassifyHandel = (row) => {
     });
 };
 </script>
-
-<style scoped>
-.containerClassify {
-  @apply flex flex-col justify-center items-center mt-5;
-}
-
-.containerClassify > div {
-  @apply mb-3;
-}
-
-.containerClassify .btn {
-  @apply ml-5;
-}
-
-.containerClassify .list {
-  @apply flex justify-center items-center flex-wrap;
-}
-
-.containerClassify .list .btn {
-  @apply mx-2 my-2;
-  width: 150px;
-}
-
-:deep(.el-select__selection) {
-  height: 40px;
-}
-</style>

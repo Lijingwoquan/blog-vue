@@ -101,7 +101,13 @@ export function listenScreen(opt = {}) {
   const handelOnKeyUp = (e) => {
     if (Object.keys(opt.onKeyUp).length > 0) {
       let onKeyUp = opt.onKeyUp;
-      if (e.key == "Enter" && onKeyUp.visiable.value == true) {
+      if (
+        e.key == "Enter" &&
+        onKeyUp.visiable &&
+        onKeyUp.visiable.value == true
+      ) {
+        onKeyUp.getData();
+      } else if (e.key == "Enter") {
         onKeyUp.getData();
       }
     }
