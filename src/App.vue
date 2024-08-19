@@ -29,6 +29,24 @@
   /* 滚动条拖动块的颜色 */
 }
 
+h1 {
+  font-size: 1.6em !important;
+}
+h2 {
+  font-size: 1.5em !important;
+}
+h3 {
+  font-size: 1.4em !important;
+}
+h4 {
+  font-size: 1.3em !important;
+}
+h5 {
+  font-size: 1.2em !important;
+}
+h6 {
+  font-size: 1.1em !important;
+}
 /* 默认字体大小 */
 * {
   font-size: 16px;
@@ -36,31 +54,31 @@
 
 /* 大屏幕设备（桌面或大尺寸平板） */
 @media (min-width: 1200px) {
-  * {
-    font-size: 18px; /* 大屏幕字体大小 */
+  *:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
+    font-size: 18px;
   }
 }
 
 /* 中等屏幕设备（中等尺寸平板和小型桌面） */
 @media (min-width: 768px) and (max-width: 1199px) {
-  * {
-    font-size: 16px; /* 中等屏幕字体大小 */
+  *:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
+    font-size: 16px;
   }
 }
 
 /* 小屏幕设备（手机） */
 @media (max-width: 767px) {
-  * {
-    font-size: 14px; /* 小屏幕字体大小 */
+  *:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
+    font-size: 14px;
   }
 }
-/* 在 h 标签下的 a 标签字体稍大一些 */
+
 h1 a,
 h2 a,
 h3 a,
 h4 a,
 h5 a,
 h6 a {
-  font-size: 1em; /* 或根据需要调整大小 */
+  font-size: 1em !important;
 }
 </style>
