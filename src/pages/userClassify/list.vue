@@ -57,11 +57,14 @@ const classifyRouter = computed(() => {
 });
 
 const getNowClassify = () => {
-  classifyList.value.forEach((classify) => {
+  let classifyName = "";
+  for (let index = 0; index < classifyList.value.length; index++) {
+    const classify = classifyList.value[index];
     if (classifyRouter.value === classify.router) {
-      return classify.name;
+      classifyName = classify.name;
     }
-  });
+  }
+  return classifyName;
 };
 
 const { searchForm, tableData, currentPage, totalPages, loading, getDataList } =
@@ -88,7 +91,6 @@ watch(
     getNowClassify();
     searchForm.classify = getNowClassify();
     await getDataList();
-    console.log(tableData);
   }
 );
 </script>

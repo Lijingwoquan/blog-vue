@@ -61,10 +61,10 @@ export function useCommonGetData(opt = {}) {
         .then((res) => {
           tableData.value = res.list;
           totalPages.value = res.totalPages;
-          if (res.list == null) {
+          if (res.list == null && totalPages.value == 1) {
             currentPage.value = 1;
             setIndexPage(1);
-            getData();
+            getDataList();
           }
         })
         .finally(() => {

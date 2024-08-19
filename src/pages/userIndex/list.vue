@@ -33,13 +33,11 @@
 </template>
 
 <script setup>
-import { watch } from "vue";
 import { useRouter } from "vue-router";
 import { getEssayList } from "~/api/user.js";
 import { useCommonGetData, useCommonNav } from "~/composables/useCommon.js";
 
 const router = useRouter();
-
 const { tableData, currentPage, totalPages, loading, getDataList } =
   useCommonGetData({
     form: {
@@ -56,11 +54,6 @@ const { toEssay, toKind, changePage } = useCommonNav({
   currentPage,
   getDataList,
 });
-
-watch(
-  () => route.path,
-  () => {}
-);
 </script>
 
 <style scoped>
