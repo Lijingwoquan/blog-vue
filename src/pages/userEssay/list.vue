@@ -72,10 +72,10 @@
   <el-icon
     v-show="anchorShow"
     @click="oppositedAnchor"
-    class="anchorIcon hidden-sm-and-up"
-    size="40px"
+    class="anchorIcon hidden-sm-and-up text-blue-500"
+    style="font-size: 40px !important"
   >
-    <Memo />
+    <Memo style="font-size: 40px !important" />
   </el-icon>
 
   <NavAnchor

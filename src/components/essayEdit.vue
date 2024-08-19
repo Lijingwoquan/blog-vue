@@ -10,7 +10,6 @@
     :disabled-menus="[]"
     @copy-code-success="handleCopyCodeSuccess"
     :mode="ifEdit ? 'editable' : 'preview'"
-    :class="sizeObj.dynamicStyle"
   />
 </template>
 
@@ -71,18 +70,6 @@ const previewRef = defineModel("previewRef", {
   type: Object,
   required: true,
 });
-const { sizeObj, handleResize } = listenScreen({
-  resize: {
-    facilityStandard: {
-      computer: {
-        dynamicStyle: "computer-text-size",
-      },
-      mobile: {
-        dynamicStyle: "mobile-text-size",
-      },
-    },
-  },
-});
 
 const ifEdit = computed(() => {
   return props.mode == "edit" ? true : false;
@@ -129,22 +116,9 @@ function handleBeforeLeave(e) {
 }
 
 onMounted(() => {
-  handleResize();
   window.addEventListener("beforeunload", handleBeforeLeave);
-  window.addEventListener("resize", handleResize);
 });
 onUnmounted(() => {
   window.removeEventListener("beforeunload", handleBeforeLeave);
-  window.removeEventListener("resize", handleResize);
 });
 </script>
-
-<style scoped>
-.computer-text-size {
-  font-size: 130%;
-}
-
-.mobile-text-size {
-  font-size: initial;
-}
-</style>
