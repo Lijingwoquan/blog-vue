@@ -1,7 +1,12 @@
-import { reactive, ref } from "vue";
+import { computed, reactive, ref } from "vue";
 import { setIndexPage, getIndexPage } from "~/composables/auth.js";
 import { showLoading, toast } from "~/composables/util.js";
 import store from "~/store/index.js";
+
+const menu = computed(() => store.state.menu);
+const kindList = computed(() => store.state.kindList);
+const essayList = computed(() => store.state.essayList);
+const classifyList = computed(() => store.state.classifyList);
 
 // 获取数据 分页 loading状态
 export function useCommonGetData(opt = {}) {
@@ -132,7 +137,7 @@ export function useCommonForm(opt = {}) {
     }
   };
 
-  const handleUpdate = () => {
+  const handelUpdate = () => {
     btnLoading.value = true;
     disposeRouter();
     if (typeof opt.update === "function") {
@@ -170,8 +175,17 @@ export function useCommonForm(opt = {}) {
     drawerVisiableRef,
     id,
     handelCreate,
-    handleUpdate,
+    handelUpdate,
     handelDelete,
+  };
+}
+
+export function useCommonData() {
+  return {
+    menu,
+    kindList,
+    classifyList,
+    essayList,
   };
 }
 
