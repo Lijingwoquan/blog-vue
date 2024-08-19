@@ -223,4 +223,12 @@ onBeforeMount(() => {
   padding: 10px !important;
   height: 60px;
 }
+:deep(.el-menu-item) {
+  background: linear-gradient(
+    to right bottom,
+    rgba(144, 137, 187, 0.31),
+    rgba(91, 106, 170, 0.227),
+    rgba(64, 118, 200, 0.307)
+  );
+}
 </style>
