@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center">
+  <div v-loading="tableLoading" class="flex flex-col items-center">
     <span>修改kind类型</span>
     <div v-for="kind in classifiesKind" class="lists">
       <div class="list">
@@ -24,72 +24,68 @@
   </div>
 
   <el-drawer
-    v-model="dialogForAddEssay"
-    title="添加文章"
-    direction="rtl"
+    v-model="drawerVisiableRef"
+    title="修改分类"
     append-to-body
-    size="700px"
+    size="45%"
   >
-    <div class="text-blue-700">
-      span
-      <el-input class="mb-5" v-model="kindForm.name" placeholder="文章名" />
-      图标
-      <iconChoose
-        class="mt-1 mx-1"
-        style="width: 30%"
-        :modelValue="kindForm.icon"
-        @update:modelValue="(icon) => chooseIcon(kindForm, icon)"
-      ></iconChoose>
-      <el-button
-        type="primary"
-        size="large"
-        style="width: 100%"
-        @click="updateKindHandel"
-        class="mt-5"
-        >添加</el-button
-      >
-    </div>
+    <el-form :model="form" label-width="80px" :inline="false">
+      <el-form-item label="分类名">
+        <el-input v-model="form.kind"></el-input>
+      </el-form-item>
+
+      <el-form-item label="图标">
+        <iconChoose
+          class="mt-1 mx-1"
+          :modelValue="form.icon"
+          @update:modelValue="(icon) => (form.icon = icon)"
+        ></iconChoose>
+      </el-form-item>
+      <el-form-item>
+        <el-button
+          type="primary"
+          size="large"
+          @click="handelUpdate"
+          style="width: 100%"
+          class="mt-5"
+          :loading="btnLoading"
+          >修改分类</el-button
+        >
+      </el-form-item>
+    </el-form>
   </el-drawer>
 </template>
 
 <script setup>
-import { computed, reactive, ref } from "vue";
+import { computed, reactive } from "vue";
 import { useStore } from "vuex";
 import { updateKind } from "~/api/manager.js";
-import { toast } from "~/composables/util";
 import iconChoose from "./iconChoose.vue";
-
+import { useCommonForm } from "~/composables/useCommon.js";
 const store = useStore();
 
+const { form, btnLoading, tableLoading, drawerVisiableRef, handelUpdate } =
+  useCommonForm({
+    form: reactive({
+      kind: "",
+      icon: "",
+      id: null,
+    }),
+    update: updateKind,
+    reload: true,
+  });
+
 const classifiesKind = computed(() => store.state.classifyKind);
-const dialogForAddEssay = ref(false);
-const kindForm = reactive({
-  name: "",
-  icon: "",
-  id: null,
-});
-// 选择图标
-const chooseIcon = (kind, icon) => {
-  kind.icon = icon;
-};
 
 const updateKindHandelPre = (item) => {
-  dialogForAddEssay.value = true;
-  kindForm.name = item.kind;
-  kindForm.icon = item.icon;
-  kindForm.id = item.id;
-};
-
-// 更新kind
-const updateKindHandel = () => {
-  updateKind(kindForm)
-    .then(() => {
-      toast("修改分类种类成功");
-      store.dispatch("getIndexInfo");
-    })
-    .catch((err) => {
-      toast("修改分类种类失败", "error");
-    });
+  for (let k in item) {
+    if (k === "kind") {
+      form["name"] = item[k];
+    } else {
+    }
+    form[k] = item[k];
+  }
+  drawerVisiableRef.value = true;
 };
 </script>
 

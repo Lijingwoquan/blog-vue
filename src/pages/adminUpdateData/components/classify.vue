@@ -89,7 +89,7 @@
     width="80%"
   >
     <el-card shadow="always">
-      <el-table :data="satisfyClassify" border stripe v-loading="tableLoading">
+      <el-table :data="classifyList" border stripe v-loading="tableLoading">
         <el-table-column type="index" width="50" />
         <el-table-column label="分类名称" align="center">
           <template #default="{ row }">
@@ -138,17 +138,17 @@ const store = useStore();
 const classifiesKind = computed(() => store.state.classifyKind);
 const classifies = computed(() => store.state.classifyData);
 
-const satisfyClassify = ref([]);
+const classifyList = ref([]);
 const customInput = ref(false);
 const dialogVisibleRef = ref(false);
 
 // 更新
 const updateClassifyPre = (kind) => {
-  satisfyClassify.value = [];
+  classifyList.value = [];
   dialogVisibleRef.value = true;
   classifies.value.forEach((classify) => {
     if (classify.kind == kind) {
-      satisfyClassify.value.push(classify);
+      classifyList.value.push(classify);
     }
   });
 };
