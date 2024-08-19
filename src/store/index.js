@@ -6,46 +6,28 @@ const store = createStore({
   state() {
     return {
       //首页数据
-      indexData: [],
-      //分类种类
-      classifyKind: [],
-      //分类数据
-      classifyData: [],
-      //文章数据
+      menu: [],
+      classifyList: [],
+      kindList: [],
       essayList: [],
       adminAsideWidth: "250px",
     };
   },
+  getters: {},
   mutations: {
-    setIndexInfo(state, data) {
-      //添加index数据
-      state.indexData = data;
+    setMenu(state, payload) {
+      state.menu = payload.menu;
     },
-    setClassify(state, data) {
-      state.classifyKind = [];
-      state.classifyData = [];
-      data.forEach((base) => {
-        let kind = base.classifyKind;
-        let id = base.id;
-        let icon = base.icon;
-        state.classifyKind.push({ kind, id, icon });
-        if (base.classifyDetails == null) {
-          return;
-        }
-        base.classifyDetails.forEach((classifyDetails) => {
-          let kind = classifyDetails.kind;
-          let router = classifyDetails.router;
-          let name = classifyDetails.name;
-          let id = classifyDetails.id;
-          state.classifyData.push({ kind, name, router, id });
-        });
-      });
+    setKindList(state, payload) {
+      state.kindList = payload.kindList;
     },
-    setEssayList(state, list) {
+    setClassifyList(state, payload) {
+      state.classifyList = payload.classifyList;
+    },
+    setEssayList(state, payload) {
       //单独添加文章数据
-      state.essayList = list;
+      state.essayList = payload.essayList;
     },
-    //展开|缩起侧边
     handleAdminAsideWidth(state) {
       const ifExpendAside = ref(getExpendAside());
       if (!ifExpendAside.value) {
@@ -70,9 +52,30 @@ const store = createStore({
       return new Promise((resolve, reject) => {
         getIndexInfo()
           .then((res) => {
-            commit("setIndexInfo", res.dataAboutIndexMenu);
-            commit("setEssayList", res.essayList);
-            commit("setClassify", res.dataAboutIndexMenu);
+            let menu = res.menu;
+            let essayList = res.essayList;
+            let kindList = [];
+            let classifyList = [];
+
+            menu.forEach((o) => {
+              kindList.push(o.kind);
+              o.classifyList.forEach((classify) => {
+                classifyList.push(classify);
+              });
+            });
+
+            commit("setMenu", {
+              menu,
+            });
+            commit("setEssayList", {
+              list: essayList,
+            });
+            commit("setKindList", {
+              kindList,
+            });
+            commit("setClassifyList", {
+              classifyList,
+            });
             resolve(res);
           })
           .catch((err) => {

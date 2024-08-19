@@ -116,7 +116,7 @@
           type="primary"
           size="large"
           style="width: 100%"
-          @click="handleUpdate"
+          @click="handelUpdate"
           class="mt-5"
           :loading="btnLoading"
           >修改</el-button
@@ -147,7 +147,7 @@ const {
   tableLoading,
   drawerVisiableRef,
   id,
-  handleUpdate,
+  handelUpdate,
   handelDelete,
 } = useCommonForm({
   form: reactive({
