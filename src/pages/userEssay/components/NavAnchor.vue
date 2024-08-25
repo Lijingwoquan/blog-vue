@@ -152,6 +152,7 @@ function scrollThrottleFn() {
         activeTitle.active = true;
         scrollToAnchor(index);
       }
+      history.pushState(null, null, activeTitle.id);
     }
   }
 }
