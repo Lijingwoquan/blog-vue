@@ -42,9 +42,12 @@
             简介:{{ oneData.introduction }}
           </div>
 
+          <div id="cnmb"></div>
+
           <!-- 文章内容 -->
           <div>
             <essayEdit
+              id="editContainer"
               v-if="oneData.content"
               ref="essayEditRef"
               v-model:editContent="oneData.content"
@@ -54,12 +57,11 @@
         </div>
       </div>
     </el-col>
+
     <el-col :xs="0" :sm="6" :md="6" :lg="6" :xl="6">
       <NavAnchor
         v-if="facility == 'computer' && previewRef != null"
-        :previewRef="previewRef"
         :anchors="anchorData.anchors"
-        :anchorElement="anchorData.anchorElement"
         :facility="facility"
       >
       </NavAnchor>
@@ -69,7 +71,7 @@
   <el-icon
     v-show="anchorShow"
     @click="oppositedAnchor"
-    class="anchorIcon hidden-sm-and-up text-blue-500"
+    class="anchorIcon hidden-sm-and-up"
     style="font-size: 40px !important"
   >
     <Memo style="font-size: 40px !important" />
@@ -78,9 +80,7 @@
   <NavAnchor
     v-if="facility == 'mobile' && previewRef != null"
     v-show="anchorContentShow"
-    :previewRef="previewRef"
     :anchors="anchorData.anchors"
-    :anchorElement="anchorData.anchorElement"
     :facility="facility"
   >
   </NavAnchor>
@@ -157,8 +157,6 @@ const initEssayData = async () => {
   handelScoll();
   const result = diposeHAndGetAnchors(previewRef, { route, router });
   anchorData.anchors = result.anchors.value;
-  anchorData.scrollThrottleFn = result.scrollThrottleFn;
-  anchorData.anchorElement = result.anchorElement;
 };
 
 watch(
@@ -167,8 +165,9 @@ watch(
     initEssayData();
   }
 );
-onMounted(() => {
-  initEssayData();
+onMounted(async () => {
+  await initEssayData();
+
   window.addEventListener("resize", handleResize);
   window.addEventListener("scroll", handelScoll);
 });
@@ -191,10 +190,10 @@ defineExpose({
 }
 
 .anchorIcon {
-  @apply fixed hover:cursor-pointer;
+  @apply fixed hover:cursor-pointer text-blue-500;
   z-index: 9999;
-  top: 200px;
-  right: 40px;
+  top: 60px;
+  left: 0;
 }
 
 :deep(.vuepress-markdown-body) {

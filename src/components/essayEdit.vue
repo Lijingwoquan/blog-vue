@@ -10,6 +10,7 @@
     :disabled-menus="[]"
     @copy-code-success="handleCopyCodeSuccess"
     :mode="ifEdit ? 'editable' : 'preview'"
+    id="editPlus"
   />
 </template>
 

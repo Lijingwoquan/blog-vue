@@ -1,11 +1,9 @@
-import { ref, reactive, computed } from "vue";
+import { ref, reactive } from "vue";
 
 export function initEssayCommonUse() {
   const previewRef = ref({});
   const anchorData = reactive({
     anchors: [],
-    anchorElement: [],
-    scrollThrottleFn: null,
   });
   const anchorShow = ref(false);
   const anchorContentShow = ref(false);

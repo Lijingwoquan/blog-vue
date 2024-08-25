@@ -1,9 +1,9 @@
 <template>
   <div class="nav-aside pl-4 pr-3">
     <div v-for="(item, index) in menu" :key="index" class="mt-2">
-      <h3 class="mb-2" style="color: rgb(16, 159, 241); font-weight: 600">
+      <h4 class="mb-2" style="color: rgb(16, 159, 241); font-weight: 600">
         {{ item.kind?.name }}
-      </h3>
+      </h4>
       <section class="mb-5 ml-4">
         <div
           class="flex justify-center flex-col"
@@ -69,7 +69,7 @@ watch(
 .list {
   @apply leading-loose hover:(cursor-pointer underline text-shadow-sm);
   color: rgb(58, 132, 139);
-  font-size: 130%;
+  font-size: 105%;
 }
 
 .active {

@@ -3,7 +3,6 @@ import { ref } from "vue";
 export function diposeHAndGetAnchors(previewRef = {}, { route, router } = {}) {
   const anchorElement = ref([]);
   const anchors = ref([]);
-  const hTags = ref([]);
 
   // 锚点数据处理
   const anchorDataDispose = () => {
@@ -18,9 +17,6 @@ export function diposeHAndGetAnchors(previewRef = {}, { route, router } = {}) {
       if (!existingATag) {
         // 如果没有 a 标签，创建新的 a 元素
         const aTag = document.createElement("a");
-
-        const hrefValue = `#anchor-${index}`;
-        aTag.setAttribute("href", hrefValue);
 
         // 保存原有的内容
         const originalContent = anchor.innerHTML;
@@ -46,16 +42,10 @@ export function diposeHAndGetAnchors(previewRef = {}, { route, router } = {}) {
       (anchor) => !!anchor.innerText.trim()
     );
 
-    hTags.value = Array.from(
-      new Set(anchors.value.map((anchor) => anchor.tagName))
-    ).sort();
-
     anchors.value = anchors.value.map((el, index) => ({
-      id: `#anchor-${index}`, // 添加唯一 id
+      id: `${el.innerText.split("🔗")[1]}`,
+      href: `#${el.innerText.split("🔗")[1]}`,
       title: el.innerText,
-      lineIndex: el.getAttribute("data-v-md-line"),
-      indent: hTags.value.indexOf(el.tagName),
-      active: false,
     }));
 
     // 为每个标题元素设置 id
@@ -64,41 +54,9 @@ export function diposeHAndGetAnchors(previewRef = {}, { route, router } = {}) {
     });
   };
 
-  const initAnchorPosition = () => {
-    // 由hash拿到lineIndex
-    anchors.value = anchors.value.map((anchor) => {
-      if (route.hash === anchor.id) {
-        return { ...anchor, active: true };
-      } else {
-        return anchor;
-      }
-    });
-    const activeAnchor = anchors.value.find((anchor) => anchor.active === true);
-    if (activeAnchor) {
-      handleAnchorClick(activeAnchor);
-    }
-  };
-
-  // 锚点跳转
-  const handleAnchorClick = (anchor) => {
-    const { lineIndex } = anchor;
-    const heading = previewRef.value.$el.querySelector(
-      `[data-v-md-line="${lineIndex}"]`
-    );
-    if (heading) {
-      previewRef.value.previewScrollToTarget({
-        target: heading,
-        scrollContainer: window,
-      });
-    }
-    router.push(`${anchor.id}`);
-  };
-
   anchorDataDispose();
-  initAnchorPosition();
 
   return {
     anchors,
-    anchorElement,
   };
 }
