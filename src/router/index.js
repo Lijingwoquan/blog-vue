@@ -112,7 +112,7 @@ export function addIndexMenuRouters(menu) {
       let classifyList = o.classifyList;
       classifyList.forEach((classifyObj) => {
         let classify = {
-          path: "/classify" + classifyObj.router,
+          path: decodeURIComponent("/classify" + classifyObj.router),
           component: userClassify,
           meta: {
             title: classifyObj.name,

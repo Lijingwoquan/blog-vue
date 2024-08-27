@@ -17,7 +17,9 @@ router.beforeEach(async (to, from, next) => {
   showFullLoading();
 
   // 去除路由最后的"/"
-  const toPath = to.path.length > 1 ? to.path.replace(/\/$/, "") : to.path;
+  const toPath = decodeURIComponent(
+    to.path.length > 1 ? to.path.replace(/\/$/, "") : to.path
+  );
 
   if (toPath === `${config.MANAGER_URL}`) {
     const token = getToken();
@@ -29,7 +31,11 @@ router.beforeEach(async (to, from, next) => {
     //防止重复登录
     if (token && to.path == "/login") {
       toast("请勿重复登录", "warning");
-      return next({ path: from.path ? from.path : `${config.MANAGER_URL}` });
+      return next({
+        path: from.path
+          ? decodeURIComponent(from.path)
+          : `${config.MANAGER_URL}`,
+      });
     }
   }
 
@@ -47,7 +53,6 @@ router.beforeEach(async (to, from, next) => {
   if (toPath.split("/")[1] && toPath.split("/")[1] === "essay") {
     hasNewRoutes = addEssayRouters(toPath);
   }
-
   hasNewRoutes
     ? next({ path: toPath, query: to.query, hash: to.hash })
     : next();

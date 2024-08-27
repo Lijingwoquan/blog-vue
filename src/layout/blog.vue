@@ -45,7 +45,7 @@
         :xl="16"
       >
         <el-main>
-          <router-view v-slot="{ Component }" ref="essay">
+          <router-view v-slot="{ Component }">
             <keep-alive :max="5">
               <component :is="Component"> </component>
             </keep-alive>
