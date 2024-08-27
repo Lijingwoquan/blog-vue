@@ -11,7 +11,7 @@
             Array.isArray(item.classifyList) && item.classifyList.length > 0
           "
         >
-          <span
+          <div
             class="list"
             v-for="(classify, index2) in item.classifyList"
             :key="index2"
@@ -21,7 +21,7 @@
             }"
           >
             {{ classify.name }}
-          </span>
+          </div>
         </div>
       </section>
     </div>
