@@ -3,11 +3,14 @@
 </template>
 
 <script setup>
+import { reactive, defineAsyncComponent } from "vue";
 import { useRouter } from "vue-router";
 import { getEssayList } from "~/api/user.js";
 import { useCommonGetData, useCommonNav } from "~/composables/useCommon.js";
-import EssayList from "~/components/user/EssayList.vue";
-import { reactive } from "vue";
+
+const EssayList = defineAsyncComponent(() =>
+  import("~/components/user/EssayList.vue")
+);
 
 const router = useRouter();
 const { tableData, currentPage, totalPages, loading, getDataList } =

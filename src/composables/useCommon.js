@@ -36,7 +36,7 @@ export function useCommonGetData(opt = {}) {
   getOldPage();
 
   const getOneData = async () => {
-    loading.value = false;
+    loading.value = true;
     await showLoading(opt.loadingText);
     await opt
       .getOneData(id.value)
@@ -44,7 +44,7 @@ export function useCommonGetData(opt = {}) {
         oneData.value = res;
       })
       .finally(() => {
-        loading.value = true;
+        loading.value = false;
       });
   };
 

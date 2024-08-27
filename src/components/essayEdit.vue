@@ -15,9 +15,9 @@
 </template>
 
 <script setup>
-import { computed, onMounted, onUnmounted } from "vue";
+import { computed, onMounted, onUnmounted, ref } from "vue";
 import { uploadImg } from "~/api/manager.js";
-import { toast, listenScreen } from "~/composables/util";
+import { toast } from "~/composables/util";
 
 //富文本插件
 import VueMarkdownEditor from "@kangc/v-md-editor";
@@ -67,10 +67,8 @@ const editContent = defineModel("editContent", {
   type: String,
   required: true,
 });
-const previewRef = defineModel("previewRef", {
-  type: Object,
-  required: true,
-});
+
+const previewRef = ref(null);
 
 const ifEdit = computed(() => {
   return props.mode == "edit" ? true : false;
@@ -81,7 +79,6 @@ const handleCopyCodeSuccess = () => {
 };
 
 async function handleUploadImage(event, insertImage, files) {
-  console.log("ddd");
   try {
     // 获取上传的图片文件
     const file = files[0]; // 假设只上传了一张图片
@@ -116,10 +113,17 @@ function handleBeforeLeave(e) {
   }
 }
 
+const anchorElement = ref([]);
 onMounted(() => {
+  anchorElement.value =
+    previewRef.value.$el.querySelectorAll("h1,h2,h3,h4,h5,h6");
   window.addEventListener("beforeunload", handleBeforeLeave);
 });
 onUnmounted(() => {
   window.removeEventListener("beforeunload", handleBeforeLeave);
+});
+
+defineExpose({
+  anchorElement,
 });
 </script>

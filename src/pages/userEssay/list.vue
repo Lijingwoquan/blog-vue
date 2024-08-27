@@ -1,7 +1,7 @@
 <template>
   <el-row>
     <el-col :xs="24" :sm="18" :md="18" :lg="18" :xl="18">
-      <div v-if="loading">
+      <div v-if="!loading">
         <div @click="closeAnchor" class="flex flex-col p-3">
           <!-- 文章名 -->
           <div class="mx-auto">
@@ -42,17 +42,13 @@
             简介:{{ oneData.introduction }}
           </div>
 
-          <div id="cnmb"></div>
-
           <!-- 文章内容 -->
           <div>
             <essayEdit
-              id="editContainer"
-              v-if="oneData.content"
               ref="essayEditRef"
+              id="editContainer"
               v-model:editContent="oneData.content"
-              v-model:previewRef="previewRef"
-            ></essayEdit>
+            />
           </div>
         </div>
       </div>
@@ -60,7 +56,7 @@
 
     <el-col :xs="0" :sm="6" :md="6" :lg="6" :xl="6">
       <NavAnchor
-        v-if="facility == 'computer' && previewRef != null"
+        v-if="facility == 'computer'"
         :anchors="anchorData.anchors"
         :facility="facility"
       >
@@ -78,7 +74,7 @@
   </el-icon>
 
   <NavAnchor
-    v-if="facility == 'mobile' && previewRef != null"
+    v-if="facility == 'mobile'"
     v-show="anchorContentShow"
     :anchors="anchorData.anchors"
     :facility="facility"
@@ -88,34 +84,29 @@
 
 <script setup>
 import { useRoute, useRouter } from "vue-router";
-import { ref, watch, onMounted, onUnmounted, defineAsyncComponent } from "vue";
+import {
+  ref,
+  watch,
+  onMounted,
+  onUnmounted,
+  defineAsyncComponent,
+  nextTick,
+} from "vue";
 import { getEssayMsg } from "~/api/user.js";
 import { listenScreen } from "~/composables/util.js";
 import { useCommonGetData, useCommonData } from "~/composables/useCommon.js";
 import { diposeHAndGetAnchors } from "~/helper/dataForAnchor.js";
 import { initEssayCommonUse } from "~/composables/essayCommonUse.js";
-import essayEdit from "~/components/essayEdit.vue";
+
+const essayEdit = defineAsyncComponent(() =>
+  import("~/components/essayEdit.vue")
+);
+
 const NavAnchor = defineAsyncComponent(() =>
   import("./components/NavAnchor.vue")
 );
 const route = useRoute();
 const router = useRouter();
-
-const { essayList } = useCommonData();
-
-const essayEditRef = ref(null);
-
-const {
-  previewRef,
-  anchorData,
-  anchorShow,
-  anchorContentShow,
-  oppositedAnchor,
-  closeAnchor,
-  hideAnchor,
-  showAnchor,
-  handelScoll,
-} = initEssayCommonUse(essayEditRef);
 
 const { facility, handleResize } = listenScreen({
   resize: {
@@ -129,6 +120,8 @@ const { facility, handleResize } = listenScreen({
     },
   },
 });
+
+const { essayList } = useCommonData();
 
 function getCurrentEssayId() {
   const currentRouter = route.path;
@@ -145,6 +138,19 @@ const { id, oneData, loading, getOneData } = useCommonGetData({
   loadingText: "文章列表渲染中",
 });
 
+const essayEditRef = ref(null);
+
+const {
+  anchorData,
+  anchorShow,
+  anchorContentShow,
+  oppositedAnchor,
+  closeAnchor,
+  hideAnchor,
+  showAnchor,
+  handelScoll,
+} = initEssayCommonUse();
+
 const initEssayData = async () => {
   oneData.value = {};
   id.value = getCurrentEssayId();
@@ -153,28 +159,35 @@ const initEssayData = async () => {
     return;
   }
   await getOneData();
+
+  await nextTick();
+
   handleResize();
   handelScoll();
-  const result = diposeHAndGetAnchors(previewRef, { route, router });
+
+  const result = diposeHAndGetAnchors(essayEditRef.value.anchorElement, {
+    route,
+    router,
+  });
   anchorData.anchors = result.anchors.value;
 };
 
 watch(
   () => route.path,
-  () => {
-    initEssayData();
+  async () => {
+    await initEssayData();
   }
 );
+
 onMounted(async () => {
   await initEssayData();
-
   window.addEventListener("resize", handleResize);
   window.addEventListener("scroll", handelScoll);
 });
 
 onUnmounted(() => {
   window.removeEventListener("resize", handleResize);
-  window.addEventListener("scroll", handelScoll);
+  window.removeEventListener("scroll", handelScoll);
 });
 
 defineExpose({

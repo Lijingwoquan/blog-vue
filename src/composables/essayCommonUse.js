@@ -1,7 +1,6 @@
 import { ref, reactive } from "vue";
 
 export function initEssayCommonUse() {
-  const previewRef = ref({});
   const anchorData = reactive({
     anchors: [],
   });
@@ -38,7 +37,6 @@ export function initEssayCommonUse() {
   };
 
   return {
-    previewRef,
     anchorData,
     anchorShow,
     anchorContentShow,

@@ -8,14 +8,17 @@
 
 <script setup>
 import { useRouter, useRoute } from "vue-router";
-import { computed, watch, reactive } from "vue";
+import { computed, watch, reactive, defineAsyncComponent } from "vue";
 import { getEssayList } from "~/api/user.js";
 import {
   useCommonGetData,
   useCommonData,
   useCommonNav,
 } from "~/composables/useCommon.js";
-import EssayList from "~/components/user/EssayList.vue";
+
+const EssayList = defineAsyncComponent(() =>
+  import("~/components/user/EssayList.vue")
+);
 
 const route = useRoute();
 const router = useRouter();

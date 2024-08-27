@@ -29,12 +29,18 @@ service.interceptors.response.use(
     return response.data.data; //后续请求响应数据写起来更加优雅
   },
   function (error) {
-    const msg = error.response.data.msg || "请求失败";
-    if (msg === "需要登录") {
-      removeToken();
-      location.reload();
+    // 检查 error.response 是否存在
+    if (error.response) {
+      const msg = error.response.data.msg || "请求失败";
+      if (msg === "需要登录") {
+        removeToken();
+        location.reload();
+      }
+      return Promise.reject(msg); // 直接返回 msg
+    } else {
+      // 网络错误或其他错误情况
+      return Promise.reject("请求失败");
     }
-    return Promise.reject(error);
   }
 );
 

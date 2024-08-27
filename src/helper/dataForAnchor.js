@@ -1,16 +1,12 @@
 import { ref } from "vue";
 // 在essay页处理数据 然后将anchors传给anchor
-export function diposeHAndGetAnchors(previewRef = {}, { route, router } = {}) {
-  const anchorElement = ref([]);
+export function diposeHAndGetAnchors(anchorElement, { route, router } = {}) {
   const anchors = ref([]);
 
   // 锚点数据处理
   const anchorDataDispose = () => {
-    anchorElement.value =
-      previewRef.value.$el.querySelectorAll("h1,h2,h3,h4,h5,h6");
-
     // 为每个h标签加上子元素a标签
-    anchorElement.value.forEach((anchor, index) => {
+    anchorElement.forEach((anchor, index) => {
       // 检查是否已经包含 a 标签
       const existingATag = anchor.querySelector("a");
 
@@ -38,7 +34,7 @@ export function diposeHAndGetAnchors(previewRef = {}, { route, router } = {}) {
     });
 
     // 去掉空格h标签 !!的作用是将字符串转化为布尔值
-    anchors.value = Array.from(anchorElement.value).filter(
+    anchors.value = Array.from(anchorElement).filter(
       (anchor) => !!anchor.innerText.trim()
     );
 
@@ -50,7 +46,7 @@ export function diposeHAndGetAnchors(previewRef = {}, { route, router } = {}) {
 
     // 为每个标题元素设置 id
     anchors.value.forEach((anchor, index) => {
-      anchorElement.value[index].id = anchor.id;
+      anchorElement[index].id = anchor.id;
     });
   };
 
