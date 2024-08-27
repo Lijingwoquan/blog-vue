@@ -20,7 +20,7 @@
     <div class="flex w-[150px]">
       <div class="ml-auto my-auto flex items-center">
         <div @click="openSearch">
-          <el-icon @click="toIndex" class="mx-3 hover" size="1.2em">
+          <el-icon class="mx-3 hover" size="1.2em">
             <search style="height: 100%; width: 100%" />
           </el-icon>
         </div>
@@ -28,9 +28,8 @@
         <div>
           <el-dropdown :aria-expanded="false">
             <div class="flex items-center">
-              <div>帮助</div>
-              <el-icon @click="toIndex" class="mx-3" size="1.2em">
-                <arrow-down />
+              <el-icon class="mx-3" size="1.2em">
+                <arrow-down style="height: 100%; width: 100%" />
               </el-icon>
             </div>
             <template #dropdown>

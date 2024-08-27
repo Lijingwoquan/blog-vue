@@ -9,6 +9,7 @@
       type="underline"
       target="#editContainer"
       @change="handelChange"
+      :class="props.facility != 'computer' ? 'anchorForMobil-background' : ''"
     >
       <el-anchor-link
         v-for="(anchor, index) in props.anchors"
@@ -16,7 +17,9 @@
         :key="index"
         :href="`${anchor.href}`"
       >
-        {{ anchor.title.split("🔗")[1] }}
+        <span class="anchor-font">
+          {{ anchor.title.split("🔗")[1] }}
+        </span>
       </el-anchor-link>
     </el-anchor>
   </div>
@@ -49,10 +52,52 @@ const handelChange = (anchorValue) => {
 .anchorForMobil {
   @apply fixed overflow-x-visible overflow-y-scroll mt-5 rounded;
   width: auto;
-  min-height: 60vh;
+  max-height: 50vh;
   top: 40px;
   right: 0;
   z-index: 2;
   padding: 3px;
+}
+.anchorForMobil-background {
+  background: linear-gradient(
+    to left bottom,
+    rgba(8, 219, 242, 0.386),
+    rgba(54, 186, 186, 0.189)
+  );
+}
+
+.anchor-font {
+  color: #288ddb;
+  font-weight: 700;
+}
+
+@media (min-width: 1200px) {
+  .anchor-font {
+    @apply text-sm;
+  }
+}
+
+@media (max-width: 1200px) {
+  .anchor-font {
+    @apply text-sm; /* 大屏幕设备字体大小 */
+  }
+}
+
+@media (max-width: 992px) {
+  .anchor-font {
+    @apply text-sm;
+  }
+}
+
+@media (max-width: 768px) {
+  .anchor-font {
+    @apply text-xs;
+  }
+}
+
+@media (max-width: 576px) {
+  .anchor-font {
+    @apply text-xs;
+  }
 }
 </style>

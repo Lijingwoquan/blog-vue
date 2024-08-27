@@ -95,7 +95,6 @@ const handleOpenSearch = () => {
 const handleCloseSearch = () => {
   if (essayComponent.value) {
     essayComponent.value.showAnchor();
-    essayComponent.value.handelScoll();
   }
 };
 

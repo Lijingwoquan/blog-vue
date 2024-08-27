@@ -1,8 +1,8 @@
 <template>
   <el-row>
     <el-col :xs="24" :sm="18" :md="18" :lg="18" :xl="18">
-      <div v-if="!loading">
-        <div @click="closeAnchor" class="flex flex-col p-3">
+      <div v-if="!loading" @click="showAnchor">
+        <div class="flex flex-col p-3">
           <!-- 文章名 -->
           <div class="mx-auto">
             <span
@@ -66,7 +66,7 @@
 
   <el-icon
     v-show="anchorShow"
-    @click="oppositedAnchor"
+    @click="hideAnchor"
     class="anchorIcon hidden-sm-and-up"
     style="font-size: 40px !important"
   >
@@ -75,7 +75,7 @@
 
   <NavAnchor
     v-if="facility == 'mobile'"
-    v-show="anchorContentShow"
+    v-show="!anchorShow"
     :anchors="anchorData.anchors"
     :facility="facility"
   >
@@ -140,16 +140,7 @@ const { id, oneData, loading, getOneData } = useCommonGetData({
 
 const essayEditRef = ref(null);
 
-const {
-  anchorData,
-  anchorShow,
-  anchorContentShow,
-  oppositedAnchor,
-  closeAnchor,
-  hideAnchor,
-  showAnchor,
-  handelScoll,
-} = initEssayCommonUse();
+const { anchorData, anchorShow, hideAnchor, showAnchor } = initEssayCommonUse();
 
 const initEssayData = async () => {
   oneData.value = {};
@@ -163,7 +154,6 @@ const initEssayData = async () => {
   await nextTick();
 
   handleResize();
-  handelScoll();
 
   const result = diposeHAndGetAnchors(essayEditRef.value.anchorElement, {
     route,
@@ -182,18 +172,15 @@ watch(
 onMounted(async () => {
   await initEssayData();
   window.addEventListener("resize", handleResize);
-  window.addEventListener("scroll", handelScoll);
 });
 
 onUnmounted(() => {
   window.removeEventListener("resize", handleResize);
-  window.removeEventListener("scroll", handelScoll);
 });
 
 defineExpose({
   hideAnchor,
   showAnchor,
-  handelScoll,
 });
 </script>
 
@@ -203,10 +190,10 @@ defineExpose({
 }
 
 .anchorIcon {
-  @apply fixed hover:cursor-pointer text-blue-500;
-  z-index: 9999;
+  @apply fixed hover:cursor-pointer text-pink-500 text-opacity-80;
+  z-index: 2;
   top: 60px;
-  left: 0;
+  right: 0;
 }
 
 :deep(.vuepress-markdown-body) {
