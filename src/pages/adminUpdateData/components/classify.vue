@@ -16,12 +16,7 @@
     </div>
     <div class="flex justify-center items-center flex-wrap mt-5">
       <div v-for="(kind, index) in kindList" :key="index">
-        <el-button
-          type="primary"
-          size="default"
-          @click="updateClassifyPre(kind)"
-          class="mx-2"
-        >
+        <el-button type="primary" @click="updateClassifyPre(kind)" class="mx-2 my-3">
           {{ kind.name }}
         </el-button>
       </div>
@@ -37,7 +32,7 @@
   >
     <el-form :model="form" label-width="80px" :inline="false">
       <el-form-item label="类型">
-        <el-select size="small" v-model="form.kind" placeholder="选择分类">
+        <el-select v-model="form.kind" placeholder="选择分类">
           <el-option
             v-for="item in kindList"
             :key="item.name"

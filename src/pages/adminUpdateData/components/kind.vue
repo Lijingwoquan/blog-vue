@@ -18,7 +18,6 @@
         <el-button
           style="width: 30%"
           type="primary"
-          size="default"
           @click="updateKindHandelPre(kind)"
           >选择</el-button
         >

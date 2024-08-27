@@ -61,8 +61,14 @@
       >
         <el-table-column label="文章名" align="center" prop="name" />
         <el-table-column label="分类名" align="center" prop="kind" />
-        <el-table-column label="文章路由" align="center" prop="introduction" />
-        <el-table-column label="文章介绍" align="center" prop="router" />
+        <el-table-column label="文章路由" align="center" prop="router" />
+        <el-table-column label="文章介绍" align="center">
+          <template #default="{ row }">
+            <el-text line-clamp="2">
+              {{ row.introduction }}
+            </el-text>
+          </template>
+        </el-table-column>
         <el-table-column label="操作" align="center">
           <template #default="{ row }">
             <el-button
