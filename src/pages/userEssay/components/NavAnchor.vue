@@ -37,7 +37,11 @@ const props = defineProps({
 });
 
 const handelChange = (anchorValue) => {
-  history.pushState(null, null, anchorValue);
+  // 获取当前的状态
+  let currentState = history.state;
+
+  // 更新状态并替换当前的历史记录条目
+  history.replaceState(currentState, null, anchorValue);
 };
 </script>
 
