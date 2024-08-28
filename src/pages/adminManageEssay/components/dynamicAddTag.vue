@@ -1,9 +1,8 @@
 <template>
-  <div class="flex items-center gap-2 mt-2 flex-wrap">
+  <div class="flex items-center gap-3 flex-wrap">
     <el-tag
       v-for="(tag, index) in tags"
-      size="small"
-      class="mx-1"
+      class="my-2"
       :class="{ 'p-0': showEdit[index] }"
       :key="index"
       closable
@@ -14,8 +13,7 @@
       <el-input
         v-if="showEdit[index]"
         v-model="tags[index]"
-        size="small"
-        style="width: auto"
+        class="w-min-30"
         @keyup.enter="handleEditConfirm(tag, index)"
         @blur="handleEditConfirm(tag, index)"
       >
@@ -30,11 +28,10 @@
       ref="InputRef"
       v-model="inputValue"
       class="w-20"
-      size="small"
       @keyup.enter="handleInputConfirm"
       @blur="handleInputConfirm"
     />
-    <el-button v-else size="small" class="button-new-tag" @click="showInput">
+    <el-button v-else class="button-new-tag" @click="showInput">
       {{ props.addText }}
     </el-button>
   </div>
@@ -42,7 +39,7 @@
 
 <script setup>
 import { nextTick, ref } from "vue";
-
+import { toast } from "~/composables/util.js";
 const tags = defineModel("tags", {
   type: Array,
   required: true,
@@ -57,7 +54,7 @@ const props = defineProps({
 const inputValue = ref("");
 const inputVisible = ref(false);
 const InputRef = ref();
-const showEdit = ref(Array(tags.value.length));
+const showEdit = ref(Array(tags.value.length).fill(false));
 
 const handleClose = (tag) => {
   tags.value.splice(tags.value.indexOf(tag), 1);
@@ -69,6 +66,7 @@ const handleEdit = (index) => {
 
 const showInput = () => {
   inputVisible.value = true;
+  showEdit.value.fill(false);
   nextTick(() => {
     InputRef.value.input.focus();
   });
@@ -76,12 +74,14 @@ const showInput = () => {
 
 const handleInputConfirm = () => {
   let tag = inputValue.value.split(" ").join("").toLowerCase();
-  if (tag) {
+  if (tag && !tags.value.includes(tag)) {
     tags.value.push(tag);
+    showEdit.value.push(false);
+  } else {
+    toast("已有该keyword", "warning");
   }
   inputVisible.value = false;
   inputValue.value = "";
-  showEdit.value.push(false);
 };
 
 const handleEditConfirm = (oldTag, index) => {
