@@ -14,7 +14,7 @@ export function setToken(token) {
   return cookie.set(tokenKey, token);
 }
 
-export function removeToken(token) {
+export function removeToken() {
   return cookie.remove(tokenKey);
 }
 

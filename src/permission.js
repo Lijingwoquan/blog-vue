@@ -20,8 +20,7 @@ router.beforeEach(async (to, from, next) => {
   const toPath = decodeURIComponent(
     to.path.length > 1 ? to.path.replace(/\/$/, "") : to.path
   );
-
-  if (toPath === `${config.MANAGER_URL}`) {
+  if (toPath.split("/")[1] === config.MANAGER_URL.split("/")[1]) {
     const token = getToken();
     //没有登录,强制跳转到登录页面
     if (!token && to.path != "/login") {
