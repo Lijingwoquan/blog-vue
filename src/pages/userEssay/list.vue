@@ -135,7 +135,7 @@ function getCurrentEssayId() {
 const { id, oneData, loading, getOneData } = useCommonGetData({
   id: getCurrentEssayId(),
   getOneData: getEssayMsg,
-  loadingText: "文章列表渲染中",
+  loadingText: "文章渲染中",
 });
 
 const essayEditRef = ref(null);
