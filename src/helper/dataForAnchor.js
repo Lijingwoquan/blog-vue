@@ -3,13 +3,21 @@ import { ref } from "vue";
 export function diposeHAndGetAnchors(anchorElement, { route, router } = {}) {
   const anchors = ref([]);
 
+  const hLevel = {
+    h1: 1,
+    h2: 2,
+    h3: 3,
+    h4: 4,
+    h5: 5,
+    h6: 6,
+  };
+
   // 锚点数据处理
   const anchorDataDispose = () => {
     // 为每个h标签加上子元素a标签
     anchorElement.forEach((anchor, index) => {
       // 检查是否已经包含 a 标签
       const existingATag = anchor.querySelector("a");
-
       if (!existingATag) {
         // 如果没有 a 标签，创建新的 a 元素
         const aTag = document.createElement("a");
@@ -42,6 +50,7 @@ export function diposeHAndGetAnchors(anchorElement, { route, router } = {}) {
       id: `${el.innerText.split("🔗")[1]}`,
       href: `#${el.innerText.split("🔗")[1]}`,
       title: el.innerText,
+      level: hLevel[el.localName],
     }));
 
     // 为每个标题元素设置 id

@@ -17,7 +17,10 @@
         :key="index"
         :href="`${anchor.href}`"
       >
-        <span class="anchor-font">
+        <span
+          class="anchor-font"
+          :style="{ marginLeft: `${(anchor.level - 1) * anchorLeftMargin}px` }"
+        >
           {{ anchor.title.split("🔗")[1] }}
         </span>
       </el-anchor-link>
@@ -26,6 +29,8 @@
 </template>
 
 <script setup>
+import { computed } from "vue";
+
 const props = defineProps({
   anchors: {
     type: Array,
@@ -43,6 +48,10 @@ const handelChange = (anchorValue) => {
   // 更新状态并替换当前的历史记录条目
   history.replaceState(currentState, null, anchorValue);
 };
+
+const anchorLeftMargin = computed(() => {
+  return props.facility === "computer" ? 10 : 5;
+});
 </script>
 
 <style scoped>
