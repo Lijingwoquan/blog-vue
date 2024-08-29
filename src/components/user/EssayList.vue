@@ -8,7 +8,7 @@
       <div @click="commonUse?.toEssay(essay)">
         <div class="flex justify-between items-center">
           <h2
-            class="font-serif font-medium mx-auto hover:(cursor-pointer text-shadow-sm underline decoration-blue-500 underline-offset-4)"
+            class="font-serif font-medium mx-auto hover:(cursor-pointer text-shadow-sm underline decoration-blue-500 underline-offset-10)"
             style="white-space: nowrap; color: black"
           >
             {{ essay.name }}
