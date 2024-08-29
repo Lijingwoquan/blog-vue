@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "~/composables/util.js";
 import { getToken } from "~/composables/auth.js";
 import { removeToken } from "~/composables/auth";
 const service = axios.create({
@@ -36,9 +37,11 @@ service.interceptors.response.use(
         removeToken();
         location.reload();
       }
-      return Promise.reject(msg); // 直接返回 msg
+      toast(msg, "error");
+      return Promise.reject(msg); // 返回 msg
     } else {
       // 网络错误或其他错误情况
+      toast("请求失败", "error");
       return Promise.reject("请求失败");
     }
   }

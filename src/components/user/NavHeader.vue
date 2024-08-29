@@ -66,41 +66,38 @@
   </span>
 
   <el-dialog
-    style="
-      background: linear-gradient(
-        to right,
-        rgba(42, 157, 202, 0.365),
-        rgba(28, 171, 187, 0.384),
-        rgba(255, 192, 203, 0.47),
-        rgba(0, 255, 255, 0.53)
-      );
-    "
     v-model="dialogVisible"
     :v-close-on-click-modal="true"
     :show-close="false"
     append-to-body
     @close="$emit('closeSearch')"
-    width="90%"
+    width="60%"
+    style="background-color: #f9f9f9"
   >
-    <el-input v-model="form.keyword" placeholder="搜索文档" class="h-[50px]">
+    <el-input v-model="form.keyword" placeholder="搜索文章" class="h-[70px]">
       <template #prefix>
-        <el-icon class="mx-2">
-          <search />
+        <el-icon :size="30">
+          <search class="text-2xl" />
         </el-icon>
       </template>
-      <template #suffix>
-        <el-button type="primary" @click="searchMsg" :loading="loading"
-          >搜索</el-button
-        >
-      </template>
     </el-input>
-    <ul v-if="!loading">
-      <el-divider v-if="!loading" />
+    <ul v-if="!loading && essayList.length > 0">
+      <el-divider />
+      <div class="my-4 ml-3 font-bold text-blue-400">搜索结果</div>
       <li v-for="essay in essayList" @click="gotoApointPath(essay)">
-        <div class="essayList">
-          <div class="ml-3">文章:{{ essay.name }}</div>
-          <div class="mr-3">分类:{{ essay.kind }}</div>
-        </div>
+        <el-card shadow="always" class="hover">
+          <div class="essayDes">
+            <div class="flex justify-between">
+              <div>文章:{{ essay.name }}</div>
+              <div>分类:{{ essay.kind }}</div>
+            </div>
+            <div class="mt-3">
+              <el-text class="text-pink-400" line-clamp="2">
+                介绍:{{ essay.introduction }}
+              </el-text>
+            </div>
+          </div>
+        </el-card>
         <el-divider />
       </li>
     </ul>
@@ -160,6 +157,8 @@ const searchMsg = () => {
       essayList.value = res;
       if (!res) {
         toast("没有相关文章", "warning");
+      } else {
+        toast(`查找到${essayList.value.length}篇相关文章`);
       }
     })
     .finally(() => {
@@ -208,16 +207,9 @@ onBeforeMount(() => {
   @apply hover:cursor-pointer;
 }
 
-.essayList {
-  @apply flex justify-between items-center text-black hover:cursor-pointer;
-  background: linear-gradient(
-    to right,
-    rgba(68, 141, 187, 0.47),
-    rgba(65, 207, 162, 0.324),
-    rgba(135, 128, 196, 0.447)
-  );
-  width: 100%;
-  height: 50px;
+.essayDes {
+  color: rgba(55, 106, 208, 0.879);
+  font-weight: 600;
 }
 
 :deep(.el-drawer__header) {
