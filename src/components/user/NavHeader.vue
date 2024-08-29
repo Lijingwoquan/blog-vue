@@ -71,9 +71,11 @@
     :show-close="false"
     append-to-body
     @close="$emit('closeSearch')"
-    width="60%"
+    :width="dialogWidth"
     style="background-color: #f9f9f9"
   >
+    {{ dialogWidth }}
+    {{ facility }}
     <el-input v-model="form.keyword" placeholder="搜索文章" class="h-[70px]">
       <template #prefix>
         <el-icon :size="30">
@@ -108,10 +110,11 @@
 import {
   ref,
   onMounted,
-  onBeforeMount,
+  onUnmounted,
   watch,
   reactive,
   defineAsyncComponent,
+  computed,
 } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { toast, listenScreen } from "~/composables/util.js";
@@ -166,7 +169,8 @@ const searchMsg = () => {
     });
 };
 
-const { handelOnKeyUp } = listenScreen({
+const { facility, handleResize, handelOnKeyUp } = listenScreen({
+  resize: {},
   onKeyUp: {
     visiable: dialogVisible,
     getData: searchMsg,
@@ -180,12 +184,18 @@ watch(
   }
 );
 
-onMounted(() => {
-  document.addEventListener("keyup", handelOnKeyUp);
+const dialogWidth = computed(() => {
+  return facility.value == "computer" ? "40%" : "90%";
 });
 
-onBeforeMount(() => {
+onMounted(() => {
+  document.addEventListener("keyup", handelOnKeyUp);
+  window.addEventListener("resize", handleResize);
+});
+
+onUnmounted(() => {
   document.removeEventListener("keyup", handelOnKeyUp);
+  window.removeEventListener("resize", handleResize);
 });
 </script>
 

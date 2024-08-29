@@ -83,21 +83,27 @@ export function queryToUrl(query) {
 export function listenScreen(opt = {}) {
   const sizeObj = reactive({});
   const facility = ref("");
-  const handleResize = () => {
+  const resizeFunc = () => {
     let windowWidth = window.innerWidth;
+
+    console.log(windowWidth);
+    let facilityType = "computer";
+    if (windowWidth < 768) {
+      facilityType = "mobile";
+    }
+    facility.value = facilityType;
+
     if (Object.keys(opt.resize).length > 0) {
       let resize = opt.resize;
-      let facilityType = "computer";
-      if (windowWidth < 768) {
-        facilityType = "mobile";
-      }
-      facility.value = facilityType;
       for (let k in resize.facilityStandard[facilityType]) {
         sizeObj[k] = resize.facilityStandard[facilityType][k];
       }
     }
   };
 
+  const handleResize = throttle(resizeFunc, 100);
+
+  handleResize();
   const handelOnKeyUp = (e) => {
     if (Object.keys(opt.onKeyUp).length > 0) {
       let onKeyUp = opt.onKeyUp;

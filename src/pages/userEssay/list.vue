@@ -153,8 +153,6 @@ const initEssayData = async () => {
 
   await nextTick();
 
-  handleResize();
-
   const result = diposeHAndGetAnchors(essayEditRef.value.anchorElement, {
     route,
     router,
@@ -170,8 +168,8 @@ watch(
 );
 
 onMounted(async () => {
-  await initEssayData();
   window.addEventListener("resize", handleResize);
+  await initEssayData();
 });
 
 onUnmounted(() => {
