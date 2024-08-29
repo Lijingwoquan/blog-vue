@@ -6,7 +6,7 @@
           <!-- 文章名 -->
           <div class="mx-auto">
             <span
-              class="text-2xl m-auto font-serif font-bold"
+              class="text-2xl m-auto font-serif font-medium"
               style="white-space: nowrap !important"
             >
               {{ oneData.name }}

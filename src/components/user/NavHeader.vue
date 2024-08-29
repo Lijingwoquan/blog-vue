@@ -74,9 +74,11 @@
     :width="dialogWidth"
     style="background-color: #f9f9f9"
   >
-    {{ dialogWidth }}
-    {{ facility }}
-    <el-input v-model="form.keyword" placeholder="搜索文章" class="h-[70px]">
+    <el-input
+      v-model="form.keyword"
+      placeholder="搜索文章"
+      :style="`height:${inputHeight}`"
+    >
       <template #prefix>
         <el-icon :size="30">
           <search class="text-2xl" />
@@ -185,7 +187,11 @@ watch(
 );
 
 const dialogWidth = computed(() => {
-  return facility.value == "computer" ? "40%" : "90%";
+  return facility.value == "computer" ? "60%" : "90%";
+});
+
+const inputHeight = computed(() => {
+  return facility.value == "computer" ? "70px" : "45px";
 });
 
 onMounted(() => {

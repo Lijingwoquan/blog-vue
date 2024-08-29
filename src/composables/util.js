@@ -101,7 +101,7 @@ export function listenScreen(opt = {}) {
     }
   };
 
-  const handleResize = throttle(resizeFunc, 100);
+  const handleResize = throttle(resizeFunc, 50);
 
   handleResize();
   const handelOnKeyUp = (e) => {
