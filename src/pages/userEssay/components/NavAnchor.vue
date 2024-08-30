@@ -105,7 +105,8 @@ const anchorLeftMargin = computed(() => {
 @media (max-width: 768px) {
   .anchor-font {
     color: rgb(21, 216, 102);
-    @apply text-xs;
+    @apply text-sm;
+    font-weight: 500;
   }
 }
 </style>
