@@ -81,7 +81,7 @@ const anchorLeftMargin = computed(() => {
 
 .anchor-font {
   color: #288ddb;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 @media (min-width: 1200px) {
@@ -92,7 +92,7 @@ const anchorLeftMargin = computed(() => {
 
 @media (max-width: 1200px) {
   .anchor-font {
-    @apply text-sm; /* 大屏幕设备字体大小 */
+    @apply text-sm;
   }
 }
 
@@ -104,12 +104,7 @@ const anchorLeftMargin = computed(() => {
 
 @media (max-width: 768px) {
   .anchor-font {
-    @apply text-xs;
-  }
-}
-
-@media (max-width: 576px) {
-  .anchor-font {
+    color: rgb(21, 216, 102);
     @apply text-xs;
   }
 }

@@ -86,7 +86,6 @@ export function listenScreen(opt = {}) {
   const resizeFunc = () => {
     let windowWidth = window.innerWidth;
 
-    console.log(windowWidth);
     let facilityType = "computer";
     if (windowWidth < 768) {
       facilityType = "mobile";
