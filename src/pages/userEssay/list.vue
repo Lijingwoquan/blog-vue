@@ -97,11 +97,9 @@ import { listenScreen } from "~/composables/util.js";
 import { useCommonGetData, useCommonData } from "~/composables/useCommon.js";
 import { diposeHAndGetAnchors } from "~/helper/dataForAnchor.js";
 import { initEssayCommonUse } from "~/composables/essayCommonUse.js";
-
 const essayEdit = defineAsyncComponent(() =>
   import("~/components/essayEdit.vue")
 );
-
 const NavAnchor = defineAsyncComponent(() =>
   import("./components/NavAnchor.vue")
 );
