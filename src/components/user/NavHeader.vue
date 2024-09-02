@@ -85,7 +85,7 @@
         </el-icon>
       </template>
     </el-input>
-    <ul v-if="!loading && essayList.length > 0">
+    <ul v-if="!loading && essayList?.length > 0">
       <el-divider />
       <div class="my-4 ml-3 font-bold text-blue-400">搜索结果</div>
       <li v-for="essay in essayList" @click="gotoApointPath(essay)">
