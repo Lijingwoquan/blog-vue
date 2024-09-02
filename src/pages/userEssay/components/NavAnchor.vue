@@ -5,17 +5,20 @@
     "
   >
     <el-anchor
-      :offset="70"
+      :offset="0"
+      :bound="0"
       type="underline"
       target="#editContainer"
       @change="handelChange"
       :class="props.facility != 'computer' ? 'anchorForMobil-background' : ''"
     >
       <el-anchor-link
+        @scrollTo="scrollTo"
         v-for="(anchor, index) in props.anchors"
         class="ml-2"
         :key="index"
         :href="`${anchor.href}`"
+        style="padding: 0px !important"
       >
         <span
           class="anchor-font"
@@ -46,6 +49,10 @@ const handelChange = (anchorValue) => {
 
   // 更新状态并替换当前的历史记录条目
   history.replaceState(currentState, null, anchorValue);
+};
+
+const scrollTo = (href) => {
+  console.log(href);
 };
 
 const anchorLeftMargin = computed(() => {

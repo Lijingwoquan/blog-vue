@@ -31,11 +31,7 @@ export function diposeHAndGetAnchors(anchorElement, { route, router } = {}) {
         // 添加链接图标和原有内容
         aTag.innerHTML = "🔗" + originalContent;
 
-        // 添加点击事件
-        aTag.addEventListener("click", (event) => {
-          event.preventDefault();
-          handleAnchorClick(anchors.value[index]);
-        });
+        aTag.setAttribute("href", `#${originalContent}`);
 
         anchor.appendChild(aTag);
       }

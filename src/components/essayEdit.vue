@@ -38,6 +38,7 @@ import "@kangc/v-md-editor/lib/plugins/todo-list/todo-list.css";
 //mermaid(流程图等)
 import createMermaidPlugin from "@kangc/v-md-editor/lib/plugins/mermaid/cdn";
 import "@kangc/v-md-editor/lib/plugins/mermaid/mermaid.css";
+import { router } from "~/router";
 
 VueMarkdownEditor.use(vuepressTheme, {
   Prism,
@@ -117,6 +118,7 @@ const anchorElement = ref([]);
 onMounted(() => {
   anchorElement.value =
     previewRef.value.$el.querySelectorAll("h1,h2,h3,h4,h5,h6");
+
   window.addEventListener("beforeunload", handleBeforeLeave);
 });
 onUnmounted(() => {
