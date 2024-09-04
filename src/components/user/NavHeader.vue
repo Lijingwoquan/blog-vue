@@ -1,6 +1,6 @@
 <template>
   <div class="headerContainer">
-    <div class="w-[150px]">
+    <div class="flex w-[150px] items-center">
       <el-icon @click="toIndex" class="mx-3 hover" size="1.2em">
         <House style="height: 100%; width: 100%" />
       </el-icon>
@@ -12,42 +12,38 @@
         <Expand style="height: 100%; width: 100%" />
       </el-icon>
     </div>
-
-    <div class="mx-auto text-sm font-bold font-serif" style="text-wrap: nowrap">
+    <div
+      class="mx-auto text-sm font-bold font-serif w-[400px]"
+      style="text-align: center; word-wrap: break-word; text-wrap: nowrap"
+    >
       <h5>罹景偓佺的博客</h5>
     </div>
 
-    <div class="flex w-[150px]">
-      <div class="ml-auto my-auto flex items-center">
-        <div @click="openSearch">
-          <el-icon class="mx-3 hover" size="1.2em">
-            <search style="height: 100%; width: 100%" />
+    <div class="flex w-[150px] items-center justify-evenly">
+      <el-icon class="mx-3 hover" size="1.2em" @click="openSearch">
+        <search />
+      </el-icon>
+
+      <el-dropdown :aria-expanded="false">
+        <div class="flex items-center">
+          <el-icon class="mx-3" size="1.2em">
+            <arrow-down style="height: 100%; width: 100%" />
           </el-icon>
         </div>
-
-        <div>
-          <el-dropdown :aria-expanded="false">
-            <div class="flex items-center">
-              <el-icon class="mx-3" size="1.2em">
-                <arrow-down style="height: 100%; width: 100%" />
-              </el-icon>
-            </div>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item>
-                  <el-link
-                    type="primary"
-                    :underline="false"
-                    href="https://github.com/Lijingwoquan"
-                    target="_blank"
-                    >联系作者</el-link
-                  >
-                </el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
-        </div>
-      </div>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item>
+              <el-link
+                type="primary"
+                :underline="false"
+                href="https://github.com/Lijingwoquan"
+                target="_blank"
+                >联系作者</el-link
+              >
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
     </div>
   </div>
 
