@@ -204,5 +204,6 @@ onMounted(async () => {
     rgba(114, 92, 40, 0.081),
     rgba(23, 58, 185, 0.098)
   );
+  transition: all 0.5s ease;
 }
 </style>

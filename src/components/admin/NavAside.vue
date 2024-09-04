@@ -17,7 +17,7 @@
         后台管理系统
       </div>
     </div>
-    <div class="item-background-color">
+    <div>
       <div
         v-for="(item, index) in menu"
         :key="index"
@@ -103,11 +103,31 @@ watch(
 .nav-aside {
   @apply fixed;
   box-sizing: border-box;
-  width: 250px;
   top: 0;
   bottom: 0;
   color: rgb(224, 218, 218);
   background-color: rgba(32, 167, 225, 0.884);
+  transition: width 0.5s ease;
+}
+.nav-aside div {
+  animation: nav-aside-action 0.5s ease;
+}
+.nav-aside div div span {
+  animation: nav-aside-action 0.5s ease;
+}
+@keyframes nav-aside-action {
+  0% {
+    opacity: 0;
+    font-size: 0;
+  }
+  75% {
+    opacity: 0;
+    font-size: 0;
+  }
+  100% {
+    opacity: 1;
+    font-size: initial;
+  }
 }
 
 .nav-aside-head {

@@ -32,5 +32,6 @@ const kind = defineAsyncComponent(() => import("./components/kind.vue"));
   );
   z-index: 100;
   pointer-events: none;
+  transition: all 0.5s ease;
 }
 </style>
