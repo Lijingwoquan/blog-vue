@@ -5,14 +5,17 @@ import "element-plus/dist/index.css";
 import "element-plus/theme-chalk/display.css";
 import App from "./App.vue";
 import { router } from "~/router/index.js";
-import store from "~/store/index.js";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
-import VueResizeObserver from "vue-resize-observer"; // vue-resize-observer
+// import VueResizeObserver from "vue-resize-observer"; // vue-resize-observer
 
 import VMdEditor from "@kangc/v-md-editor";
 import "@kangc/v-md-editor/lib/style/base-editor.css";
 import vuepressTheme from "@kangc/v-md-editor/lib/theme/vuepress.js";
 import "@kangc/v-md-editor/lib/theme/style/github.css";
+
+import store from "~/store/index.js";
+import "~/style.css";
+
 // highlightjs
 import hljs from "highlight.js";
 
@@ -28,7 +31,7 @@ VMdEditor.use(vuepressTheme, {
 const app = createApp(App);
 app.use(router);
 app.use(store);
-app.use(VueResizeObserver);
+// app.use(VueResizeObserver);
 app.use(VMdEditor);
 
 app.use(ElementPlus, {

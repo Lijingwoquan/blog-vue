@@ -161,7 +161,6 @@ const initEssayData = async () => {
     for (let index = 0; index < anchorData.anchors.length; index++) {
       const anchor = anchorData.anchors[index];
       if (anchor.href === route.hash) {
-        console.log(route.hash)
         var aEle = document.createElement("a");
         aEle.href = route.hash;
         aEle.click();
