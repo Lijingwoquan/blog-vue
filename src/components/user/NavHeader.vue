@@ -1,5 +1,5 @@
 <template>
-  <div class="headerContainer">
+  <div id="headerContainer" class="headerContainer">
     <div class="flex w-[150px] items-center">
       <el-icon @click="toIndex" class="mx-3 hover" size="1.2em">
         <House style="height: 100%; width: 100%" />
@@ -117,6 +117,8 @@ import {
 import { useRouter, useRoute } from "vue-router";
 import { toast, listenScreen } from "~/composables/util.js";
 import { addSearchKeyCount } from "~/api/keyword.js";
+import { throttle } from "~/composables/util.js";
+
 const NavAsideForMobile = defineAsyncComponent(() =>
   import("~/components/user/NavAsideForMobile.vue")
 );
@@ -190,9 +192,27 @@ const inputHeight = computed(() => {
   return facility.value == "computer" ? "70px" : "45px";
 });
 
+const headerAction = (event) => {
+  const headerContainerDom = document.getElementById("headerContainer");
+  if (
+    event.wheelDeltaY > 0 &&
+    getComputedStyle(headerContainerDom).top === "0px"
+  ) {
+    headerContainerDom.classList.add("headerContainerFixed");
+    headerContainerDom.classList.add("animate");
+  } else {
+    headerContainerDom.classList.remove("animate");
+    headerContainerDom.classList.remove("headerContainerFixed");
+  }
+  if (event.wheelDeltaY < 0) {
+    headerContainerDom.style.top = "0px ";
+  }
+};
+
 onMounted(() => {
   document.addEventListener("keyup", handelOnKeyUp);
   window.addEventListener("resize", handleResize);
+  // document.addEventListener("wheel", throttle(headerAction));
 });
 
 onUnmounted(() => {
@@ -203,7 +223,10 @@ onUnmounted(() => {
 
 <style scoped>
 .headerContainer {
-  @apply flex  items-center fixed top-0 left-0 right-0;
+  @apply flex items-center;
+  
+  @apply flex items-center fixed top-0 left-0 right-0;
+
   z-index: 100;
   height: 60px;
   background: linear-gradient(
@@ -213,6 +236,28 @@ onUnmounted(() => {
     rgba(255, 192, 203, 0.47),
     rgba(0, 255, 255, 0.53)
   );
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+
+.headerContainerFixed {
+  @apply flex items-center fixed top-0 left-0 right-0;
+}
+/* 定义动画 */
+@keyframes header-action {
+  from {
+    opacity: 0;
+    transform: translateY(-60px) scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 类包含动画 */
+.animate {
+  animation: header-action 0.5s forwards;
 }
 
 .hover {
