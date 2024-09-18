@@ -117,7 +117,6 @@ import {
 import { useRouter, useRoute } from "vue-router";
 import { toast, listenScreen } from "~/composables/util.js";
 import { addSearchKeyCount } from "~/api/keyword.js";
-import { throttle } from "~/composables/util.js";
 
 const NavAsideForMobile = defineAsyncComponent(() =>
   import("~/components/user/NavAsideForMobile.vue")
@@ -192,27 +191,9 @@ const inputHeight = computed(() => {
   return facility.value == "computer" ? "70px" : "45px";
 });
 
-const headerAction = (event) => {
-  const headerContainerDom = document.getElementById("headerContainer");
-  if (
-    event.wheelDeltaY > 0 &&
-    getComputedStyle(headerContainerDom).top === "0px"
-  ) {
-    headerContainerDom.classList.add("headerContainerFixed");
-    headerContainerDom.classList.add("animate");
-  } else {
-    headerContainerDom.classList.remove("animate");
-    headerContainerDom.classList.remove("headerContainerFixed");
-  }
-  if (event.wheelDeltaY < 0) {
-    headerContainerDom.style.top = "0px ";
-  }
-};
-
 onMounted(() => {
   document.addEventListener("keyup", handelOnKeyUp);
   window.addEventListener("resize", handleResize);
-  // document.addEventListener("wheel", throttle(headerAction));
 });
 
 onUnmounted(() => {
@@ -224,9 +205,6 @@ onUnmounted(() => {
 <style scoped>
 .headerContainer {
   @apply flex items-center;
-  
-  @apply flex items-center fixed top-0 left-0 right-0;
-
   z-index: 100;
   height: 60px;
   background: linear-gradient(
@@ -243,21 +221,24 @@ onUnmounted(() => {
 .headerContainerFixed {
   @apply flex items-center fixed top-0 left-0 right-0;
 }
-/* 定义动画 */
+
+.occur-animate {
+  animation: 0.8s header-action ease-in-out forwards;
+}
+.disappear-animate {
+  animation: 0.8s header-action ease-in-out forwards;
+  animation-direction: reverse;
+}
+
 @keyframes header-action {
   from {
     opacity: 0;
-    transform: translateY(-60px) scale(0.5);
+    transform: translateY(-60px);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
   }
-}
-
-/* 类包含动画 */
-.animate {
-  animation: header-action 0.5s forwards;
 }
 
 .hover {

@@ -9,46 +9,15 @@
 
   <el-container>
     <el-header style="padding: 0">
-      <NavHeader @openSearch="handleOpenSearch" />
+      <NavHeader ref="navHeaderRef" @openSearch="handleOpenSearch" />
     </el-header>
-    <el-row>
-      <el-col :xs="0" :sm="4" :md="4" :lg="4" :xl="4">
-        <NavAside class="hidden-xs-only" />
-      </el-col>
-      <!-- essay布局 -->
-      <el-col
-        v-if="route.path.split('/')[1] === 'essay'"
-        :xs="24"
-        :sm="20"
-        :md="20"
-        :lg="20"
-        :xl="20"
-      >
-        <el-main>
-          <keep-alive :max="5">
-            <Essay ref="essayComponent"></Essay>
-          </keep-alive>
-        </el-main>
-      </el-col>
 
-      <!-- classify布局 -->
-      <!-- 由于生命周期的问题 这里应该这么写 不能用classify -->
-      <el-col
-        v-if="route.path.split('/')[1] !== 'essay'"
-        :xs="24"
-        :sm="16"
-        :md="16"
-        :lg="16"
-        :xl="16"
-      >
-        <el-main>
-          <router-view v-slot="{ Component }">
-            <keep-alive :max="5">
-              <component :is="Component"> </component>
-            </keep-alive>
-          </router-view>
-        </el-main>
-      </el-col>
+    <el-row>
+      <el-main>
+        <router-view v-slot="{ Component }">
+          <component :is="Component"> </component>
+        </router-view>
+      </el-main>
     </el-row>
   </el-container>
 
@@ -70,16 +39,11 @@
 <script setup>
 import { ref, onMounted, watch, defineAsyncComponent } from "vue";
 import { useRoute } from "vue-router";
-const NavHeader = defineAsyncComponent(() =>
-  import("~/components/user/NavHeader.vue")
-);
-const NavAside = defineAsyncComponent(() =>
-  import("~/components/user/NavAside.vue")
-);
-const Essay = defineAsyncComponent(() => import("~/pages/userEssay/list.vue"));
+import NavHeader from "~/components/user/NavHeader.vue";
+import NavAside from "~/components/user/NavAside.vue";
+import { throttle } from "~/composables/util.js";
 
-const ifToEssay = ref(false);
-const route = useRoute();
+const navHeaderRef = ref(null);
 
 const essayComponent = ref(null);
 
@@ -89,21 +53,35 @@ const handleOpenSearch = () => {
   }
 };
 
-onMounted(() => {
-  if (route.fullPath.split("/")[1] === "essay") {
-    ifToEssay.value = true;
+const headerAction = async (event) => {
+  const headerContainerDom = document.getElementById("headerContainer");
+  // 向上滑动
+  if (event.wheelDeltaY > 0 && event.clientY != event.pageY) {
+    // event.clientY != event.pageY 可以简单理解为出现滚动条的情况
+    headerContainerDom.classList.remove("disappear-animate");
+    setTimeout(() => {
+      headerContainerDom.classList.add("occur-animate");
+      headerContainerDom.classList.add("headerContainerFixed");
+    }, 100);
+  } else if (
+    headerContainerDom.classList.contains("occur-animate") &&
+    event.wheelDeltaY < 0
+  ) {
+    headerContainerDom.classList.remove("occur-animate");
+    setTimeout(() => {
+      headerContainerDom.classList.add("disappear-animate");
+    }, 100);
+  } else {
+    headerContainerDom.classList.remove("headerContainerFixed");
   }
-});
+};
 
-watch(
-  () => route.path,
-  () => {
-    ifToEssay.value = false;
-    if (route.path.split("/")[1] === "essay") {
-      ifToEssay.value = true;
-    }
-  }
-);
+let mainDom = null;
+
+onMounted(() => {
+  mainDom = document.querySelector(".el-main");
+  mainDom.addEventListener("wheel", throttle(headerAction));
+});
 </script>
 
 <style scoped>
@@ -113,19 +91,5 @@ watch(
 
 .register {
   @apply flex flex-col justify-center items-center italic mt-10 mb-5;
-}
-
-.background-color {
-  /* position: fixed;
-  top: 60px;
-  height: calc(100vh - 60px);
-  width: 100vw;
-  background: linear-gradient(
-    to right bottom,
-    rgba(180, 174, 206, 0.1),
-    rgba(137, 155, 231, 0.15)
-  );
-  z-index: 10;
-  pointer-events: none; */
 }
 </style>
