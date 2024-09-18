@@ -5,20 +5,20 @@ export function initEssayCommonUse() {
     anchors: [],
   });
 
-  const anchorShow = ref(true);
+  const anchorIconShowRef = ref(true);
 
-  const hideAnchor = () => {
-    anchorShow.value = false;
+  const hideAnchorIcon = () => {
+    anchorIconShowRef.value = false;
   };
 
-  const showAnchor = () => {
-    anchorShow.value = true;
+  const showAnchorIcon = () => {
+    anchorIconShowRef.value = true;
   };
 
   return {
     anchorData,
-    anchorShow,
-    hideAnchor,
-    showAnchor,
+    anchorIconShowRef,
+    hideAnchorIcon,
+    showAnchorIcon,
   };
 }

@@ -8,11 +8,8 @@
   />
 
   <el-container>
-    <el-header>
-      <NavHeader
-        @openSearch="handleOpenSearch"
-        @closeSearch="handleCloseSearch"
-      />
+    <el-header style="padding: 0">
+      <NavHeader @openSearch="handleOpenSearch" />
     </el-header>
     <el-row>
       <el-col :xs="0" :sm="4" :md="4" :lg="4" :xl="4">
@@ -88,13 +85,7 @@ const essayComponent = ref(null);
 
 const handleOpenSearch = () => {
   if (essayComponent.value) {
-    essayComponent.value.hideAnchor();
-  }
-};
-
-const handleCloseSearch = () => {
-  if (essayComponent.value) {
-    essayComponent.value.showAnchor();
+    essayComponent.value.showAnchorIcon();
   }
 };
 
@@ -125,7 +116,7 @@ watch(
 }
 
 .background-color {
-  position: fixed;
+  /* position: fixed;
   top: 60px;
   height: calc(100vh - 60px);
   width: 100vw;
@@ -135,6 +126,6 @@ watch(
     rgba(137, 155, 231, 0.15)
   );
   z-index: 10;
-  pointer-events: none;
+  pointer-events: none; */
 }
 </style>

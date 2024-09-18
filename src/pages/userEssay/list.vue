@@ -1,7 +1,7 @@
 <template>
   <el-row>
     <el-col :xs="24" :sm="18" :md="18" :lg="18" :xl="18">
-      <div v-if="!loading" @click="showAnchor">
+      <div v-if="!loading" @click="showAnchorIcon">
         <div class="flex flex-col p-3">
           <!-- 文章名 -->
           <div class="mx-auto">
@@ -65,8 +65,8 @@
   </el-row>
 
   <el-icon
-    v-show="anchorShow"
-    @click="hideAnchor"
+    v-show="anchorIconShowRef"
+    @click="hideAnchorIcon"
     class="anchorIcon hidden-sm-and-up"
     style="font-size: 40px !important"
   >
@@ -75,7 +75,7 @@
 
   <NavAnchor
     v-if="facility == 'mobile'"
-    v-show="!anchorShow"
+    v-show="!anchorIconShowRef"
     :anchors="anchorData.anchors"
     :facility="facility"
   >
@@ -138,7 +138,7 @@ const { id, oneData, loading, getOneData } = useCommonGetData({
 
 const essayEditRef = ref(null);
 
-const { anchorData, anchorShow, hideAnchor, showAnchor } = initEssayCommonUse();
+const { anchorData, anchorIconShowRef, hideAnchorIcon, showAnchorIcon } = initEssayCommonUse();
 
 const initEssayData = async () => {
   oneData.value = {};
@@ -187,8 +187,8 @@ onUnmounted(() => {
 });
 
 defineExpose({
-  hideAnchor,
-  showAnchor,
+  hideAnchorIcon,
+  showAnchorIcon,
 });
 </script>
 
