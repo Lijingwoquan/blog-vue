@@ -22,7 +22,7 @@
       <el-divider />
       <div class="my-4 ml-3 font-bold text-blue-400">搜索结果</div>
       <li v-for="essay in essayList" @click="gotoApointPath(essay)">
-        <el-card shadow="always" class="hover">
+        <el-card shadow="always" class="cursor-pointer">
           <div class="essay-des">
             <div class="flex justify-between">
               <div>文章:{{ essay.name }}</div>

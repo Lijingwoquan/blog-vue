@@ -1,68 +1,76 @@
-<template></template>
+<template>
+  <div class="nav-aside" ref="navAsideRef">
+    <div class="advertising">
+      <img
+        src="https://liuzihao.online:8080/api/img/12.png"
+        alt="广告图片信息"
+      />
+      <div class="msg">
+        <p>广告位招商</p>
+        <a
+          href="mailto:2115883273@qq.com?subject=博客广告位购买&body=我的联系方式是:"
+          style="text-decoration: underline"
+          >联系我</a
+        >
+      </div>
+      <div class="icon" @click="closeAdvertising">
+        <el-icon><Close /></el-icon>
+      </div>
+    </div>
+  </div>
+</template>
 
 <script setup>
-import { useRouter, useRoute } from "vue-router";
-import { ref, watch } from "vue";
-import { useCommonData } from "~/composables/useCommon.js";
-const { menu } = useCommonData();
+import { onMounted, onUnmounted, ref } from "vue";
 
-const router = useRouter();
-const route = useRoute();
+import { throttle } from "~/composables/util";
 
-//保证刷新也能选中
-const activeClassify = ref(route.path);
+const navAsideRef = ref(null);
 
-// 保证切换文章时也能选中
-if (route.path.split("/").length > 3) {
-  activeClassify.value = "/classify/" + route.path.split("/")[2];
-}
-
-const chooseKind = (item) => {
-  activeClassify.value = "/classify" + item.router;
-  router.push(activeClassify.value);
+const handleResize = () => {
+  const windowWinth = window.innerWidth;
+  const navAsideWidht = windowWinth * (3.8 / 24) + "px";
+  if (navAsideRef.value) {
+    navAsideRef.value.style.width = navAsideWidht;
+  }
+  document.documentElement.style.setProperty("--nav-width", navAsideWidht);
 };
 
-watch(
-  () => route.path,
-  () => {
-    activeClassify.value = "/classify/" + route.path.split("/")[2];
-  }
-);
+const closeAdvertising = () => {
+  const advertising = document.querySelector(".advertising");
+  advertising.style.opcity = 0;
+};
+
+onMounted(() => {
+  window.addEventListener("resize", throttle(handleResize, 200));
+  handleResize();
+});
+onUnmounted(() => {
+  window.removeEventListener("resize", throttle(handleResize, 200));
+});
 </script>
 
 <style scoped>
+:root {
+  --nav-width: 0;
+}
 .nav-aside {
-  @apply overflow-x-hidden overflow-y-scroll;
+  @apply fixed top-[140px] left-0;
 }
-
-.list {
-  @apply leading-loose hover:(cursor-pointer underline);
+.nav-aside .advertising {
+  @apply relative flex flex-col justify-between items-center w-[var(--nav-width)] h-[var(--nav-width)];
+  background-color: rgb(200, 236, 240);
 }
-
-.active {
-  @apply underline underline-pink-400;
+.nav-aside .advertising img {
+  @apply w-[85%] h-auto mt-5;
 }
-
-.nav-aside-fixed {
-  @apply fixed top-[60px] left-0;
-  opacity: 0;
+.nav-aside .advertising .msg {
+  @apply w-[100%] font-mono font-bold text-xs leading-[1.5rem] text-gray-400;
+  text-align: center;
 }
-
-.occur-animate {
-  animation: 0.5s aside-action ease-in-out forwards;
-}
-.disappear-animate {
-  animation: 0.5s aside-action ease-in-out forwards;
-  animation-direction: reverse;
-}
-@keyframes aside-action {
-  from {
-    opacity: 0;
-    transform: translateX(-100%);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0%);
-  }
+.nav-aside .advertising .icon {
+  @apply absolute bottom-0 right-0 w-4 h-4 cursor-pointer;
+  content: "";
+  color: red;
 }
 </style>

@@ -13,19 +13,20 @@
     </el-header>
 
     <el-row :gutter="0">
-      <!-- <el-col :span="4">
+      <el-col :span="4">
         <div>
           <NavAside id="navAside"></NavAside>
         </div>
-      </el-col> -->
-      <el-col :span="24">
+      </el-col>
+      <el-col :span="17">
         <el-main :style="{ marginTop: marginTop }">
           <router-view v-slot="{ Component }">
             <component :is="Component"> </component>
           </router-view>
         </el-main>
       </el-col>
-      <!-- <el-col :span="4"></el-col> -->
+
+      <el-col :span="3"></el-col>
     </el-row>
   </el-container>
 
@@ -54,31 +55,24 @@ let mainDom = null;
 
 const wheelAction = (event) => {
   const headerContainerDom = document.getElementById("header-container");
-  // const navAsideDom = document.getElementById("navAside");
+  const navAsideDom = document.getElementById("navAside");
   // 向上滑动 出现
   if (event.wheelDeltaY > 0 && event.clientY != event.pageY) {
     // event.clientY != event.pageY 可以简单理解为出现滚动条的情况
     headerContainerDom.classList.remove("disappear-animate");
-    // navAsideDom.classList.remove("disappear-animate");
     mainDom.classList.add("el-main-down-action");
     setTimeout(() => {
       headerContainerDom.classList.add("header-container-fixed");
-      // navAsideDom.classList.add("nav-aside-fixed");
       headerContainerDom.classList.add("occur-animate");
       mainDom.classList.remove("el-main-up-action");
-      // navAsideDom.classList.add("occur-animate");
     }, 100);
   } else if (event.wheelDeltaY < 0) {
     headerContainerDom.classList.remove("occur-animate");
     headerContainerDom.style.opacity = 1;
-    // navAsideDom.classList.remove("occur-animate");
-    // navAsideDom.style.opacity = 1;
     mainDom.classList.remove("el-main-down-action");
     setTimeout(() => {
       headerContainerDom.style.opacity = 0;
       headerContainerDom.classList.add("disappear-animate");
-      // navAsideDom.style.opacity = 0;
-      // navAsideDom.classList.add("disappear-animate");
       mainDom.classList.add("el-main-up-action");
     }, 100);
   } else {

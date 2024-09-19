@@ -1,8 +1,6 @@
 <template>
   <div
-    :class="
-      props.facility === 'computer' ? 'anchorForComputer' : 'anchorForMobil'
-    "
+    :class="props.facility == 'mobile' ? 'anchorForMobil' : 'anchorForComputer'"
   >
     <el-anchor
       :offset="0"
@@ -65,7 +63,8 @@ const anchorLeftMargin = computed(() => {
 .anchorForComputer {
   @apply fixed overflow-x-visible overflow-y-scroll mt-5 mr-2 min-w-[200px];
   width: auto;
-  height: 80vh;
+  height: 90vh;
+  overflow-y: scroll;
 }
 
 .anchorForMobil {

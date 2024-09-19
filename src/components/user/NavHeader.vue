@@ -7,7 +7,7 @@
     <div class="header-container-top">
       <div class="flex items-center p-3">
         <el-icon
-          class="hidden-md-and-up hover ml-4"
+          class="hidden-md-and-up hover ml-4 cursor-pointer"
           size="1.2em"
           @click="drawerVisiableRef = true"
         >
@@ -24,12 +24,11 @@
       >
         <!-- search -->
         <el-icon
-          :style="{ fontSize: facility == 'computer' ? '40px' : '20px' }"
+          :style="{ width: svgSize }"
+          class="cursor-pointer"
           @click="openSearch"
         >
-          <search
-            :style="{ fontSize: facility == 'computer' ? '40px' : '20px' }"
-          />
+          <search style="font-size: 1.3em" />
         </el-icon>
         <!--qq-->
         <a href="https://github.com/Lijingwoquan">
@@ -123,8 +122,8 @@ const { facility, handleResize } = listenScreen({
 
 const svgSize = computed(() => {
   return diffrentFacilifyMap(facility.value, {
-    computer: "36px",
-    ipad: "30px",
+    computer: "30px",
+    ipad: "25px",
     mobile: "20px",
   });
 });
@@ -199,8 +198,7 @@ defineExpose({
   animation: 0.5s header-action ease-in-out forwards;
 }
 .disappear-animate {
-  animation: 0.5s header-action ease-in-out forwards;
-  animation-direction: reverse;
+  animation: 0.5s header-action-reverse ease-in-out forwards;
 }
 
 @keyframes header-action {
@@ -214,6 +212,16 @@ defineExpose({
   }
 }
 
+@keyframes header-action-reverse {
+  from {
+    opacity: 0;
+    transform: translateY(-60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 .hover {
   @apply hover:cursor-pointer;
 }

@@ -107,7 +107,7 @@ export function listenScreen(opt = {}) {
     }
     facility.value = facilityType;
 
-    if (Object.keys(opt.resize).length > 0) {
+    if (opt.resize && Object.keys(opt.resize).length > 0) {
       let resize = opt.resize;
       for (let k in resize.facilityStandard[facilityType]) {
         sizeObj[k] = resize.facilityStandard[facilityType][k];
