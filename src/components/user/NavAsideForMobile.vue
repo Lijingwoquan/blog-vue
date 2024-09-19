@@ -68,21 +68,11 @@ watch(
   bottom: 0px;
   left: 0;
   width: 250px;
-  background: linear-gradient(
-    to top,
-    rgba(177, 167, 224, 0.2),
-    rgba(157, 169, 224, 0.2)
-  );
 }
 
 .nav-aside .menu {
-  z-index: 0;
   height: 100%;
-  background: linear-gradient(
-    to right,
-    rgb(230, 228, 242, 0.2),
-    rgb(157, 169, 224, 0.2)
-  );
+  background-color: rgb(230, 228, 242, 0.2);
 }
 
 .nav-aside::-webkit-scrollbar {
@@ -92,6 +82,7 @@ watch(
 
 .el-sub-menu {
   /* menu鼠标hover的颜色 */
-  --el-menu-hover-bg-color: rgba(157, 169, 224, 0.5);
+  --el-menu-hover-bg-color: rgba(155, 165, 207, 0.5);
+  background-color: rgb(203, 221, 246);
 }
 </style>

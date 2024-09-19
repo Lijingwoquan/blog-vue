@@ -1,36 +1,8 @@
-<template>
-  <div class="nav-aside pl-4 pr-3">
-    <div v-for="(item, index) in menu" :key="index" class="mt-2">
-      <h4 class="mb-2" style="color: rgb(16, 159, 241); font-weight: 600">
-        {{ item.kind?.name }}
-      </h4>
-      <section class="mb-5 ml-4">
-        <div
-          class="flex justify-center flex-col"
-          v-if="
-            Array.isArray(item.classifyList) && item.classifyList.length > 0
-          "
-        >
-          <div
-            class="list"
-            v-for="(classify, index2) in item.classifyList"
-            :key="index2"
-            @click="chooseKind(classify)"
-            :class="{
-              active: activeClassify === '/classify' + classify.router,
-            }"
-          >
-            {{ classify.name }}
-          </div>
-        </div>
-      </section>
-    </div>
-  </div>
-</template>
+<template></template>
 
 <script setup>
 import { useRouter, useRoute } from "vue-router";
-import { computed, ref, watch } from "vue";
+import { ref, watch } from "vue";
 import { useCommonData } from "~/composables/useCommon.js";
 const { menu } = useCommonData();
 
@@ -60,21 +32,37 @@ watch(
 
 <style scoped>
 .nav-aside {
-  @apply overflow-x-hidden overflow-y-scroll fixed;
-  top: 60px;
-  bottom: 0px;
-  width: 15%;
+  @apply overflow-x-hidden overflow-y-scroll;
 }
 
 .list {
-  @apply leading-loose hover:(cursor-pointer underline text-shadow-sm);
-  color: rgb(58, 132, 139);
-  font-size: 105%;
+  @apply leading-loose hover:(cursor-pointer underline);
 }
 
 .active {
-  @apply underline underline-pink-400 text-stroke-sm text-shadow-sm;
-  color: blueviolet;
-  font-size: 130%;
+  @apply underline underline-pink-400;
+}
+
+.nav-aside-fixed {
+  @apply fixed top-[60px] left-0;
+  opacity: 0;
+}
+
+.occur-animate {
+  animation: 0.5s aside-action ease-in-out forwards;
+}
+.disappear-animate {
+  animation: 0.5s aside-action ease-in-out forwards;
+  animation-direction: reverse;
+}
+@keyframes aside-action {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0%);
+  }
 }
 </style>

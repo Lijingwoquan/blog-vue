@@ -102,6 +102,8 @@ export function listenScreen(opt = {}) {
     let facilityType = "computer";
     if (windowWidth < 768) {
       facilityType = "mobile";
+    } else if (768 <= windowWidth && windowWidth < 992) {
+      facilityType = "ipad";
     }
     facility.value = facilityType;
 
@@ -113,7 +115,7 @@ export function listenScreen(opt = {}) {
     }
   };
 
-  const handleResize = throttle(resizeFunc, 50);
+  const handleResize = throttle(resizeFunc, 100);
 
   handleResize();
   const handelOnKeyUp = (e) => {
@@ -136,4 +138,17 @@ export function listenScreen(opt = {}) {
     handleResize,
     handelOnKeyUp,
   };
+}
+
+export function diffrentFacilifyMap(facility, opt = {}) {
+  switch (facility) {
+    case "computer":
+      return opt.computer;
+      break;
+    case "ipad":
+      return opt.ipad;
+      break;
+    default:
+      return opt.mobile;
+  }
 }

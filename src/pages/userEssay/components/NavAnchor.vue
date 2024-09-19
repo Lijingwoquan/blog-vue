@@ -10,10 +10,9 @@
       type="underline"
       target="#editContainer"
       @change="handelChange"
-      :class="props.facility != 'computer' ? 'anchorForMobil-background' : ''"
+      :class="props.facility == 'mobile' ? 'anchorForMobil-background' : ''"
     >
       <el-anchor-link
-        @scrollTo="scrollTo"
         v-for="(anchor, index) in props.anchors"
         class="ml-2"
         :key="index"
@@ -33,6 +32,8 @@
 
 <script setup>
 import { computed } from "vue";
+import { diffrentFacilifyMap } from "~/composables/util";
+
 const props = defineProps({
   anchors: {
     type: Array,
@@ -51,12 +52,12 @@ const handelChange = (anchorValue) => {
   history.replaceState(currentState, null, anchorValue);
 };
 
-const scrollTo = (href) => {
-  console.log(href);
-};
-
 const anchorLeftMargin = computed(() => {
-  return props.facility === "computer" ? 10 : 5;
+  return diffrentFacilifyMap(props.facility, {
+    computer: 10,
+    ipad: 8,
+    mobile: 5,
+  });
 });
 </script>
 
@@ -64,7 +65,6 @@ const anchorLeftMargin = computed(() => {
 .anchorForComputer {
   @apply fixed overflow-x-visible overflow-y-scroll mt-5 mr-2 min-w-[200px];
   width: auto;
-  top: 60px;
   height: 80vh;
 }
 

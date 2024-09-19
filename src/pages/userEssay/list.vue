@@ -1,5 +1,5 @@
 <template>
-  <el-row>
+  <el-row style="position: relative">
     <el-col :xs="24" :sm="18" :md="18" :lg="18" :xl="18">
       <div v-if="!loading" @click="showAnchorIcon">
         <div class="flex flex-col p-3">
@@ -56,7 +56,7 @@
 
     <el-col :xs="0" :sm="6" :md="6" :lg="6" :xl="6">
       <NavAnchor
-        v-if="facility == 'computer'"
+        v-if="facility != 'mobile'"
         :anchors="anchorData.anchors"
         :facility="facility"
       >
@@ -70,11 +70,11 @@
     class="anchorIcon hidden-sm-and-up"
     style="font-size: 40px !important"
   >
-    <Memo style="font-size: 40px !important" />
+    <Memo style="font-size: 30px !important" />
   </el-icon>
 
   <NavAnchor
-    v-if="facility == 'mobile'"
+    v-if="facility === 'mobile'"
     v-show="!anchorIconShowRef"
     :anchors="anchorData.anchors"
     :facility="facility"
@@ -138,7 +138,8 @@ const { id, oneData, loading, getOneData } = useCommonGetData({
 
 const essayEditRef = ref(null);
 
-const { anchorData, anchorIconShowRef, hideAnchorIcon, showAnchorIcon } = initEssayCommonUse();
+const { anchorData, anchorIconShowRef, hideAnchorIcon, showAnchorIcon } =
+  initEssayCommonUse();
 
 const initEssayData = async () => {
   oneData.value = {};

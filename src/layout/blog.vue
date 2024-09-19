@@ -8,16 +8,24 @@
   />
 
   <el-container>
-    <el-header style="padding: 0">
-      <NavHeader ref="navHeaderRef" @openSearch="handleOpenSearch" />
+    <el-header style="padding: 0; height: 0">
+      <NavHeader ref="navHeaderRef" />
     </el-header>
 
-    <el-row>
-      <el-main>
-        <router-view v-slot="{ Component }">
-          <component :is="Component"> </component>
-        </router-view>
-      </el-main>
+    <el-row :gutter="0">
+      <!-- <el-col :span="4">
+        <div>
+          <NavAside id="navAside"></NavAside>
+        </div>
+      </el-col> -->
+      <el-col :span="24">
+        <el-main :style="{ marginTop: marginTop }">
+          <router-view v-slot="{ Component }">
+            <component :is="Component"> </component>
+          </router-view>
+        </el-main>
+      </el-col>
+      <!-- <el-col :span="4"></el-col> -->
     </el-row>
   </el-container>
 
@@ -37,58 +45,92 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch, defineAsyncComponent } from "vue";
-import { useRoute } from "vue-router";
+import { ref, onMounted, onUnmounted, computed } from "vue";
 import NavHeader from "~/components/user/NavHeader.vue";
 import NavAside from "~/components/user/NavAside.vue";
-import { throttle } from "~/composables/util.js";
-
-const navHeaderRef = ref(null);
-
-const essayComponent = ref(null);
-
-const handleOpenSearch = () => {
-  if (essayComponent.value) {
-    essayComponent.value.showAnchorIcon();
-  }
-};
-
-const headerAction = async (event) => {
-  const headerContainerDom = document.getElementById("headerContainer");
-  // 向上滑动
-  if (event.wheelDeltaY > 0 && event.clientY != event.pageY) {
-    // event.clientY != event.pageY 可以简单理解为出现滚动条的情况
-    headerContainerDom.classList.remove("disappear-animate");
-    setTimeout(() => {
-      headerContainerDom.classList.add("occur-animate");
-      headerContainerDom.classList.add("headerContainerFixed");
-    }, 100);
-  } else if (
-    headerContainerDom.classList.contains("occur-animate") &&
-    event.wheelDeltaY < 0
-  ) {
-    headerContainerDom.classList.remove("occur-animate");
-    setTimeout(() => {
-      headerContainerDom.classList.add("disappear-animate");
-    }, 100);
-  } else {
-    headerContainerDom.classList.remove("headerContainerFixed");
-  }
-};
+import { throttle, diffrentFacilifyMap } from "~/composables/util.js";
 
 let mainDom = null;
 
+const wheelAction = (event) => {
+  const headerContainerDom = document.getElementById("header-container");
+  // const navAsideDom = document.getElementById("navAside");
+  // 向上滑动 出现
+  if (event.wheelDeltaY > 0 && event.clientY != event.pageY) {
+    // event.clientY != event.pageY 可以简单理解为出现滚动条的情况
+    headerContainerDom.classList.remove("disappear-animate");
+    // navAsideDom.classList.remove("disappear-animate");
+    mainDom.classList.add("el-main-down-action");
+    setTimeout(() => {
+      headerContainerDom.classList.add("header-container-fixed");
+      // navAsideDom.classList.add("nav-aside-fixed");
+      headerContainerDom.classList.add("occur-animate");
+      mainDom.classList.remove("el-main-up-action");
+      // navAsideDom.classList.add("occur-animate");
+    }, 100);
+  } else if (event.wheelDeltaY < 0) {
+    headerContainerDom.classList.remove("occur-animate");
+    headerContainerDom.style.opacity = 1;
+    // navAsideDom.classList.remove("occur-animate");
+    // navAsideDom.style.opacity = 1;
+    mainDom.classList.remove("el-main-down-action");
+    setTimeout(() => {
+      headerContainerDom.style.opacity = 0;
+      headerContainerDom.classList.add("disappear-animate");
+      // navAsideDom.style.opacity = 0;
+      // navAsideDom.classList.add("disappear-animate");
+      mainDom.classList.add("el-main-up-action");
+    }, 100);
+  } else {
+    headerContainerDom.classList.remove("header-container-fixed");
+  }
+};
+
+const navHeaderRef = ref(null);
+
+const marginTop = computed(() => {
+  return navHeaderRef.value?.facility === "computer" ? "145px" : "65px";
+});
+
 onMounted(() => {
   mainDom = document.querySelector(".el-main");
-  mainDom.addEventListener("wheel", throttle(headerAction));
+  mainDom.addEventListener("wheel", throttle(wheelAction, 300));
+});
+onUnmounted(() => {
+  mainDom.removeEventListener("wheel", throttle(wheelAction, 300));
 });
 </script>
 
 <style scoped>
+:root {
+  --top-gap: 140px;
+}
 .el-main {
   padding: 0;
 }
+.el-main-up-action {
+  animation: 0.5s el-main-action linear forwards;
+}
+.el-main-down-action {
+  animation: 0.5s el-main-action-reserve linear forwards;
+}
 
+@keyframes el-main-action {
+  from {
+    margintop: var(--top-gap);
+  }
+  to {
+    margin-top: 0;
+  }
+}
+@keyframes el-main-action-reserve {
+  from {
+    margin-top: 0;
+  }
+  to {
+    margintop: var(--top-gap);
+  }
+}
 .register {
   @apply flex flex-col justify-center items-center italic mt-10 mb-5;
 }
