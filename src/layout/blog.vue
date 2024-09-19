@@ -49,7 +49,7 @@
 import { ref, onMounted, onUnmounted, computed } from "vue";
 import NavHeader from "~/components/user/NavHeader.vue";
 import NavAside from "~/components/user/NavAside.vue";
-import { throttle, diffrentFacilifyMap } from "~/composables/util.js";
+import { throttle } from "~/composables/util.js";
 
 let mainDom = null;
 
@@ -60,23 +60,17 @@ const wheelAction = (event) => {
   if (event.wheelDeltaY > 0 && event.clientY != event.pageY) {
     // event.clientY != event.pageY 可以简单理解为出现滚动条的情况
     headerContainerDom.classList.remove("disappear-animate");
+    headerContainerDom.classList.add("occur-animate");
+    console.log(headerContainerDom.classList);
+    mainDom.classList.remove("el-main-up-action");
     mainDom.classList.add("el-main-down-action");
-    setTimeout(() => {
-      headerContainerDom.classList.add("header-container-fixed");
-      headerContainerDom.classList.add("occur-animate");
-      mainDom.classList.remove("el-main-up-action");
-    }, 100);
   } else if (event.wheelDeltaY < 0) {
     headerContainerDom.classList.remove("occur-animate");
-    headerContainerDom.style.opacity = 1;
+    headerContainerDom.classList.add("disappear-animate");
+
     mainDom.classList.remove("el-main-down-action");
-    setTimeout(() => {
-      headerContainerDom.style.opacity = 0;
-      headerContainerDom.classList.add("disappear-animate");
-      mainDom.classList.add("el-main-up-action");
-    }, 100);
+    mainDom.classList.add("el-main-up-action");
   } else {
-    headerContainerDom.classList.remove("header-container-fixed");
   }
 };
 

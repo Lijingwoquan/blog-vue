@@ -94,11 +94,9 @@ export function queryToUrl(query) {
 }
 
 export function listenScreen(opt = {}) {
-  const sizeObj = reactive({});
   const facility = ref("");
-  const resizeFunc = () => {
+  const resize = () => {
     let windowWidth = window.innerWidth;
-
     let facilityType = "computer";
     if (windowWidth < 768) {
       facilityType = "mobile";
@@ -107,15 +105,12 @@ export function listenScreen(opt = {}) {
     }
     facility.value = facilityType;
 
-    if (opt.resize && Object.keys(opt.resize).length > 0) {
-      let resize = opt.resize;
-      for (let k in resize.facilityStandard[facilityType]) {
-        sizeObj[k] = resize.facilityStandard[facilityType][k];
-      }
+    if (opt.resizeFunc && typeof opt.resizeFunc === "function") {
+      opt.resizeFunc(facility.value);
     }
   };
 
-  const handleResize = throttle(resizeFunc, 100);
+  const handleResize = throttle(resize, 150);
 
   handleResize();
   const handelOnKeyUp = (e) => {
@@ -133,7 +128,6 @@ export function listenScreen(opt = {}) {
     }
   };
   return {
-    sizeObj,
     facility,
     handleResize,
     handelOnKeyUp,

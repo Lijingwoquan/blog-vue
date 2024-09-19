@@ -117,7 +117,17 @@ const toIndex = () => {
 };
 
 const { facility, handleResize } = listenScreen({
-  resize: {},
+  resizeFunc: (facility) => {
+    if (facility === "computer") {
+      document.documentElement.style.setProperty(
+        "--nav-header-height",
+        "140px"
+      );
+    } else {
+      document.documentElement.style.setProperty("--nav-header-height", "60px");
+    }
+    console.log(facility);
+  },
 });
 
 const svgSize = computed(() => {
@@ -162,8 +172,11 @@ defineExpose({
 </script>
 
 <style scoped>
+:root {
+  --nav-header-height: 60px;
+}
 .header-container {
-  @apply flex flex-col fixed;
+  @apply flex flex-col fixed top-0 left-0 right-0;
   inset: 0;
   z-index: 999;
   backdrop-filter: blur(5px);
@@ -189,11 +202,6 @@ defineExpose({
   box-shadow: 0 0 4px rgb(52, 147, 224);
 }
 
-.header-container-fixed {
-  @apply flex flex-col fixed top-0 left-0 right-0;
-  opacity: 0;
-}
-
 .occur-animate {
   animation: 0.5s header-action ease-in-out forwards;
 }
@@ -204,7 +212,7 @@ defineExpose({
 @keyframes header-action {
   from {
     opacity: 0;
-    transform: translateY(-60px);
+    transform: translateY(calc(var(--nav-header-height) * -1));
   }
   to {
     opacity: 1;
@@ -214,12 +222,12 @@ defineExpose({
 
 @keyframes header-action-reverse {
   from {
-    opacity: 0;
-    transform: translateY(-60px);
-  }
-  to {
     opacity: 1;
     transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(calc(var(--nav-header-height) * -1));
   }
 }
 .hover {
