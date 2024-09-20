@@ -1,58 +1,7 @@
-/* 默认字体大小 */
 * {
-  font-size: 16px;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-
-h1 {
-  font-size: 1.6em !important;
-}
-h2 {
-  font-size: 1.5em !important;
-}
-h3 {
-  font-size: 1.4em !important;
-}
-h4 {
-  font-size: 1.3em !important;
-}
-h5 {
-  font-size: 1.2em !important;
-}
-h6 {
-  font-size: 1.1em !important;
-}
-
-/* 大屏幕设备 */
-@media (min-width: 1200px) {
-  *:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
-    font-size: 18px;
-  }
-}
-
-/* 中等屏幕设备 */
-@media (min-width: 768px) and (max-width: 1199px) {
-  *:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
-    font-size: 16px;
-  }
-}
-
-/* 小屏幕设备 */
-@media (max-width: 767px) {
-  *:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
-    font-size: 14px;
-  }
-}
-
-h1 a,
-h2 a,
-h3 a,
-h4 a,
-h5 a,
-h6 a {
-  font-size: 1em !important;
 }
 
 /* Webkit浏览器样式 */

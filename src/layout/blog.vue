@@ -17,7 +17,9 @@
           <NavAside position="left"></NavAside>
         </div>
       </el-col>
-      <el-col :xs="24" :sm="18" :md="18" :lg="17" :xl="17">
+      <el-col :xs="0" :sm="1" :md="1" :lg="1" :xl="1"> </el-col>
+
+      <el-col :xs="24" :sm="17" :md="17" :lg="16" :xl="16">
         <el-main :style="{ marginTop: marginTop }">
           <router-view v-slot="{ Component }">
             <component :is="Component"> </component>
@@ -58,19 +60,22 @@ let mainDom = null;
 const wheelAction = (event) => {
   const headerContainerDom = document.getElementById("header-container");
   const navAnchor = document.getElementById("navAnchor");
-  console.log(navAnchor.classList);
   // 向上滑动 出现
   if (event.wheelDeltaY > 0 && event.clientY != event.pageY) {
     // event.clientY != event.pageY 可以简单理解为出现滚动条的情况
     headerContainerDom.classList.remove("disappear-animate");
     headerContainerDom.classList.add("occur-animate");
-    navAnchor.classList.remove("nav-anchor-up-action");
-    navAnchor.classList.add("nav-anchor-down-action");
+    if (navAnchor) {
+      navAnchor.classList.remove("nav-anchor-up-action");
+      navAnchor.classList.add("nav-anchor-down-action");
+    }
   } else if (event.wheelDeltaY < 0) {
     headerContainerDom.classList.remove("occur-animate");
     headerContainerDom.classList.add("disappear-animate");
-    navAnchor.classList.remove("nav-anchor-down-action");
-    navAnchor.classList.add("nav-anchor-up-action");
+    if (navAnchor) {
+      navAnchor.classList.remove("nav-anchor-down-action");
+      navAnchor.classList.add("nav-anchor-up-action");
+    }
   }
 };
 const navHeaderRef = ref(null);

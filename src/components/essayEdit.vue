@@ -1,6 +1,5 @@
 <template>
   <v-md-editor
-    class="ml-2"
     ref="previewRef"
     :include-level="[1, 2, 3, 4, 5, 6]"
     v-model="editContent"

@@ -10,7 +10,9 @@
           <Expand style="height: 100%; width: 100%" />
         </el-icon>
 
-        <h5 @click="toIndex" class="title">罹景偓佺的博客</h5>
+        <h2 @click="toIndex" class="title text-lg flex-1 whitespace-nowrap">
+          罹景偓佺的博客
+        </h2>
       </div>
 
       <div
@@ -120,8 +122,16 @@ const { facility, handleResize } = listenScreen({
         "--nav-header-height",
         "140px"
       );
+      document.documentElement.style.setProperty(
+        "--head-title-translateX",
+        "100%"
+      );
     } else {
       document.documentElement.style.setProperty("--nav-header-height", "60px");
+      document.documentElement.style.setProperty(
+        "--head-title-translateX",
+        "20%"
+      );
     }
   },
 });
@@ -251,7 +261,7 @@ defineExpose({
     transform: translateX(0);
   }
   50% {
-    transform: translateX(100px);
+    transform: translateX(var(--head-title-translateX));
   }
 }
 

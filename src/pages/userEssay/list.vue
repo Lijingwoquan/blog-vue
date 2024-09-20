@@ -5,20 +5,17 @@
         <div class="flex flex-col p-3">
           <!-- 文章名 -->
           <div class="mx-auto">
-            <span
-              class="text-2xl m-auto font-serif font-medium"
-              style="white-space: nowrap !important"
-            >
+            <h2 class="text-2xl m-auto font-serif">
               {{ oneData.name }}
-            </span>
+            </h2>
           </div>
 
           <!-- 创建时间和分类 -->
           <div
             class="flex items-center justify-between font-mono text-purple-700 my-3"
           >
-            <div class="text-lg">
-              创建于:
+            <div>
+              初稿:
               {{ oneData.createdTime ? oneData.createdTime.split("T")[0] : "" }}
             </div>
             <div class="text-lg hover:( text-blue-400)">
@@ -30,17 +27,22 @@
           <div
             class="flex items-center justify-between font-mono text-purple-700"
           >
-            <div class="text-lg">
-              更新于:
+            <div>
+              更新:
               {{ oneData.updatedTime ? oneData.updatedTime.split("T")[0] : "" }}
             </div>
-            <div class="text-lg">{{ oneData.visitedTimes }}次</div>
+            <div>{{ oneData.visitedTimes }}次</div>
           </div>
 
           <!-- 简介 -->
-          <div class="my-3 text-pink-500 px-2">
-            简介:{{ oneData.introduction }}
-          </div>
+
+          <el-text
+            class="mr-auto leading-loose my-2"
+            size="default"
+            type="info"
+          >
+            {{ oneData.introduction }}
+          </el-text>
 
           <!-- 文章内容 -->
           <div>

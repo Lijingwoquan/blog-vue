@@ -1,6 +1,6 @@
 <template>
   <div class="advertising" ref="advertisingRef">
-    <img src="https://liuzihao.online:8080/api/img/12.png" alt="广告图片信息" />
+    <img src="https://liuzihao.online:8080/api/img/2.jpg" alt="广告图片信息" />
     <div class="msg">
       <p :class="textSize">{{ text }}</p>
       <a
@@ -12,7 +12,7 @@
         &body=我的联系方式是:%0A
         我想租用的广告位类型(文章位请填写文章链接):%0A
         我想租用的时间(文章位请无视):%0A
-        我的广告信息(附带图片和不超过二十五字的描述信息)
+        我的广告信息(附带图片和不超过二十五字的描述信息):
         "
         style="text-decoration: underline"
       >

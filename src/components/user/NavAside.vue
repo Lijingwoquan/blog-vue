@@ -1,7 +1,6 @@
 <template>
   <div :class="navStyle" ref="navAsideRef">
     <advertise :text="advertiseMsg" :position="props.position"></advertise>
-    <advertise :text="advertiseMsg" :position="props.position"></advertise>
   </div>
 </template>
 
@@ -22,7 +21,7 @@ const handleResize = () => {
     precent.left = 4 - 0.5;
     precent.right = 3 - 0.5;
   } else {
-    precent.left = 6 - 0.5;
+    precent.left = 5;
   }
 
   let navAsideWidht;
