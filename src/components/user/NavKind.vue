@@ -1,12 +1,11 @@
 <template>
-  <div class="flex items-center justify-evenly">
+  <div class="flex items-center justify-center">
     <div v-for="(item, index) in menu" :key="index" class="kind-container">
-      <a
-        href="/kind"
-        class="text-center font-serif min-w-[300px] inline-block text-xl"
-      >
-        {{ item.kind?.name }}
-      </a>
+      <div class="min-w-[300px] text-center">
+        <a href="/kind" class="font-serif inline-block text-xl">
+          {{ item.kind?.name }}
+        </a>
+      </div>
       <div
         class="list"
         v-if="Array.isArray(item.classifyList) && item.classifyList.length > 0"
@@ -15,14 +14,14 @@
           class="item"
           v-for="(classify, index2) in item.classifyList"
           :key="index2"
-          :class="{
-            active: activeClassify === '/classify' + classify.router,
-          }"
         >
           <a
             :href="'/classify' + classify.router"
             v-if="index2 < 3"
             class="text-center font-mono text-sm"
+            :class="{
+              active: activeClassify === '/classify' + classify.router,
+            }"
           >
             {{ classify.name }}
           </a>
@@ -60,17 +59,43 @@ watch(
 
 <style scoped>
 .kind-container {
-  box-shadow: inset 0 0 10px pink, inset 0 0 5px blue, 0 0 10px red;
+  height: 100%;
+  @apply flex flex-col justify-evenly;
+  z-index: 1;
 }
+
+.kind-container:nth-child(1) {
+  background-color: rgb(65, 232, 140);
+}
+
 .list {
   @apply flex justify-around  gap-x-4;
 }
 
-.item {
-  @apply hover:(cursor-pointer underline);
+a:hover,
+.itme:hover {
+  cursor: pointer;
+  color: aquamarine;
 }
 
+a:hover,
+.item:hover {
+  animation: text-action 0.15s ease-in-out 3;
+}
 .active {
-  @apply underline underline-pink-400 text-blue-400;
+  color: rgb(25, 245, 172);
+}
+
+@keyframes text-action {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  33% {
+    transform: translate(0, -10%);
+  }
+  66% {
+    transform: translate(0, 10%);
+  }
 }
 </style>

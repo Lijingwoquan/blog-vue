@@ -57,24 +57,26 @@ let mainDom = null;
 
 const wheelAction = (event) => {
   const headerContainerDom = document.getElementById("header-container");
+  const navAnchor = document.getElementById("navAnchor");
+  console.log(navAnchor.classList);
   // 向上滑动 出现
   if (event.wheelDeltaY > 0 && event.clientY != event.pageY) {
     // event.clientY != event.pageY 可以简单理解为出现滚动条的情况
     headerContainerDom.classList.remove("disappear-animate");
     headerContainerDom.classList.add("occur-animate");
-    mainDom.classList.remove("el-main-up-action");
-    mainDom.classList.add("el-main-down-action");
+    navAnchor.classList.remove("nav-anchor-up-action");
+    navAnchor.classList.add("nav-anchor-down-action");
   } else if (event.wheelDeltaY < 0) {
     headerContainerDom.classList.remove("occur-animate");
     headerContainerDom.classList.add("disappear-animate");
-    mainDom.classList.remove("el-main-down-action");
-    mainDom.classList.add("el-main-up-action");
+    navAnchor.classList.remove("nav-anchor-down-action");
+    navAnchor.classList.add("nav-anchor-up-action");
   }
 };
 const navHeaderRef = ref(null);
 
 const marginTop = computed(() => {
-  return navHeaderRef.value?.facility === "computer" ? "145px" : "65px";
+  return navHeaderRef.value?.facility === "computer" ? "160px" : "70px";
 });
 
 onMounted(() => {
@@ -90,29 +92,7 @@ onUnmounted(() => {
 .el-main {
   padding: 0;
 }
-.el-main-up-action {
-  animation: 0.5s el-main-action linear forwards;
-}
-.el-main-down-action {
-  animation: 0.5s el-main-action-reserve linear forwards;
-}
 
-@keyframes el-main-action {
-  from {
-    margin-top: var(--nav-header-height);
-  }
-  to {
-    margin-top: 0;
-  }
-}
-@keyframes el-main-action-reserve {
-  from {
-    margin-top: 0;
-  }
-  to {
-    margin-top: var(--nav-header-height);
-  }
-}
 .register {
   @apply flex flex-col justify-center items-center italic mt-10 mb-5;
 }

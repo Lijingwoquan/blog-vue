@@ -1,9 +1,5 @@
 <template>
-  <div
-    id="header-container"
-    :style="{ height: headerContainerHeight }"
-    class="header-container"
-  >
+  <div id="header-container" class="header-container">
     <div class="header-container-top">
       <div class="flex items-center p-3">
         <el-icon
@@ -75,9 +71,10 @@
         </a>
       </div>
     </div>
-
-    <NavKind class="hidden-sm-and-down header-container-bottom"></NavKind>
   </div>
+
+  <NavKind class="hidden-sm-and-down header-container-bottom"></NavKind>
+
   <el-drawer
     v-model="drawerVisiableRef"
     title="菜单"
@@ -137,14 +134,6 @@ const svgSize = computed(() => {
   });
 });
 
-const headerContainerHeight = computed(() => {
-  return diffrentFacilifyMap(facility.value, {
-    computer: "140px",
-    ipad: "60px",
-    mobile: "60px",
-  });
-});
-
 const searchEssayRef = ref(null);
 const openSearch = () => {
   searchEssayRef.value.open();
@@ -179,26 +168,30 @@ defineExpose({
   inset: 0;
   z-index: 999;
   backdrop-filter: blur(5px);
+  height: 60px;
 }
 
 .header-container-top {
   @apply flex  items-center w-[100%] h-[60px];
-  background: linear-gradient(
-    to right,
-    rgba(42, 157, 202, 0.365),
-    rgba(28, 171, 187, 0.384),
-    rgba(255, 192, 203, 0.47),
-    rgba(0, 255, 255, 0.53)
-  );
+  background-color: beige;
 }
+
+@media (width < 768px) {
+  .header-container-top {
+    background: linear-gradient(
+      to right,
+      rgba(42, 157, 202, 0.365),
+      rgba(28, 171, 187, 0.384),
+      rgba(255, 192, 203, 0.47),
+      rgba(0, 255, 255, 0.53)
+    );
+  }
+}
+
 .header-container-bottom {
-  @apply h-[80px];
-  background: linear-gradient(
-    to right,
-    rgba(21, 171, 231, 0.365),
-    rgba(32, 198, 216, 0.384)
-  );
-  box-shadow: 0 0 4px rgb(52, 147, 224);
+  @apply mt-[60px] h-[80px];
+  background-color: rgb(214, 189, 214);
+  box-shadow: 0 -5px 5px rgba(194, 94, 94, 0.696);
 }
 
 .occur-animate {
@@ -240,11 +233,26 @@ defineExpose({
 
 .title {
   @apply mx-3 cursor-pointer;
-  text-shadow: 0 0 5px rgb(192, 120, 231), 0 0 10px rgb(220, 114, 114),
-    0 0 15px rgb(202, 202, 131);
   text-align: center;
-  word-wrap: break-word;
-  text-wrap: nowrap;
+  background: linear-gradient(
+    to right,
+    rgb(67, 102, 218),
+    rgb(91, 112, 208),
+    rgb(255, 153, 0)
+  );
+  color: transparent;
+  background-clip: text;
+  animation: title-action 5s ease-in-out infinite;
+}
+
+@keyframes title-action {
+  form,
+  to {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(100px);
+  }
 }
 
 :deep(.el-menu-item) {

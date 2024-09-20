@@ -56,9 +56,11 @@
 
     <el-col :xs="0" :sm="6" :md="6" :lg="6" :xl="6">
       <NavAnchor
+        id="navAnchor"
         v-if="facility != 'mobile'"
         :anchors="anchorData.anchors"
         :facility="facility"
+        style="transform: translateY('-60px')"
       >
       </NavAnchor>
     </el-col>
@@ -197,7 +199,10 @@ defineExpose({
 :deep(.v-md-editor__main) {
   overflow: unset !important;
 }
-
+:deep(.vuepress-markdown-body) {
+  font-size: var(--markdown-font-size);
+  @apply px-[5px] py-[8px];
+}
 .anchorIcon {
   @apply fixed hover:cursor-pointer text-pink-500 text-opacity-80;
   z-index: 2;
@@ -205,8 +210,27 @@ defineExpose({
   right: 0;
 }
 
-:deep(.vuepress-markdown-body) {
-  font-size: var(--markdown-font-size);
-  @apply px-[5px] py-[8px];
+.nav-anchor-up-action {
+  animation: 0.5s nav-anchor-action forwards;
+}
+.nav-anchor-down-action {
+  animation: 0.5s nav-anchor-action-reverse linear forwards;
+}
+
+@keyframes nav-anchor-action {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-60px);
+  }
+}
+@keyframes nav-anchor-action-reverse {
+  from {
+    transform: translateY(-60px);
+  }
+  to {
+    transform: translateY(0);
+  }
 }
 </style>
