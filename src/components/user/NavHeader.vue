@@ -182,7 +182,7 @@ defineExpose({
 }
 
 .header-container-top {
-  @apply flex  items-center w-[100%] h-[60px];
+  @apply flex items-center w-[100%] h-[60px];
   background-color: beige;
 }
 
@@ -200,8 +200,8 @@ defineExpose({
 
 .header-container-bottom {
   @apply mt-[60px] h-[80px];
-  background-color: rgb(214, 189, 214);
-  box-shadow: 0 -5px 5px rgba(194, 94, 94, 0.696);
+  background-color: rgba(161, 174, 227, 0.744);
+  box-shadow: 0 5px 10px black;
 }
 
 .occur-animate {
@@ -234,11 +234,6 @@ defineExpose({
 }
 .hover {
   @apply hover:cursor-pointer;
-}
-
-.essay-des {
-  color: rgba(55, 106, 208, 0.879);
-  font-weight: 600;
 }
 
 .title {

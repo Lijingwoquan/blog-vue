@@ -65,7 +65,7 @@ watch(
 }
 
 .kind-container:nth-child(1) {
-  background-color: rgb(65, 232, 140);
+  background-color: rgb(146, 237, 187);
 }
 
 .list {
@@ -73,17 +73,12 @@ watch(
 }
 
 a:hover,
-.itme:hover {
-  cursor: pointer;
-  color: aquamarine;
-}
-
-a:hover,
 .item:hover {
+  cursor: pointer;
   animation: text-action 0.15s ease-in-out 3;
 }
 .active {
-  color: rgb(25, 245, 172);
+  color: rgb(189, 42, 111);
 }
 
 @keyframes text-action {

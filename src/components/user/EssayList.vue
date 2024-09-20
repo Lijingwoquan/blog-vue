@@ -3,12 +3,8 @@
     <div v-for="essay in essayList" :key="essay.id">
       <div class="list-container">
         <!-- 左侧信息 -->
-        <div class="flex flex-col justify-around w-[70%]">
-          <h2
-            class="text-blue-500 hover:(cursor-pointer) float-left text-2xl leading-[2]"
-            style="font-family: Arial, Helvetica, sans-serif"
-            @click="commonUse?.toEssay(essay)"
-          >
+        <div class="flex flex-col w-[70%]">
+          <h2 class="title" @click="commonUse?.toEssay(essay)">
             {{ essay.name }}
           </h2>
 
@@ -84,6 +80,19 @@ const props = defineProps({
 .list-container {
   @apply flex justify-between my-5 items-center;
 }
+.title {
+  @apply text-blue-500 hover:(cursor-pointer)  text-2xl leading-[2];
+  /* style="font-family: Arial, Helvetica, sans-serif" */
+  background: radial-gradient(
+    rgb(219, 121, 42),
+    rgb(98, 71, 221),
+    rgb(49, 31, 4)
+  );
+  width: fit-content;
+  color: transparent;
+  background-clip: text;
+}
+
 .right-img {
   box-shadow: 2px 2px 5px black;
   border-radius: 5px;

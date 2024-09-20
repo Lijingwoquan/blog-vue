@@ -15,12 +15,10 @@
             class="flex items-center justify-between font-mono text-purple-700 my-3"
           >
             <div>
-              初稿:
               {{ oneData.createdTime ? oneData.createdTime.split("T")[0] : "" }}
+              初稿
             </div>
-            <div class="text-lg hover:( text-blue-400)">
-              {{ oneData.kind }}
-            </div>
+            <div class="hover:cursor-pointer">{{ oneData.kind }}</div>
           </div>
 
           <!-- 更新时间和访问次数 -->
@@ -28,8 +26,8 @@
             class="flex items-center justify-between font-mono text-purple-700"
           >
             <div>
-              更新:
               {{ oneData.updatedTime ? oneData.updatedTime.split("T")[0] : "" }}
+              更新
             </div>
             <div>{{ oneData.visitedTimes }}次</div>
           </div>
@@ -224,12 +222,12 @@ defineExpose({
     transform: translateY(0);
   }
   to {
-    transform: translateY(-60px);
+    transform: translateY(calc(var(--nav-header-height) * -1));
   }
 }
 @keyframes nav-anchor-action-reverse {
   from {
-    transform: translateY(-60px);
+    transform: translateY(calc(var(--nav-header-height) * -1));
   }
   to {
     transform: translateY(0);
