@@ -11,14 +11,13 @@
     <el-header style="padding: 0; height: 0">
       <NavHeader ref="navHeaderRef" />
     </el-header>
-
     <el-row :gutter="0">
-      <el-col :span="4">
+      <el-col :xs="0" :sm="6" :md="6" :lg="4" :xl="4">
         <div>
-          <NavAside id="navAside"></NavAside>
+          <NavAside position="left"></NavAside>
         </div>
       </el-col>
-      <el-col :span="17">
+      <el-col :xs="24" :sm="18" :md="18" :lg="17" :xl="17">
         <el-main :style="{ marginTop: marginTop }">
           <router-view v-slot="{ Component }">
             <component :is="Component"> </component>
@@ -26,7 +25,11 @@
         </el-main>
       </el-col>
 
-      <el-col :span="3"></el-col>
+      <el-col :xs="0" :sm="0" :md="0" :lg="3" :xl="3">
+        <div>
+          <NavAside position="right"></NavAside>
+        </div>
+      </el-col>
     </el-row>
   </el-container>
 
@@ -50,30 +53,24 @@ import { ref, onMounted, onUnmounted, computed } from "vue";
 import NavHeader from "~/components/user/NavHeader.vue";
 import NavAside from "~/components/user/NavAside.vue";
 import { throttle } from "~/composables/util.js";
-
 let mainDom = null;
 
 const wheelAction = (event) => {
   const headerContainerDom = document.getElementById("header-container");
-  const navAsideDom = document.getElementById("navAside");
   // 向上滑动 出现
   if (event.wheelDeltaY > 0 && event.clientY != event.pageY) {
     // event.clientY != event.pageY 可以简单理解为出现滚动条的情况
     headerContainerDom.classList.remove("disappear-animate");
     headerContainerDom.classList.add("occur-animate");
-    console.log(headerContainerDom.classList);
     mainDom.classList.remove("el-main-up-action");
     mainDom.classList.add("el-main-down-action");
   } else if (event.wheelDeltaY < 0) {
     headerContainerDom.classList.remove("occur-animate");
     headerContainerDom.classList.add("disappear-animate");
-
     mainDom.classList.remove("el-main-down-action");
     mainDom.classList.add("el-main-up-action");
-  } else {
   }
 };
-
 const navHeaderRef = ref(null);
 
 const marginTop = computed(() => {
@@ -90,9 +87,6 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-:root {
-  --top-gap: 140px;
-}
 .el-main {
   padding: 0;
 }
@@ -105,7 +99,7 @@ onUnmounted(() => {
 
 @keyframes el-main-action {
   from {
-    margintop: var(--top-gap);
+    margin-top: var(--nav-header-height);
   }
   to {
     margin-top: 0;
@@ -116,7 +110,7 @@ onUnmounted(() => {
     margin-top: 0;
   }
   to {
-    margintop: var(--top-gap);
+    margin-top: var(--nav-header-height);
   }
 }
 .register {

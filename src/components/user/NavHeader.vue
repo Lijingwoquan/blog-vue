@@ -126,7 +126,6 @@ const { facility, handleResize } = listenScreen({
     } else {
       document.documentElement.style.setProperty("--nav-header-height", "60px");
     }
-    console.log(facility);
   },
 });
 
