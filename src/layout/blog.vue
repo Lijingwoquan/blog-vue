@@ -9,31 +9,63 @@
 
   <el-container>
     <el-header style="padding: 0; height: 0">
-      <NavHeader ref="navHeaderRef" />
+      <NavHeader />
     </el-header>
     <el-row :gutter="0">
-      <el-col :xs="0" :sm="6" :md="6" :lg="4" :xl="4">
-        <div>
-          <NavAside position="left"></NavAside>
-        </div>
+      <el-col :xs="0" :sm="6" :md="6" :lg="3" :xl="3">
+        <NavAside position="left"></NavAside>
       </el-col>
       <el-col :xs="0" :sm="1" :md="1" :lg="1" :xl="1"> </el-col>
 
-      <el-col :xs="24" :sm="17" :md="17" :lg="16" :xl="16">
-        <el-main :style="{ marginTop: marginTop }">
+      <el-col
+        :xs="24"
+        :sm="17"
+        :md="17"
+        :lg="percentForMainAndRight.main"
+        :xl="percentForMainAndRight.main"
+      >
+        <el-main class="mt-[60px]">
           <router-view v-slot="{ Component }">
             <component :is="Component"> </component>
           </router-view>
         </el-main>
       </el-col>
 
-      <el-col :xs="0" :sm="0" :md="0" :lg="3" :xl="3">
-        <div>
-          <NavAside position="right"></NavAside>
-        </div>
+      <el-col
+        class="bg-red-100"
+        :xs="0"
+        :sm="0"
+        :md="0"
+        :lg="percentForMainAndRight.right"
+        :xl="percentForMainAndRight.right"
+      >
+        <NavAside position="right"></NavAside>
       </el-col>
     </el-row>
   </el-container>
+
+  <div class="hidden-md-and-down">
+    <el-icon
+      v-if="navRightshow"
+      class="fixed top-[50%] h-[40px] w-[20px] bg-light-200 cursor-pointer"
+      style="
+        border-radius: 0% 100% 100% 0% / 56% 50% 50% 44%;
+        transform: translateX(100%);
+        right: calc(4 / 24 * 100%);
+      "
+      @click="oprateRightIcon"
+    >
+      <DArrowRight />
+    </el-icon>
+    <el-icon
+      v-else
+      class="fixed top-[50%] h-[40px] w-[20px] bg-light-200 cursor-pointer"
+      style="border-radius: 100% 0% 0% 100% / 56% 50% 50% 44%; right: 0"
+      @click="oprateRightIcon"
+    >
+      <DArrowLeft
+    /></el-icon>
+  </div>
 
   <div style="width: 100%">
     <footer class="register">
@@ -51,11 +83,44 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, computed } from "vue";
-import NavHeader from "~/components/user/NavHeader.vue";
-import NavAside from "~/components/user/NavAside.vue";
+import {
+  ref,
+  onMounted,
+  onUnmounted,
+  computed,
+  defineAsyncComponent,
+} from "vue";
+const NavHeader = defineAsyncComponent(() =>
+  import("~/components/user/NavHeader.vue")
+);
+const NavAside = defineAsyncComponent(() =>
+  import("~/components/user/NavAside.vue")
+);
 import { throttle } from "~/composables/util.js";
+
 let mainDom = null;
+
+const navRightshow = ref(true);
+
+const percentForMainAndRight = computed(() => {
+  return !navRightshow.value
+    ? {
+        main: 20,
+        right: 0,
+      }
+    : {
+        main: 16,
+        right: 4,
+      };
+});
+
+const oprateRightIcon = () => {
+  if (navRightshow.value) {
+    navRightshow.value = false;
+  } else {
+    navRightshow.value = true;
+  }
+};
 
 const wheelAction = (event) => {
   const headerContainerDom = document.getElementById("header-container");
@@ -78,11 +143,6 @@ const wheelAction = (event) => {
     }
   }
 };
-const navHeaderRef = ref(null);
-
-const marginTop = computed(() => {
-  return navHeaderRef.value?.facility === "computer" ? "160px" : "70px";
-});
 
 onMounted(() => {
   mainDom = document.querySelector(".el-main");

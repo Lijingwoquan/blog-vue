@@ -4,7 +4,7 @@
       <div v-if="!loading" @click="showAnchorIcon">
         <div class="flex flex-col p-3">
           <!-- 文章名 -->
-          <div class="mx-auto">
+          <div class="essay-name">
             <h2 class="text-2xl m-auto font-serif">
               {{ oneData.name }}
             </h2>
@@ -210,6 +210,19 @@ defineExpose({
   right: 0;
 }
 
+.essay-name {
+  margin: 0 auto;
+  width: fit-content;
+  background: linear-gradient(
+    to right,
+    rgb(67, 102, 218),
+    rgb(255, 153, 0),
+    rgb(197, 28, 71)
+  );
+  color: transparent;
+  background-clip: text;
+}
+
 .nav-anchor-up-action {
   animation: 0.5s nav-anchor-action forwards;
 }
@@ -222,12 +235,12 @@ defineExpose({
     transform: translateY(0);
   }
   to {
-    transform: translateY(calc(var(--nav-header-height) * -1));
+    transform: translateY(-60px);
   }
 }
 @keyframes nav-anchor-action-reverse {
   from {
-    transform: translateY(calc(var(--nav-header-height) * -1));
+    transform: translateY(-60px);
   }
   to {
     transform: translateY(0);

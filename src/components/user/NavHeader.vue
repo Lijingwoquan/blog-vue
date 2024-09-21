@@ -1,16 +1,16 @@
 <template>
   <div id="header-container" class="header-container">
-    <div class="header-container-top">
+    <div class="header-container-content">
       <div class="flex items-center p-3">
         <el-icon
           class="hidden-md-and-up hover ml-4 cursor-pointer"
           size="1.2em"
           @click="drawerVisiableRef = true"
         >
-          <Expand style="height: 100%; width: 100%" />
+          <Expand />
         </el-icon>
 
-        <h2 @click="toIndex" class="title text-lg flex-1 whitespace-nowrap">
+        <h2 @click="toIndex" class="blog-title flex-1 whitespace-nowrap">
           罹景偓佺的博客
         </h2>
       </div>
@@ -75,8 +75,6 @@
     </div>
   </div>
 
-  <NavKind class="hidden-sm-and-down header-container-bottom"></NavKind>
-
   <el-drawer
     v-model="drawerVisiableRef"
     title="菜单"
@@ -88,6 +86,7 @@
       <NavAsideForMobile></NavAsideForMobile>
     </template>
   </el-drawer>
+
   <searchEssay ref="searchEssayRef"></searchEssay>
 </template>
 
@@ -102,7 +101,6 @@ import {
 } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { listenScreen, diffrentFacilifyMap } from "~/composables/util.js";
-const NavKind = defineAsyncComponent(() => import("./NavKind.vue"));
 const NavAsideForMobile = defineAsyncComponent(() =>
   import("~/components/user/NavAsideForMobile.vue")
 );
@@ -170,24 +168,21 @@ defineExpose({
 </script>
 
 <style scoped>
-:root {
-  --nav-header-height: 60px;
-}
 .header-container {
-  @apply flex flex-col fixed top-0 left-0 right-0;
+  @apply fixed top-0 left-0 right-0;
   inset: 0;
   z-index: 999;
   backdrop-filter: blur(5px);
   height: 60px;
 }
 
-.header-container-top {
+.header-container-content {
   @apply flex items-center w-[100%] h-[60px];
   background-color: beige;
 }
 
 @media (width < 768px) {
-  .header-container-top {
+  .header-container-content {
     background: linear-gradient(
       to right,
       rgba(42, 157, 202, 0.365),
@@ -196,12 +191,6 @@ defineExpose({
       rgba(0, 255, 255, 0.53)
     );
   }
-}
-
-.header-container-bottom {
-  @apply mt-[60px] h-[80px];
-  background-color: rgba(161, 174, 227, 0.744);
-  box-shadow: 0 5px 10px black;
 }
 
 .occur-animate {
@@ -229,14 +218,15 @@ defineExpose({
   }
   to {
     opacity: 0;
-    transform: translateY(calc(var(--nav-header-height) * -1));
+    transform: translateY(-60px);
   }
 }
+
 .hover {
   @apply hover:cursor-pointer;
 }
 
-.title {
+.blog-title {
   @apply mx-3 cursor-pointer;
   text-align: center;
   background: linear-gradient(

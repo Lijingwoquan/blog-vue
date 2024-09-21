@@ -18,8 +18,8 @@ const handleResize = () => {
   };
 
   if (windowWinth >= 1200) {
-    precent.left = 4 - 0.5;
-    precent.right = 3 - 0.5;
+    precent.left = 3 - 0.5;
+    precent.right = 4 - 0.5;
   } else {
     precent.left = 5;
   }
