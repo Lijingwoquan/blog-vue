@@ -5,7 +5,6 @@ import store from "~/store/index.js";
 
 const menu = computed(() => store.state.menu);
 const kindList = computed(() => store.state.kindList);
-const essayList = computed(() => store.state.essayList);
 const classifyList = computed(() => store.state.classifyList);
 
 // 获取数据 分页 loading状态
@@ -186,17 +185,16 @@ export function useCommonData() {
     menu,
     kindList,
     classifyList,
-    essayList,
   };
 }
 
 export function useCommonNav(opt = {}) {
-  const toEssay = (r) => {
-    opt.router.push(`/essay${r.kindRouter}${r.router}`);
+  const toEssay = (essay) => {
+    opt.router.push(`/essay${essay.kindRouter}${essay.router}?id=${essay.id}`);
   };
 
-  const toKind = (r) => {
-    opt.router.push("classify" + r.kindRouter);
+  const toKind = (query) => {
+    opt.router.push("classify" + query.kindRouter);
   };
 
   const changePage = (p) => {

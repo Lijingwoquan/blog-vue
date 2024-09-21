@@ -91,10 +91,10 @@ import {
   defineAsyncComponent,
 } from "vue";
 const NavHeader = defineAsyncComponent(() =>
-  import("~/components/user/NavHeader.vue")
+  import("./components/user/NavHeader.vue")
 );
 const NavAside = defineAsyncComponent(() =>
-  import("~/components/user/NavAside.vue")
+  import("./components/user/NavAside.vue")
 );
 import { throttle } from "~/composables/util.js";
 

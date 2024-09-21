@@ -83,7 +83,7 @@
     style="background-color: rgb(203, 221, 246)"
   >
     <template #default>
-      <NavKindForMobile></NavKindForMobile>
+      <navKindForMobile></navKindForMobile>
     </template>
   </el-drawer>
 
@@ -101,10 +101,10 @@ import {
 } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { listenScreen, diffrentFacilifyMap } from "~/composables/util.js";
-const NavKindForMobile = defineAsyncComponent(() =>
-  import("~/components/user/NavKindForMobile.vue")
+const navKindForMobile = defineAsyncComponent(() =>
+  import("~/components/navKindForMobile.vue")
 );
-const searchEssay = defineAsyncComponent(() => import("./search.vue"));
+const searchEssay = defineAsyncComponent(() => import("~/components/searchEssay.vue"));
 
 const router = useRouter();
 const route = useRoute();

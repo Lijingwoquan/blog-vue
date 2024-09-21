@@ -1,5 +1,5 @@
 <template>
-  <EssayList :essayList="tableData" :commonUse="commonUse"></EssayList>
+  <essayList :essayList="tableData" :commonUse="commonUse"></essayList>
 </template>
 
 <script setup>
@@ -8,8 +8,8 @@ import { useRouter } from "vue-router";
 import { getEssayList } from "~/api/user.js";
 import { useCommonGetData, useCommonNav } from "~/composables/useCommon.js";
 
-const EssayList = defineAsyncComponent(() =>
-  import("~/components/user/EssayList.vue")
+const essayList = defineAsyncComponent(() =>
+  import("~/components/essayList.vue")
 );
 
 const router = useRouter();

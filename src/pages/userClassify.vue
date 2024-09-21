@@ -1,9 +1,9 @@
 <template>
-  <EssayList
+  <essayList
     :essayList="tableData"
     :commonUse="commonUse"
     navType="classify"
-  ></EssayList>
+  ></essayList>
 </template>
 
 <script setup>
@@ -16,8 +16,8 @@ import {
   useCommonNav,
 } from "~/composables/useCommon.js";
 
-const EssayList = defineAsyncComponent(() =>
-  import("~/components/user/EssayList.vue")
+const essayList = defineAsyncComponent(() =>
+  import("~/components/essayList.vue")
 );
 
 const route = useRoute();

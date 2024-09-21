@@ -9,7 +9,7 @@ const store = createStore({
       menu: [],
       classifyList: [],
       kindList: [],
-      essayList: [],
+      // essayList: [],
       adminAsideWidth: "250px",
     };
   },
@@ -23,10 +23,6 @@ const store = createStore({
     },
     setClassifyList(state, payload) {
       state.classifyList = payload.classifyList;
-    },
-    setEssayList(state, payload) {
-      //单独添加文章数据
-      state.essayList = payload.essayList;
     },
     handleAdminAsideWidth(state) {
       const ifExpendAside = ref(getExpendAside());
@@ -53,7 +49,6 @@ const store = createStore({
         getIndexInfo()
           .then((res) => {
             let menu = res.menu;
-            let essayList = res.essayList;
             let kindList = [];
             let classifyList = [];
 
@@ -67,9 +62,7 @@ const store = createStore({
             commit("setMenu", {
               menu,
             });
-            commit("setEssayList", {
-              essayList,
-            });
+
             commit("setKindList", {
               kindList,
             });

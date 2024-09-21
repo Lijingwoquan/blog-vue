@@ -16,7 +16,7 @@
 import { useStore } from "vuex";
 import { defineAsyncComponent } from "vue";
 const NavAside = defineAsyncComponent(() =>
-  import("~/components/admin/NavAside.vue")
+  import("./components/admin/NavAside.vue")
 );
 
 const store = useStore();

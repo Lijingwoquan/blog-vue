@@ -1,9 +1,8 @@
 <template>
   <div :class="navStyle" ref="navAsideRef">
     <advertise :text="advertiseMsg" :position="props.position"></advertise>
-    <!-- <NavKind></NavKind> -->
     <div>
-      <NavKind v-if="position === 'right'"></NavKind>
+      <navKind v-if="position === 'right'"></navKind>
     </div>
   </div>
 </template>
@@ -17,11 +16,10 @@ import {
   defineAsyncComponent,
 } from "vue";
 import { throttle } from "~/composables/util";
-import advertise from "./advertise.vue";
-import NavKind from "./NavKind.vue";
-// const NavKind = defineAsyncComponent(() => {
-//   import("./NavKind.vue");
-// });
+const advertise = defineAsyncComponent(() =>
+  import("~/components/advertise.vue")
+);
+const navKind = defineAsyncComponent(() => import("~/components/navKind.vue"));
 
 const navAsideRef = ref(null);
 

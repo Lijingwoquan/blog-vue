@@ -121,15 +121,8 @@ const { facility, handleResize } = listenScreen({
   },
 });
 
-const { essayList } = useCommonData();
-
 function getCurrentEssayId() {
-  const currentRouter = route.path;
-  for (let i = 0; i < essayList.value.length; i++) {
-    if (essayList.value[i].complexRouter === currentRouter) {
-      return essayList.value[i].id;
-    }
-  }
+  return route.query.id;
 }
 
 const { id, oneData, loading, getOneData } = useCommonGetData({
@@ -146,10 +139,6 @@ const { anchorData, anchorIconShowRef, hideAnchorIcon, showAnchorIcon } =
 const initEssayData = async () => {
   oneData.value = {};
   id.value = getCurrentEssayId();
-  if (!id.value) {
-    router.push("/404");
-    return;
-  }
   await getOneData();
 
   await nextTick();
