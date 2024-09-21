@@ -3,7 +3,7 @@
     <div class="header-container-content">
       <div class="flex items-center p-3">
         <el-icon
-          class="hidden-md-and-up hover ml-4 cursor-pointer"
+          class="hidden-lg-and-up hover ml-4 cursor-pointer"
           size="1.2em"
           @click="drawerVisiableRef = true"
         >
@@ -83,7 +83,7 @@
     style="background-color: rgb(203, 221, 246)"
   >
     <template #default>
-      <NavAsideForMobile></NavAsideForMobile>
+      <NavKindForMobile></NavKindForMobile>
     </template>
   </el-drawer>
 
@@ -101,8 +101,8 @@ import {
 } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { listenScreen, diffrentFacilifyMap } from "~/composables/util.js";
-const NavAsideForMobile = defineAsyncComponent(() =>
-  import("~/components/user/NavAsideForMobile.vue")
+const NavKindForMobile = defineAsyncComponent(() =>
+  import("~/components/user/NavKindForMobile.vue")
 );
 const searchEssay = defineAsyncComponent(() => import("./search.vue"));
 

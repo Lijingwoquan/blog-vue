@@ -32,7 +32,7 @@
       </el-col>
 
       <el-col
-        class="bg-red-100"
+        class="bg-red-100 fixed h-[100vh] w-[100%] right-0"
         :xs="0"
         :sm="0"
         :md="0"

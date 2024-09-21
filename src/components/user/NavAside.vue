@@ -1,13 +1,28 @@
 <template>
   <div :class="navStyle" ref="navAsideRef">
     <advertise :text="advertiseMsg" :position="props.position"></advertise>
+    <!-- <NavKind></NavKind> -->
+    <div>
+      <NavKind v-if="position === 'right'"></NavKind>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from "vue";
+import {
+  ref,
+  computed,
+  onMounted,
+  onUnmounted,
+  defineAsyncComponent,
+} from "vue";
 import { throttle } from "~/composables/util";
 import advertise from "./advertise.vue";
+import NavKind from "./NavKind.vue";
+// const NavKind = defineAsyncComponent(() => {
+//   import("./NavKind.vue");
+// });
+
 const navAsideRef = ref(null);
 
 const handleResize = () => {

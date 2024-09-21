@@ -148,7 +148,7 @@ const essayEdit = defineAsyncComponent(() =>
   import("~/components/essayEdit.vue")
 );
 const dynamicAddTag = defineAsyncComponent(() =>
-  import("./components/dynamicAddTag.vue")
+  import("~/components/dynamicAddTag.vue")
 );
 const { classifyList, essayList } = useCommonData();
 
