@@ -3,7 +3,7 @@
     <div v-for="essay in essayList" :key="essay.id">
       <div class="list-container">
         <!-- 左侧信息 -->
-        <div class="flex flex-col w-[70%]">
+        <div class="flex flex-col w-[65%] pr-3">
           <h2 class="title" @click="commonUse?.toEssay(essay)">
             {{ essay.name }}
           </h2>
@@ -13,13 +13,16 @@
           </small>
 
           <el-text
-            class="mr-auto leading-loose"
+            class="mr-auto leading-loose overflow-hidden"
             line-clamp="3"
             size="small"
             type="info"
+            style="word-break: break-all"
           >
             {{ essay.introduction }}
           </el-text>
+          <!-- <span >
+          </span> -->
 
           <span class="font-mono text-sm mr-auto text-pink-600 mt-3">
             隶属
@@ -35,7 +38,7 @@
           </span>
         </div>
         <!-- 图片 -->
-        <div class="w-[30%] h-auto p-5">
+        <div class="w-[35%] h-auto">
           <el-image
             src="https://liuzihao.online:8080/api/img/12.png"
             lazy

@@ -42,8 +42,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, reactive, computed, watch } from "vue";
-import { useRouter, useRoute } from "vue-router";
+import { ref, onMounted, onUnmounted, reactive, computed } from "vue";
+import { useRouter } from "vue-router";
 import {
   toast,
   listenScreen,
@@ -53,7 +53,6 @@ import { addSearchKeyCount } from "~/api/keyword.js";
 
 const dialogVisible = ref(false);
 const router = useRouter();
-const route = useRoute();
 
 const { facility, handelOnKeyUp, handleResize } = listenScreen({
   onKeyUp: {

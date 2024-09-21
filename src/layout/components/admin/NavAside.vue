@@ -29,7 +29,6 @@
         <el-icon
           style="height: 100%"
           class="flex justify-center items-center"
-          :size="30"
           text
         >
           <component :is="item.icon" />
@@ -107,20 +106,17 @@ watch(
   bottom: 0;
   color: rgb(224, 218, 218);
   background-color: rgba(32, 167, 225, 0.884);
-  transition: width 0.5s ease;
+  transition: width 0.5s linear;
 }
 .nav-aside div {
-  animation: nav-aside-action 0.5s ease;
+  animation: nav-aside-action 0.5s linear;
 }
 .nav-aside div div span {
-  animation: nav-aside-action 0.5s ease;
+  animation: nav-aside-action 0.5s linear;
 }
 @keyframes nav-aside-action {
-  0% {
-    opacity: 0;
-    font-size: 0;
-  }
-  75% {
+  0%,
+  90% {
     opacity: 0;
     font-size: 0;
   }
@@ -131,12 +127,12 @@ watch(
 }
 
 .nav-aside-head {
-  @apply flex justify-around text-2xl p-2;
+  @apply flex justify-around text-xl p-2;
   background-color: rgba(91, 141, 162, 0.868);
 }
 
 .nav-aside-item {
-  @apply flex justify-around mt-6 text-xl;
+  @apply flex justify-around mt-6 text-lg;
 }
 
 .nav-aside-item:hover {

@@ -37,7 +37,8 @@ const { menu } = useCommonData();
     to right,
     rgb(57, 107, 216),
     rgb(218, 192, 30),
-    rgb(211, 13, 95)
+    rgb(38, 174, 198),
+    rgb(231, 37, 118)
   );
   background-clip: text;
 }

@@ -53,7 +53,7 @@
         </el-input>
       </template>
       <el-table
-        v-loading="tableLoading"
+        v-loading="essayListLoading"
         :data="tableDate"
         border
         stripe
@@ -69,22 +69,24 @@
             </el-text>
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center">
+        <el-table-column label="操作" align="center" width="200px">
           <template #default="{ row }">
-            <el-button
-              type="primary"
-              size="small"
-              text
-              @click="chooseEssay(row)"
-              >选择文章</el-button
-            >
-            <el-button
-              type="primary"
-              size="small"
-              text
-              @click="deletedEssyConfirm(row)"
-              >删除文章</el-button
-            >
+            <div>
+              <el-button
+                type="primary"
+                size="small"
+                text
+                @click="chooseEssay(row)"
+                >选择文章</el-button
+              >
+              <el-button
+                type="primary"
+                size="small"
+                text
+                @click="deletedEssyConfirm(row)"
+                >删除文章</el-button
+              >
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -138,11 +140,18 @@
 </template>
 
 <script setup>
-import { ref, reactive, defineAsyncComponent } from "vue";
-import { toast } from "~/composables/util";
+import {
+  ref,
+  reactive,
+  defineAsyncComponent,
+  onMounted,
+  onUnmounted,
+} from "vue";
+import { toast, listenScreen } from "~/composables/util.js";
 import { ElMessageBox } from "element-plus";
 import { updateEssayMsg, deleteEssay } from "~/api/manager.js";
 import { getEssayMsg } from "~/api/user.js";
+import { addSearchKeyCount } from "~/api/keyword.js";
 import { useCommonForm, useCommonData } from "~/composables/useCommon.js";
 const essayEdit = defineAsyncComponent(() =>
   import("~/components/essayEdit.vue")
@@ -150,7 +159,7 @@ const essayEdit = defineAsyncComponent(() =>
 const dynamicAddTag = defineAsyncComponent(() =>
   import("~/components/dynamicAddTag.vue")
 );
-const { classifyList, essayList } = useCommonData();
+const { classifyList } = useCommonData();
 
 const {
   form,
@@ -180,16 +189,27 @@ const previewRef = ref({});
 //搜索数据
 const searchInput = ref("");
 let tableDate = ref([]);
+const essayListLoading = ref(false);
+
 function getEssayList() {
   tableDate.value = [];
-  essayList.value.forEach((essay) => {
-    if (essay.name.includes(searchInput.value)) {
-      tableDate.value.push(essay);
-    }
-  });
-  if (!(tableDate.value.length > 0)) {
-    toast("没用查找到相关文章", "warning");
+  if (searchInput.value == "") {
+    toast("请输入搜索内容", "warning");
+    return;
   }
+  essayListLoading.value = true;
+  addSearchKeyCount({ keyword: searchInput.value })
+    .then((res) => {
+      tableDate.value = res;
+      if (!res) {
+        toast("没有相关文章", "warning");
+      } else {
+        toast(`查找到${tableDate.value.length}篇相关文章`);
+      }
+    })
+    .finally(() => {
+      essayListLoading.value = false;
+    });
 }
 
 // 选择文章 加载数据
@@ -229,4 +249,17 @@ function updateEssayPre() {
   }
   toast("请先选择文章", "warning");
 }
+const { handelOnKeyUp } = listenScreen({
+  onKeyUp: {
+    getData: getEssayList,
+  },
+});
+
+onMounted(() => {
+  document.addEventListener("keyup", handelOnKeyUp);
+});
+
+onUnmounted(() => {
+  document.removeEventListener("keyup", handelOnKeyUp);
+});
 </script>

@@ -25,6 +25,6 @@ store.commit("initAsideWidth");
 
 <style scoped>
 .nav-main {
-  transition: all 0.5s ease;
+  transition: all 0.5s linear;
 }
 </style>
