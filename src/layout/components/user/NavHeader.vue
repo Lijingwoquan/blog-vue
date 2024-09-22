@@ -11,7 +11,7 @@
         </el-icon>
 
         <h2 @click="toIndex" class="blog-title flex-1 whitespace-nowrap">
-          罹景偓佺的博客
+          <a href="/">罹景偓佺的博客</a>
         </h2>
       </div>
 
@@ -104,7 +104,9 @@ import { listenScreen, diffrentFacilifyMap } from "~/composables/util.js";
 const navKindForMobile = defineAsyncComponent(() =>
   import("~/components/navKindForMobile.vue")
 );
-const searchEssay = defineAsyncComponent(() => import("~/components/searchEssay.vue"));
+const searchEssay = defineAsyncComponent(() =>
+  import("~/components/searchEssay.vue")
+);
 
 const router = useRouter();
 const route = useRoute();

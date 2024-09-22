@@ -25,7 +25,7 @@ const route = useRoute();
 const { classifyList } = useCommonData();
 
 const classifyRouter = computed(() => {
-  return "/" + route.fullPath.split("/")[2];
+  return "/" + route.fullPath.split("?")[0].split("/")[2];
 });
 
 const getNowClassify = () => {
@@ -52,9 +52,7 @@ const { searchForm, tableData, currentPage, totalPages, loading, getDataList } =
 
 const { getEssayHref, getKindHref, changePage } = useCommonNav({
   currentPage,
-  getDataList,
 });
-getDataList();
 
 const commonUse = reactive({
   getEssayHref,
@@ -65,12 +63,8 @@ const commonUse = reactive({
   totalPages,
 });
 
-watch(
-  () => route.path,
-  async () => {
-    getNowClassify();
-    searchForm.classify = getNowClassify();
-    await getDataList();
-  }
-);
+getNowClassify();
+searchForm.classify = getNowClassify();
+changePage(route.query.page ? parseInt(route.query.page) : 1);
+getDataList();
 </script>

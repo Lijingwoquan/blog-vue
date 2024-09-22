@@ -1,5 +1,4 @@
 import { computed, reactive, ref } from "vue";
-import { setIndexPage, getIndexPage } from "~/composables/auth.js";
 import { showLoading, toast } from "~/composables/util.js";
 import store from "~/store/index.js";
 
@@ -21,19 +20,6 @@ export function useCommonGetData(opt = {}) {
     opt.loadingText = "正在加载";
   }
 
-  const getOldPage = () => {
-    if (searchForm.page) {
-      let oldPage = getIndexPage();
-      if (oldPage) {
-        currentPage.value = oldPage;
-      } else {
-        currentPage.value = 1;
-      }
-      searchForm.page = currentPage.value;
-    }
-  };
-  getOldPage();
-
   const getOneData = async () => {
     loading.value = true;
     await showLoading(opt.loadingText);
@@ -48,9 +34,7 @@ export function useCommonGetData(opt = {}) {
   };
 
   const getDataList = async () => {
-    if (searchForm.page) {
-      searchForm.page = currentPage.value;
-    }
+    searchForm.page = currentPage.value;
     if (typeof opt.getDataList === "function") {
       loading.value = true;
       tableData.value = [];
@@ -60,11 +44,6 @@ export function useCommonGetData(opt = {}) {
         .then((res) => {
           tableData.value = res.list;
           totalPages.value = res.totalPages;
-          if (res.list == null && totalPages.value == 1) {
-            currentPage.value = 1;
-            setIndexPage(1);
-            getDataList();
-          }
         })
         .finally(() => {
           loading.value = false;
@@ -198,11 +177,7 @@ export function useCommonNav(opt = {}) {
   };
 
   const changePage = (p) => {
-    if (opt.currentPage) {
-      opt.currentPage.value = p;
-      setIndexPage(p);
-      opt.getDataList();
-    }
+    opt.currentPage.value = p;
   };
 
   return {

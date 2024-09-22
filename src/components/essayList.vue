@@ -29,6 +29,12 @@
             </a>
             <span> | {{ essay.visitedTimes }}阅读量</span>
           </span>
+          <div class="font-mono text-sm mr-auto text-pink-600 mt-3">
+            <span v-if="essay.keywords">标签:</span>
+            <span v-for="(keyword, index) in essay.keywords" :key="index">
+              {{ keyword }}&nbsp;
+            </span>
+          </div>
         </div>
         <!-- 图片 -->
         <div class="w-[35%] h-auto">
@@ -43,19 +49,18 @@
 
       <el-divider border-style="dotted" />
     </div>
-    <el-pagination
-      background
-      layout="prev, pager, next"
-      :page-count="commonUse?.totalPages"
-      :current-page="commonUse?.currentPage"
-      @update:current-page="commonUse?.changePage"
-      class="mt-2 justify-center absolute left-[50%]"
-      style="transform: translateX(-50%)"
-    />
+
+    <paging
+      :currentPage="commonUse.currentPage"
+      :totalPages="commonUse.totalPages"
+    ></paging>
   </div>
 </template>
 
 <script setup>
+import { defineAsyncComponent } from "vue";
+const paging = defineAsyncComponent(() => import("./paging.vue"));
+
 const props = defineProps({
   essayList: {
     type: Array,

@@ -6,7 +6,8 @@
 import { reactive, defineAsyncComponent } from "vue";
 import { getEssayList } from "~/api/user.js";
 import { useCommonGetData, useCommonNav } from "~/composables/useCommon.js";
-
+import { useRoute } from "vue-router";
+const route = useRoute();
 const essayList = defineAsyncComponent(() =>
   import("~/components/essayList.vue")
 );
@@ -20,11 +21,9 @@ const { tableData, currentPage, totalPages, loading, getDataList } =
     getDataList: getEssayList,
     loadingText: "文章列表渲染中",
   });
-getDataList();
 
 const { getEssayHref, getKindHref, changePage } = useCommonNav({
   currentPage,
-  getDataList,
 });
 
 const commonUse = reactive({
@@ -35,4 +34,6 @@ const commonUse = reactive({
   currentPage,
   totalPages,
 });
+changePage(route.query.page ? parseInt(route.query.page) : 1);
+getDataList();
 </script>
