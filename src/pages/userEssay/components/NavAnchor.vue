@@ -61,7 +61,7 @@ const anchorLeftMargin = computed(() => {
 
 <style scoped>
 .anchorForComputer {
-  @apply fixed overflow-x-visible overflow-y-scroll mt-5 mr-2 min-w-[200px];
+  @apply fixed overflow-x-visible overflow-y-scroll mt-5 mr-2;
   width: auto;
   height: 90vh;
   overflow-y: scroll;

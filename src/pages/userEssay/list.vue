@@ -190,7 +190,7 @@ defineExpose({
 }
 :deep(.vuepress-markdown-body) {
   font-size: var(--markdown-font-size);
-  @apply px-[5px] py-[8px];
+  @apply !px-[5px] !py-[8px];
 }
 .anchorIcon {
   @apply fixed hover:cursor-pointer text-pink-500 text-opacity-80;

@@ -63,11 +63,11 @@ const advertiseMsg = computed(() => {
 });
 
 onMounted(() => {
-  window.addEventListener("resize", throttle(handleResize, 200));
   handleResize();
+  window.addEventListener("resize", throttle(handleResize));
 });
 onUnmounted(() => {
-  window.removeEventListener("resize", throttle(handleResize, 50));
+  window.removeEventListener("resize", throttle(handleResize));
 });
 </script>
 

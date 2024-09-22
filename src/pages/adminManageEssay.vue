@@ -41,6 +41,7 @@
           v-model="searchInput"
           placeholder="搜索文档"
           style="height: 50px"
+          @change="getEssayList"
         >
           <template #prefix>
             <el-icon size="20px" class="mx-2">
@@ -140,14 +141,8 @@
 </template>
 
 <script setup>
-import {
-  ref,
-  reactive,
-  defineAsyncComponent,
-  onMounted,
-  onUnmounted,
-} from "vue";
-import { toast, listenScreen } from "~/composables/util.js";
+import { ref, reactive, defineAsyncComponent } from "vue";
+import { toast } from "~/composables/util.js";
 import { ElMessageBox } from "element-plus";
 import { updateEssayMsg, deleteEssay } from "~/api/manager.js";
 import { getEssayMsg } from "~/api/user.js";
@@ -249,17 +244,4 @@ function updateEssayPre() {
   }
   toast("请先选择文章", "warning");
 }
-const { handelOnKeyUp } = listenScreen({
-  onKeyUp: {
-    getData: getEssayList,
-  },
-});
-
-onMounted(() => {
-  document.addEventListener("keyup", handelOnKeyUp);
-});
-
-onUnmounted(() => {
-  document.removeEventListener("keyup", handelOnKeyUp);
-});
 </script>

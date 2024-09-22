@@ -23,6 +23,7 @@
         :md="17"
         :lg="percentForMainAndRight.main"
         :xl="percentForMainAndRight.main"
+        style="transition: 0.5s"
       >
         <el-main class="mt-[60px]">
           <router-view v-slot="{ Component }">
@@ -38,6 +39,7 @@
         :md="0"
         :lg="percentForMainAndRight.right"
         :xl="percentForMainAndRight.right"
+        style="transition: 0.5s"
       >
         <NavAside position="right"></NavAside>
       </el-col>
@@ -69,11 +71,11 @@
 
   <div style="width: 100%">
     <footer class="register">
-      <a class="text-sm" target="_blank" href="https://github.com/Lijingwoquan"
+      <a class="text-xs" target="_blank" href="https://github.com/Lijingwoquan"
         >© 2024 罹景偓佺的博客 By 罹景.本站博客未经授权禁止转载.
       </a>
       <a
-        class="text-sm"
+        class="text-xs"
         target="_blank"
         href="https://beian.miit.gov.cn/#/Integrated/index"
         >备案信息:湘ICP备2024043210号.</a
@@ -125,21 +127,25 @@ const oprateRightIcon = () => {
 const wheelAction = (event) => {
   const headerContainerDom = document.getElementById("header-container");
   const navAnchor = document.getElementById("navAnchor");
-  // 向上滑动 出现
-  if (event.wheelDeltaY > 0 && event.clientY != event.pageY) {
+
+  if (event.clientY != event.pageY) {
     // event.clientY != event.pageY 可以简单理解为出现滚动条的情况
-    headerContainerDom.classList.remove("disappear-animate");
-    headerContainerDom.classList.add("occur-animate");
-    if (navAnchor) {
-      navAnchor.classList.remove("nav-anchor-up-action");
-      navAnchor.classList.add("nav-anchor-down-action");
-    }
-  } else if (event.wheelDeltaY < 0) {
-    headerContainerDom.classList.remove("occur-animate");
-    headerContainerDom.classList.add("disappear-animate");
-    if (navAnchor) {
-      navAnchor.classList.remove("nav-anchor-down-action");
-      navAnchor.classList.add("nav-anchor-up-action");
+    if (event.wheelDeltaY > 0) {
+      //向上滑动
+      headerContainerDom.classList.remove("disappear-animate");
+      headerContainerDom.classList.add("occur-animate");
+      if (navAnchor) {
+        navAnchor.classList.remove("nav-anchor-up-action");
+        navAnchor.classList.add("nav-anchor-down-action");
+      }
+    } else if (event.wheelDeltaY < 0) {
+      //向下滑动
+      headerContainerDom.classList.remove("occur-animate");
+      headerContainerDom.classList.add("disappear-animate");
+      if (navAnchor) {
+        navAnchor.classList.remove("nav-anchor-down-action");
+        navAnchor.classList.add("nav-anchor-up-action");
+      }
     }
   }
 };

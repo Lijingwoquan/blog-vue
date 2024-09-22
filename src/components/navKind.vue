@@ -3,10 +3,12 @@
   <div class="flex flex-col">
     <section v-for="(item, index) in menu" :key="index" class="mt-3">
       <h3 class="kind">
-        <el-icon class="mr-1">
-          <component :is="item.kind?.icon"> </component>
+        <el-icon class="mr-1" color="violet">
+          <component :is="item.kind.icon"> </component>
         </el-icon>
-        {{ item.kind.name }}
+        <span>
+          {{ item.kind.name }}
+        </span>
       </h3>
 
       <div
@@ -47,7 +49,9 @@ const { menu } = useCommonData();
 }
 .kind {
   @apply font-serif font-bold text-left flex items-center;
-  width: fit-content;
+}
+
+.kind span {
   color: transparent;
   background: linear-gradient(
     to right,
@@ -57,6 +61,7 @@ const { menu } = useCommonData();
   );
   background-clip: text;
 }
+
 .classify {
   @apply ml-3 flex items-center text-blue-500;
   line-height: 30px;
