@@ -65,6 +65,7 @@ const essayList = ref([]);
 const loading = ref(false);
 const form = reactive({
   keyword: "",
+  ifAdd: true,
 });
 
 const open = () => {

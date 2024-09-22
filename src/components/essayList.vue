@@ -4,8 +4,8 @@
       <div class="list-container">
         <!-- 左侧信息 -->
         <div class="flex flex-col w-[65%] pr-3">
-          <h2 class="title" @click="commonUse?.toEssay(essay)">
-            {{ essay.name }}
+          <h2 class="title">
+            <a :href="commonUse.essayHref(essay)"> {{ essay.name }}</a>
           </h2>
 
           <small class="font-mono text-xs text-gray-600 leading-[2]">
@@ -21,26 +21,19 @@
           >
             {{ essay.introduction }}
           </el-text>
-          <!-- <span >
-          </span> -->
 
           <span class="font-mono text-sm mr-auto text-pink-600 mt-3">
             隶属
-            <span
-              @click.stop="
-                navType === 'index' ? commonUse?.toKind(essay) : () => {}
-              "
-              class="hover:cursor-pointer"
-            >
+            <a :href="commonUse.kindHref(essay)">
               {{ essay.kind }}
-            </span>
-            <span> | 100阅读量</span>
+            </a>
+            <span> | {{ essay.visitedTimes }}阅读量</span>
           </span>
         </div>
         <!-- 图片 -->
         <div class="w-[35%] h-auto">
           <el-image
-            src="https://liuzihao.online:8080/api/img/12.png"
+            :src="essay.imgUrl"
             lazy
             loading="lazy"
             class="right-img"
@@ -85,7 +78,6 @@ const props = defineProps({
 }
 .title {
   @apply text-blue-500 hover:(cursor-pointer)  text-2xl leading-[2];
-  /* style="font-family: Arial, Helvetica, sans-serif" */
   background: radial-gradient(
     rgb(219, 121, 42),
     rgb(98, 71, 221),

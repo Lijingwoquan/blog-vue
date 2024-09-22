@@ -24,15 +24,15 @@ const { tableData, currentPage, totalPages, loading, getDataList } =
   });
 getDataList();
 
-const { toEssay, toKind, changePage } = useCommonNav({
+const { essayHref, kindHref, changePage } = useCommonNav({
   router,
   currentPage,
   getDataList,
 });
 
 const commonUse = reactive({
-  toEssay,
-  toKind,
+  essayHref,
+  kindHref,
   changePage,
   loading,
   currentPage,

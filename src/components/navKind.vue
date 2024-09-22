@@ -2,8 +2,11 @@
   <h2 class="top-tips">文章分类</h2>
   <div class="flex flex-col">
     <section v-for="(item, index) in menu" :key="index" class="mt-3">
-      <h3 class="font-serif font-bold text-left">
-        {{ item.kind?.name }}
+      <h3 class="kind">
+        <el-icon class="mr-1">
+          <component :is="item.kind?.icon"> </component>
+        </el-icon>
+        {{ item.kind.name }}
       </h3>
 
       <div
@@ -39,6 +42,18 @@ const { menu } = useCommonData();
     rgb(218, 192, 30),
     rgb(38, 174, 198),
     rgb(231, 37, 118)
+  );
+  background-clip: text;
+}
+.kind {
+  @apply font-serif font-bold text-left flex items-center;
+  width: fit-content;
+  color: transparent;
+  background: linear-gradient(
+    to right,
+    rgb(54, 54, 216),
+    rgb(183, 53, 53),
+    rgb(78, 205, 78)
   );
   background-clip: text;
 }

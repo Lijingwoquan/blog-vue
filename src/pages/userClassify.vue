@@ -51,7 +51,7 @@ const { searchForm, tableData, currentPage, totalPages, loading, getDataList } =
     loadingText: "文章列表渲染中",
   });
 
-const { toEssay, toKind, changePage } = useCommonNav({
+const { essayHref, kindHref, changePage } = useCommonNav({
   router,
   currentPage,
   getDataList,
@@ -59,8 +59,8 @@ const { toEssay, toKind, changePage } = useCommonNav({
 getDataList();
 
 const commonUse = reactive({
-  toEssay,
-  toKind,
+  essayHref,
+  kindHref,
   changePage,
   loading,
   currentPage,
