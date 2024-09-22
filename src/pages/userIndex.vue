@@ -4,7 +4,6 @@
 
 <script setup>
 import { reactive, defineAsyncComponent } from "vue";
-import { useRouter } from "vue-router";
 import { getEssayList } from "~/api/user.js";
 import { useCommonGetData, useCommonNav } from "~/composables/useCommon.js";
 
@@ -12,7 +11,6 @@ const essayList = defineAsyncComponent(() =>
   import("~/components/essayList.vue")
 );
 
-const router = useRouter();
 const { tableData, currentPage, totalPages, loading, getDataList } =
   useCommonGetData({
     form: {
@@ -24,15 +22,14 @@ const { tableData, currentPage, totalPages, loading, getDataList } =
   });
 getDataList();
 
-const { essayHref, kindHref, changePage } = useCommonNav({
-  router,
+const { getEssayHref, getKindHref, changePage } = useCommonNav({
   currentPage,
   getDataList,
 });
 
 const commonUse = reactive({
-  essayHref,
-  kindHref,
+  getEssayHref,
+  getKindHref,
   changePage,
   loading,
   currentPage,

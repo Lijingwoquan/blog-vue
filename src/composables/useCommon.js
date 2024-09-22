@@ -189,12 +189,12 @@ export function useCommonData() {
 }
 
 export function useCommonNav(opt = {}) {
-  const essayHref = (essay) => {
+  const getEssayHref = (essay) => {
     return `/essay${essay.kindRouter}${essay.router}?id=${essay.id}`;
   };
 
-  const kindHref = (query) => {
-    return `/classify${query.kindRouter}`;
+  const getKindHref = (essay) => {
+    return `/classify${essay.kindRouter}`;
   };
 
   const changePage = (p) => {
@@ -206,8 +206,8 @@ export function useCommonNav(opt = {}) {
   };
 
   return {
-    essayHref,
-    kindHref,
+    getEssayHref,
+    getKindHref,
     changePage,
   };
 }

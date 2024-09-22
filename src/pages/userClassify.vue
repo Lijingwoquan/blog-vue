@@ -7,7 +7,7 @@
 </template>
 
 <script setup>
-import { useRouter, useRoute } from "vue-router";
+import { useRoute } from "vue-router";
 import { computed, watch, reactive, defineAsyncComponent } from "vue";
 import { getEssayList } from "~/api/user.js";
 import {
@@ -21,7 +21,6 @@ const essayList = defineAsyncComponent(() =>
 );
 
 const route = useRoute();
-const router = useRouter();
 
 const { classifyList } = useCommonData();
 
@@ -51,16 +50,15 @@ const { searchForm, tableData, currentPage, totalPages, loading, getDataList } =
     loadingText: "文章列表渲染中",
   });
 
-const { essayHref, kindHref, changePage } = useCommonNav({
-  router,
+const { getEssayHref, getKindHref, changePage } = useCommonNav({
   currentPage,
   getDataList,
 });
 getDataList();
 
 const commonUse = reactive({
-  essayHref,
-  kindHref,
+  getEssayHref,
+  getKindHref,
   changePage,
   loading,
   currentPage,

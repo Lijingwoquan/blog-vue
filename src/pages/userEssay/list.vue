@@ -18,7 +18,11 @@
               {{ oneData.createdTime ? oneData.createdTime.split("T")[0] : "" }}
               初稿
             </div>
-            <div class="hover:cursor-pointer">{{ oneData.kind }}</div>
+            <div class="hover:cursor-pointer">
+              <a :href="getKindHref(oneData)">
+                {{ oneData.kind }}
+              </a>
+            </div>
           </div>
 
           <!-- 更新时间和访问次数 -->
@@ -96,7 +100,7 @@ import {
 } from "vue";
 import { getEssayMsg } from "~/api/user.js";
 import { listenScreen } from "~/composables/util.js";
-import { useCommonGetData, useCommonData } from "~/composables/useCommon.js";
+import { useCommonGetData, useCommonNav } from "~/composables/useCommon.js";
 import { diposeHAndGetAnchors } from "~/helper/dataForAnchor.js";
 import { initEssayCommonUse } from "~/composables/essayCommonUse.js";
 const essayEdit = defineAsyncComponent(() =>
@@ -120,6 +124,8 @@ const { facility, handleResize } = listenScreen({
     },
   },
 });
+
+const { getKindHref } = useCommonNav();
 
 function getCurrentEssayId() {
   return route.query.id;

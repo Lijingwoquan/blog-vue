@@ -1,6 +1,6 @@
 import axios from "~/axios.js";
 
-export function addSearchKeyCount(form) {
+export function searchData(form) {
   return axios.post(`/keyword/search`, form);
 }
 

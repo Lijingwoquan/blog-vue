@@ -41,7 +41,6 @@
           v-model="searchInput"
           placeholder="搜索文档"
           style="height: 50px"
-          @change="getEssayList"
         >
           <template #prefix>
             <el-icon size="20px" class="mx-2">
@@ -141,12 +140,12 @@
 </template>
 
 <script setup>
-import { ref, reactive, defineAsyncComponent } from "vue";
-import { toast } from "~/composables/util.js";
+import { ref, reactive, watch, defineAsyncComponent } from "vue";
+import { toast, listenScreen } from "~/composables/util.js";
 import { ElMessageBox } from "element-plus";
 import { updateEssayMsg, deleteEssay } from "~/api/manager.js";
 import { getEssayMsg } from "~/api/user.js";
-import { addSearchKeyCount } from "~/api/keyword.js";
+import { searchData } from "~/api/keyword.js";
 import { useCommonForm, useCommonData } from "~/composables/useCommon.js";
 const essayEdit = defineAsyncComponent(() =>
   import("~/components/essayEdit.vue")
@@ -175,7 +174,6 @@ const {
   }),
   update: updateEssayMsg,
   delete: deleteEssay,
-  reload: getEssayList,
 });
 
 const dialogVisibleRef = ref(false);
@@ -193,7 +191,7 @@ function getEssayList() {
     return;
   }
   essayListLoading.value = true;
-  addSearchKeyCount({ keyword: searchInput.value })
+  searchData({ keyword: searchInput.value })
     .then((res) => {
       tableDate.value = res;
       if (!res) {
@@ -206,6 +204,22 @@ function getEssayList() {
       essayListLoading.value = false;
     });
 }
+
+const { handelOnKeyUp } = listenScreen({
+  onKeyUp: {
+    visiable: dialogVisibleRef,
+    getData: getEssayList,
+  },
+});
+
+watch(
+  () => dialogVisibleRef.value,
+  (data) => {
+    data
+      ? document.addEventListener("keyup", handelOnKeyUp)
+      : document.removeEventListener("keyup", handelOnKeyUp);
+  }
+);
 
 // 选择文章 加载数据
 const updatePermission = ref(false);

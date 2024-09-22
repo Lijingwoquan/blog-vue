@@ -21,12 +21,20 @@
     <ul v-if="!loading && essayList?.length > 0">
       <el-divider />
       <div class="my-4 ml-3 font-bold text-blue-400">搜索结果</div>
-      <li v-for="essay in essayList" @click="gotoApointPath(essay)">
-        <el-card shadow="always" class="cursor-pointer">
+      <li v-for="essay in essayList">
+        <el-card shadow="always">
           <div class="essay-des">
             <div class="flex justify-between">
-              <div>文章:{{ essay.name }}</div>
-              <div>分类:{{ essay.kind }}</div>
+              <div class="name cursor-pointer">
+                <a :href="getEssayHref(essay)" @click="dialogVisible = false">
+                  文章名:{{ essay.name }}
+                </a>
+              </div>
+              <div class="kind">
+                <a :href="getKindHref(essay)" @click="dialogVisible = false">
+                  隶属:{{ essay.kind }}
+                </a>
+              </div>
             </div>
             <div class="mt-3">
               <el-text class="text-pink-400" line-clamp="2">
@@ -42,17 +50,18 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, reactive, computed } from "vue";
-import { useRouter } from "vue-router";
+import { ref, onMounted, onUnmounted, reactive, computed, watch } from "vue";
 import {
   toast,
   listenScreen,
   diffrentFacilifyMap,
 } from "~/composables/util.js";
-import { addSearchKeyCount } from "~/api/keyword.js";
+import { searchData } from "~/api/keyword.js";
+import { useCommonNav } from "~/composables/useCommon";
+
+const { getEssayHref, getKindHref } = useCommonNav();
 
 const dialogVisible = ref(false);
-const router = useRouter();
 
 const { facility, handelOnKeyUp, handleResize } = listenScreen({
   onKeyUp: {
@@ -72,11 +81,6 @@ const open = () => {
   dialogVisible.value = true;
 };
 
-const gotoApointPath = (essay) => {
-  router.push(essay.complexRouter);
-  dialogVisible.value = false;
-};
-
 function searchMsg() {
   essayList.value = [];
   loading.value = true;
@@ -84,7 +88,7 @@ function searchMsg() {
     toast("请输入搜索内容", "warning");
     return;
   }
-  addSearchKeyCount(form)
+  searchData(form)
     .then((res) => {
       essayList.value = res;
       if (!res) {
@@ -114,18 +118,39 @@ const inputHeight = computed(() => {
   });
 });
 
+watch(
+  () => dialogVisible.value,
+  (data) => {
+    data
+      ? document.addEventListener("keyup", handelOnKeyUp)
+      : document.removeEventListener("keyup", handelOnKeyUp);
+  }
+);
+
 onMounted(() => {
   window.addEventListener("resize", handleResize);
-  document.addEventListener("keyup", handelOnKeyUp);
 });
 
 onUnmounted(() => {
-  document.removeEventListener("resize", handleResize);
   window.removeEventListener("resize", handleResize);
-  document.removeEventListener("keyup", handelOnKeyUp);
 });
 
 defineExpose({
   open,
 });
 </script>
+
+<style>
+.essay-des {
+  color: rgba(55, 106, 208, 0.879);
+  font-weight: 600;
+}
+
+.essay-des .name {
+  @apply cursor-pointer;
+  /* 
+  text-align: center;
+  word-wrap: break-word;
+  text-wrap: nowrap; */
+}
+</style>
