@@ -2,7 +2,7 @@
   <el-upload
     ref="upload"
     name="img"
-    :action="config.serviveUrl + '/manager/uploadImg'"
+    :action="config.serviveUrl + 'manager/uploadImg'"
     :limit="1"
     :show-file-list="false"
     :on-exceed="handleExceed"
@@ -13,7 +13,12 @@
       Authorization: token,
     }"
   >
-    <el-image v-if="img" :src="img" lazy loading="lazy"></el-image>
+    <el-image
+      v-if="img"
+      :src="config.serviveUrl + 'img/' + img"
+      lazy
+      loading="lazy"
+    ></el-image>
     <el-icon v-else>
       <Plus />
     </el-icon>
@@ -40,7 +45,9 @@ const handleExceed = (files) => {
 };
 
 const handelChange = (uploadFile, uploadFiles) => {
-  img.value = `${config.serviveUrl}img/${uploadFile.name}`;
+  const sanitizedFileName = uploadFile.name.replace(/\s+/g, "_");
+  // img.value = `${config.serviveUrl}img/${sanitizedFileName}`;
+  img.value = sanitizedFileName;
 };
 
 const submitUpload = () => {

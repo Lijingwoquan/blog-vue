@@ -37,12 +37,13 @@
           </div>
         </div>
         <!-- 图片 -->
-        <div class="w-[35%] h-auto">
+        <div class="max-w-[35%]">
           <el-image
-            :src="essay.imgUrl"
+            :src="config.serviveUrl + 'img/' + essay.imgUrl"
             lazy
             loading="lazy"
-            class="right-img"
+            class="right-img max-h-[200px]"
+            fit="contain"
           ></el-image>
         </div>
       </div>
@@ -59,6 +60,8 @@
 
 <script setup>
 import { defineAsyncComponent } from "vue";
+import { config } from "/config.js";
+
 const paging = defineAsyncComponent(() => import("./paging.vue"));
 
 const props = defineProps({
