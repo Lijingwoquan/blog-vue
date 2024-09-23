@@ -124,6 +124,10 @@
         <dynamicAddTag v-model:tags="form.keywords"> </dynamicAddTag>
       </el-form-item>
 
+      <el-form-item label="文章图片">
+        <uploadImg v-model:imgUrl="form.imgUrl" ref="uploadImgRef"></uploadImg>
+      </el-form-item>
+
       <el-form-item>
         <el-button
           type="primary"
@@ -153,7 +157,12 @@ const essayEdit = defineAsyncComponent(() =>
 const dynamicAddTag = defineAsyncComponent(() =>
   import("~/components/dynamicAddTag.vue")
 );
+const uploadImg = defineAsyncComponent(() =>
+  import("~/components/uploadImg.vue")
+);
 const { classifyList } = useCommonData();
+
+const uploadImgRef = ref(null);
 
 const {
   form,
@@ -171,8 +180,20 @@ const {
     router: "",
     introduction: "",
     keywords: [],
+    imgUrl: "",
   }),
-  update: updateEssayMsg,
+  update: {
+    needCustomizeDispose: (form) => {
+      return new Promise((resolve, reject) => {
+        updateEssayMsg(form)
+          .then(() => uploadImgRef.value.submitUpload())
+          .then(() => {
+            resolve();
+          })
+          .catch((error) => reject(error));
+      });
+    },
+  },
   delete: deleteEssay,
 });
 

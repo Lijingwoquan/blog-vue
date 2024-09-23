@@ -34,6 +34,10 @@
         />
       </el-form-item>
 
+      <el-form-item label="文章图片">
+        <uploadImg v-model:imgUrl="form.imgUrl" ref="uploadImgRef"></uploadImg>
+      </el-form-item>
+
       <el-form-item>
         <el-button
           type="primary"
@@ -74,6 +78,11 @@
 import { ref, reactive, defineAsyncComponent } from "vue";
 import { createEssay } from "~/api/manager.js";
 import { useCommonForm, useCommonData } from "~/composables/useCommon.js";
+
+const uploadImg = defineAsyncComponent(() =>
+  import("~/components/uploadImg.vue")
+);
+
 const essayEdit = defineAsyncComponent(() =>
   import("~/components/essayEdit.vue")
 );
@@ -89,8 +98,22 @@ const { form, btnLoading, drawerVisiableRef, handelCreate } = useCommonForm({
     introduction: "",
     content: "",
     router: "",
+    imgUrl: "",
   }),
-  create: createEssay,
+  create: {
+    needCustomizeDispose: (form) => {
+      return new Promise((resolve, reject) => {
+        createEssay(form)
+          .then(() => uploadImgRef.value.submitUpload())
+          .then(() => {
+            resolve();
+          })
+          .catch((error) => reject(error));
+      });
+    },
+  },
   reload: true,
 });
+
+const uploadImgRef = ref(null);
 </script>

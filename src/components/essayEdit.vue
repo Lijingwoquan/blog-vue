@@ -37,7 +37,6 @@ import "@kangc/v-md-editor/lib/plugins/todo-list/todo-list.css";
 //mermaid(流程图等)
 import createMermaidPlugin from "@kangc/v-md-editor/lib/plugins/mermaid/cdn";
 import "@kangc/v-md-editor/lib/plugins/mermaid/mermaid.css";
-import { router } from "~/router";
 
 VueMarkdownEditor.use(vuepressTheme, {
   Prism,

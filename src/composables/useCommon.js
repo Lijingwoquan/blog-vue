@@ -97,40 +97,46 @@ export function useCommonForm(opt = {}) {
 
   const handelCreate = () => {
     btnLoading.value = true;
-    if (typeof opt.create === "function") {
-      disposeRouter();
-      opt
-        .create(form)
-        .then(() => {
-          toast("创建成功");
-          reload();
-        })
-        .catch((err) => {
-          toast(err, "error");
-        })
-        .finally(() => {
-          btnLoading.value = false;
-          drawerVisiableRef.value = false;
-        });
-    }
+    disposeRouter();
+    const create = () => {
+      if (typeof opt.create?.needCustomizeDispose === "function") {
+        return opt.create.needCustomizeDispose(form);
+      } else if (typeof opt.create === "function") {
+        return opt.create(form);
+      }
+    };
+    create()
+      .then(() => {
+        toast("创建成功");
+        reload();
+      })
+      .finally(() => {
+        btnLoading.value = false;
+        drawerVisiableRef.value = false;
+      });
   };
 
   const handelUpdate = () => {
     btnLoading.value = true;
     disposeRouter();
-    if (typeof opt.update === "function") {
-      opt
-        .update(form)
-        .then(() => {
-          toast("更新成功");
-          reload();
-        })
 
-        .finally(() => {
-          btnLoading.value = false;
-          drawerVisiableRef.value = false;
-        });
-    }
+    const update = () => {
+      if (typeof opt.update?.needCustomizeDispose === "function") {
+        return opt.update.needCustomizeDispose(form);
+      } else if (typeof opt.create === "function") {
+        return opt.update(form);
+      }
+    };
+    update()
+      .then(() => {
+        toast("更新成功");
+        reload();
+      })
+
+      .finally(() => {
+        btnLoading.value = false;
+        drawerVisiableRef.value = false;
+      });
   };
 
   const handelDelete = () => {

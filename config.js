@@ -4,4 +4,5 @@
 export const config = {
   // 写你想要的路径
   MANAGER_URL: "/admin/lzh",
+  serviveUrl: "http://127.0.0.1:8080/api/",
 };
