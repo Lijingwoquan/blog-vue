@@ -182,13 +182,8 @@ export function useCommonNav(opt = {}) {
     return `/classify${essay.kindRouter}`;
   };
 
-  const changePage = (p) => {
-    opt.currentPage.value = p;
-  };
-
   return {
     getEssayHref,
     getKindHref,
-    changePage,
   };
 }

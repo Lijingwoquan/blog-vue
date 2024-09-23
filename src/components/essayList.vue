@@ -1,11 +1,11 @@
 <template>
-  <div v-if="!commonUse.loading" class="p-4">
+  <div v-if="!listUse.loading" class="p-4">
     <div v-for="essay in essayList" :key="essay.id">
       <div class="list-container">
         <!-- 左侧信息 -->
         <div class="flex flex-col w-[65%] pr-3">
           <h2 class="title">
-            <a :href="commonUse.getEssayHref(essay)"> {{ essay.name }}</a>
+            <a :href="getEssayHref(essay)"> {{ essay.name }}</a>
           </h2>
 
           <small class="font-mono text-xs text-gray-600 leading-[2]">
@@ -24,7 +24,7 @@
 
           <span class="font-mono text-sm mr-auto text-pink-600 mt-3">
             隶属
-            <a :href="commonUse.getKindHref(essay)">
+            <a :href="getKindHref(essay)">
               {{ essay.kind }}
             </a>
             <span> | {{ essay.visitedTimes }}阅读量</span>
@@ -52,8 +52,8 @@
     </div>
 
     <paging
-      :currentPage="commonUse.currentPage"
-      :totalPages="commonUse.totalPages"
+      :currentPage="listUse.currentPage"
+      :totalPages="listUse.totalPages"
     ></paging>
   </div>
 </template>
@@ -61,7 +61,9 @@
 <script setup>
 import { defineAsyncComponent } from "vue";
 import { config } from "/config.js";
+import { useCommonNav } from "~/composables/useCommon";
 
+const { getEssayHref, getKindHref } = useCommonNav();
 const paging = defineAsyncComponent(() => import("./paging.vue"));
 
 const props = defineProps({
@@ -69,13 +71,9 @@ const props = defineProps({
     type: Array,
     default: [],
   },
-  commonUse: {
+  listUse: {
     type: Object,
     required: true,
-  },
-  navType: {
-    type: String,
-    default: "index",
   },
 });
 </script>
@@ -85,7 +83,7 @@ const props = defineProps({
   @apply flex justify-between my-5 items-center;
 }
 .title {
-  @apply text-blue-500 hover:(cursor-pointer)  text-2xl leading-[2];
+  @apply text-blue-500 hover:(cursor-pointer)  text-xl leading-[2];
   background: radial-gradient(
     rgb(219, 121, 42),
     rgb(98, 71, 221),
@@ -97,7 +95,7 @@ const props = defineProps({
 }
 
 .right-img {
-  box-shadow: 2px 2px 5px black;
+  box-shadow: 2px 2px 5px gray;
   border-radius: 5px;
 }
 </style>

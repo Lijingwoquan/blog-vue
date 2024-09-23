@@ -1,20 +1,16 @@
 <template>
   <essayList
     :essayList="tableData"
-    :commonUse="commonUse"
+    :listUse="listUse"
     navType="classify"
   ></essayList>
 </template>
 
 <script setup>
 import { useRoute } from "vue-router";
-import { computed, watch, reactive, defineAsyncComponent } from "vue";
+import { computed, reactive, defineAsyncComponent } from "vue";
 import { getEssayList } from "~/api/user.js";
-import {
-  useCommonGetData,
-  useCommonData,
-  useCommonNav,
-} from "~/composables/useCommon.js";
+import { useCommonGetData, useCommonData } from "~/composables/useCommon.js";
 
 const essayList = defineAsyncComponent(() =>
   import("~/components/essayList.vue")
@@ -50,18 +46,15 @@ const { searchForm, tableData, currentPage, totalPages, loading, getDataList } =
     loadingText: "文章列表渲染中",
   });
 
-const { getEssayHref, getKindHref, changePage } = useCommonNav({
-  currentPage,
-});
-
-const commonUse = reactive({
-  getEssayHref,
-  getKindHref,
-  changePage,
+const listUse = reactive({
   loading,
   currentPage,
   totalPages,
 });
+
+const changePage = (p) => {
+  currentPage.value = p;
+};
 
 getNowClassify();
 searchForm.classify = getNowClassify();
