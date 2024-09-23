@@ -10,7 +10,7 @@
           <Expand />
         </el-icon>
 
-        <h2 @click="toIndex" class="blog-title flex-1 whitespace-nowrap">
+        <h2 class="blog-title flex-1 whitespace-nowrap">
           <router-link to="/"> 罹景偓佺的博客 </router-link>
         </h2>
       </div>
@@ -99,7 +99,7 @@ import {
   defineAsyncComponent,
   computed,
 } from "vue";
-import { useRouter, useRoute } from "vue-router";
+import { useRoute } from "vue-router";
 import { listenScreen, diffrentFacilifyMap } from "~/composables/util.js";
 const navKindForMobile = defineAsyncComponent(() =>
   import("~/components/navKindForMobile.vue")
@@ -108,12 +108,8 @@ const searchEssay = defineAsyncComponent(() =>
   import("~/components/searchEssay.vue")
 );
 
-const router = useRouter();
 const route = useRoute();
 const drawerVisiableRef = ref(false);
-const toIndex = () => {
-  router.push("/");
-};
 
 const { facility, handleResize } = listenScreen({
   resizeFunc: (facility) => {
