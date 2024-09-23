@@ -19,9 +19,9 @@
               初稿
             </div>
             <div class="hover:cursor-pointer">
-              <a :href="getKindHref(oneData)">
+              <router-link :to="getKindHref(oneData)">
                 {{ oneData.kind }}
-              </a>
+              </router-link>
             </div>
           </div>
 

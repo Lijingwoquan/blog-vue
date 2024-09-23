@@ -8,9 +8,10 @@
 
 <script setup>
 import { useRoute } from "vue-router";
-import { computed, reactive, defineAsyncComponent } from "vue";
+import { computed, reactive, defineAsyncComponent, watch } from "vue";
 import { getEssayList } from "~/api/user.js";
 import { useCommonGetData, useCommonData } from "~/composables/useCommon.js";
+import { router } from "~/router";
 
 const essayList = defineAsyncComponent(() =>
   import("~/components/essayList.vue")
@@ -30,6 +31,7 @@ const getNowClassify = () => {
     const classify = classifyList.value[index];
     if (classifyRouter.value === classify.router) {
       classifyName = classify.name;
+      return classifyName;
     }
   }
   return classifyName;
@@ -55,9 +57,25 @@ const listUse = reactive({
 const changePage = (p) => {
   currentPage.value = p;
 };
+const getdata = async (page) => {
+  getNowClassify();
+  searchForm.classify = getNowClassify();
+  changePage(page ? parseInt(page) : 1);
+  await getDataList();
+  if (page > totalPages.value) {
+    router.push("/404");
+  }
+};
 
-getNowClassify();
-searchForm.classify = getNowClassify();
-changePage(route.query.page ? parseInt(route.query.page) : 1);
-getDataList();
+const nowPage = route.query?.page ? parseInt(route.query.page) : 1;
+
+getdata(nowPage);
+
+watch(
+  () => route.query.page,
+  (page) => {
+    console.log(page);
+    getdata(page);
+  }
+);
 </script>

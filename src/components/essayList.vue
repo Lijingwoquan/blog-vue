@@ -5,7 +5,9 @@
         <!-- 左侧信息 -->
         <div class="flex flex-col w-[65%] pr-3">
           <h2 class="title">
-            <a :href="getEssayHref(essay)"> {{ essay.name }}</a>
+            <router-link :to="getEssayHref(essay)">
+              {{ essay.name }}
+            </router-link>
           </h2>
 
           <small class="font-mono text-xs text-gray-600 leading-[2]">
@@ -24,9 +26,10 @@
 
           <span class="font-mono text-sm mr-auto text-pink-600 mt-3">
             隶属
-            <a :href="getKindHref(essay)">
+            <router-link :to="getKindHref(essay)">
               {{ essay.kind }}
-            </a>
+            </router-link>
+
             <span> | {{ essay.visitedTimes }}阅读量</span>
           </span>
           <div class="font-mono text-sm mr-auto text-pink-600 mt-3">

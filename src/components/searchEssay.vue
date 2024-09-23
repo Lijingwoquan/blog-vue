@@ -26,14 +26,19 @@
           <div class="essay-des">
             <div class="flex justify-between">
               <div class="name cursor-pointer">
-                <a :href="getEssayHref(essay)" @click="dialogVisible = false">
-                  文章名:{{ essay.name }}
-                </a>
+                <router-link
+                  :to="getEssayHref(essay)"
+                  @click="dialogVisible = false"
+                  >文章名:{{ essay.name }}
+                </router-link>
               </div>
               <div class="kind">
-                <a :href="getKindHref(essay)" @click="dialogVisible = false">
+                <router-link
+                  :to="getKindHref(essay)"
+                  @click="dialogVisible = false"
+                >
                   隶属:{{ essay.kind }}
-                </a>
+                </router-link>
               </div>
             </div>
             <div class="mt-3">

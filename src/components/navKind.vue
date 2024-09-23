@@ -17,12 +17,12 @@
         class="classify"
       >
         <el-icon><Share /></el-icon>
-        <a
-          :href="'/classify' + classify.router"
+        <router-link
+          :to="'/classify' + classify.router"
           class="text-center font-mono inline-block"
         >
           {{ classify.name }}
-        </a>
+        </router-link>
       </div>
     </section>
   </div>

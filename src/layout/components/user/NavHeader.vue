@@ -11,7 +11,7 @@
         </el-icon>
 
         <h2 @click="toIndex" class="blog-title flex-1 whitespace-nowrap">
-          <a href="/">罹景偓佺的博客</a>
+          <router-link to="/"> 罹景偓佺的博客 </router-link>
         </h2>
       </div>
 

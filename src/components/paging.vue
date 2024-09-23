@@ -7,62 +7,68 @@
       <el-icon><ArrowLeft /></el-icon>
     </div>
     <div>
-      <!-- 始终显示第一页 -->
-      <a
-        :href="currentRoute + '?page=1'"
+      <!-- 第一页 -->
+      <router-link
+        :to="currentRoute + '?page=1'"
         v-if="totalPages > 1 && currentPage != 1"
         class="mx-2 inline-block"
-        >1</a
-      >
+        >1
+      </router-link>
+
       <!-- 如果第一页和当前页码之间有较大间隔，显示省略号 -->
       <span v-if="currentPage > offset + 2" class="mx-2 inline-block">
-        <a :href="currentRoute + '?page=' + leftPages[0] - 1">...</a>
+        <router-link
+          :to="currentRoute + '?page=' + leftPages[0] - 1"
+          class="mx-2 inline-block"
+          >...
+        </router-link>
       </span>
 
       <!-- 左侧相邻页码 -->
-      <a
+      <router-link
+        :to="currentRoute + '?page=' + page"
+        class="mx-2 inline-block"
         v-for="page in leftPages"
         :key="'left' + page"
-        :href="currentRoute + '?page=' + page"
-        class="mx-2 inline-block"
-      >
-        {{ page }}
-      </a>
+        >{{ page }}
+      </router-link>
 
       <!-- 当前页 -->
-      <a class="mx-2 inline-block font-bold text-blue-400">{{ currentPage }}</a>
-
+      <router-link class="mx-2 inline-block font-bold text-blue-400"
+        >{{ currentPage }}
+      </router-link>
       <!-- 右侧相邻页码 -->
-      <a
+
+      <router-link
+        class="mx-2 inline-block"
         v-for="page in rightPages"
         :key="'right' + page"
-        :href="currentRoute + '?page=' + page"
-        class="mx-2 inline-block"
-      >
-        {{ page }}
-      </a>
-
+        :to="currentRoute + '?page=' + page"
+        >{{ page }}
+      </router-link>
       <!-- 如果当前页和最后一页之间有较大间隔，显示省略号 -->
       <span
         v-if="currentPage < totalPages - offset - 1"
         class="mx-2 inline-block"
       >
-        <a
-          :href="
+        <router-link
+          :to="
             currentRoute + '?page=' + (rightPages[rightPages.length - 1] + 1)
           "
-          >...</a
-        >
+          >...
+        </router-link>
       </span>
 
       <!-- 始终显示最后一页 -->
-      <a
-        :href="currentRoute + '?page=' + totalPages"
+      <a> </a>
+
+      <router-link
         v-if="totalPages > 1 && currentPage != totalPages"
+        :to="currentRoute + '?page=' + totalPages"
         class="mx-2 inline-block"
       >
         {{ totalPages }}
-      </a>
+      </router-link>
     </div>
     <div class="flex items-center">
       <el-icon><ArrowRight /></el-icon>
