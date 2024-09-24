@@ -1,5 +1,5 @@
 <template>
-  <div id="header-container" class="header-container">
+  <div id="header-container" ref="headerRef" class="header-container">
     <div class="header-container-content">
       <div class="flex items-center p-3">
         <el-icon
@@ -109,6 +109,7 @@ const searchEssay = defineAsyncComponent(() =>
 );
 
 const route = useRoute();
+const headerRef = ref(null);
 const drawerVisiableRef = ref(false);
 
 const { facility, handleResize } = listenScreen({
@@ -149,6 +150,8 @@ watch(
   () => route.path,
   () => {
     drawerVisiableRef.value = false;
+    headerRef.value.classList.remove("disappear-animate");
+    headerRef.value.classList.add("occur-animate");
   }
 );
 
