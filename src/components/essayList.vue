@@ -3,7 +3,7 @@
     <div v-for="essay in essayList" :key="essay.id">
       <div class="list-container">
         <!-- 左侧信息 -->
-        <div class="flex flex-col w-[65%] pr-3">
+        <div class="flex flex-col pr-3" :style="{ width: leftWidth }">
           <h2 class="title">
             <router-link :to="getEssayHref(essay)">
               {{ essay.name }}
@@ -33,10 +33,10 @@
             <span> | {{ essay.visitedTimes }}阅读量</span>
           </span>
           <div class="keywordsc-container">
-            <span v-if="essay.keywords">标签:</span>
+            <span v-if="essay.keywords.length > 0">标签:</span>
             <span v-for="(keyword, index) in essay.keywords" :key="index">
-              <span v-if="index < 5"> {{ keyword }}&nbsp; </span>
-              <span v-if="index == 5" class="hidden-md-and-up">...</span>
+              <span v-if="index < 4">{{ keyword }}&nbsp;</span>
+              <span v-if="index == 4" class="hidden-md-and-up">...</span>
               <span v-if="index >= 5" class="hidden-sm-and-down">
                 {{ keyword }}&nbsp;
               </span>
@@ -44,7 +44,7 @@
           </div>
         </div>
         <!-- 图片 -->
-        <div class="max-w-[35%]">
+        <div :style="{ maxWidth: maxWidth }">
           <el-image
             :src="config.serviveUrl + 'img/' + essay.imgUrl"
             lazy
@@ -66,12 +66,16 @@
 </template>
 
 <script setup>
-import { defineAsyncComponent } from "vue";
+import { computed, onMounted, onUnmounted, defineAsyncComponent } from "vue";
 import { config } from "/config.js";
 import { useCommonNav } from "~/composables/useCommon";
+import { listenScreen } from "~/composables/util";
+const paging = defineAsyncComponent(() => import("./paging.vue"));
 
 const { getEssayHref, getKindHref } = useCommonNav();
-const paging = defineAsyncComponent(() => import("./paging.vue"));
+const { facility, handleResize } = listenScreen({
+  resize: {},
+});
 
 const props = defineProps({
   essayList: {
@@ -83,9 +87,25 @@ const props = defineProps({
     required: true,
   },
 });
+
+const leftWidth = computed(() => {
+  return facility.value != "mobile" ? "65%" : "70%";
+});
+
+const maxWidth = computed(() => {
+  return facility.value != "mobile" ? "35%" : "30%";
+});
+
+onMounted(() => {
+  document.addEventListener("resize", handleResize);
+});
+
+onUnmounted(() => {
+  document.removeEventListener("resize", handleResize);
+});
 </script>
 
-<style>
+<style scoped>
 .list-container {
   @apply flex justify-between my-5 items-center;
 }

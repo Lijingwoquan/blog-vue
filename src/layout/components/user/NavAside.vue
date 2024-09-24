@@ -4,6 +4,7 @@
       <navKind v-if="position === 'right'"></navKind>
     </div>
     <advertise
+      v-if="advertiseMsg && advertiseImg"
       :text="advertiseMsg"
       :position="props.position"
       :advertising-img="advertiseImg"
