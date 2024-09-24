@@ -239,7 +239,7 @@ defineExpose({
 }
 
 @keyframes title-action {
-  form,
+  from,
   to {
     transform: translateX(0);
   }

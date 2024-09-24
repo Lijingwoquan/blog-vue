@@ -32,10 +32,14 @@
 
             <span> | {{ essay.visitedTimes }}阅读量</span>
           </span>
-          <div class="font-mono text-sm mr-auto text-pink-600 mt-3">
+          <div class="keywordsc-container">
             <span v-if="essay.keywords">标签:</span>
             <span v-for="(keyword, index) in essay.keywords" :key="index">
-              {{ keyword }}&nbsp;
+              <span v-if="index < 5"> {{ keyword }}&nbsp; </span>
+              <span v-if="index == 5" class="hidden-md-and-up">...</span>
+              <span v-if="index >= 5" class="hidden-sm-and-down">
+                {{ keyword }}&nbsp;
+              </span>
             </span>
           </div>
         </div>
@@ -95,6 +99,12 @@ const props = defineProps({
   width: fit-content;
   color: transparent;
   background-clip: text;
+}
+.keywordsc-container {
+  @apply font-mono text-sm mr-auto text-pink-600 mt-2;
+}
+.keywordsc-container span {
+  @apply leading-loose;
 }
 
 .right-img {
