@@ -1,5 +1,6 @@
 import { computed, reactive, ref } from "vue";
 import { showLoading, toast } from "~/composables/util.js";
+import { router } from "~/router";
 import store from "~/store/index.js";
 
 const menu = computed(() => store.state.menu);
@@ -28,6 +29,9 @@ export function useCommonGetData(opt = {}) {
       .then((res) => {
         oneData.value = res;
       })
+      .catch(() => {
+        router.push("/404");
+      })
       .finally(() => {
         loading.value = false;
       });
@@ -44,6 +48,9 @@ export function useCommonGetData(opt = {}) {
         .then((res) => {
           tableData.value = res.list;
           totalPages.value = res.totalPages;
+        })
+        .catch(() => {
+          router.push("/404");
         })
         .finally(() => {
           loading.value = false;

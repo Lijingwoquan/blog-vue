@@ -74,8 +74,15 @@ getdata(nowPage);
 watch(
   () => route.query.page,
   (page) => {
-    console.log(page);
     getdata(page);
+  }
+);
+
+watch(
+  () => classifyRouter.value,
+  () => {
+    searchForm.classify = getNowClassify();
+    getDataList();
   }
 );
 </script>

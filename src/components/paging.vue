@@ -4,7 +4,16 @@
     style="transform: translateX(-50%)"
   >
     <div class="flex items-center">
-      <el-icon><ArrowLeft /></el-icon>
+      <router-link
+        :to="
+          currentRoute +
+          '?page=' +
+          (currentPage != 1 ? currentPage - 1 : currentPage)
+        "
+        class="inline-flex items-center"
+      >
+        <el-icon><ArrowLeft /></el-icon>
+      </router-link>
     </div>
     <div>
       <!-- 第一页 -->
@@ -71,7 +80,16 @@
       </router-link>
     </div>
     <div class="flex items-center">
-      <el-icon><ArrowRight /></el-icon>
+      <router-link
+        :to="
+          currentRoute +
+          '?page=' +
+          (currentPage != totalPages ? currentPage + 1 : currentPage)
+        "
+        class="inline-flex items-center"
+      >
+        <el-icon><ArrowRight /></el-icon>
+      </router-link>
     </div>
   </div>
 </template>
@@ -79,6 +97,7 @@
 <script setup>
 import { computed } from "vue";
 import { useRoute } from "vue-router";
+import { router } from "~/router";
 
 const route = useRoute();
 
