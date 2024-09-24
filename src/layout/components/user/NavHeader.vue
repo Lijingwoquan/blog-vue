@@ -77,10 +77,11 @@
 
   <el-drawer
     v-model="drawerVisiableRef"
-    title="菜单"
+    title="导航"
     direction="ltr"
     size="250px"
     style="background-color: rgb(203, 221, 246)"
+    :append-to-body="true"
   >
     <template #default>
       <navKindForMobile></navKindForMobile>

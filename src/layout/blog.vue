@@ -153,6 +153,10 @@ const wheelAction = (event) => {
 onMounted(() => {
   mainDom = document.querySelector(".el-main");
   mainDom.addEventListener("wheel", throttle(wheelAction, 300));
+
+  // document.addEventListener("scroll", (event) => {
+  //   console.log(event);
+  // });
 });
 onUnmounted(() => {
   mainDom.removeEventListener("wheel", throttle(wheelAction, 300));
