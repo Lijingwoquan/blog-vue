@@ -148,7 +148,7 @@ const openSearch = () => {
 };
 
 watch(
-  () => route.path,
+  () => route.fullPath,
   () => {
     drawerVisiableRef.value = false;
     headerRef.value.classList.remove("disappear-animate");

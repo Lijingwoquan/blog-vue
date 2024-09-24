@@ -129,6 +129,17 @@
         <uploadImg v-model:imgUrl="form.imgUrl" ref="uploadImgRef"></uploadImg>
       </el-form-item>
 
+      <el-form-item label="广告图片">
+        <uploadImg
+          v-model:imgUrl="form.advertiseImg"
+          ref="uploadImgRef2"
+        ></uploadImg>
+      </el-form-item>
+
+      <el-form-item label="广告信息">
+        <el-input v-model="form.advertiseMsg" placeholder="介绍" />
+      </el-form-item>
+
       <el-form-item>
         <el-button
           type="primary"
@@ -164,6 +175,7 @@ const uploadImg = defineAsyncComponent(() =>
 const { classifyList } = useCommonData();
 
 const uploadImgRef = ref(null);
+const uploadImgRef2 = ref(null);
 
 const {
   form,
@@ -182,12 +194,15 @@ const {
     introduction: "",
     keywords: [],
     imgUrl: "",
+    advertiseMsg: "",
+    advertiseImg: "",
   }),
   update: {
     needCustomizeDispose: (form) => {
       return new Promise((resolve, reject) => {
         updateEssayMsg(form)
           .then(() => uploadImgRef.value.submitUpload())
+          .then(() => uploadImgRef2.value.submitUpload())
           .then(() => {
             resolve();
           })

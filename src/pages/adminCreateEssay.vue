@@ -91,6 +91,8 @@ const { classifyList } = useCommonData();
 
 const previewRef = ref({});
 
+const uploadImgRef = ref(null);
+
 const { form, btnLoading, drawerVisiableRef, handelCreate } = useCommonForm({
   form: reactive({
     name: "",
@@ -114,6 +116,4 @@ const { form, btnLoading, drawerVisiableRef, handelCreate } = useCommonForm({
   },
   reload: true,
 });
-
-const uploadImgRef = ref(null);
 </script>

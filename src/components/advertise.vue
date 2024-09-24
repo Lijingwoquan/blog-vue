@@ -1,6 +1,6 @@
 <template>
-  <div class="advertising" ref="advertisingRef">
-    <img src="https://liuzihao.online:8080/api/img/2.jpg" alt="广告图片信息" />
+  <div class="advertising" ref="advertisingRef" v-if="advertisingImg">
+    <img :src="advertisingImg" alt="广告图片信息" />
     <div class="msg">
       <p :class="textSize">{{ text }}</p>
       <a
@@ -12,7 +12,7 @@
         &body=我的联系方式是:%0A
         我想租用的广告位类型(文章位请填写文章链接):%0A
         我想租用的时间(文章位请无视):%0A
-        我的广告信息(附带图片和不超过二十五字的描述信息):
+        我的广告信息(附带图片和不超过二十字的描述信息):
         "
         style="text-decoration: underline"
       >
@@ -41,6 +41,9 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  advertisingImg: {
+    type: String,
+  },
 });
 
 const textSize = computed(() => {
@@ -50,7 +53,7 @@ const textSize = computed(() => {
 
 <style scoped>
 .advertising {
-  @apply relative my-3 flex flex-col justify-between items-center;
+  @apply relative ml-2 my-3 flex flex-col justify-between items-center;
   background-color: rgb(200, 236, 240);
   box-shadow: 0 0 5px pink, 0 0 10px pink;
 }

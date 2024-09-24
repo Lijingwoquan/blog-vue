@@ -187,6 +187,7 @@ onUnmounted(() => {
 defineExpose({
   hideAnchorIcon,
   showAnchorIcon,
+  oneData,
 });
 </script>
 

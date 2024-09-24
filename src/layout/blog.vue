@@ -12,22 +12,25 @@
       <NavHeader />
     </el-header>
     <el-row :gutter="0">
-      <el-col :xs="0" :sm="6" :md="6" :lg="3" :xl="3">
-        <NavAside position="left"></NavAside>
+      <el-col :xs="0" :sm="6" :md="6" :lg="4" :xl="4">
+        <NavAside
+          position="left"
+          advertise-msg="全局广告位"
+          advertise-img="/advertising.png"
+        ></NavAside>
       </el-col>
-      <el-col :xs="0" :sm="1" :md="1" :lg="1" :xl="1"> </el-col>
 
       <el-col
         :xs="24"
-        :sm="17"
-        :md="17"
+        :sm="18"
+        :md="18"
         :lg="percentForMainAndRight.main"
         :xl="percentForMainAndRight.main"
         style="transition: 0.5s"
       >
         <el-main class="mt-[60px]">
           <router-view v-slot="{ Component }">
-            <component :is="Component"> </component>
+            <component :is="Component" ref="componentRef"> </component>
           </router-view>
         </el-main>
       </el-col>
@@ -41,7 +44,14 @@
         :xl="percentForMainAndRight.right"
         style="transition: 0.5s"
       >
-        <NavAside position="right"></NavAside>
+        <NavAside
+          position="right"
+          v-if="componentRef"
+          :advertise-msg="componentRef.oneData?.advertiseMsg"
+          :advertise-img="
+            config.serviveUrl + 'img/' + componentRef.oneData?.advertiseImg
+          "
+        ></NavAside>
       </el-col>
     </el-row>
   </el-container>
@@ -92,6 +102,8 @@ import {
   computed,
   defineAsyncComponent,
 } from "vue";
+import { config } from "/config.js";
+
 const NavHeader = defineAsyncComponent(() =>
   import("./components/user/NavHeader.vue")
 );
@@ -101,6 +113,8 @@ const NavAside = defineAsyncComponent(() =>
 import { throttle } from "~/composables/util.js";
 
 let mainDom = null;
+
+const componentRef = ref(null);
 
 const navRightshow = ref(true);
 
@@ -152,10 +166,10 @@ const wheelAction = (event) => {
 
 onMounted(() => {
   mainDom = document.querySelector(".el-main");
-  mainDom.addEventListener("wheel", throttle(wheelAction, 300));
+  mainDom.addEventListener("wheel", throttle(wheelAction, 50));
 });
 onUnmounted(() => {
-  mainDom.removeEventListener("wheel", throttle(wheelAction, 300));
+  mainDom.removeEventListener("wheel", throttle(wheelAction, 50));
 });
 </script>
 

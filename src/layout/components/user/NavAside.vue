@@ -1,9 +1,13 @@
 <template>
   <div :class="navStyle" ref="navAsideRef">
-    <advertise :text="advertiseMsg" :position="props.position"></advertise>
     <div>
       <navKind v-if="position === 'right'"></navKind>
     </div>
+    <advertise
+      :text="advertiseMsg"
+      :position="props.position"
+      :advertising-img="advertiseImg"
+    ></advertise>
   </div>
 </template>
 
@@ -31,7 +35,7 @@ const handleResize = () => {
   };
 
   if (windowWinth >= 1200) {
-    precent.left = 3 - 0.5;
+    precent.left = 4 - 0.7;
     precent.right = 4 - 0.5;
   } else {
     precent.left = 5;
@@ -52,14 +56,16 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  advertiseMsg: {
+    type: String,
+  },
+  advertiseImg: {
+    type: String,
+  },
 });
 
 const navStyle = computed(() => {
   return props.position === "left" ? "nav-aside-left" : "nav-aside-right";
-});
-
-const advertiseMsg = computed(() => {
-  return props.position === "left" ? "全局广告位" : "文章页广告位";
 });
 
 onMounted(() => {
@@ -76,6 +82,6 @@ onUnmounted(() => {
   @apply fixed top-[140px] left-0 ml-4;
 }
 .nav-aside-right {
-  @apply fixed top-[140px] right-0 mr-3;
+  @apply fixed top-[70px] right-0 mr-3;
 }
 </style>
