@@ -98,6 +98,7 @@
     v-model="drawerVisiableRef"
     title="修改文章"
     append-to-body
+    destroy-on-close
     size="45%"
   >
     <el-form :model="form" label-width="80px" :inline="false">

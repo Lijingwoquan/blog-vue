@@ -12,10 +12,11 @@
     :headers="{
       Authorization: token,
     }"
+    class="overflow-hidden"
   >
     <el-image
-      v-if="img"
-      :src="config.serviveUrl + 'img/' + img"
+      v-if="preview_url.length > 0 || img"
+      :src="preview_url ? preview_url : config.serviveUrl + 'img/' + img"
       lazy
       loading="lazy"
     ></el-image>
@@ -44,10 +45,12 @@ const handleExceed = (files) => {
   upload.value.handleStart(file);
 };
 
+const preview_url = ref("");
+
 const handelChange = (uploadFile, uploadFiles) => {
   const sanitizedFileName = uploadFile.name.replace(/\s+/g, "_");
-  // img.value = `${config.serviveUrl}img/${sanitizedFileName}`;
   img.value = sanitizedFileName;
+  preview_url.value = uploadFile.url;
 };
 
 const submitUpload = () => {

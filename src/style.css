@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 
-/* ::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 2px;
   height: 2px;
 }
@@ -20,4 +20,4 @@
 
 ::-ms-scrollbar-thumb {
   background-color: #eee9e9;
-} */
+}
