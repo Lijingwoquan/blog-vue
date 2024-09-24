@@ -41,7 +41,6 @@ const handleResize = () => {
   if (props.position == "left") {
     navAsideWidht = windowWinth * (precent.left / 24) + "px";
     navAsideRef.value.style.width = navAsideWidht;
-    console.log("wcnnm");
   } else {
     navAsideWidht = windowWinth * (precent.right / 24) + "px";
     navAsideRef.value.style.width = navAsideWidht;

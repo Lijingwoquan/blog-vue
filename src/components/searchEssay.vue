@@ -1,8 +1,8 @@
 <template>
   <el-dialog
     v-model="dialogVisible"
-    :v-close-on-click-modal="true"
-    :show-close="false"
+    :close-on-click-modal="facility === 'mobile' ? false : true"
+    :show-close="true"
     append-to-body
     :width="dialogWidth"
     style="background-color: #f9f9f9"
