@@ -26,9 +26,9 @@ const kind = defineAsyncComponent(() => import("./components/kind.vue"));
   right: 0;
   background: linear-gradient(
     to right,
-    rgba(173, 173, 38, 0.1),
-    rgba(100, 17, 202, 0.1),
-    rgba(223, 94, 43, 0.1)
+    rgba(149, 111, 196, 0.2),
+    rgba(223, 94, 43, 0.15),
+    rgba(173, 173, 38, 0.1)
   );
   z-index: 100;
   pointer-events: none;

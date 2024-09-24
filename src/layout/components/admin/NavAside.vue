@@ -105,8 +105,9 @@ watch(
   top: 0;
   bottom: 0;
   color: rgb(224, 218, 218);
-  background-color: rgba(32, 167, 225, 0.884);
+  background-color: beige;
   transition: width 0.5s linear;
+  color: black;
 }
 .nav-aside div {
   animation: nav-aside-action 0.5s linear;
@@ -128,7 +129,7 @@ watch(
 
 .nav-aside-head {
   @apply flex justify-around text-xl p-2;
-  background-color: rgba(91, 141, 162, 0.868);
+  background-color: rgb(35, 162, 217);
 }
 
 .nav-aside-item {
@@ -137,7 +138,7 @@ watch(
 
 .nav-aside-item:hover {
   cursor: pointer;
-  color: rgba(20, 231, 122, 0.825);
+  color: rgba(28, 104, 192, 0.825);
 }
 
 .active {
