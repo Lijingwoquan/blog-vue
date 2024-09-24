@@ -9,8 +9,8 @@
     <div>
       <!-- 第一页 -->
       <router-link
-        :to="currentRoute + '?page=1'"
         v-if="totalPages > 1 && currentPage != 1"
+        :to="currentRoute + '?page=1'"
         class="mx-2 inline-block"
         >1
       </router-link>
@@ -34,11 +34,13 @@
       </router-link>
 
       <!-- 当前页 -->
-      <router-link class="mx-2 inline-block font-bold text-blue-400"
+      <router-link
+        class="mx-2 inline-block font-bold text-blue-400"
+        :to="currentRoute + '?page=' + currentPage"
         >{{ currentPage }}
       </router-link>
-      <!-- 右侧相邻页码 -->
 
+      <!-- 右侧相邻页码 -->
       <router-link
         class="mx-2 inline-block"
         v-for="page in rightPages"
@@ -60,8 +62,6 @@
       </span>
 
       <!-- 始终显示最后一页 -->
-      <a> </a>
-
       <router-link
         v-if="totalPages > 1 && currentPage != totalPages"
         :to="currentRoute + '?page=' + totalPages"
