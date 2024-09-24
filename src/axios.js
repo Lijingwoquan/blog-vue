@@ -2,6 +2,7 @@ import axios from "axios";
 import { toast } from "~/composables/util.js";
 import { getToken } from "~/composables/auth.js";
 import { removeToken } from "~/composables/auth";
+import { router } from "./router";
 const service = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_API,
 });
@@ -35,7 +36,7 @@ service.interceptors.response.use(
       const msg = error.response.data.msg || "请求失败";
       if (msg === "需要登录") {
         removeToken();
-        location.reload();
+        router.push("/login");
       }
       toast(msg, "error");
       return Promise.reject(msg); // 返回 msg
