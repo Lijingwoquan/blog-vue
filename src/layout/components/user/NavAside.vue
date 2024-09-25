@@ -4,10 +4,11 @@
       <navKind v-if="position === 'right'"></navKind>
     </div>
     <advertise
-      v-if="advertiseMsg && advertiseImg"
+      v-if="advertiseMsg && advertiseImg && advertiseHref"
       :text="advertiseMsg"
       :position="props.position"
-      :advertising-img="advertiseImg"
+      :advertise-img="advertiseImg"
+      :advertise-href="advertiseHref"
     ></advertise>
   </div>
 </template>
@@ -61,6 +62,9 @@ const props = defineProps({
     type: String,
   },
   advertiseImg: {
+    type: String,
+  },
+  advertiseHref: {
     type: String,
   },
 });

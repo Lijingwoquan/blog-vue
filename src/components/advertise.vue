@@ -1,22 +1,16 @@
 <template>
-  <div class="advertising" ref="advertisingRef" v-if="advertisingImg">
-    <img :src="advertisingImg" alt="广告图片信息" />
+  <div class="advertising" ref="advertisingRef" v-if="advertiseImg">
+    <img :src="advertiseImg" alt="广告图片信息" />
     <div class="msg">
       <p :class="textSize">{{ text }}</p>
       <a
         :class="textSize"
-        href="mailto:2115883273@qq.com
-        ?subject=博客广告位购买%0A
-        全局广告位一月150/位%0A
-        单篇文章永久广告位100/位
-        &body=我的联系方式是:%0A
-        我想租用的广告位类型(文章位请填写文章链接):%0A
-        我想租用的时间(文章位请无视):%0A
-        我的广告信息(附带图片和不超过二十字的描述信息):
-        "
+        :href="advertiseHref"
+        target="_blank"
+        class="cursor-pointer"
         style="text-decoration: underline"
       >
-        联系我</a
+        了解详细</a
       >
     </div>
     <div class="icon" @click="closeAdvertising">
@@ -27,6 +21,7 @@
 
 <script setup>
 import { ref, computed } from "vue";
+import { router } from "~/router";
 const advertisingRef = ref(null);
 const closeAdvertising = () => {
   advertisingRef.value.style.visibility = "hidden";
@@ -41,7 +36,10 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  advertisingImg: {
+  advertiseImg: {
+    type: String,
+  },
+  advertiseHref: {
     type: String,
   },
 });

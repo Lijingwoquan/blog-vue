@@ -137,7 +137,11 @@
       </el-form-item>
 
       <el-form-item label="广告信息">
-        <el-input v-model="form.advertiseMsg" placeholder="介绍" />
+        <el-input v-model="form.advertiseMsg" placeholder="广告信息" />
+      </el-form-item>
+
+      <el-form-item label="广告链接">
+        <el-input v-model="form.advertiseHref" placeholder="介绍" />
       </el-form-item>
 
       <el-form-item>
@@ -196,6 +200,7 @@ const {
     imgUrl: "",
     advertiseMsg: "",
     advertiseImg: "",
+    advertiseHref: "",
   }),
   update: {
     needCustomizeDispose: (form) => {

@@ -51,6 +51,7 @@
           :advertise-img="
             config.serviveUrl + 'img/' + componentRef.oneData?.advertiseImg
           "
+          :advertise-href="componentRef.oneData?.advertiseHref"
         ></NavAside>
       </el-col>
     </el-row>
