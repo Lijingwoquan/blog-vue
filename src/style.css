@@ -5,19 +5,20 @@
 }
 
 ::-webkit-scrollbar {
-  width: 2px;
-  height: 2px;
+  width: 2px !important;
+  height: 2px !important;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #eee9e9;
+  background-color: #eee9e9 !important;
+  ;
 }
 
 ::-ms-scrollbar {
-  width: 2px;
-  height: 2px;
+  width: 2px !important;
+  height: 2px !important;
 }
 
 ::-ms-scrollbar-thumb {
-  background-color: #eee9e9;
+  background-color: #eee9e9 !important;
 }

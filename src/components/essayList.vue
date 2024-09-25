@@ -33,12 +33,17 @@
             <span> | {{ essay.visitedTimes }}阅读量</span>
           </span>
           <div class="keywordsc-container">
-            <span v-if="essay.keywords.length > 0">标签:</span>
-            <span v-for="(keyword, index) in essay.keywords" :key="index">
-              <span v-if="index < 4">{{ keyword }}&nbsp;</span>
-              <span v-if="index == 4" class="hidden-md-and-up">...</span>
-              <span v-if="index >= 5" class="hidden-sm-and-down">
-                {{ keyword }}&nbsp;
+            <span v-if="essay.keywords.length > 0"
+              >标签:
+              <span class="hidden-md-and-up">
+                {{ essay.keywords.slice(0, 4).join(" ") }}
+              </span>
+
+              <span class="hidden-md-and-up" v-if="essay.keywords.length > 4">
+                ...
+              </span>
+              <span class="hidden-sm-and-down">
+                {{ essay.keywords.join(" ") }}
               </span>
             </span>
           </div>

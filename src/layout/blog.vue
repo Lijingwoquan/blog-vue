@@ -17,6 +17,15 @@
           position="left"
           advertise-msg="全局广告位"
           advertise-img="/advertising.png"
+          advertise-href="mailto:2115883273@qq.com
+                          ?subject=博客广告位购买%0A
+                          全局广告位一月150/位%0A
+                          单篇文章永久广告位100/位
+                          &body=我的联系方式是:%0A
+                          我想租用的广告位类型(文章位请填写文章链接):%0A
+                          我想租用的时间(文章位请无视):%0A
+                          我的广告信息(附带图片和不超过二十字的描述信息):
+        "
         ></NavAside>
       </el-col>
 

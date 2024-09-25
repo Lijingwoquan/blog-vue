@@ -16,11 +16,11 @@
         :key="index"
         :href="`${anchor.href}`"
         style="padding: 0px !important"
+        :style="{
+          marginLeft: `${(anchor.level - 1) * anchorLeftMargin}px`,
+        }"
       >
-        <span
-          class="anchor-font"
-          :style="{ marginLeft: `${(anchor.level - 1) * anchorLeftMargin}px` }"
-        >
+        <span class="anchor-font">
           {{ anchor.title.split("🔗")[1] }}
         </span>
       </el-anchor-link>
@@ -43,10 +43,8 @@ const props = defineProps({
 });
 
 const handelChange = (anchorValue) => {
-  // 获取当前的状态
   let currentState = history.state;
 
-  // 更新状态并替换当前的历史记录条目
   history.replaceState(currentState, null, anchorValue);
 };
 
@@ -63,30 +61,25 @@ const anchorLeftMargin = computed(() => {
 .anchorForComputer {
   @apply fixed overflow-x-visible overflow-y-scroll mt-5 mr-2;
   width: auto;
-  height: 90vh;
   overflow-y: scroll;
 }
 
 .anchorForMobil {
-  @apply fixed overflow-x-visible overflow-y-scroll mt-5 rounded min-w-[200px];
+  @apply fixed overflow-x-visible overflow-y-scroll mt-5 rounded max-w-[200px];
   width: auto;
-  max-height: 50vh;
+  max-height: 60vh;
   top: 40px;
   right: 0;
   z-index: 2;
-  padding: 3px;
 }
 .anchorForMobil-background {
-  background: linear-gradient(
-    to left bottom,
-    rgba(8, 219, 242, 0.386),
-    rgba(54, 186, 186, 0.189)
-  );
+  background: antiquewhite;
 }
 
 .anchor-font {
-  color: #288ddb;
+  color: #28db70;
   font-weight: 600;
+  text-wrap: wrap;
 }
 
 @media (min-width: 1200px) {
@@ -109,9 +102,7 @@ const anchorLeftMargin = computed(() => {
 
 @media (max-width: 768px) {
   .anchor-font {
-    color: rgb(21, 216, 102);
     @apply text-sm;
-    font-weight: 500;
   }
 }
 </style>
