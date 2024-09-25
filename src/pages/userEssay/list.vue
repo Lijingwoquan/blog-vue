@@ -55,7 +55,7 @@
             />
           </div>
 
-          <div v-if="oneData.last?.id > 0 && oneData.next?.id > 0">
+          <div v-if="oneData.last?.id > 0 || oneData.next?.id > 0">
             <el-divider></el-divider>
             <!-- 导航 -->
             <div class="flex justify-between">

@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="mt-2 flex justify-center items-center absolute left-[50%]"
-    style="transform: translateX(-50%)"
-  >
+  <div class="page-container" style="transform: translateX(-50%)">
     <div class="flex items-center">
       <router-link
         :to="
@@ -15,12 +12,13 @@
         <el-icon><ArrowLeft /></el-icon>
       </router-link>
     </div>
+
     <div>
       <!-- 第一页 -->
       <router-link
         v-if="totalPages > 1 && currentPage != 1"
         :to="currentRoute + '?page=1'"
-        class="mx-2 inline-block"
+        class="mx-2 inline-block page"
         >1
       </router-link>
 
@@ -79,6 +77,7 @@
         {{ totalPages }}
       </router-link>
     </div>
+
     <div class="flex items-center">
       <router-link
         :to="
@@ -157,3 +156,9 @@ const currentRoute = computed(() => {
   return route.path;
 });
 </script>
+
+<style>
+.page-container {
+  @apply mt-2 flex justify-center items-center absolute left-[50%];
+}
+</style>
