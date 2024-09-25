@@ -173,7 +173,7 @@ defineExpose({
 .header-container {
   @apply fixed top-0 left-0 right-0;
   inset: 0;
-  z-index: 999;
+  z-index: 2;
   backdrop-filter: blur(5px);
   height: 60px;
 }
