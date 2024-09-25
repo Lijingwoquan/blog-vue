@@ -55,30 +55,32 @@
             />
           </div>
 
-          <el-divider></el-divider>
-          <!-- 导航 -->
-          <div class="flex justify-between">
-            <router-link
-              v-if="oneData.last?.id > 0"
-              class="block mr-auto text-sm text-blue-600"
-              :to="route.path + '?id=' + oneData.last.id"
-            >
-              &lt;&lt;&nbsp;&nbsp;上一篇
-              <span class="essay-name inline-block">
-                &nbsp;{{ oneData.last.name }}
-              </span>
-            </router-link>
+          <div v-if="oneData.last?.id > 0 && oneData.next?.id > 0">
+            <el-divider></el-divider>
+            <!-- 导航 -->
+            <div class="flex justify-between">
+              <router-link
+                v-if="oneData.last?.id > 0"
+                class="block mr-auto text-sm text-blue-600"
+                :to="route.path + '?id=' + oneData.last.id"
+              >
+                &lt;&lt;&nbsp;&nbsp;上一篇
+                <span class="essay-name inline-block">
+                  &nbsp;{{ oneData.last.name }}
+                </span>
+              </router-link>
 
-            <router-link
-              v-if="oneData.next?.id > 0"
-              class="block ml-auto text-sm text-blue-600"
-              :to="route.path + '?id=' + oneData.next.id"
-            >
-              <span class="essay-name">{{ oneData.next.name }}&nbsp; </span>
-              下一篇&nbsp;&nbsp;&gt;&gt;
-            </router-link>
+              <router-link
+                v-if="oneData.next?.id > 0"
+                class="block ml-auto text-sm text-blue-600"
+                :to="route.path + '?id=' + oneData.next.id"
+              >
+                <span class="essay-name">{{ oneData.next.name }}&nbsp; </span>
+                下一篇&nbsp;&nbsp;&gt;&gt;
+              </router-link>
+            </div>
+            <el-divider></el-divider>
           </div>
-          <el-divider></el-divider>
         </div>
       </div>
     </el-col>

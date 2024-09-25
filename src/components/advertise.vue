@@ -21,7 +21,6 @@
 
 <script setup>
 import { ref, computed } from "vue";
-import { router } from "~/router";
 const advertisingRef = ref(null);
 const closeAdvertising = () => {
   advertisingRef.value.style.visibility = "hidden";
