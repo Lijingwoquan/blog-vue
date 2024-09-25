@@ -62,9 +62,26 @@
 
 <script setup>
 import { ref, onMounted, onBeforeMount, reactive, nextTick } from "vue";
-import * as echarts from "echarts";
+import * as echarts from "echarts/core";
+import { BarChart } from "echarts/charts";
+import {
+  TooltipComponent,
+  GridComponent,
+  LegendComponent,
+} from "echarts/components";
+import { CanvasRenderer } from "echarts/renderers";
+
 import { getIndexPanel } from "~/api/panel.js";
 import { useResizeObserver } from "@vueuse/core";
+
+// 注册需要的组件
+echarts.use([
+  BarChart,
+  TooltipComponent,
+  GridComponent,
+  LegendComponent,
+  CanvasRenderer,
+]);
 
 const options = [
   {
@@ -140,24 +157,21 @@ function changeTimeTag(tag) {
     },
     series: [
       {
-        name: "搜索次数", //配合 legend 配置项，可进行图例筛选
-        type: "bar", //必须
+        name: "搜索次数",
+        type: "bar",
         data: yList,
         label: {
-          //图形上的文本标签，可用于说明图形的一些数据信息，比如值，名称等。
-          show: true, //是否显示
-          position: "top", //标签的位置
+          show: true,
+          position: "top",
         },
         itemStyle: {
-          //图形样式
-          color: "#59c4e6", //柱条的颜色(可配置渐变色)。 默认从全局调色盘 option.color 获取颜色。
+          color: "#59c4e6",
         },
-        barWidth: 30, //柱条的宽度，不设时自适应。
-        selectedMode: true, //是否支持选中,默认false
+        barWidth: 30,
+        selectedMode: true,
         select: {
-          //配置数据选中时的图形样式和标签样式。开启 selectedMode 后有效。
           itemStyle: {
-            color: "#edafda", //选中的柱条颜色(可配置渐变色)
+            color: "#edafda",
           },
         },
       },

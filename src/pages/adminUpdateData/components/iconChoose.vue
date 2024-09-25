@@ -33,7 +33,7 @@
 
 <script setup>
 import { ref } from "vue";
-import * as IconList from "@element-plus/icons-vue"; //这个是全局引入elment plus图标
+import * as IconList from "@element-plus/icons-vue"; 
 
 defineProps({
   modelValue: String,
