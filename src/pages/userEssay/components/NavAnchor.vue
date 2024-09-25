@@ -1,6 +1,7 @@
 <template>
   <div
     :class="props.facility == 'mobile' ? 'anchorForMobil' : 'anchorForComputer'"
+    class="scroll-bar"
   >
     <el-anchor
       :offset="0"
@@ -104,5 +105,23 @@ const anchorLeftMargin = computed(() => {
   .anchor-font {
     @apply text-sm;
   }
+}
+
+.scroll-bar::-webkit-scrollbar {
+  width: 2px;
+  height: 2px;
+}
+
+.scroll-bar::-webkit-scrollbar-thumb {
+  background-color: #eee9e9;
+}
+
+.scroll-bar::-ms-scrollbar {
+  width: 2px;
+  height: 2px;
+}
+
+.scroll-bar::-ms-scrollbar-thumb {
+  background-color: #eee9e9;
 }
 </style>

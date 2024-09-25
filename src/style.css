@@ -1,24 +1,17 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+body::-webkit-scrollbar {
+  width: 2px;
+  height: 2px;
 }
 
-::-webkit-scrollbar {
-  width: 2px !important;
-  height: 2px !important;
+body::-webkit-scrollbar-thumb {
+  background-color: #eee9e9
 }
 
-::-webkit-scrollbar-thumb {
-  background-color: #eee9e9 !important;
-  ;
+body::-ms-scrollbar {
+  width: 2px;
+  height: 2px;
 }
 
-::-ms-scrollbar {
-  width: 2px !important;
-  height: 2px !important;
-}
-
-::-ms-scrollbar-thumb {
-  background-color: #eee9e9 !important;
+body::-ms-scrollbar-thumb {
+  background-color: #eee9e9
 }

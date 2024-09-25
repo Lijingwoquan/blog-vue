@@ -1,118 +1,124 @@
 <template>
-  <el-row style="position: relative">
-    <el-col :xs="24" :sm="18" :md="18" :lg="18" :xl="18">
-      <div v-if="!loading" @click="showAnchorIcon">
-        <div class="flex flex-col p-3">
-          <!-- 文章名 -->
-          <div class="essay-name">
-            <h2 class="text-2xl m-auto font-serif">
-              {{ oneData.name }}
-            </h2>
-          </div>
+  <div>
+    <el-row>
+      <el-col :xs="24" :sm="18" :md="18" :lg="18" :xl="18">
+        <div v-if="!loading" @click="showAnchorIcon">
+          <div class="flex flex-col p-3">
+            <!-- 文章名 -->
+            <div class="essay-name">
+              <h2 class="text-2xl m-auto font-serif">
+                {{ oneData.name }}
+              </h2>
+            </div>
 
-          <!-- 创建时间和分类 -->
-          <div
-            class="flex items-center justify-between font-mono text-purple-700 my-3"
-          >
+            <!-- 创建时间和分类 -->
+            <div
+              class="flex items-center justify-between font-mono text-purple-700 my-3"
+            >
+              <div>
+                {{
+                  oneData.createdTime ? oneData.createdTime.split("T")[0] : ""
+                }}
+                初稿
+              </div>
+              <div class="hover:cursor-pointer">
+                <router-link :to="getKindHref(oneData)">
+                  {{ oneData.kind }}
+                </router-link>
+              </div>
+            </div>
+
+            <!-- 更新时间和访问次数 -->
+            <div
+              class="flex items-center justify-between font-mono text-purple-700"
+            >
+              <div>
+                {{
+                  oneData.updatedTime ? oneData.updatedTime.split("T")[0] : ""
+                }}
+                更新
+              </div>
+              <div>{{ oneData.visitedTimes }}次</div>
+            </div>
+
+            <!-- 简介 -->
+
+            <el-text
+              class="mr-auto leading-loose my-2"
+              size="default"
+              type="info"
+            >
+              {{ oneData.introduction }}
+            </el-text>
+
+            <!-- 文章内容 -->
             <div>
-              {{ oneData.createdTime ? oneData.createdTime.split("T")[0] : "" }}
-              初稿
+              <essayEdit
+                ref="essayEditRef"
+                id="editContainer"
+                v-model:editContent="oneData.content"
+              />
             </div>
-            <div class="hover:cursor-pointer">
-              <router-link :to="getKindHref(oneData)">
-                {{ oneData.kind }}
-              </router-link>
+
+            <div v-if="oneData.last?.id > 0 || oneData.next?.id > 0">
+              <el-divider></el-divider>
+              <!-- 导航 -->
+              <div class="flex justify-between">
+                <router-link
+                  v-if="oneData.last?.id > 0"
+                  class="block mr-auto text-sm text-blue-600"
+                  :to="route.path + '?id=' + oneData.last.id"
+                >
+                  &lt;&lt;&nbsp;&nbsp;上一篇
+                  <span class="essay-name inline-block">
+                    &nbsp;{{ oneData.last.name }}
+                  </span>
+                </router-link>
+
+                <router-link
+                  v-if="oneData.next?.id > 0"
+                  class="block ml-auto text-sm text-blue-600"
+                  :to="route.path + '?id=' + oneData.next.id"
+                >
+                  <span class="essay-name">{{ oneData.next.name }}&nbsp; </span>
+                  下一篇&nbsp;&nbsp;&gt;&gt;
+                </router-link>
+              </div>
+              <el-divider></el-divider>
             </div>
-          </div>
-
-          <!-- 更新时间和访问次数 -->
-          <div
-            class="flex items-center justify-between font-mono text-purple-700"
-          >
-            <div>
-              {{ oneData.updatedTime ? oneData.updatedTime.split("T")[0] : "" }}
-              更新
-            </div>
-            <div>{{ oneData.visitedTimes }}次</div>
-          </div>
-
-          <!-- 简介 -->
-
-          <el-text
-            class="mr-auto leading-loose my-2"
-            size="default"
-            type="info"
-          >
-            {{ oneData.introduction }}
-          </el-text>
-
-          <!-- 文章内容 -->
-          <div>
-            <essayEdit
-              ref="essayEditRef"
-              id="editContainer"
-              v-model:editContent="oneData.content"
-            />
-          </div>
-
-          <div v-if="oneData.last?.id > 0 || oneData.next?.id > 0">
-            <el-divider></el-divider>
-            <!-- 导航 -->
-            <div class="flex justify-between">
-              <router-link
-                v-if="oneData.last?.id > 0"
-                class="block mr-auto text-sm text-blue-600"
-                :to="route.path + '?id=' + oneData.last.id"
-              >
-                &lt;&lt;&nbsp;&nbsp;上一篇
-                <span class="essay-name inline-block">
-                  &nbsp;{{ oneData.last.name }}
-                </span>
-              </router-link>
-
-              <router-link
-                v-if="oneData.next?.id > 0"
-                class="block ml-auto text-sm text-blue-600"
-                :to="route.path + '?id=' + oneData.next.id"
-              >
-                <span class="essay-name">{{ oneData.next.name }}&nbsp; </span>
-                下一篇&nbsp;&nbsp;&gt;&gt;
-              </router-link>
-            </div>
-            <el-divider></el-divider>
           </div>
         </div>
-      </div>
-    </el-col>
+      </el-col>
 
-    <el-col :xs="0" :sm="6" :md="6" :lg="6" :xl="6">
-      <NavAnchor
-        id="navAnchor"
-        v-if="facility != 'mobile'"
-        :anchors="anchorData.anchors"
-        :facility="facility"
-        style="transform: translateY('-60px')"
-      >
-      </NavAnchor>
-    </el-col>
-  </el-row>
+      <el-col :xs="0" :sm="6" :md="6" :lg="6" :xl="6">
+        <NavAnchor
+          id="navAnchor"
+          v-if="facility != 'mobile'"
+          :anchors="anchorData.anchors"
+          :facility="facility"
+          style="transform: translateY('-60px')"
+        >
+        </NavAnchor>
+      </el-col>
+    </el-row>
 
-  <el-icon
-    v-show="anchorIconShowRef"
-    @click="hideAnchorIcon"
-    class="anchorIcon hidden-sm-and-up"
-    style="font-size: 40px !important"
-  >
-    <Memo style="font-size: 30px !important" />
-  </el-icon>
+    <el-icon
+      v-show="anchorIconShowRef"
+      @click="hideAnchorIcon"
+      class="anchorIcon hidden-sm-and-up"
+      style="font-size: 40px !important"
+    >
+      <Memo style="font-size: 30px !important" />
+    </el-icon>
 
-  <NavAnchor
-    v-if="facility === 'mobile'"
-    v-show="!anchorIconShowRef"
-    :anchors="anchorData.anchors"
-    :facility="facility"
-  >
-  </NavAnchor>
+    <NavAnchor
+      v-if="facility === 'mobile'"
+      v-show="!anchorIconShowRef"
+      :anchors="anchorData.anchors"
+      :facility="facility"
+    >
+    </NavAnchor>
+  </div>
 </template>
 
 <script setup>
@@ -196,8 +202,8 @@ const initEssayData = async () => {
 };
 
 watch(
-  () => route.fullPath,
-  async () => {
+  () => route.query.id,
+  async (data) => {
     await initEssayData();
   }
 );
