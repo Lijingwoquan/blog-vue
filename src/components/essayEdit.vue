@@ -1,5 +1,5 @@
 <template>
-  <v-md-editor
+  <VueMarkdownEditor
     ref="previewRef"
     :include-level="[1, 2, 3, 4, 5, 6]"
     v-model="editContent"

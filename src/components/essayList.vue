@@ -14,17 +14,19 @@
             {{ essay.createdTime.split("T")[0] }} 初稿
           </small>
 
-          <el-text
-            class="mr-auto leading-loose overflow-hidden"
-            line-clamp="3"
-            size="small"
-            type="info"
-            style="word-break: break-all"
-          >
-            {{ essay.introduction }}
-          </el-text>
+          <div class="mt-2">
+            <el-text
+              class="overflow-hidden"
+              line-clamp="3"
+              size="small"
+              type="info"
+              style="word-break: break-all"
+            >
+              {{ essay.introduction }}
+            </el-text>
+          </div>
 
-          <span class="font-mono text-sm mr-auto text-pink-600 mt-3">
+          <span class="font-mono text-sm mr-auto text-pink-600 mt-2">
             隶属
             <router-link :to="getKindHref(essay)">
               {{ essay.kind }}

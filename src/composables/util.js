@@ -18,7 +18,7 @@ export async function showLoading(text = "正在加载中...") {
     text: text,
     background: "rgba(0, 0, 0, 0.7)",
   });
-  await new Promise((resolve) => setTimeout(resolve, 500));
+  await new Promise((resolve) => setTimeout(resolve, 800));
   loading.close();
 }
 
