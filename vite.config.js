@@ -40,6 +40,17 @@ export default defineConfig({
       ],
     }),
   ],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          "element-plus-core": ["element-plus"],
+          "element-plus-icons": ["@element-plus/icons-vue"],
+          "v-md-editor": ["@kangc/v-md-editor"],
+        },
+      },
+    },
+  },
   optimizeDeps: {
     include: ["@kangc/v-md-editor/lib/theme/vuepress.js"],
   },

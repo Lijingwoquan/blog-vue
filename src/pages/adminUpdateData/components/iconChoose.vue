@@ -32,14 +32,22 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import * as IconList from "@element-plus/icons-vue"; 
+import { ref, computed } from "vue";
+
+const IconList = ref({});
+const icons = computed(() => Object.keys(IconList.value));
+
+const loadIcons = async () => {
+  const module = await import("@element-plus/icons-vue");
+  IconList.value = module;
+};
+
+loadIcons();
 
 defineProps({
   modelValue: String,
 });
 
-const icons = ref(Object.keys(IconList));
 const emit = defineEmits(["update:modelValue"]);
 
 const hanlerChange = (icon) => {

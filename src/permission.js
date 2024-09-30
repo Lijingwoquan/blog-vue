@@ -21,6 +21,7 @@ router.beforeEach(async (to, from, next) => {
     to.path.length > 1 ? to.path.replace(/\/$/, "") : to.path
   );
   if (toPath.split("/")[1] === config.MANAGER_URL.split("/")[1]) {
+    addAdminIndexRouter();
     const token = getToken();
     //没有登录,强制跳转到登录页面
     if (!token && to.path != "/login") {
@@ -44,7 +45,6 @@ router.beforeEach(async (to, from, next) => {
     hasGetInfo = true;
     //添加路由首页路由
     addUserIndexRouter();
-    addAdminIndexRouter();
     //动态添加路由
     hasNewRoutes = addIndexMenuRouters(menu);
   }
