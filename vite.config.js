@@ -44,8 +44,6 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          "element-plus-core": ["element-plus"],
-          "element-plus-icons": ["@element-plus/icons-vue"],
           "v-md-editor": ["@kangc/v-md-editor"],
         },
       },
