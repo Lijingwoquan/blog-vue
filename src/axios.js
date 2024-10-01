@@ -5,6 +5,11 @@ import { removeToken } from "~/composables/auth";
 import { router } from "./router";
 const service = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_API,
+  timeout: 10000,
+  headers: {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+  },
 });
 
 // 添加请求拦截器

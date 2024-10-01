@@ -43,13 +43,11 @@
 
             <!-- 简介 -->
 
-            <el-text
-              class="mr-auto leading-loose my-2"
-              size="default"
-              type="info"
-            >
-              {{ oneData.introduction }}
-            </el-text>
+            <div class="my-2">
+              <el-text size="default" type="info">
+                {{ oneData.introduction }}
+              </el-text>
+            </div>
 
             <!-- 文章内容 -->
             <div>
