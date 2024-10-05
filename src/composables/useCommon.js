@@ -130,10 +130,11 @@ export function useCommonForm(opt = {}) {
     const update = () => {
       if (typeof opt.update?.needCustomizeDispose === "function") {
         return opt.update.needCustomizeDispose(form);
-      } else if (typeof opt.create === "function") {
+      } else if (typeof opt.update === "function") {
         return opt.update(form);
       }
     };
+
     update()
       .then(() => {
         toast("更新成功");
