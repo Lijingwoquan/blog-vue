@@ -67,9 +67,9 @@
   </el-container>
 
   <div class="hidden-md-and-down">
-    <el-icon
+    <div
       v-if="navRightshow"
-      class="fixed top-[50%] h-[40px] w-[20px] bg-light-200 cursor-pointer"
+      class="fixed flex items-center top-[50%] h-[40px] w-[20px] bg-light-200 cursor-pointer"
       style="
         border-radius: 0% 100% 100% 0% / 56% 50% 50% 44%;
         transform: translateX(100%);
@@ -78,15 +78,16 @@
       @click="oprateRightIcon"
     >
       <DArrowRight />
-    </el-icon>
-    <el-icon
+    </div>
+
+    <div
       v-else
-      class="fixed top-[50%] h-[40px] w-[20px] bg-light-200 cursor-pointer"
+      class="fixed flex items-center top-[50%] h-[40px] w-[20px] bg-light-200 cursor-pointer"
       style="border-radius: 100% 0% 0% 100% / 56% 50% 50% 44%; right: 0"
       @click="oprateRightIcon"
     >
-      <DArrowLeft
-    /></el-icon>
+      <DArrowLeft />
+    </div>
   </div>
 
   <div style="width: 100%">
